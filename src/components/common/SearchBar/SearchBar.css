@@ -1,0 +1,115 @@
+.ds-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal) var(--ease-out);
+    width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.ds-search:hover {
+    border-color: var(--border-strong);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ds-search--focused {
+    border-color: var(--primary);
+    background: var(--bg-surface);
+    box-shadow: 0 0 0 4px var(--primary-soft), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Sizes */
+.ds-search--sm {
+    height: 32px;
+}
+
+.ds-search--md {
+    height: 40px;
+}
+
+.ds-search--lg {
+    height: 48px;
+}
+
+/* Icon */
+.ds-search__icon {
+    position: absolute;
+    left: var(--space-4);
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: color var(--transition-fast);
+}
+
+.ds-search--focused .ds-search__icon {
+    color: var(--primary);
+}
+
+/* Input */
+.ds-search__input {
+    width: 100%;
+    height: 100%;
+    padding: 0 var(--space-12) 0 var(--space-12);
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+}
+
+.ds-search__input::placeholder {
+    color: var(--ds-input-placeholder);
+}
+
+.ds-search__input:focus {
+    outline: none;
+}
+
+/* Clear Button */
+.ds-search__clear {
+    position: absolute;
+    right: var(--space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--ds-radius-sm);
+    color: var(--ds-text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast) var(--ease-out);
+}
+
+.ds-search__clear:hover {
+    background: var(--ds-bg-subtle);
+    color: var(--ds-text-primary);
+}
+
+/* Keyboard Shortcut */
+.ds-search__shortcut {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-base);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    pointer-events: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ds-search--focused .ds-search__shortcut {
+    border-color: var(--primary-soft);
+    color: var(--primary);
+}

@@ -1,0 +1,106 @@
+.profile-upload {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-4);
+    border: 2px dashed rgba(99, 102, 241, 0.2);
+    border-radius: var(--radius-xl);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-upload:hover {
+    border-color: var(--brand-500);
+    background: rgba(99, 102, 241, 0.03);
+    transform: translateX(4px);
+}
+
+.profile-upload__container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profile-upload__preview {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    border: 2px solid var(--border-base);
+    transition: all 0.2s ease;
+}
+
+.profile-upload:hover .profile-upload__preview {
+    border-color: var(--brand-500);
+}
+
+.profile-upload__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-upload__placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+.profile-upload__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(99, 102, 241, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.profile-upload__preview:hover .profile-upload__overlay {
+    opacity: 1;
+}
+
+.profile-upload__remove {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ef4444;
+    border: 2px solid var(--ds-bg-card);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+
+.profile-upload__remove:hover {
+    transform: scale(1.1);
+}
+
+.profile-upload__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.profile-upload__label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.profile-upload__hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}

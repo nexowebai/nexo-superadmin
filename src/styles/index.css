@@ -1,0 +1,67 @@
+@import './tokens.css';
+@import './reset.css';
+@import './animations.css';
+@import './components/index.css';
+@import './forms.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ds-page {
+  padding: var(--space-6);
+  min-height: 200px;
+}
+
+.app-loader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  z-index: 9999;
+}
+
+body:has(.ds-auth-form) .app-loader {
+  display: none;
+}
+
+.app-loader__spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border-base);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body,
+.ds-card,
+.ds-header,
+.ds-sidebar,
+input,
+select,
+textarea,
+button {
+  transition: background-color var(--transition-fast) var(--ease-out),
+    border-color var(--transition-fast) var(--ease-out),
+    color var(--transition-fast) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

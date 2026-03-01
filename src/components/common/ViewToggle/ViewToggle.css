@@ -1,0 +1,51 @@
+.ds-view-toggle {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    gap: 4px;
+}
+
+.ds-view-toggle__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--transition-fast) var(--ease-out);
+    z-index: 1;
+}
+
+.ds-view-toggle__btn:hover {
+    color: var(--text-primary);
+}
+
+.ds-view-toggle__btn--active {
+    color: white;
+}
+
+.ds-view-toggle__indicator {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 36px;
+    height: 32px;
+    background: var(--primary);
+    border-radius: var(--radius-sm);
+    z-index: 0;
+    transition: transform var(--transition-fast) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ds-view-toggle__indicator {
+        transition: none;
+    }
+}

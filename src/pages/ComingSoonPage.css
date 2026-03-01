@@ -1,0 +1,218 @@
+.coming-soon {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    overflow: hidden;
+    padding: 24px;
+}
+
+.coming-soon__bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.coming-soon__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: orbFloat 10s ease-in-out infinite;
+}
+
+.coming-soon__orb--1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(99, 102, 241, 0.2);
+    top: -100px;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.coming-soon__orb--2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(139, 92, 246, 0.15);
+    bottom: -100px;
+    left: -100px;
+    animation-delay: 3s;
+}
+
+.coming-soon__orb--3 {
+    width: 300px;
+    height: 300px;
+    background: rgba(168, 85, 247, 0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 6s;
+}
+
+@keyframes orbFloat {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -30px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-30px, 30px) scale(0.9);
+    }
+}
+
+.coming-soon__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+.coming-soon__icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border-radius: var(--radius-md);
+    color: white;
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+}
+
+.coming-soon__title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    
+    line-height: 1.1;
+}
+
+.coming-soon__subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 48px 0;
+    line-height: 1.6;
+}
+
+.coming-soon__form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.coming-soon__input-group {
+    position: relative;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+}
+
+.coming-soon__input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+}
+
+.coming-soon__input {
+    width: 100%;
+    height: 60px;
+    padding: 0 24px 0 56px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.coming-soon__input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.coming-soon__input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.coming-soon__countdown {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.coming-soon__countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(10px);
+}
+
+.coming-soon__countdown-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+}
+
+.coming-soon__countdown-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .coming-soon__title {
+        font-size: 36px;
+    }
+
+    .coming-soon__subtitle {
+        font-size: 16px;
+    }
+
+    .coming-soon__form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .coming-soon__input-group {
+        max-width: 100%;
+    }
+
+    .coming-soon__countdown {
+        gap: 12px;
+    }
+
+    .coming-soon__countdown-item {
+        min-width: 80px;
+        padding: 16px 12px;
+    }
+
+    .coming-soon__countdown-value {
+        font-size: 28px;
+    }
+}

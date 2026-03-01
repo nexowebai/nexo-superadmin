@@ -1,0 +1,216 @@
+.ds-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-semibold);
+    transition: all var(--transition-fast) var(--ease-out);
+    white-space: nowrap;
+}
+
+.ds-chip--sm {
+    padding: 4px var(--space-2);
+    font-size: var(--text-xs);
+}
+
+.ds-chip--sm .ds-chip__icon {
+    width: 12px;
+    height: 12px;
+}
+
+.ds-chip--md {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+}
+
+.ds-chip--md .ds-chip__icon {
+    width: 14px;
+    height: 14px;
+}
+
+.ds-chip--lg {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-base);
+}
+
+.ds-chip--lg .ds-chip__icon {
+    width: 16px;
+    height: 16px;
+}
+
+.ds-chip--default {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-base);
+    color: var(--text-primary);
+}
+
+.ds-chip--default:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-surface);
+}
+
+.ds-chip--primary {
+    background: var(--primary);
+    border: none;
+    color: white;
+}
+
+.ds-chip--secondary {
+    background: rgba(var(--primary-rgb), 0.1);
+    border: 1px solid rgba(var(--primary-rgb), 0.2);
+    color: var(--primary);
+}
+
+.ds-chip--secondary:hover {
+    background: rgba(var(--primary-rgb), 0.15);
+}
+
+.ds-chip--success {
+    background: var(--success-soft);
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+.ds-chip--warning {
+    background: var(--warning-soft);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+}
+
+.ds-chip--error {
+    background: var(--error-soft);
+    border: 1px solid var(--error);
+    color: var(--error);
+}
+
+.ds-chip__text {
+    line-height: 1;
+}
+
+.ds-chip__icon {
+    opacity: 0.8;
+}
+
+.ds-chip__remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+    opacity: 0.6;
+    transition: all var(--transition-fast) var(--ease-out);
+    margin-left: 2px;
+    margin-right: -4px;
+}
+
+.ds-chip__remove:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.ds-chip--primary .ds-chip__remove:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.ds-chip-input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ds-chip-input__label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+}
+
+.ds-chip-input__container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast) var(--ease-out);
+}
+
+.ds-chip-input__container--focused {
+    border-color: var(--primary);
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.ds-chip-input--error .ds-chip-input__container {
+    border-color: var(--error);
+}
+
+.ds-chip-input__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    flex: 1;
+    align-items: center;
+}
+
+.ds-chip-input__input {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    padding: 4px 0;
+}
+
+.ds-chip-input__input::placeholder {
+    color: var(--text-muted);
+}
+
+.ds-chip-input__input:disabled {
+    cursor: not-allowed;
+}
+
+.ds-chip-input__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: var(--primary);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-fast) var(--ease-out);
+}
+
+.ds-chip-input__add:hover {
+    background: var(--primary-hover);
+}
+
+.ds-chip-input__helper {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+
+.ds-chip-input__error {
+    font-size: var(--text-xs);
+    color: var(--error);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ds-chip,
+    .ds-chip__remove,
+    .ds-chip-input__container,
+    .ds-chip-input__add {
+        transition: none;
+    }
+}

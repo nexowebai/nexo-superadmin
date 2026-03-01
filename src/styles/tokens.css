@@ -1,0 +1,146 @@
+:root {
+  /* Backgrounds */
+  --bg-base: #030303;
+  --bg-surface: #0a0a0a;
+  --bg-elevated: #111111;
+  --bg-subtle: #161616;
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-dimmed: #52525b;
+
+  /* Primary Theme Color (Nexo Green) */
+  --primary: #16a34a;
+  --primary-hover: #15803d;
+  --primary-soft: rgba(22, 163, 74, 0.1);
+  --primary-rgb: 22, 163, 74;
+
+  /* Legacy Brand Aliases (Nexo Green) */
+  --brand-500: var(--primary);
+  --brand-600: var(--primary-hover);
+  --brand-soft: var(--primary-soft);
+  --ds-brand-50: var(--primary-soft);
+  --ds-brand-500: var(--primary);
+  --ds-brand-600: var(--primary-hover);
+
+  /* Semantic Colors */
+  --success: #10b981;
+  --success-soft: rgba(16, 185, 129, 0.08);
+  --warning: #f59e0b;
+  --warning-soft: rgba(245, 158, 11, 0.08);
+  --error: #ef4444;
+  --error-soft: rgba(239, 68, 68, 0.08);
+  --info: #3b82f6;
+  --info-soft: rgba(59, 130, 246, 0.08);
+
+  /* Borders */
+  --border-base: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --border-dimmed: rgba(255, 255, 255, 0.03);
+
+  /* Sidebar */
+  --sidebar-bg: #030303;
+  --sidebar-border: var(--border-base);
+  --sidebar-hover: rgba(255, 255, 255, 0.03);
+  --sidebar-active: rgba(22, 163, 74, 0.1);
+  --sidebar-text: #a1a1aa;
+  --sidebar-text-active: #ffffff;
+  --sidebar-width: 280px;
+  --sidebar-collapsed: 80px;
+
+  /* Header */
+  --header-bg: rgba(3, 3, 3, 0.8);
+  --header-border: var(--border-base);
+  --header-height: 72px;
+
+  /* Cards */
+  --card-bg: #0a0a0a;
+  --card-border: var(--border-base);
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  /* Typography Scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Border Radius */
+  --radius-xs: 12px;
+  --radius-sm: 12px;
+  /* Fixed radius 12px for standard */
+  --radius-md: 12px;
+  --radius-lg: 12px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms;
+  --transition-normal: 250ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Font Family */
+  --font-sans: 'Inter', 'Ubuntu', -apple-system, sans-serif;
+}
+
+body.light-mode {
+  /* Backgrounds */
+  --bg-base: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f1f5f9;
+  --bg-subtle: #e2e8f0;
+
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-dimmed: #94a3b8;
+
+  /* Borders */
+  --border-base: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-dimmed: #f1f5f9;
+
+  /* Sidebar */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --sidebar-hover: #f1f5f9;
+  --sidebar-text: #64748b;
+  --sidebar-text-active: #0f172a;
+
+  /* Header */
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --header-border: #e2e8f0;
+
+  /* Cards */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-soft);
+}

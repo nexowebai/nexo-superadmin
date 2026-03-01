@@ -1,0 +1,75 @@
+.permission-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: transparent;
+    border: 2px dashed rgba(99, 102, 241, 0.2);
+    /* Soft brand dashed border by default */
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.permission-card:hover {
+    border-color: var(--brand-500);
+    background: rgba(99, 102, 241, 0.03);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.permission-card--active {
+    border-color: var(--brand-500);
+    border-style: solid;
+    /* Solid when active */
+    background: rgba(99, 102, 241, 0.05);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.permission-card__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--ds-radius-md);
+    background: var(--bg-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.permission-card:hover .permission-card__icon,
+.permission-card--active .permission-card__icon {
+    background: var(--brand-500);
+    color: white;
+    transform: scale(1.05);
+}
+
+.permission-card__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.permission-card__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.permission-card__desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.permission-card:hover .permission-card__title,
+.permission-card--active .permission-card__title {
+    color: var(--ds-brand-400);
+}

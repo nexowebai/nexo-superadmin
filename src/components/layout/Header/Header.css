@@ -1,0 +1,115 @@
+.ds-header {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  height: var(--header-height);
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--header-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  z-index: 100;
+  transition: left 0.3s var(--ease-out);
+}
+
+.ds-sidebar--collapsed~.ds-dashboard__main .ds-header,
+.ds-sidebar--collapsed+* .ds-header {
+  left: var(--sidebar-collapsed);
+}
+
+.ds-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ds-header__menu-btn {
+  display: none;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-base);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ds-header__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.ds-header__refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ds-header__refresh:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.ds-header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ds-header__icon-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ds-header__icon-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.ds-header__badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 8px;
+  height: 8px;
+  background: var(--error);
+  border-radius: 50%;
+  border: 2px solid var(--header-bg);
+}
+
+@media (max-width: 768px) {
+  .ds-header {
+    left: 0;
+    padding: 0 var(--space-3);
+  }
+
+  .ds-header__menu-btn {
+    display: flex;
+  }
+}

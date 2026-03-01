@@ -1,0 +1,235 @@
+/* =========================================
+   REQUESTS FEATURE STYLES
+   ========================================= */
+
+/* Requests Grid */
+.requests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: var(--space-5);
+}
+
+@media (max-width: 640px) {
+    .requests-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Request Card */
+.request-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--ds-shadow-sm);
+    transition: all var(--transition-fast);
+}
+
+.request-card:hover {
+    box-shadow: var(--ds-shadow-md);
+    transform: translateY(-2px);
+}
+
+.request-card--skeleton {
+    pointer-events: none;
+}
+
+/* Request Header */
+.request-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.request-org {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.request-org__icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.request-org__info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 4px 0;
+}
+
+.request-org__info span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Request Body */
+.request-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.request-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.request-info svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.request-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 12px;
+    background: var(--bg-elevated);
+    border-radius: var(--ds-radius-md);
+    margin-top: 4px;
+}
+
+.request-message svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Request Actions */
+.request-actions {
+    display: flex;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--ds-border-muted);
+}
+
+.request-actions button {
+    flex: 1;
+}
+
+/* Request Rejection */
+.request-rejection {
+    padding: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--ds-radius-md);
+    font-size: 13px;
+}
+
+.request-rejection strong {
+    display: block;
+    color: #dc2626;
+    margin-bottom: 4px;
+}
+
+.request-rejection p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+/* Empty State Container */
+.requests-empty {
+    grid-column: 1 / -1;
+}
+
+/* Pagination */
+.requests-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+    margin-top: var(--space-4);
+    border-top: 1px solid var(--ds-border-muted);
+}
+
+.pagination-info {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.pagination-btns {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.pagination-btns button {
+    padding: 8px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-base);
+    border-radius: var(--ds-radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.pagination-btns button:hover:not(:disabled) {
+    background: var(--brand-500);
+    border-color: var(--brand-500);
+    color: white;
+}
+
+.pagination-btns button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Modal Form */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1-5);
+}
+
+.form-field label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-field textarea {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-base);
+    border-radius: var(--ds-radius-md);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+    font-family: inherit;
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+    transition: all var(--transition-fast);
+}
+
+.form-field textarea:focus {
+    border-color: var(--brand-500);
+    box-shadow: 0 0 0 3px var(--ds-brand-50);
+}

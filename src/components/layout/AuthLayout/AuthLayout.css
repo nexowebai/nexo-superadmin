@@ -1,0 +1,210 @@
+.ds-auth {
+  display: flex;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+/* ===== LEFT SHOWCASE SIDE ===== */
+.ds-auth__showcase {
+  width: 50%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #16a34a 0%, #15803d 45%, #14532d 100%);
+  padding: 64px 48px;
+  overflow: hidden;
+}
+
+/* Sophisticated Glow */
+.ds-auth__showcase-glow {
+  position: absolute;
+  top: -15%;
+  right: -15%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 75%
+  );
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.ds-auth__showcase-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 560px;
+  flex: 1;
+  justify-content: center;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ds-auth__visual {
+  width: 100%;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+}
+
+.ds-auth__svg {
+  width: 100%;
+  height: auto;
+  max-height: 48vh;
+}
+
+/* Brand Text - Professional Polish */
+.ds-auth__brand {
+  text-align: center;
+  color: #ffffff;
+}
+
+.ds-auth__headline {
+  font-family: "Montserrat", sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+
+  line-height: 1.05;
+}
+
+.ds-auth__headline span {
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ds-auth__tagline {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Trust Section - High End Detail */
+.ds-auth__trust {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-top: 32px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.ds-auth__trust-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.ds-auth__trust-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+}
+
+/* ===== RIGHT FORM SIDE - Clean & Focused ===== */
+.ds-auth__form-side {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: #ffffff;
+  overflow-y: auto;
+}
+
+.ds-auth__form-container {
+  width: 100%;
+  max-width: 540px;
+  animation: authFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ds-auth__logo-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.ds-auth__logo-img {
+  height: 108px;
+  width: auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1280px) {
+  .ds-auth__headline {
+    font-size: 34px;
+  }
+
+  .ds-auth__tagline {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ds-auth__showcase {
+    padding: 48px 32px;
+  }
+
+  .ds-auth__headline {
+    font-size: 30px;
+  }
+
+  .ds-auth__svg {
+    max-height: 40vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .ds-auth {
+    flex-direction: column;
+  }
+
+  .ds-auth__showcase {
+    display: none;
+  }
+
+  .ds-auth__form-side {
+    width: 100%;
+    min-height: 100vh;
+    padding: 48px 24px;
+  }
+
+  .ds-auth__logo-header {
+    justify-content: center;
+  }
+}
