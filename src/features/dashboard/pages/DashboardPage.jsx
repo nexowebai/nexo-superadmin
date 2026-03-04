@@ -11,15 +11,16 @@ import OrganizationGrid from "../components/OrganizationGrid";
 import DistributionCharts from "../components/DistributionCharts";
 import NotificationCenter from "../components/NotificationCenter";
 import SystemHealth from "../components/SystemHealth";
+import GrowthAnalytics from "../components/GrowthAnalytics";
 import { Button } from "@components/ui";
 import { Building2, Users, FolderKanban, ShieldCheck } from "lucide-react";
 import "./DashboardPage.css";
 
 const STATS_CONFIG = [
-  { key: "total_organizations", icon: "Building2", color: "#16a34a", label: "Organizations" },
-  { key: "active_users", icon: "Users", color: "#3b82f6", label: "Active Users" },
+  { key: "total_organizations", icon: "Building2", color: "#10b981", label: "Organizations" },
+  { key: "active_users", icon: "Users", color: "#10b981", label: "Active Users" },
   { key: "total_projects", icon: "FolderKanban", color: "#10b981", label: "Projects" },
-  { key: "system_health", icon: "ShieldCheck", color: "#f59e0b", label: "System Health", isPercent: true },
+  { key: "system_health", icon: "ShieldCheck", color: "#10b981", label: "System Health", isPercent: true },
 ];
 
 // Re-map icons to Lucide components for StatsCard compatibility
@@ -56,11 +57,11 @@ function DashboardPage() {
   }, [setHeaderProps]);
 
   const colors = useMemo(() => ({
-    primary: "#16a34a", // Nexo Green
+    primary: "#10b981", // Nexo Green
     success: "#10b981",
     warning: "#f59e0b",
     error: "#ef4444",
-    info: "#3b82f6",
+    info: "#10b981",
     grid: "rgba(0,0,0,0.03)",
     text: "#71717a",
   }), []);
@@ -118,6 +119,8 @@ function DashboardPage() {
   return (
     <PageContainer className="dash-pro">
       <StatsOverview loading={loading} metrics={metrics} />
+
+      <GrowthAnalytics loading={loading} />
 
       <OrganizationGrid
         loading={loading}

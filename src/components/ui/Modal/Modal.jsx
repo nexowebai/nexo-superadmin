@@ -204,7 +204,7 @@ function ConfirmModal({
             <div className="ds-confirm-modal">
                 <div
                     className="ds-confirm-modal__icon"
-                    style={{ backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--ds-bg-elevated))` }}
+                    style={{ backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--bg-elevated))` }}
                 >
                     <IconComponent size={28} style={{ color: iconConfig.color }} />
                 </div>
@@ -258,7 +258,7 @@ function AlertModal({
             <div className="ds-confirm-modal">
                 <div
                     className="ds-confirm-modal__icon"
-                    style={{ backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--ds-bg-elevated))` }}
+                    style={{ backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--bg-elevated))` }}
                 >
                     <IconComponent size={28} style={{ color: iconConfig.color }} />
                 </div>

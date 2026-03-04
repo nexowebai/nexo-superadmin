@@ -56,6 +56,12 @@ const ProfilePage = lazy(() =>
 const PaymentsPage = lazy(() =>
   import("@features/payments/pages/PaymentsPage")
 );
+const BillingSystemPage = lazy(() =>
+  import("@features/billing/pages/BillingSystemPage")
+);
+const PrivacyPolicyPage = lazy(() =>
+  import("@features/content/pages/PrivacyPolicyPage")
+);
 
 function PaymentsComingSoon() {
   return (
@@ -316,6 +322,26 @@ const router = createBrowserRouter([
           <Suspense fallback={<PageLoader />}>
             <ProfilePage />
           </Suspense>
+        ),
+      },
+      {
+        path: "billing",
+        element: (
+          <ProtectedRoute allowedRoles={["super-admin"]}>
+            <Suspense fallback={<PageLoader />}>
+              <BillingSystemPage />
+            </Suspense>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "policy",
+        element: (
+          <ProtectedRoute allowedRoles={["super-admin"]}>
+            <Suspense fallback={<PageLoader />}>
+              <PrivacyPolicyPage />
+            </Suspense>
+          </ProtectedRoute>
         ),
       },
       {

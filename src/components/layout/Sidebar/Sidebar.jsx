@@ -21,6 +21,7 @@ import {
   Heart,
   Timer,
   Trash2,
+  ShieldCheck,
 } from "lucide-react";
 import { ConfirmModal } from "@components/ui/Modal";
 import { cn } from "@lib/cn";
@@ -205,8 +206,10 @@ function Sidebar({
     { to: "/organizations", icon: Building2, label: "Organizations" },
     { to: "/requests", icon: FileText, label: "Requests" },
     { to: "/payments", icon: CreditCard, label: "Payments" },
+    { to: "/billing", icon: Briefcase, label: "Plans & Coupons" },
     { to: "/logs", icon: ShieldAlert, label: "System Logs" },
     { to: "/notifications", icon: Bell, label: "Notifications" },
+    { to: "/policy", icon: ShieldCheck, label: "Privacy Policy" },
     { to: "/settings", icon: Settings, label: "Settings" },
   ];
 

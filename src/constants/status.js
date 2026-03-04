@@ -9,21 +9,22 @@ export const STATUS = {
     ARCHIVED: 'archived',
     APPROVED: 'approved',
     REJECTED: 'rejected',
-    DRAFT: 'draft'
+    DRAFT: 'draft',
+    DISABLED: 'disabled'
 };
 
 export const STATUS_CONFIG = {
     [STATUS.ACTIVE]: {
         label: 'Active',
-        color: '#16a34a',
+        color: '#10b981',
         variant: 'success',
-        glow: 'rgba(22, 163, 74, 0.4)'
+        glow: 'rgba(16, 185, 129, 0.4)'
     },
     [STATUS.COMPLETED]: {
         label: 'Completed',
-        color: '#16a34a',
+        color: '#10b981',
         variant: 'success',
-        glow: 'rgba(22, 163, 74, 0.4)'
+        glow: 'rgba(16, 185, 129, 0.4)'
     },
     [STATUS.IN_PROGRESS]: {
         label: 'In Progress',
@@ -64,9 +65,9 @@ export const STATUS_CONFIG = {
     },
     [STATUS.APPROVED]: {
         label: 'Approved',
-        color: '#16a34a',
+        color: '#10b981',
         variant: 'success',
-        glow: 'rgba(22, 163, 74, 0.4)'
+        glow: 'rgba(16, 185, 129, 0.4)'
     },
     [STATUS.ARCHIVED]: {
         label: 'Archived',
@@ -79,6 +80,12 @@ export const STATUS_CONFIG = {
         color: '#94a3b8',
         variant: 'default',
         glow: 'rgba(148, 163, 184, 0.4)'
+    },
+    [STATUS.DISABLED]: {
+        label: 'Disabled',
+        color: '#ef4444',
+        variant: 'danger',
+        glow: 'rgba(239, 68, 68, 0.4)'
     },
 };
 

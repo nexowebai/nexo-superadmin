@@ -9,21 +9,21 @@ const getCSSVar = (name) => {
 };
 
 export const getChartColors = () => ({
-    primary: getCSSVar('--ds-chart-1') || '#6366f1',
-    secondary: getCSSVar('--ds-chart-2') || '#8b5cf6',
+    primary: getCSSVar('--primary') || '#10b981',
+    secondary: getCSSVar('--info') || '#3b82f6',
     tertiary: getCSSVar('--ds-chart-3') || '#06b6d4',
-    success: getCSSVar('--ds-chart-4') || '#22c55e',
-    warning: getCSSVar('--ds-chart-5') || '#f59e0b',
-    accent: getCSSVar('--ds-chart-6') || '#ec4899',
+    success: getCSSVar('--success') || '#10b981',
+    warning: getCSSVar('--warning') || '#f59e0b',
+    accent: getCSSVar('--primary-hover') || '#059669',
     teal: getCSSVar('--ds-chart-7') || '#14b8a6',
     orange: getCSSVar('--ds-chart-8') || '#f97316',
 });
 
 export const getChartPalette = () => [
-    getCSSVar('--ds-chart-1') || '#6366f1',
-    getCSSVar('--ds-chart-2') || '#8b5cf6',
-    getCSSVar('--ds-chart-3') || '#06b6d4',
-    getCSSVar('--ds-chart-4') || '#22c55e',
+    getCSSVar('--primary') || '#10b981',
+    getCSSVar('--info') || '#3b82f6',
+    getCSSVar('--warning') || '#f59e0b',
+    getCSSVar('--success') || '#10b981',
     getCSSVar('--ds-chart-5') || '#f59e0b',
     getCSSVar('--ds-chart-6') || '#ec4899',
     getCSSVar('--ds-chart-7') || '#14b8a6',

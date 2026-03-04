@@ -10,7 +10,7 @@ import OrgStats from '../components/OrgStats';
 import OrgInfo from '../components/OrgInfo';
 import OrgSidebar from '../components/OrgSidebar';
 import OrgSkeleton from '../components/OrgSkeleton';
-import { DisableOrgModal, ResetPasswordModal } from '../components/OrgModals';
+import { DisableOrgModal, ResetPasswordModal, SendNotificationModal, ManageCouponsModal, ManagePlanModal } from '../components/OrgModals';
 import { useLayout } from '@context';
 import '../css/organizations.css';
 
@@ -60,6 +60,9 @@ function OrganizationDetailPage() {
           org={org}
           onEnable={handleEnable}
           onDisable={() => openModal('disable')}
+          onNotify={() => openModal('notify')}
+          onManagePlan={() => openModal('plan')}
+          onManageCoupons={() => openModal('coupons')}
         />
 
         <OrgStats org={org} />
@@ -101,6 +104,29 @@ function OrganizationDetailPage() {
         description={`Are you sure you want to delete "${org.name}"? This action cannot be undone.`}
         confirmText="Delete"
         variant="delete"
+      />
+
+      <SendNotificationModal
+        isOpen={modals.notify}
+        onClose={() => closeModal('notify')}
+        orgName={org.name}
+        orgId={org.id}
+      />
+
+      <ManageCouponsModal
+        isOpen={modals.coupons}
+        onClose={() => closeModal('coupons')}
+        orgName={org.name}
+        orgId={org.id}
+      />
+
+      <ManagePlanModal
+        isOpen={modals.plan}
+        onClose={() => closeModal('plan')}
+        orgName={org.name}
+        orgId={org.id}
+        currentPlan={org.subscription_tier}
+        onSuccess={() => refetch()}
       />
     </PageContainer>
   );

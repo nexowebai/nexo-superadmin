@@ -115,7 +115,7 @@ export const PROJECT_STATUSES = [
     { value: 'draft', label: 'Draft', color: '#64748b' },
     { value: 'active', label: 'Active', color: '#22c55e' },
     { value: 'on_hold', label: 'On Hold', color: '#f59e0b' },
-    { value: 'completed', label: 'Completed', color: '#6366f1' },
+    { value: 'completed', label: 'Completed', color: '#10b981' },
     { value: 'archived', label: 'Archived', color: '#94a3b8' },
 ];
 
@@ -152,7 +152,7 @@ export const MOCK_PROJECTS_FULL = [
         submissions_count: 1248,
         members_count: 12,
         documents_count: 8,
-        gradient: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+        gradient: 'linear-gradient(135deg, #10b981, #059669)',
         forms: [
             { id: 'f1', form_code: 'FR-ECP2152', name: 'Elder Citizen Poll', description: null, status: 'published', is_active: true, is_duplicate: false, is_master: false, submissions_count: 342, fields_count: 24, created_at: '2025-11-26T07:35:33.000000Z', image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400', form_assignees: [{ id: 'm1', first_name: 'John', last_name: 'Kariuki', profile_image: 'https://randomuser.me/api/portraits/men/1.jpg', full_name: 'John Kariuki' }] },
             { id: 'f2', form_code: 'FR-HHS4521', name: 'Household Survey', description: 'Comprehensive household data collection', status: 'published', is_active: true, is_duplicate: false, is_master: true, submissions_count: 287, fields_count: 45, created_at: '2025-11-20T10:15:00.000000Z', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400', form_assignees: [{ id: 'm2', first_name: 'Sarah', last_name: 'Mwangi', profile_image: 'https://randomuser.me/api/portraits/women/2.jpg', full_name: 'Sarah Mwangi' }] },
@@ -296,7 +296,7 @@ export const MOCK_PROJECTS_FULL = [
         submissions_count: 2341,
         members_count: 15,
         documents_count: 12,
-        gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)',
+        gradient: 'linear-gradient(135deg, #10b981, #059669)',
         created_at: '2025-06-01T08:00:00.000000Z',
         updated_at: '2025-11-30T17:00:00.000000Z',
         forms: [],

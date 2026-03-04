@@ -6,11 +6,10 @@
     padding: var(--space-6);
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, 
-        var(--bg-base) 0%, 
-        var(--bg-elevated) 50%,
-        var(--bg-base) 100%
-    );
+    background: linear-gradient(135deg,
+            var(--bg-base) 0%,
+            var(--bg-elevated) 50%,
+            var(--bg-base) 100%);
 }
 
 .error-page__bg {
@@ -39,7 +38,7 @@
 .error-page__orb--2 {
     width: 300px;
     height: 300px;
-    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
     bottom: -50px;
     left: -50px;
     animation: float-orb 10s ease-in-out infinite reverse;
@@ -48,7 +47,7 @@
 .error-page__orb--3 {
     width: 200px;
     height: 200px;
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    background: linear-gradient(135deg, var(--info), var(--info-hover));
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -56,10 +55,23 @@
 }
 
 @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(20px, -30px) scale(1.05); }
-    50% { transform: translate(-10px, 20px) scale(0.95); }
-    75% { transform: translate(30px, 10px) scale(1.02); }
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(20px, -30px) scale(1.05);
+    }
+
+    50% {
+        transform: translate(-10px, 20px) scale(0.95);
+    }
+
+    75% {
+        transform: translate(30px, 10px) scale(1.02);
+    }
 }
 
 .error-page__content {
@@ -73,7 +85,7 @@
     backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
     border-radius: var(--ds-radius-2xl);
-    box-shadow: 
+    box-shadow:
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -2px rgba(0, 0, 0, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -148,7 +160,7 @@
     font-weight: var(--font-semibold);
     color: var(--text-muted);
     text-transform: uppercase;
-    
+
 }
 
 .error-page__details-header svg {
@@ -193,14 +205,14 @@
 .error-page__btn--primary {
     background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
     color: white;
-    box-shadow: 
-        0 4px 14px rgba(99, 102, 241, 0.3),
+    box-shadow:
+        0 4px 14px rgba(var(--primary-rgb), 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .error-page__btn--primary:hover {
-    box-shadow: 
-        0 6px 20px rgba(99, 102, 241, 0.4),
+    box-shadow:
+        0 6px 20px rgba(var(--primary-rgb), 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.15) inset;
 }
 

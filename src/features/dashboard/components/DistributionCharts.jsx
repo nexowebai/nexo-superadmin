@@ -55,21 +55,23 @@ const DistributionCharts = ({ loading, barData, pieData, colors, isDark, onlyBar
                                 <h4>No data available</h4>
                             </div>
                         ) : (
-                            <ResponsiveContainer width="100%" height={260}>
-                                <BarChart data={barData} margin={{ top: 15, right: 15, left: -15, bottom: 0 }}>
-                                    <defs>
-                                        <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor={colors.primary} stopOpacity={0.9} />
-                                            <stop offset="100%" stopColor={colors.primary} stopOpacity={0.4} />
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
-                                    <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} dy={10} />
-                                    <YAxis tick={{ fill: "#64748b", fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} dx={-10} />
-                                    <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.02)", radius: 8 }} />
-                                    <Bar dataKey="value" fill="url(#barGrad)" radius={[8, 8, 4, 4]} barSize={32} name="Organizations" />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            <div style={{ height: 260, width: '100%', position: 'relative' }}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={barData} margin={{ top: 15, right: 15, left: -15, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor={colors.primary} stopOpacity={1} />
+                                                <stop offset="100%" stopColor={colors.primary} stopOpacity={0.6} />
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
+                                        <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} dy={10} />
+                                        <YAxis tick={{ fill: "#64748b", fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} dx={-10} />
+                                        <Tooltip content={<CustomTooltip />} cursor={false} />
+                                        <Bar dataKey="value" fill="url(#barGrad)" radius={[8, 8, 4, 4]} barSize={32} name="Organizations" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -98,31 +100,33 @@ const DistributionCharts = ({ loading, barData, pieData, colors, isDark, onlyBar
                         </div>
                     ) : (
                         <div className="status-content">
-                            <ResponsiveContainer width="100%" height={200}>
-                                <RechartsPie>
-                                    <defs>
-                                        {pieData.map((entry, i) => (
-                                            <linearGradient key={i} id={`pie${i}`} x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor={entry.color} stopOpacity={0.95} />
-                                                <stop offset="100%" stopColor={entry.color} stopOpacity={0.6} />
-                                            </linearGradient>
-                                        ))}
-                                    </defs>
-                                    <Pie
-                                        data={pieData}
-                                        cx="50%"
-                                        cy="50%"
-                                        innerRadius={65}
-                                        outerRadius={85}
-                                        paddingAngle={8}
-                                        stroke="none"
-                                        dataKey="value"
-                                    >
-                                        {pieData.map((entry, i) => <Cell key={i} fill={`url(#pie${i})`} />)}
-                                    </Pie>
-                                    <Tooltip content={<CustomTooltip />} />
-                                </RechartsPie>
-                            </ResponsiveContainer>
+                            <div style={{ height: 200, width: '100%', position: 'relative' }}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <RechartsPie>
+                                        <defs>
+                                            {pieData.map((entry, i) => (
+                                                <linearGradient key={i} id={`pie${i}`} x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor={entry.color} stopOpacity={0.95} />
+                                                    <stop offset="100%" stopColor={entry.color} stopOpacity={0.6} />
+                                                </linearGradient>
+                                            ))}
+                                        </defs>
+                                        <Pie
+                                            data={pieData}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={65}
+                                            outerRadius={85}
+                                            paddingAngle={8}
+                                            stroke="none"
+                                            dataKey="value"
+                                        >
+                                            {pieData.map((entry, i) => <Cell key={i} fill={`url(#pie${i})`} />)}
+                                        </Pie>
+                                        <Tooltip content={<CustomTooltip />} />
+                                    </RechartsPie>
+                                </ResponsiveContainer>
+                            </div>
                             <div className="legend-list">
                                 {pieData.map((item, i) => (
                                     <div

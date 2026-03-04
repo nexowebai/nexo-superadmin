@@ -24,31 +24,31 @@
 
 /* Variant Definitions */
 .ds-alert--info {
-  --alert-bg: #eff6ff;
-  --alert-border: #dbeafe;
-  --alert-accent: #3b82f6;
-  --alert-text: #1e40af;
+  --alert-bg: var(--info-soft);
+  --alert-border: rgba(var(--info-rgb, 59, 130, 246), 0.2);
+  --alert-accent: var(--info);
+  --alert-text: var(--info);
 }
 
 .ds-alert--success {
-  --alert-bg: #f0fdf4;
-  --alert-border: #dcfce7;
-  --alert-accent: #22c55e;
-  --alert-text: #166534;
+  --alert-bg: var(--success-soft);
+  --alert-border: rgba(var(--success-rgb, 16, 185, 129), 0.2);
+  --alert-accent: var(--success);
+  --alert-text: var(--success);
 }
 
 .ds-alert--warning {
-  --alert-bg: #fffbeb;
-  --alert-border: #fef3c7;
-  --alert-accent: #f59e0b;
-  --alert-text: #92400e;
+  --alert-bg: var(--warning-soft);
+  --alert-border: rgba(var(--warning-rgb, 245, 158, 11), 0.2);
+  --alert-accent: var(--warning);
+  --alert-text: var(--warning);
 }
 
 .ds-alert--error {
-  --alert-bg: #fef2f2;
-  --alert-border: #fee2e2;
-  --alert-accent: #ef4444;
-  --alert-text: #991b1b;
+  --alert-bg: var(--error-soft);
+  --alert-border: rgba(var(--error-rgb, 239, 68, 68), 0.2);
+  --alert-accent: var(--error);
+  --alert-text: var(--error);
 }
 
 /* Internal Layout */

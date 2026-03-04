@@ -126,7 +126,7 @@ const Lightbox = memo(function Lightbox({
 function AnimatedFolder({
     title,
     subtitle,
-    gradient = 'linear-gradient(135deg, #6366f1, #4f46e5)',
+    gradient = 'linear-gradient(135deg, #10b981, #059669)',
     items = [],
     stats = [],
     onClick,

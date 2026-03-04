@@ -101,7 +101,7 @@
 }
 
 .ds-button--danger:hover:not(:disabled) {
-  background: #dc2626;
+  background: var(--error-hover);
 }
 
 .ds-button--warning {
@@ -110,7 +110,7 @@
 }
 
 .ds-button--warning:hover:not(:disabled) {
-  background: #d97706;
+  background: var(--warning-hover);
 }
 
 .ds-button--success {
@@ -119,7 +119,7 @@
 }
 
 .ds-button--success:hover:not(:disabled) {
-  background: #059669;
+  background: var(--success-hover);
   box-shadow: var(--shadow-md);
 }
 

@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import { Building2, Edit2, Power, PowerOff } from 'lucide-react';
+import { Building2, Power, PowerOff, Bell, Tag, CreditCard } from 'lucide-react';
 import { StatusBadge } from '@components/common';
 import Button from '@components/ui/Button';
 import { formatRelative } from '@utils/format';
 import { useNavigate } from 'react-router-dom';
 
-export default function OrgHero({ org, onEnable, onDisable }) {
+export default function OrgHero({ org, onEnable, onDisable, onNotify, onManagePlan, onManageCoupons }) {
     const navigate = useNavigate();
 
     if (!org) return null;
@@ -40,13 +40,19 @@ export default function OrgHero({ org, onEnable, onDisable }) {
                 </div>
             </div>
             <div className="org-hero__actions">
-                <Button variant="secondary" icon={Edit2} onClick={() => navigate(`/organizations/${org.id}/edit`)}>
-                    Edit
+                <Button variant="secondary" icon={Bell} onClick={onNotify} fullWidth>
+                    Send Push
+                </Button>
+                <Button variant="secondary" icon={CreditCard} onClick={onManagePlan} fullWidth>
+                    Manage Plan
+                </Button>
+                <Button variant="secondary" icon={Tag} onClick={onManageCoupons} fullWidth>
+                    Discount Coupons
                 </Button>
                 {org.status === 'disabled' ? (
-                    <Button variant="success" icon={Power} onClick={onEnable}>Enable</Button>
+                    <Button variant="success" icon={Power} onClick={onEnable} fullWidth>Enable Org</Button>
                 ) : (
-                    <Button variant="danger" icon={PowerOff} onClick={onDisable}>Disable</Button>
+                    <Button variant="danger" icon={PowerOff} onClick={onDisable} fullWidth>Disable Org</Button>
                 )}
             </div>
         </motion.div>

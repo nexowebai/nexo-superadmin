@@ -86,7 +86,7 @@
 
 .org-card {
     padding: var(--space-6);
-    background: #ffffff;
+    background: var(--bg-surface);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-xl);
     transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -96,13 +96,12 @@
     gap: var(--space-5);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    box-shadow: var(--card-shadow);
 }
 
 .org-card:hover {
-    background: #ffffff;
     border-color: var(--primary);
-    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--card-shadow-hover);
     transform: translateY(-4px);
 }
 
@@ -234,7 +233,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f4f4f5;
+    background: var(--bg-elevated);
     color: var(--text-secondary);
     border-radius: var(--radius-md);
     transition: all 0.2s;
@@ -286,7 +285,7 @@
 .org-card__info h4 {
     font-size: 16px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text-primary);
     margin: 0 0 4px 0;
 }
 
@@ -298,8 +297,8 @@
 
 .count-badge {
     padding: 4px 12px;
-    background: #f4f4f5;
-    color: #1a1a1a;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 13px;
     border-radius: 99px;
@@ -383,7 +382,7 @@
 
 .org-progress__bar {
     height: 6px;
-    background: #f4f4f5;
+    background: var(--bg-elevated);
     border-radius: var(--radius-full);
     overflow: hidden;
 }
@@ -516,15 +515,15 @@
 }
 
 .sla-stat--success {
-    background: var(--ds-success-soft);
+    background: var(--success-soft);
 }
 
 .sla-stat--warning {
-    background: var(--ds-warning-soft);
+    background: var(--warning-soft);
 }
 
 .sla-stat--error {
-    background: var(--ds-error-soft);
+    background: var(--error-soft);
 }
 
 .sla-stat__icon {
@@ -538,17 +537,17 @@
 }
 
 .sla-stat--success .sla-stat__icon {
-    background: var(--ds-success-base);
+    background: var(--success);
     color: white;
 }
 
 .sla-stat--warning .sla-stat__icon {
-    background: var(--ds-warning-base);
+    background: var(--warning);
     color: white;
 }
 
 .sla-stat--error .sla-stat__icon {
-    background: var(--ds-error-base);
+    background: var(--error);
     color: white;
 }
 
@@ -565,15 +564,15 @@
 }
 
 .sla-stat--success .sla-stat__value {
-    color: var(--ds-success-base);
+    color: var(--success);
 }
 
 .sla-stat--warning .sla-stat__value {
-    color: var(--ds-warning-base);
+    color: var(--warning);
 }
 
 .sla-stat--error .sla-stat__value {
-    color: var(--ds-error-base);
+    color: var(--error);
 }
 
 .sla-stat__label {
@@ -639,18 +638,16 @@
 }
 
 .card-pro {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
+    background: var(--bg-surface);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+    box-shadow: var(--card-shadow);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-pro:hover {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    box-shadow: var(--card-shadow-hover);
     transform: translateY(-2px);
 }
 
@@ -684,7 +681,7 @@
 .card-pro__header-left h3 {
     font-size: 14px;
     font-weight: 700;
-    color: #111827;
+    color: var(--text-primary);
     margin: 0;
     letter-spacing: -0.01em;
 }
@@ -744,7 +741,7 @@
     gap: var(--space-4);
     padding: var(--space-4) var(--space-6);
     background: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid var(--border-base);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
 }
@@ -754,7 +751,7 @@
 }
 
 .activity-pro:hover {
-    background: rgba(0, 0, 0, 0.015);
+    background: var(--bg-elevated);
     padding-left: var(--space-8);
 }
 
@@ -774,8 +771,8 @@
 }
 
 .activity-pro__icon.read {
-    background: #f1f5f9;
-    color: #94a3b8;
+    background: var(--bg-elevated);
+    color: var(--text-dimmed);
 }
 
 .activity-pro__content {
@@ -786,13 +783,13 @@
 .activity-pro__content h4 {
     font-size: 14px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--text-primary);
     margin: 0 0 2px 0;
 }
 
 .activity-pro__content p {
     font-size: 12px;
-    color: #64748b;
+    color: var(--text-secondary);
     margin: 0;
     text-transform: capitalize;
 }
@@ -803,7 +800,7 @@
     gap: 4px;
     font-size: 11px;
     font-weight: 500;
-    color: #94a3b8;
+    color: var(--text-muted);
 }
 
 .view-all {
@@ -840,7 +837,7 @@
     font-size: 11px;
     font-weight: 700;
     border-radius: var(--radius-full);
-    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2);
 }
 
 .card-header-compact {
@@ -875,7 +872,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid var(--border-base);
 }
 
 .legend-row:last-child {
@@ -952,14 +949,14 @@
 .health-val {
     font-size: 28px;
     font-weight: 800;
-    color: #111827;
+    color: var(--text-primary);
     line-height: 1;
 }
 
 .health-label {
     font-size: 10px;
     font-weight: 700;
-    color: #64748b;
+    color: var(--text-muted);
     letter-spacing: 0.1em;
 }
 
@@ -975,9 +972,9 @@
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-3);
-    background: rgba(0, 0, 0, 0.02);
+    background: var(--bg-elevated);
     border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-base);
 }
 
 .h-s-icon {
@@ -986,10 +983,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
+    background: var(--bg-surface);
     border-radius: 8px;
     color: var(--primary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--card-shadow);
 }
 
 .h-s-info {
@@ -1021,13 +1018,13 @@
 }
 
 .health-status-footer.stable {
-    background: rgba(22, 163, 74, 0.08);
-    color: #15803d;
+    background: var(--success-soft);
+    color: var(--success);
 }
 
 .health-status-footer.checking {
-    background: rgba(245, 158, 11, 0.08);
-    color: #b45309;
+    background: var(--warning-soft);
+    color: var(--warning);
 }
 
 .pulse-dot {
@@ -1038,11 +1035,11 @@
 }
 
 .stable .pulse-dot {
-    background: #22c55e;
+    background: var(--success);
 }
 
 .checking .pulse-dot {
-    background: #f59e0b;
+    background: var(--warning);
 }
 
 @keyframes pulse-health {

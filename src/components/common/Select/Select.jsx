@@ -216,7 +216,7 @@ function Select({
                             top: coords.top + 6,
                             left: coords.left,
                             width: coords.width,
-                            zIndex: 9999
+                            zIndex: 30000
                         }}
                         variants={dropdownVariants}
                         initial="hidden"

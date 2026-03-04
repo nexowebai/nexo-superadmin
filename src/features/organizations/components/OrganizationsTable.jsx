@@ -243,12 +243,12 @@ export default function OrganizationsTable({
 
   const handleExportPDF = useCallback(() => {
     exportToPDF(organizations, columns.filter((c) => c.key !== 'actions'), {
-      title: 'DataStride Admin',
+      title: 'Nexo Superadmin',
       subtitle: 'Organizations Report',
       dateRange: dateRange?.startDate
         ? `${formatDate(dateRange.startDate)} - ${formatDate(dateRange.endDate || new Date())}`
         : 'All Time',
-      filename: 'organizations_report',
+      filename: 'nexo_organizations_report',
     });
     notify.success('PDF Export initiated');
   }, [organizations, columns, dateRange]);
@@ -302,7 +302,7 @@ export default function OrganizationsTable({
         stickyLastColumn
         onRowClick={(org) => navigate(`/organizations/${org.id}`)}
         showToolbar
-        fileName="organizations_report"
+        fileName="nexo_organizations_report"
         search={search}
         onSearchChange={setSearch}
         onRefresh={refetch}

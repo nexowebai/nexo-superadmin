@@ -1,0 +1,40 @@
+.ds-skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--bg-elevated);
+}
+
+.ds-skeleton--pulse {
+    animation: ds-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ds-skeleton-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Shimmer variant for a more premium look */
+.ds-skeleton--shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    animation: ds-skeleton-shimmer 2s infinite;
+}
+
+@keyframes ds-skeleton-shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}

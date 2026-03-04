@@ -27,18 +27,23 @@
     gap: var(--space-6);
 }
 
-/* Base Card structure */
+/* Base Card structure with modern twist */
 .settings-card {
     background: var(--bg-surface);
-    border: 1.5px solid var(--border-base);
+    border: 1px solid var(--border-base);
     border-radius: var(--radius-2xl);
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.settings-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
 
 .settings-card--danger {
-    background: rgba(239, 68, 68, 0.05);
-    /* very soft red */
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.02), rgba(239, 68, 68, 0.08));
     border-color: rgba(239, 68, 68, 0.2);
 }
 
@@ -47,12 +52,15 @@
     align-items: center;
     gap: 16px;
     padding: 24px 32px;
-    border-bottom: 1.5px solid var(--border-base);
-    background: var(--bg-surface-lowest);
+    border-bottom: 1px solid var(--border-base);
+    background: linear-gradient(to bottom,
+            var(--bg-surface-lowest) 0%,
+            var(--bg-surface) 100%);
 }
 
 .settings-card__body {
     padding: 32px;
+    background: var(--bg-surface);
 }
 
 .settings-card__body.grid-2 {
@@ -69,13 +77,19 @@
 
 /* Shared UI Components */
 .icon-box {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-2xl);
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.settings-card:hover .icon-box {
+    transform: scale(1.05) rotate(-2deg);
 }
 
 .text-content h3 {
@@ -83,20 +97,21 @@
     font-weight: 800;
     color: var(--text-primary);
     line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
 .text-content p {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-muted);
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 /* Form Fields */
 .form-field-v2 {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .form-field-v2 label {
@@ -210,7 +225,7 @@
 }
 
 .mode-card__preview.light {
-    background: #f8fafc;
+    background: #ffffff;
 }
 
 .mode-card__preview.light::after {
@@ -220,12 +235,13 @@
     left: 10px;
     right: 20px;
     bottom: 40px;
-    background: #e2e8f0;
+    background: #f1f5f9;
     border-radius: 8px;
+    border: 1px solid #e2e8f0;
 }
 
 .mode-card__preview.dark {
-    background: #0f172a;
+    background: #0f1115;
 }
 
 .mode-card__preview.dark::after {
@@ -235,8 +251,9 @@
     left: 10px;
     right: 20px;
     bottom: 40px;
-    background: #1e293b;
+    background: #1a1d23;
     border-radius: 8px;
+    border: 1px solid #2d3139;
 }
 
 .mode-card__info {

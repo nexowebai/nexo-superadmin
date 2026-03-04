@@ -40,8 +40,8 @@ function SetPasswordPage() {
 
         if (score <= 2) return { score: 25, label: 'Weak', color: '#ef4444' };
         if (score <= 4) return { score: 50, label: 'Fair', color: '#f59e0b' };
-        if (score <= 5) return { score: 75, label: 'Good', color: '#3b82f6' };
-        return { score: 100, label: 'Strong', color: '#22c55e' };
+        if (score <= 5) return { score: 75, label: 'Good', color: '#10b981' };
+        return { score: 100, label: 'Strong', color: '#059669' };
     };
 
     const strength = getStrength(password);

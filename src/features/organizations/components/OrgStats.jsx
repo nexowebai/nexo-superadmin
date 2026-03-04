@@ -34,10 +34,10 @@ export default function OrgStats({ org }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
         >
-            <StatCard icon={Users} value={org.users_count || 0} subValue={org.max_users} label="Active Users" color="blue" />
-            <StatCard icon={FolderKanban} value={org.projects_count || 0} subValue={org.max_projects} label="Projects" color="purple" />
+            <StatCard icon={Users} value={org.users_count || 0} subValue={org.max_users} label="Active Users" color="green" />
+            <StatCard icon={FolderKanban} value={org.projects_count || 0} subValue={org.max_projects} label="Projects" color="green" />
             <StatCard icon={FileText} value={org.submissions_count || 0} label="Submissions" color="green" />
-            <StatCard icon={Activity} value={`${usagePercent}%`} label="Resource Usage" color="orange" />
+            <StatCard icon={Activity} value={`${usagePercent}%`} label="Resource Usage" color="green" />
         </motion.div>
     );
 }

@@ -248,16 +248,16 @@
 }
 
 .dark-mode .drp-day:hover:not(.selected) {
-  background: rgba(99, 102, 241, 0.2);
-  color: var(--ds-brand-400);
+  background: var(--primary-soft);
+  color: var(--primary);
 }
 
 .dark-mode .drp-day.in-range {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--ds-brand-300);
+  background: rgba(var(--primary-rgb), 0.15);
+  color: var(--primary);
 }
 
 .dark-mode .drp-preset-btn:hover {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--ds-brand-400);
+  background: var(--primary-soft);
+  color: var(--primary);
 }

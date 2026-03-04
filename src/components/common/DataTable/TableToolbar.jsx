@@ -140,17 +140,6 @@ export default function TableToolbar({
             <Printer size={18} />
           </button>
 
-          {onRefresh && (
-            <button
-              type="button"
-              className="toolbar-refresh"
-              onClick={onRefresh}
-              disabled={loading}
-              title="Refresh Data"
-            >
-              <RefreshCw size={18} className={loading ? "spinning" : ""} />
-            </button>
-          )}
         </div>
       </div>
     </div>

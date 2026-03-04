@@ -18,13 +18,12 @@
 
 .ds-search:hover {
     border-color: var(--border-strong);
-    background: var(--bg-elevated);
 }
 
 .ds-search--focused {
     border-color: var(--primary);
     background: var(--bg-surface) !important;
-    box-shadow: 0 0 0 4px var(--primary-soft), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 0 4px var(--primary-soft), 0 10px 15px -3px rgba(var(--primary-rgb), 0.08);
     transform: translateY(-1px);
 }
 
@@ -99,7 +98,7 @@
 .ds-search__clear:hover {
     background: var(--error-soft);
     color: var(--error);
-    transform: rotate(90deg) scale(1.1);
+    transform: scale(1.1);
 }
 
 /* Keyboard Shortcut Placeholder (Optional) */

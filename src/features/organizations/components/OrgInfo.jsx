@@ -62,7 +62,7 @@ export default function OrgInfo({ org, onResetPassword }) {
                             </div>
                             <div className="org-usage-bar__track">
                                 <motion.div
-                                    className="org-usage-bar__fill org-usage-bar__fill--blue"
+                                    className="org-usage-bar__fill org-usage-bar__fill--green"
                                     initial={{ width: 0 }}
                                     animate={{ width: `${Math.min(usagePercent, 100)}%` }}
                                     transition={{ duration: 0.8, delay: 0.3 }}
@@ -76,7 +76,7 @@ export default function OrgInfo({ org, onResetPassword }) {
                             </div>
                             <div className="org-usage-bar__track">
                                 <motion.div
-                                    className="org-usage-bar__fill org-usage-bar__fill--purple"
+                                    className="org-usage-bar__fill org-usage-bar__fill--teal"
                                     initial={{ width: 0 }}
                                     animate={{ width: `${Math.min(projectPercent, 100)}%` }}
                                     transition={{ duration: 0.8, delay: 0.4 }}

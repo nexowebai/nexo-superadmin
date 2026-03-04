@@ -15,9 +15,13 @@ import notify from '@utils/notify';
 import './SettingsPage.css';
 
 const CHART_THEMES = [
-    { id: 'default', name: 'DataStride Default', colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] },
-    { id: 'pastel', name: 'Soft Pastel', colors: ['#93c5fd', '#6ee7b7', '#fcd34d', '#fca5a5', '#c4b5fd'] },
+    { id: 'default', name: 'Nexo Professional', colors: ['#10b981', '#14b8a6', '#0f766e', '#0d9488', '#64748b'] },
+    { id: 'pastel', name: 'Soft Pastel', colors: ['#a7f3d0', '#ccfbf1', '#f0fdfa', '#fdf2f8', '#f1f5f9'] },
     { id: 'ocean', name: 'Ocean Breeze', colors: ['#0ea5e9', '#06b6d4', '#2dd4bf', '#38bdf8', '#7dd3fc'] },
+];
+
+const BRAND_COLORS = [
+    { id: 'green', name: 'Nexo Green', color: '#10b981' },
 ];
 
 const TAB_OPTIONS = [
@@ -57,7 +61,7 @@ function SettingsSkeleton() {
 }
 
 function SettingsPage() {
-    const { theme: appTheme, setTheme: setAppTheme } = useTheme();
+    const { theme: appTheme, setTheme: setAppTheme, color: brandColor, setThemeColor } = useTheme();
     const { setHeaderProps } = useLayout();
     const { data, isLoading } = useSystemSettings();
     const { mutate: updateSettings } = useUpdateSettings();
@@ -77,7 +81,7 @@ function SettingsPage() {
     const initialDataRef = useRef(null);
 
     const [settings, setSettings] = useState({
-        system_name: 'DataStride',
+        system_name: 'Nexo Admin',
         max_file_size_mb: 10,
         allowed_file_types: ['image/jpeg', 'image/png', 'application/pdf'],
         backup_enabled: false,
@@ -85,8 +89,8 @@ function SettingsPage() {
         smtp_host: '',
         smtp_port: '',
         can_field_user_view_submission: true,
-        primary_color: '#3B82F6',
-        secondary_color: '#10B981',
+        primary_color: '#10b981',
+        secondary_color: '#3b82f6',
     });
 
     const [chartTheme, setChartTheme] = useState(() => localStorage.getItem('ds-chart-theme') || 'default');
@@ -102,8 +106,8 @@ function SettingsPage() {
                 smtp_host: data.smtp_host || '',
                 smtp_port: data.smtp_port || '',
                 can_field_user_view_submission: data.can_field_user_view_submission ?? true,
-                primary_color: data.primary_color || '#3B82F6',
-                secondary_color: data.secondary_color || '#10B981',
+                primary_color: data.primary_color || '#10b981',
+                secondary_color: data.secondary_color || '#3b82f6',
             };
             initialDataRef.current = apiSettings;
             setSettings(apiSettings);
@@ -195,7 +199,7 @@ function SettingsPage() {
                                     <div className="settings-card__body grid-2">
                                         <div className="form-field-v2">
                                             <label>Support Contact Email</label>
-                                            <input type="email" name="support_email" value={settings.support_email || 'support@datastride.com'} onChange={handleChange} placeholder="support@domain.com" />
+                                            <input type="email" name="support_email" value={settings.support_email || 'support@nexo.com'} onChange={handleChange} placeholder="support@domain.com" />
                                             <span className="field-hint">Used for help requests originating from organizations.</span>
                                         </div>
                                         <div className="form-field-v2">
@@ -302,6 +306,8 @@ function SettingsPage() {
                                                 </button>
                                             </div>
                                         </div>
+
+                                        {/* Brand Accent Color Removed - Forced Nexo Green */}
 
                                         <div>
                                             <h4 className="text-xs font-bold uppercase tracking-widest text-muted mb-4">Chart Color Palettes</h4>

@@ -141,13 +141,13 @@
 .org-hero__tier--professional {
   background: var(--info-soft);
   color: var(--info);
-  border: 1.5px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--info);
 }
 
 .org-hero__tier--enterprise {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8b5cf6;
-  border: 1.5px solid rgba(139, 92, 246, 0.2);
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
 }
 
 .org-hero__joined {
@@ -157,9 +157,11 @@
 }
 
 .org-hero__actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-3);
   flex-shrink: 0;
+  width: 320px;
 }
 
 /* Stats Row */
@@ -183,19 +185,24 @@
 }
 
 .org-stat-card {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: var(--space-5);
+  flex-direction: column;
+  justify-content: flex-end;
   padding: var(--space-6);
   background: var(--bg-surface);
   border: 1.5px solid var(--border-base);
   border-radius: var(--radius-2xl);
+  min-height: 150px;
   transition: all var(--transition-normal);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .org-stat-card:hover {
-  border-color: var(--primary-soft);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
 }
 
 .org-stat-card--skeleton {
@@ -203,13 +210,21 @@
 }
 
 .org-stat-card__icon {
-  width: 56px;
-  height: 56px;
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-xl);
   flex-shrink: 0;
+  transition: all var(--transition-normal);
+}
+
+.org-stat-card:hover .org-stat-card__icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .org-stat-card--blue .org-stat-card__icon {
@@ -218,8 +233,8 @@
 }
 
 .org-stat-card--purple .org-stat-card__icon {
-  background: rgba(139, 92, 246, 0.15);
-  color: #8b5cf6;
+  background: var(--primary-soft);
+  color: var(--primary);
 }
 
 .org-stat-card--green .org-stat-card__icon {
@@ -344,7 +359,7 @@
 
 .org-info-item--copyable:hover {
   background: var(--primary-soft);
-  border-color: rgba(59, 130, 246, 0.3);
+  border-color: var(--primary);
 }
 
 .org-info-link {
@@ -454,12 +469,12 @@
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.org-usage-bar__fill--blue {
-  background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+.org-usage-bar__fill--green {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
 }
 
-.org-usage-bar__fill--purple {
-  background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);
+.org-usage-bar__fill--teal {
+  background: linear-gradient(90deg, #14b8a6 0%, #0d9488 100%);
 }
 
 /* Alert */
@@ -683,7 +698,7 @@
   padding: 12px 14px;
   border: 1px solid var(--border-base);
   border-radius: var(--radius-md);
-  background: #ffffff;
+  background: var(--bg-surface);
   color: var(--text-primary);
   font-size: 14px;
   outline: none;
@@ -804,15 +819,15 @@
 }
 
 .tier-badge-pro--enterprise {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8b5cf6;
-  border-color: rgba(139, 92, 246, 0.2);
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: rgba(var(--primary-rgb), 0.2);
 }
 
 .tier-badge-pro--enterprise {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8b5cf6;
-  border-color: rgba(139, 92, 246, 0.2);
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: rgba(var(--primary-rgb), 0.2);
 }
 
 /* Stat pills in table */
@@ -873,9 +888,9 @@
 }
 
 .tier-badge--enterprise {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8b5cf6;
-  border-color: rgba(139, 92, 246, 0.2);
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: rgba(var(--primary-rgb), 0.2);
 }
 
 /* =========================================

@@ -6,7 +6,14 @@ import notify from '@utils/notify';
 export function useOrganizationDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [modals, setModals] = useState({ reset: false, disable: false, delete: false });
+    const [modals, setModals] = useState({
+        reset: false,
+        disable: false,
+        delete: false,
+        notify: false,
+        coupons: false,
+        plan: false
+    });
 
     const { data: org, isLoading: loading, refetch } = useOrganization(id);
     const { mutate: enableOrg } = useEnableOrganization();

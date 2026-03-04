@@ -4,7 +4,7 @@
     gap: var(--space-4);
     padding: var(--space-3) var(--space-4);
     background: transparent;
-    border: 2px dashed rgba(99, 102, 241, 0.2);
+    border: 2px dashed rgba(var(--primary-rgb), 0.2);
     /* Soft brand dashed border by default */
     border-radius: var(--radius-lg);
     cursor: pointer;
@@ -15,17 +15,17 @@
 
 .permission-card:hover {
     border-color: var(--brand-500);
-    background: rgba(99, 102, 241, 0.03);
+    background: rgba(var(--primary-rgb), 0.03);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.1);
 }
 
 .permission-card--active {
     border-color: var(--brand-500);
     border-style: solid;
     /* Solid when active */
-    background: rgba(99, 102, 241, 0.05);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    background: rgba(var(--primary-rgb), 0.05);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.1);
 }
 
 .permission-card__icon {

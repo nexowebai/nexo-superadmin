@@ -2,8 +2,11 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import {
     CreditCard, DollarSign, TrendingUp, Receipt, Download, Eye,
     Building2, Calendar, RefreshCw, Clock, XCircle, CheckCircle2,
-    Filter, FileText, ArrowUpRight, ArrowDownRight
+    Filter, FileText, ArrowUpRight, ArrowDownRight, BarChart2, Activity
 } from 'lucide-react';
+import {
+    AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer
+} from 'recharts';
 import { useLayout } from '@context';
 import { PageContainer } from '@components/layout/DashboardLayout';
 import { DataTable, StatusBadge, TableActions, Select, SearchBar, StatsCard, StatsGrid } from '@components/common';
@@ -77,6 +80,21 @@ const MOCK_STATS = [
     { title: 'Active Subs', value: '1,420', icon: TrendingUp, trend: 8.4, color: 'var(--info)' },
     { title: 'Pending', value: '$3,850', icon: Clock, trend: -2.1, color: 'var(--warning)' },
     { title: 'Failed', value: '12', icon: XCircle, trend: 5.4, color: 'var(--error)' },
+];
+
+const REVENUE_DATA = [
+    { name: 'Jan', revenue: 12500, expenses: 3400 },
+    { name: 'Feb', revenue: 15000, expenses: 4398 },
+    { name: 'Mar', revenue: 18000, expenses: 5800 },
+    { name: 'Apr', revenue: 21780, expenses: 4908 },
+    { name: 'May', revenue: 25890, expenses: 6800 },
+    { name: 'Jun', revenue: 32390, expenses: 7800 },
+];
+
+const PLAN_DISTRIBUTION = [
+    { name: 'Basic', baseLimit: 10, avgUsage: 8, extraCost: 0 },
+    { name: 'Pro', baseLimit: 20, avgUsage: 16, extraCost: 0 },
+    { name: 'Enterprise', baseLimit: 50, avgUsage: 45, extraCost: 50 },
 ];
 
 const STATUS_OPTIONS = [
@@ -171,6 +189,8 @@ function PaymentsPage() {
     const [status, setStatus] = useState('');
     const [plan, setPlan] = useState('');
     const [selectedPayment, setSelectedPayment] = useState(null);
+    const [chartView, setChartView] = useState('revenue');
+    const [usageView, setUsageView] = useState('usage');
 
     useEffect(() => {
         setHeaderProps({
@@ -313,6 +333,100 @@ function PaymentsPage() {
                     <StatsCard key={i} {...stat} loading={loading} />
                 ))}
             </StatsGrid>
+
+            {/* Interactive Analytics Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {/* Chart 1: Revenue vs Expenses */}
+                <div className="card-pro p-6 flex flex-col">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-primary-soft flex items-center justify-center text-primary">
+                                <Activity size={20} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-primary m-0">Financial Overview</h3>
+                                <p className="text-xs text-secondary mt-0.5 m-0 font-medium">Revenue & ending cost trend</p>
+                            </div>
+                        </div>
+                        <Select
+                            options={[
+                                { label: 'Revenue & Costs', value: 'revenue' },
+                                { label: 'Net Profit', value: 'profit' }
+                            ]}
+                            value={chartView}
+                            onChange={setChartView}
+                            className="w-56"
+                        />
+                    </div>
+                    <div style={{ height: 250, width: '100%', position: 'relative' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={REVENUE_DATA} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                                    </linearGradient>
+                                    <linearGradient id="colorExp" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="var(--error)" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="var(--error)" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-base)" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} dy={10} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} tickFormatter={(value) => `$${value / 1000}k`} />
+                                <RechartsTooltip
+                                    contentStyle={{ backgroundColor: 'var(--bg-elevated)', borderRadius: '12px', border: '1px solid var(--border-base)', color: 'var(--text-primary)', fontWeight: 'bold' }}
+                                    itemStyle={{ fontWeight: 'bold' }}
+                                    cursor={false}
+                                />
+                                <Area type="monotone" dataKey="revenue" stroke="var(--primary)" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
+                                {chartView === 'revenue' && (
+                                    <Area type="monotone" dataKey="expenses" stroke="var(--error)" strokeWidth={3} fillOpacity={1} fill="url(#colorExp)" />
+                                )}
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                {/* Chart 2: Plan Project Limits & Extra Analytics */}
+                <div className="card-pro p-6 flex flex-col">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-info-soft flex items-center justify-center text-info">
+                                <BarChart2 size={20} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-primary m-0">Project & Plan Analytics</h3>
+                                <p className="text-xs text-secondary mt-0.5 m-0 font-medium">Monitoring extra project allocation</p>
+                            </div>
+                        </div>
+                        <Select
+                            options={[
+                                { label: 'Usage vs Limit', value: 'usage' },
+                                { label: 'Extra Costs', value: 'extra' }
+                            ]}
+                            value={usageView}
+                            onChange={setUsageView}
+                            className="w-56"
+                        />
+                    </div>
+                    <div style={{ height: 250, width: '100%', position: 'relative' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={PLAN_DISTRIBUTION} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-base)" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} dy={10} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                                <RechartsTooltip
+                                    contentStyle={{ backgroundColor: 'var(--bg-elevated)', borderRadius: '12px', border: '1px solid var(--border-base)', color: 'var(--text-primary)', fontWeight: 'bold' }}
+                                    cursor={false}
+                                />
+                                <Bar dataKey={usageView === 'usage' ? 'baseLimit' : 'extraCost'} name={usageView === 'usage' ? "Allowed Projects" : "Extra Revenue"} fill="var(--info)" radius={[4, 4, 0, 0]} barSize={32} />
+                                <Bar dataKey={usageView === 'usage' ? 'avgUsage' : 'extraCost'} name={usageView === 'usage' ? "Avg Project Usage" : "Extra Usage"} fill="var(--primary)" radius={[4, 4, 0, 0]} barSize={32} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
 
             <DataTable
                 columns={columns}

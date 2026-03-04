@@ -14,16 +14,16 @@ import './ChartCard.css';
 const getChartColors = (isDark) => {
     // Get chart theme from localStorage
     const chartTheme = localStorage.getItem('ds-chart-theme') || 'default';
-    
+
     // Chart theme palettes
     const themes = {
         default: {
-            dark: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
-            light: ['#2563eb', '#059669', '#d97706', '#dc2626', '#7c3aed']
+            dark: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#06b6d4'],
+            light: ['#059669', '#2563eb', '#d97706', '#dc2626', '#0891b2']
         },
         pastel: {
-            dark: ['#93c5fd', '#6ee7b7', '#fcd34d', '#fca5a5', '#c4b5fd'],
-            light: ['#60a5fa', '#34d399', '#fbbf24', '#f87171', '#a78bfa']
+            dark: ['#93c5fd', '#6ee7b7', '#fcd34d', '#fca5a5', '#22d3ee'],
+            light: ['#60a5fa', '#34d399', '#fbbf24', '#f87171', '#06b6d4']
         },
         ocean: {
             dark: ['#0ea5e9', '#06b6d4', '#2dd4bf', '#38bdf8', '#7dd3fc'],
@@ -200,7 +200,7 @@ function ChartCard({
                                 labelLine={false}
                                 label={(entry) => entry.name}
                                 outerRadius={80}
-                                fill="#8884d8"
+                                fill="var(--primary)"
                                 dataKey={dataKey}
                             >
                                 {data.map((entry, index) => (
