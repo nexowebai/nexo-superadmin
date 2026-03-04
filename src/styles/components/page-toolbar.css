@@ -75,13 +75,6 @@
     background: var(--ds-border-subtle);
 }
 
-/* Filter Selects */
-.role-select,
-.status-select,
-.type-select {
-    min-width: 140px;
-}
-
 /* Clear All Button */
 .clear-all-btn {
     white-space: nowrap;

@@ -41,9 +41,12 @@ export function TableActions({
                             type="button"
                             className={cn(
                                 'dt-action-btn',
-                                action.variant === 'danger' && 'dt-action-delete',
+                                action.variant === 'danger' && 'dt-action-danger',
                                 action.variant === 'warning' && 'dt-action-warning',
                                 action.variant === 'success' && 'dt-action-success',
+                                action.variant === 'info' && 'dt-action-info',
+                                action.variant === 'primary' && 'dt-action-primary',
+                                action.variant === 'view' && 'dt-action-view',
                                 action.disabled && 'dt-action-disabled'
                             )}
                             onClick={(e) => {

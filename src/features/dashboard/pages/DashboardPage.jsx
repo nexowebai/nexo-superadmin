@@ -11,7 +11,7 @@ import OrganizationGrid from "../components/OrganizationGrid";
 import DistributionCharts from "../components/DistributionCharts";
 import NotificationCenter from "../components/NotificationCenter";
 import SystemHealth from "../components/SystemHealth";
-import DashboardAddDropdown from "../components/DashboardAddDropdown";
+import { Button } from "@components/ui";
 import { Building2, Users, FolderKanban, ShieldCheck } from "lucide-react";
 import "./DashboardPage.css";
 
@@ -42,7 +42,16 @@ function DashboardPage() {
           <span>Platform Overview</span>
         </div>
       ),
-      action: <DashboardAddDropdown />
+      action: (
+        <Button
+          variant="primary"
+          icon={Zap}
+          onClick={() => navigate('/organizations/create')}
+          className="h-[48px] px-6"
+        >
+          Add Organization
+        </Button>
+      )
     });
   }, [setHeaderProps]);
 

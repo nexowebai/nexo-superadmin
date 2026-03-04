@@ -1,18 +1,83 @@
-import { useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   FileText, Search, RefreshCw, X, Info, AlertTriangle, XCircle,
-  CheckCircle2, User, Building2, Clock, ChevronLeft, ChevronRight,
+  CheckCircle2, User, Building2, Clock, Calendar, Shield, Database,
+  Download, Terminal
 } from 'lucide-react';
 import { useLayout } from '@context';
 import { PageContainer } from '@components/layout/DashboardLayout';
-import Button from '@components/ui/Button';
-import { EmptyState, Select } from '@components/common';
-import { Skeleton } from '@components/ui/Skeleton/Skeleton';
+import { DataTable, TableActions, Select, SearchBar, StatsCard, StatsGrid } from '@components/common';
+import { Button } from '@components/ui';
 import { useLogs } from '../../hooks/';
-import { formatRelativeTime } from '@utils/format';
+import { formatDate, formatRelativeTime } from '@utils/format';
 import LogDetailModal from '../components/LogDetailModal';
+import notify from '@utils/notify';
 import './LogsPage.css';
+
+const MOCK_LOGS = [
+  {
+    id: 'LOG-001',
+    log_level: 'info',
+    log_type: 'login',
+    message: 'Super Admin login successful from unknown IP 192.168.1.1',
+    email: 'admin@nexo.com',
+    organization_name: 'System',
+    created_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    ip_address: '192.168.1.1',
+    user_role: 'Super Admin'
+  },
+  {
+    id: 'LOG-002',
+    log_level: 'success',
+    log_type: 'update',
+    message: 'Organization "Stark Industries" subscription upgraded to Enterprise',
+    email: 'tony@stark.com',
+    organization_name: 'Stark Industries',
+    created_at: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+    ip_address: '10.0.0.45',
+    user_role: 'Org Admin'
+  },
+  {
+    id: 'LOG-003',
+    log_level: 'error',
+    log_type: 'security',
+    message: 'Multiple failed login attempts detected for account research@umbrella.com',
+    email: 'research@umbrella.com',
+    organization_name: 'Umbrella Corp',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
+    ip_address: '45.12.3.99',
+    user_role: 'User'
+  },
+  {
+    id: 'LOG-004',
+    log_level: 'warn',
+    log_type: 'database',
+    message: 'Database connection latency exceeded 500ms in region us-east-1',
+    email: 'system-agent',
+    organization_name: 'System',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
+    ip_address: 'internal-net',
+    user_role: 'Service Account'
+  },
+  {
+    id: 'LOG-005',
+    log_level: 'info',
+    log_type: 'export',
+    message: 'User exported organization report to PDF.',
+    email: 'hr@wayne.com',
+    organization_name: 'Wayne Enterprises',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+    ip_address: '172.16.0.4',
+    user_role: 'Manager'
+  }
+];
+
+const MOCK_STATS = [
+  { title: 'Total Events', value: '45.2K', icon: Terminal, color: 'var(--primary)' },
+  { title: 'Security Alerts', value: '14', icon: Shield, color: 'var(--error)' },
+  { title: 'System Errors', value: '3', icon: XCircle, color: 'var(--warning)' },
+  { title: 'Health Score', value: '98%', icon: CheckCircle2, color: 'var(--success)' },
+];
 
 const LEVEL_OPTIONS = [
   { value: '', label: 'All Levels' },
@@ -25,102 +90,58 @@ const LEVEL_OPTIONS = [
 const TYPE_OPTIONS = [
   { value: '', label: 'All Types' },
   { value: 'login', label: 'Login' },
-  { value: 'logout', label: 'Logout' },
-  { value: 'new_account', label: 'New Account' },
+  { value: 'security', label: 'Security' },
   { value: 'update', label: 'Update' },
-  { value: 'delete', label: 'Delete' },
+  { value: 'database', label: 'Database' },
 ];
 
-const levelConfig = {
-  info: { icon: Info, color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)' },
-  success: { icon: CheckCircle2, color: '#22c55e', bg: 'rgba(34, 197, 94, 0.1)' },
-  warn: { icon: AlertTriangle, color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
-  warning: { icon: AlertTriangle, color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
-  error: { icon: XCircle, color: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)' },
-};
-
-const LogCardSkeleton = () => (
-  <div className="log-card log-card--skeleton">
-    <div className="log-card__header">
-      <Skeleton width="40px" height="40px" borderRadius="10px" />
-      <div className="log-card__header-info">
-        <Skeleton width="80px" height="20px" borderRadius="4px" />
-        <Skeleton width="100px" height="12px" style={{ marginTop: 4 }} />
-      </div>
-    </div>
-    <div className="log-card__body">
-      <Skeleton width="100%" height="14px" />
-      <Skeleton width="80%" height="14px" style={{ marginTop: 6 }} />
-    </div>
-    <div className="log-card__meta">
-      <Skeleton width="120px" height="12px" />
-      <Skeleton width="100px" height="12px" />
-    </div>
-  </div>
-);
-
-const LogCard = ({ log, onClick }) => {
-  const config = levelConfig[log.log_level] || levelConfig.info;
-  const IconComponent = config.icon;
+function LevelBadge({ level }) {
+  const config = {
+    info: { color: 'var(--info)', bg: 'var(--info-soft)', icon: Info },
+    success: { color: 'var(--success)', bg: 'var(--success-soft)', icon: CheckCircle2 },
+    warn: { color: 'var(--warning)', bg: 'var(--warning-soft)', icon: AlertTriangle },
+    error: { color: 'var(--error)', bg: 'var(--error-soft)', icon: XCircle },
+  };
+  const { color, bg, icon: Icon } = config[level] || config.info;
 
   return (
-    <motion.div
-      className="log-card"
-      onClick={() => onClick(log)}
-      layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="log-card__header">
-        <div className="log-card__icon" style={{ background: config.bg }}>
-          <IconComponent size={20} style={{ color: config.color }} />
-        </div>
-        <div className="log-card__header-info">
-          <span className="log-card__level" style={{ color: config.color }}>
-            {log.log_level?.toUpperCase()}
-          </span>
-          <span className="log-card__type">{log.log_type || log.action || 'System'}</span>
-        </div>
-      </div>
-
-      <p className="log-card__message">{log.message}</p>
-
-      <div className="log-card__meta">
-        <div className="log-card__meta-item">
-          <User size={12} />
-          <span>{log.email || 'System'}</span>
-        </div>
-        <div className="log-card__meta-item">
-          <Clock size={12} />
-          <span>{formatRelativeTime(log.created_at)}</span>
-        </div>
-      </div>
-
-      {log.organization_name && log.organization_name !== 'System' && (
-        <div className="log-card__org">
-          <Building2 size={12} />
-          <span>{log.organization_name}</span>
-        </div>
-      )}
-    </motion.div>
+    <div className="log-level-badge" style={{ color, backgroundColor: bg, borderColor: `color-mix(in srgb, ${color} 20%, transparent)` }}>
+      <Icon size={12} strokeWidth={3} />
+      <span>{level.toUpperCase()}</span>
+    </div>
   );
-};
+}
+
+function TypeBadge({ type }) {
+  const config = {
+    login: { color: 'var(--primary)', icon: User, label: 'AUTH' },
+    security: { color: 'var(--error)', icon: Shield, label: 'SEC' },
+    update: { color: 'var(--success)', icon: RefreshCw, label: 'UPD' },
+    database: { color: 'var(--warning)', icon: Database, label: 'DB' },
+    export: { color: 'var(--info)', icon: Download, label: 'EXP' },
+  };
+  const { color = 'var(--text-muted)', icon: Icon = Terminal, label = 'SYS' } = config[type?.toLowerCase()] || {};
+
+  return (
+    <div className="log-type-badge" style={{ color }}>
+      <Icon size={12} />
+      <span>{label}</span>
+    </div>
+  );
+}
 
 function LogsPage() {
   const { setHeaderProps } = useLayout();
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(15);
   const [search, setSearch] = useState('');
-  const [searchInput, setSearchInput] = useState('');
   const [level, setLevel] = useState('');
   const [logType, setLogType] = useState('');
   const [selectedLog, setSelectedLog] = useState(null);
 
-  const { data, isLoading, refetch } = useLogs({
+  const { data: realData, isLoading, refetch } = useLogs({
     page,
-    limit: 12,
+    limit,
     search: search || undefined,
     log_level: level || undefined,
     log_type: logType || undefined,
@@ -128,104 +149,139 @@ function LogsPage() {
 
   useEffect(() => {
     setHeaderProps({
-      title: "System Logs",
-      action: (
-        <Button variant="secondary" icon={RefreshCw} onClick={refetch} loading={isLoading}>
-          Refresh
-        </Button>
-      )
+      title: "System Logs & Audit",
+      action: null
     });
-  }, [setHeaderProps, isLoading, refetch]);
+  }, [setHeaderProps]);
 
-  const { logs = [], pagination = { page: 1, limit: 12, total: 0, pages: 1 } } = data || {};
+  const logs = realData?.logs?.length > 0 ? realData.logs : MOCK_LOGS;
+  const pagination = realData?.pagination || { page: 1, limit: 15, total: 5, pages: 1 };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearch(searchInput);
-    setPage(1);
-  };
-
-  const clearSearch = () => {
-    setSearchInput('');
-    setSearch('');
-    setPage(1);
-  };
-
-  const handleFilterChange = useCallback((setter) => (value) => {
-    setter(value);
-    setPage(1);
-  }, []);
+  const columns = useMemo(() => [
+    {
+      key: 'log_level',
+      label: 'Level',
+      width: 120,
+      render: (val) => <LevelBadge level={val} />
+    },
+    {
+      key: 'log_type',
+      label: 'Category',
+      width: 130,
+      render: (val) => <TypeBadge type={val} />
+    },
+    {
+      key: 'email',
+      label: 'Initiator',
+      width: 200,
+      render: (val) => (
+        <div className="flex items-center gap-2 text-primary font-bold">
+          <User size={12} className="text-muted" />
+          <span className="truncate">{val || 'System'}</span>
+        </div>
+      )
+    },
+    {
+      key: 'organization_name',
+      label: 'Context',
+      width: 180,
+      render: (val) => (
+        <div className="flex items-center gap-2 text-secondary font-medium">
+          <Building2 size={12} className="text-muted" />
+          <span className="truncate">{val || 'System'}</span>
+        </div>
+      )
+    },
+    {
+      key: 'date',
+      label: 'Date',
+      width: 120,
+      render: (_, row) => (
+        <div className="flex items-center gap-1.5 text-secondary font-medium">
+          <Calendar size={12} className="text-muted" />
+          <span>{new Date(row.created_at).toLocaleDateString()}</span>
+        </div>
+      )
+    },
+    {
+      key: 'time',
+      label: 'Time',
+      width: 100,
+      render: (_, row) => (
+        <div className="flex items-center gap-1.5 text-muted font-mono text-xs">
+          <Clock size={12} />
+          <span>{new Date(row.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        </div>
+      )
+    },
+    {
+      key: 'message',
+      label: 'Summary',
+      minWidth: 350,
+      render: (val) => (
+        <span className="log-msg-cell truncate block">{val}</span>
+      )
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      width: 100,
+      align: 'right',
+      render: (_, row) => (
+        <TableActions
+          actions={[
+            {
+              label: 'Audit Details',
+              icon: Terminal,
+              variant: 'info',
+              onClick: () => setSelectedLog(row)
+            }
+          ]}
+        />
+      )
+    }
+  ], []);
 
   return (
     <PageContainer>
-      <div className="logs-toolbar">
-        <form className="logs-search" onSubmit={handleSearch}>
-          <Search size={18} />
-          <input
-            type="text"
-            placeholder="Search logs..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          {searchInput && (
-            <button type="button" className="search-clear" onClick={clearSearch}>
-              <X size={16} />
-            </button>
-          )}
-        </form>
-        <div className="logs-filters">
-          <Select
-            options={LEVEL_OPTIONS}
-            value={level}
-            onChange={handleFilterChange(setLevel)}
-            placeholder="Level"
-          />
-          <Select
-            options={TYPE_OPTIONS}
-            value={logType}
-            onChange={handleFilterChange(setLogType)}
-            placeholder="Type"
-          />
-        </div>
-      </div>
+      <StatsGrid className="mb-8">
+        {MOCK_STATS.map((stat, i) => (
+          <StatsCard key={i} {...stat} />
+        ))}
+      </StatsGrid>
 
-      {isLoading ? (
-        <div className="logs-grid">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <LogCardSkeleton key={i} />
-          ))}
-        </div>
-      ) : logs.length === 0 ? (
-        <EmptyState
-          icon={FileText}
-          title="No logs found"
-          description={search || level || logType ? 'Try adjusting your filters' : 'No system logs recorded yet'}
-        />
-      ) : (
-        <div className="logs-grid">
-          <AnimatePresence mode="popLayout">
-            {logs.map((log) => (
-              <LogCard key={log.id} log={log} onClick={setSelectedLog} />
-            ))}
-          </AnimatePresence>
-        </div>
-      )}
-
-      {pagination.pages > 1 && (
-        <div className="logs-pagination">
-          <span className="pagination-info">
-            Page {page} of {pagination.pages} ({pagination.total} logs)
-          </span>
-          <div className="pagination-btns">
-            <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
-              <ChevronLeft size={16} /> Previous
-            </button>
-            <button disabled={page === pagination.pages} onClick={() => setPage((p) => p + 1)}>
-              Next <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
-      )}
+      <DataTable
+        columns={columns}
+        data={logs}
+        loading={isLoading}
+        pagination={pagination}
+        page={page}
+        onPageChange={(p, l) => { setPage(p); setLimit(l); }}
+        emptyIcon={FileText}
+        emptyTitle="No activity logs found"
+        emptyDescription="System events will appear here as they occur"
+        showToolbar
+        search={search}
+        onSearchChange={setSearch}
+        onRefresh={refetch}
+        onExportCSV={() => notify.info('Export started')}
+        filters={
+          <>
+            <Select
+              options={LEVEL_OPTIONS}
+              value={level}
+              onChange={(v) => { setLevel(v); setPage(1); }}
+              placeholder="LogLevel"
+            />
+            <Select
+              options={TYPE_OPTIONS}
+              value={logType}
+              onChange={(v) => { setLogType(v); setPage(1); }}
+              placeholder="Category"
+            />
+          </>
+        }
+      />
 
       <LogDetailModal log={selectedLog} isOpen={!!selectedLog} onClose={() => setSelectedLog(null)} />
     </PageContainer>

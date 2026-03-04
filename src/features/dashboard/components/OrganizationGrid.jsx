@@ -1,17 +1,9 @@
-import { motion } from "framer-motion";
 import { Building2, Users, FolderKanban } from "lucide-react";
 import { CardSkeleton } from "@components/ui/Card/Card";
 
-const smooth = { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] };
-
 const OrganizationGrid = ({ loading, organizations, onOrgClick }) => {
     return (
-        <motion.div
-            className="card-pro"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...smooth, delay: 0.2 }}
-        >
+        <div className="card-pro">
             <div className="card-pro__header">
                 <div className="card-pro__header-left">
                     <div className="card-pro__icon">
@@ -28,13 +20,9 @@ const OrganizationGrid = ({ loading, organizations, onOrgClick }) => {
                 ) : (
                     <div className="orgs-grid">
                         {organizations.map((org, i) => (
-                            <motion.div
+                            <div
                                 key={org.id}
-                                className="org-card"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ ...smooth, delay: 0.3 + i * 0.08 }}
-                                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                                className="org-card hover:translate-y-[-4px] transition-all duration-200 cursor-pointer"
                                 onClick={() => onOrgClick(org.id)}
                             >
                                 <div className="org-card__header">
@@ -68,21 +56,19 @@ const OrganizationGrid = ({ loading, organizations, onOrgClick }) => {
                                             <span>{org.storageUsage}%</span>
                                         </div>
                                         <div className="org-progress__bar">
-                                            <motion.div
-                                                className="org-progress__fill"
-                                                initial={{ width: 0 }}
-                                                animate={{ width: `${org.storageUsage}%` }}
-                                                transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
+                                            <div
+                                                className="org-progress__fill transition-all duration-1000"
+                                                style={{ width: `${org.storageUsage}%` }}
                                             />
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 )}
             </div>
-        </motion.div>
+        </div>
     );
 };
 

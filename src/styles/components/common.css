@@ -130,30 +130,6 @@
     color: var(--text-secondary);
 }
 
-.tier-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: var(--radius-full);
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: capitalize;
-}
-
-.tier-badge--basic {
-    background: var(--bg-base);
-    color: var(--text-secondary);
-}
-
-.tier-badge--professional {
-    background: rgba(var(--primary-rgb), 0.1);
-    color: var(--primary);
-}
-
-.tier-badge--enterprise {
-    background: rgba(var(--primary-rgb), 0.1);
-    color: var(--primary);
-}
-
 .status-toggle {
     padding: 6px 12px;
     border-radius: var(--radius-md);

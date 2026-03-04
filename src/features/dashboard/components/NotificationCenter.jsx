@@ -1,17 +1,10 @@
-import { motion } from "framer-motion";
 import { Bell, ArrowRight, Clock, Activity } from "lucide-react";
 import { CardSkeleton } from "@components/ui/Card/Card";
 import { formatDate } from "@utils/format";
 
-const smooth = { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] };
-
-const ActivityItem = ({ icon: Icon, title, subtitle, time, status, delay = 0 }) => (
-    <motion.div
-        className="activity-pro"
-        initial={{ opacity: 0, x: -15 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ ...smooth, delay }}
-        whileHover={{ x: 3, transition: { duration: 0.15 } }}
+const ActivityItem = ({ icon: Icon, title, subtitle, time, status }) => (
+    <div
+        className="activity-pro hover:translate-x-[3px] transition-all duration-200"
     >
         <div className={`activity-pro__icon ${status}`}>
             <Icon size={15} strokeWidth={2.5} />
@@ -24,17 +17,12 @@ const ActivityItem = ({ icon: Icon, title, subtitle, time, status, delay = 0 }) 
             <Clock size={10} />
             <span>{time}</span>
         </div>
-    </motion.div>
+    </div>
 );
 
 const NotificationCenter = ({ loading, notifications, onNavigate, onViewAll }) => {
     return (
-        <motion.div
-            className="card-pro"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...smooth, delay: 0.6 }}
-        >
+        <div className="card-pro">
             <div className="card-pro__header">
                 <div className="card-pro__header-left">
                     <div className="card-pro__icon">
@@ -43,14 +31,13 @@ const NotificationCenter = ({ loading, notifications, onNavigate, onViewAll }) =
                     <h3>Recent Notifications</h3>
                 </div>
                 {notifications.length > 0 && !loading && (
-                    <motion.button
-                        className="btn-text-only"
+                    <button
+                        className="btn-text-only hover:translate-x-[2px] transition-all duration-200"
                         onClick={onViewAll}
-                        whileHover={{ x: 2 }}
                     >
                         <span>View All</span>
                         <ArrowRight size={14} />
-                    </motion.button>
+                    </button>
                 )}
             </div>
             <div className="card-pro__content no-padding">
@@ -73,13 +60,12 @@ const NotificationCenter = ({ loading, notifications, onNavigate, onViewAll }) =
                                 subtitle={notif.type.replace(/_/g, " ")}
                                 time={formatDate(notif.created_at, { month: "short", day: "numeric" })}
                                 status={notif.is_read ? "read" : "unread"}
-                                delay={i * 0.05}
                             />
                         ))}
                     </div>
                 )}
             </div>
-        </motion.div>
+        </div>
     );
 };
 

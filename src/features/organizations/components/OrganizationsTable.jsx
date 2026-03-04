@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Building2, Users, FolderKanban, Calendar } from 'lucide-react';
 import { ConfirmModal } from '@components/ui';
 import { DataTable, StatusBadge, TableActions, Select } from '@components/common';
-import { useEnableOrganization, useDeleteOrganization } from '../../hooks/';
+import { useEnableOrganization, useDeleteOrganization, useUpdateOrganization } from '../../hooks/';
 import { formatDate } from '@utils/format';
 import { exportToCSV, exportToPDF } from '@utils/exportService';
 import { DisableOrgModal } from './OrgModals';
@@ -23,6 +23,42 @@ const TIER_OPTIONS = [
   { value: 'professional', label: 'Professional' },
   { value: 'enterprise', label: 'Enterprise' },
 ];
+
+const StatusDropdown = ({ value, onChange, disabled }) => {
+  const options = useMemo(() => [
+    { value: 'active', label: 'Active', variant: 'success' },
+    { value: 'pending', label: 'Pending', variant: 'warning' },
+    { value: 'disabled', label: 'Disabled', variant: 'danger' },
+  ], []);
+
+  const current = options.find(o => o.value === value) || options[0];
+
+  return (
+    <div className="status-dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
+      <Select
+        options={options}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        className={`status-select status-select--${current.variant}`}
+        size="sm"
+        fullWidth={false}
+        renderOption={(option) => (
+          <div className={`status-option status-option--${option.variant}`}>
+            <span className="status-option__dot" />
+            <span>{option.label}</span>
+          </div>
+        )}
+        renderValue={() => (
+          <div className={`status-trigger status-trigger--${current.variant}`}>
+            <span className="status-trigger__dot" />
+            <span>{current.label}</span>
+          </div>
+        )}
+      />
+    </div>
+  );
+};
 
 export default function OrganizationsTable({
   data,
@@ -46,8 +82,42 @@ export default function OrganizationsTable({
 
   const { mutate: enableOrg } = useEnableOrganization();
   const { mutate: deleteOrg } = useDeleteOrganization();
+  const { mutate: updateOrg } = useUpdateOrganization();
 
   const organizations = data || [];
+
+  const handleStatusChange = useCallback((org, newStatus) => {
+    if (newStatus === org.status) return;
+
+    if (newStatus === 'disabled') {
+      setSelectedOrg(org);
+      setDisableModalOpen(true);
+      return;
+    }
+
+    if (newStatus === 'active' && org.status === 'disabled') {
+      setModalConfig({ type: 'enable', data: org, isOpen: true });
+      return;
+    }
+
+    // Direct update for other cases (e.g., active -> pending)
+    notify.promise(
+      new Promise((resolve, reject) => {
+        updateOrg(
+          { id: org.id, data: { status: newStatus } },
+          {
+            onSuccess: () => { refetch(); resolve(); },
+            onError: reject,
+          }
+        );
+      }),
+      {
+        loading: 'Updating status...',
+        success: 'Status updated successfully',
+        error: 'Failed to update status',
+      }
+    );
+  }, [updateOrg, refetch]);
 
   const columns = useMemo(() => [
     {
@@ -74,7 +144,7 @@ export default function OrganizationsTable({
           <div className="org-cell__info">
             <span className="org-cell__name">{org.name}</span>
             <span className="org-cell__meta">
-              <span className="org-cell__id">#{org.id}</span>
+              <span className="org-cell__id">#{org.org_code || org.id}</span>
               <span className="org-cell__dot" />
               <span className="org-cell__email">{org.email || 'no-email@nexo.com'}</span>
             </span>
@@ -96,9 +166,14 @@ export default function OrganizationsTable({
     {
       key: 'status',
       label: 'Status',
-      width: 120,
+      width: 180,
       sortable: true,
-      render: (val) => <StatusBadge status={val} />,
+      render: (val, row) => (
+        <StatusDropdown
+          value={val}
+          onChange={(newStatus) => handleStatusChange(row, newStatus)}
+        />
+      ),
     },
     {
       key: 'users_count',
@@ -139,8 +214,8 @@ export default function OrganizationsTable({
     {
       key: 'actions',
       label: 'Actions',
-      width: 180,
-      align: 'center',
+      width: 240,
+      align: 'right',
       render: (_, row) => (
         <TableActions
           onView={() => navigate(`/organizations/${row.id}`)}
@@ -159,7 +234,7 @@ export default function OrganizationsTable({
         />
       ),
     },
-  ], [navigate]);
+  ], [navigate, handleStatusChange]);
 
   const handleExportCSV = useCallback(() => {
     exportToCSV(organizations, columns.filter((c) => c.key !== 'actions'), 'organizations_export');

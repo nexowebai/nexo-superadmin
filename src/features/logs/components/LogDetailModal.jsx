@@ -1,46 +1,32 @@
 import {
-  Mail,
-  Shield,
-  Building2,
-  Clock,
-  Server,
-  AlertCircle,
-  Calendar,
-  Lock,
-  X,
+  Mail, Shield, Building2, Clock, Server, AlertCircle, Calendar, Lock, X, Terminal,
+  Activity, Hash, Globe, User
 } from "lucide-react";
 import {
-  Modal,
-  ModalHeader,
-  ModalTitle,
-  ModalBody,
-  ModalFooter,
+  Modal, ModalHeader, ModalTitle, ModalBody
 } from "@components/ui/Modal";
 import Button from "@components/ui/Button";
-import { formatDateTime } from "@utils/format";
+import notify from "@utils/notify";
+import { cn } from "@lib/cn";
 import "./LogDetailModal.css";
 
 const levelConfig = {
-  info: { color: "#3b82f6", bg: "rgba(59, 130, 246, 0.1)", icon: "ℹ️" },
-  success: { color: "#22c55e", bg: "rgba(34, 197, 94, 0.1)", icon: "✓" },
-  warn: { color: "#f59e0b", bg: "rgba(245, 158, 11, 0.1)", icon: "⚠" },
-  warning: { color: "#f59e0b", bg: "rgba(245, 158, 11, 0.1)", icon: "⚠" },
-  error: { color: "#ef4444", bg: "rgba(239, 68, 68, 0.1)", icon: "✕" },
+  info: { color: "var(--info)", bg: "var(--info-soft)", icon: Terminal, label: "Information" },
+  success: { color: "var(--success)", bg: "var(--success-soft)", icon: Activity, label: "Success" },
+  warn: { color: "var(--warning)", bg: "var(--warning-soft)", icon: AlertCircle, label: "Warning" },
+  warning: { color: "var(--warning)", bg: "var(--warning-soft)", icon: AlertCircle, label: "Warning" },
+  error: { color: "var(--error)", bg: "var(--error-soft)", icon: Shield, label: "Critical" },
 };
 
-const DetailRow = ({ icon: Icon, label, value, fullWidth = false }) => {
+const DetailItem = ({ icon: Icon, label, value, mono = false }) => {
   if (!value) return null;
   return (
-    <div
-      className={`log-detail-row ${fullWidth ? "log-detail-row--full" : ""}`}
-    >
-      <div className="log-detail-row__icon">
-        <Icon size={16} />
+    <div className="log-audit-item">
+      <div className="log-audit-item__label">
+        <Icon size={14} />
+        <span>{label}</span>
       </div>
-      <div className="log-detail-row__content">
-        <span className="log-detail-row__label">{label}</span>
-        <span className="log-detail-row__value">{value}</span>
-      </div>
+      <div className={cn("log-audit-item__value", mono && "font-mono text-xs")}>{value}</div>
     </div>
   );
 };
@@ -49,113 +35,93 @@ function LogDetailModal({ log, isOpen, onClose }) {
   if (!log) return null;
 
   const config = levelConfig[log.log_level] || levelConfig.info;
+  const SeverityIcon = config.icon;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalHeader>
-        <div className="log-modal-header">
-          <div
-            className="log-modal-badge"
-            style={{ background: config.bg, color: config.color }}
-          >
-            <span className="log-modal-badge__icon">{config.icon}</span>
-            <span className="log-modal-badge__text">
-              {log.log_level?.toUpperCase()}
-            </span>
+        <div className="log-audit-header">
+          <div className="log-audit-badge" style={{ backgroundColor: config.bg, color: config.color, border: `1px solid color-mix(in srgb, ${config.color}, transparent 80%)` }}>
+            <SeverityIcon size={16} strokeWidth={3} />
+            <span>{config.label?.toUpperCase()}</span>
           </div>
-          <div className="log-modal-meta">
-            <ModalTitle>System Log Details</ModalTitle>
-            <p className="log-modal-type">
-              {log.log_type || log.action || "General"}
-            </p>
+          <div className="log-audit-title-group">
+            <ModalTitle>System Audit Trace</ModalTitle>
+            <div className="log-audit-subtitle">
+              <Hash size={12} />
+              <span>Reference: {log.id}</span>
+            </div>
           </div>
         </div>
       </ModalHeader>
 
       <ModalBody>
-        <div className="log-modal-section">
-          <h4 className="log-modal-section__title">Message</h4>
-          <div className="log-modal-message">
-            <p>{log.message}</p>
-          </div>
-        </div>
-
-        <div className="log-modal-section">
-          <h4 className="log-modal-section__title">User Information</h4>
-          <div className="log-detail-grid">
-            <DetailRow icon={Mail} label="Email" value={log.email} />
-            <DetailRow icon={Shield} label="Role" value={log.user_role} />
-          </div>
-        </div>
-
-        {(log.organization_name || log.ip_address) && (
-          <div className="log-modal-section">
-            <h4 className="log-modal-section__title">System Information</h4>
-            <div className="log-detail-grid">
-              {log.organization_name && (
-                <DetailRow
-                  icon={Building2}
-                  label="Organization"
-                  value={log.organization_name}
-                />
-              )}
-              {log.ip_address && (
-                <DetailRow
-                  icon={Server}
-                  label="IP Address"
-                  value={
-                    log.ip_address === "::1" ? "localhost" : log.ip_address
-                  }
-                />
-              )}
-            </div>
-          </div>
-        )}
-
-        <div className="log-modal-section">
-          <h4 className="log-modal-section__title">Activity Details</h4>
-          <div className="log-detail-grid">
-            {log.status && (
-              <DetailRow icon={AlertCircle} label="Status" value={log.status} />
-            )}
-            <DetailRow
-              icon={Calendar}
-              label="Timestamp"
-              value={formatDateTime(log.created_at)}
-            />
-          </div>
-        </div>
-
-        {log.temp_password && (
-          <div className="log-modal-section">
-            <div className="log-modal-alert">
-              <div className="log-modal-alert__header">
-                <Lock size={18} />
-                <h4>Temporary Password</h4>
+        <div className="log-audit-content">
+          <div className="log-audit-summary-card" style={{ borderLeftColor: config.color }}>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="p-2 rounded-lg bg-white/10 shadow-sm border border-black/5">
+                <Terminal size={18} className="text-primary" />
               </div>
-              <code className="log-modal-code">{log.temp_password}</code>
-              <p className="log-modal-alert__note">
-                This password should be changed immediately after first login
-              </p>
+              <h4 className="text-sm font-bold uppercase tracking-wider text-secondary">Activity Summary</h4>
             </div>
+            <p className="log-audit-message-text">{log.message}</p>
           </div>
-        )}
 
-        {log.description && (
-          <div className="log-modal-section">
-            <h4 className="log-modal-section__title">Additional Description</h4>
-            <div className="log-modal-description">
-              <p>{log.description}</p>
+          <div className="log-audit-main-grid">
+            <div className="log-audit-card">
+              <div className="log-audit-card-header">
+                <User size={14} className="text-primary" />
+                <span>Initiator Details</span>
+              </div>
+              <div className="log-audit-card-body">
+                <DetailItem icon={Mail} label="Email Address" value={log.email} />
+                <DetailItem icon={Shield} label="Account Role" value={log.user_role || 'Super Admin'} />
+                <DetailItem icon={Building2} label="Organization" value={log.organization_name || 'System Central'} />
+              </div>
+            </div>
+
+            <div className="log-audit-card">
+              <div className="log-audit-card-header">
+                <Globe size={14} className="text-primary" />
+                <span>Network & Time</span>
+              </div>
+              <div className="log-audit-card-body">
+                <DetailItem icon={Server} label="Source IP" value={log.ip_address === "::1" ? "127.0.0.1 (Local)" : log.ip_address} mono />
+                <DetailItem icon={Calendar} label="Incident Date" value={new Date(log.created_at).toLocaleDateString(undefined, { dateStyle: 'long' })} />
+                <DetailItem icon={Clock} label="Exact Time" value={new Date(log.created_at).toLocaleTimeString([], { hour12: true })} mono />
+              </div>
             </div>
           </div>
-        )}
+
+          {log.temp_password && (
+            <div className="log-audit-security-notice">
+              <div className="notice-icon">
+                <Lock size={24} />
+              </div>
+              <div className="notice-content">
+                <h5 className="font-bold text-lg mb-1">Temporary Credential Issued</h5>
+                <div className="flex items-center gap-3 mt-3">
+                  <code className="log-audit-password-box">{log.temp_password}</code>
+                  <Button variant="ghost" size="sm" className="h-10 px-4" onClick={() => {
+                    navigator.clipboard.writeText(log.temp_password);
+                    notify.success("Copied to clipboard");
+                  }}>Copy</Button>
+                </div>
+                <p className="text-xs opacity-60 mt-4 flex items-center gap-2">
+                  <AlertCircle size={12} />
+                  Sensitive data. Access is logged.
+                </p>
+              </div>
+            </div>
+          )}
+
+          <div className="log-audit-footer-actions">
+            <Button variant="secondary" onClick={onClose} className="px-10 h-[52px] min-w-[160px] font-bold">
+              Dismiss Trace
+            </Button>
+          </div>
+        </div>
       </ModalBody>
-
-      <ModalFooter>
-        <Button variant="secondary" icon={X} onClick={onClose}>
-          Close
-        </Button>
-      </ModalFooter>
     </Modal>
   );
 }

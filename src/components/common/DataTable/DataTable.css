@@ -31,35 +31,6 @@
   flex-shrink: 0;
 }
 
-.toolbar-search-pro {
-  max-width: 400px;
-  width: 100%;
-}
-
-.toolbar-search:focus-within {
-  border-color: var(--primary);
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-.toolbar-search svg {
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-
-.toolbar-search input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: var(--text-primary);
-  font-size: var(--text-sm);
-  outline: none;
-}
-
-.toolbar-search input::placeholder {
-  color: var(--text-muted);
-}
-
 .search-clear {
   display: flex;
   align-items: center;
@@ -94,72 +65,75 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-base);
   background: var(--bg-surface);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all var(--transition-fast) var(--ease-out);
+  transition: all var(--transition-normal);
 }
 
 .toolbar-btn:hover {
+  transform: translateY(-2px);
   border-color: var(--border-strong);
   color: var(--text-primary);
+  box-shadow: var(--shadow-md);
 }
 
 .toolbar-btn--csv {
   background: var(--success-soft);
   color: var(--success);
-  border-color: var(--success);
 }
 
 .toolbar-btn--csv:hover {
   background: var(--success);
   color: white;
+  border-color: var(--success);
 }
 
 .toolbar-btn--pdf {
   background: var(--error-soft);
   color: var(--error);
-  border-color: var(--error);
 }
 
 .toolbar-btn--pdf:hover {
   background: var(--error);
   color: white;
+  border-color: var(--error);
 }
 
 .toolbar-btn--print {
   background: var(--info-soft);
   color: var(--info);
-  border-color: var(--info);
 }
 
 .toolbar-btn--print:hover {
   background: var(--info);
   color: white;
+  border-color: var(--info);
 }
 
 .toolbar-refresh {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-base);
   background: var(--bg-surface);
   color: var(--text-muted);
   cursor: pointer;
-  transition: all var(--transition-fast) var(--ease-out);
+  transition: all var(--transition-normal);
 }
 
 .toolbar-refresh:hover:not(:disabled) {
   background: var(--bg-elevated);
   color: var(--text-primary);
   border-color: var(--border-strong);
+  transform: translateY(-2px);
 }
 
 .toolbar-refresh:disabled {
@@ -333,7 +307,6 @@
 /* ===== TABLE ROWS ===== */
 .dt-row {
   transition: background var(--transition-fast) var(--ease-out);
-  background: var(--bg-surface);
 }
 
 .dt-row:hover {
@@ -409,35 +382,56 @@
 }
 
 .dt-action-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-.dt-action-view {
+.dt-action-view,
+.dt-action-success {
   background: var(--success-soft);
   color: var(--success);
+  border-color: var(--success);
 }
 
-.dt-action-view:hover {
+.dt-action-view:hover,
+.dt-action-success:hover {
   background: var(--success);
   color: white;
 }
 
-.dt-action-edit {
+.dt-action-edit,
+.dt-action-info {
   background: var(--info-soft);
   color: var(--info);
+  border-color: var(--info);
 }
 
-.dt-action-edit:hover {
+.dt-action-edit:hover,
+.dt-action-info:hover {
   background: var(--info);
   color: white;
 }
 
-.dt-action-delete {
-  background: var(--error-soft);
-  color: var(--error);
+.dt-action-primary {
+  background: var(--primary-soft);
+  color: var(--brand-600);
+  border-color: var(--brand-600);
 }
 
-.dt-action-delete:hover {
+.dt-action-primary:hover {
+  background: var(--brand-600);
+  color: white;
+}
+
+.dt-action-delete,
+.dt-action-danger {
+  background: var(--error-soft);
+  color: var(--error);
+  border-color: var(--error);
+}
+
+.dt-action-delete:hover,
+.dt-action-danger:hover {
   background: var(--error);
   color: white;
 }
@@ -446,6 +440,7 @@
 .dt-action-warning {
   background: var(--warning-soft);
   color: var(--warning);
+  border-color: var(--warning);
 }
 
 .dt-action-power:hover,

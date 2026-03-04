@@ -124,24 +124,33 @@
     gap: var(--space-3);
 }
 
-/* Confirm / Alert */
+/* Confirm / Alert (Improved) */
 .ds-confirm-modal {
-    display: grid;
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
 }
 
 .ds-confirm-modal__icon {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-full);
-    margin: var(--space-4) auto var(--space-3);
+    margin: var(--space-4) 0 var(--space-6);
+    transition: transform var(--transition-normal) var(--ease-out);
+    border: 4px solid var(--border-dimmed);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.ds-confirm-modal:hover .ds-confirm-modal__icon {
+    transform: scale(1.08) rotate(5deg);
 }
 
 .ds-confirm-modal__header {
-    padding-top: 0;
+    padding: 0 var(--space-8) var(--space-8);
     text-align: center;
 }
 
@@ -149,27 +158,35 @@
     font-size: var(--text-xl);
     padding-right: 0;
     margin: 0;
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
 }
 
 .ds-confirm-modal__description {
     max-width: 340px;
-    margin: var(--space-2) auto 0;
+    margin: var(--space-3) auto 0;
+    line-height: 1.6;
+    color: var(--text-secondary);
 }
 
-.ds-confirm-modal__footer .ds-modal__footer-inner {
-    justify-content: center;
+.ds-confirm-modal__footer {
+    width: 100%;
+    padding: var(--space-5) var(--space-6);
+    border-top: 1px solid var(--border-base);
+    background: var(--bg-elevated);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
 .ds-confirm-modal__actions {
-    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3);
+    width: 100%;
 }
 
 .ds-confirm-modal__actions--single {
     grid-template-columns: 1fr;
-    max-width: 260px;
+    max-width: 280px;
     margin: 0 auto;
 }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Search, X, Command } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { cn } from '@lib/cn';
 import { useDebounce } from '@hooks/useDebounce';
 import './SearchBar.css';
@@ -10,7 +10,6 @@ function SearchBar({
     onSearch,
     value = '',
     onChange,
-    showShortcut = true,
     size = 'md',
     className,
     ...props
@@ -48,22 +47,24 @@ function SearchBar({
     const handleChange = (e) => {
         const newValue = e.target.value;
         setInputValue(newValue);
-        onChange?.(e);
+        onChange && onChange(e);
     };
 
     const handleClear = () => {
         setInputValue('');
-        onChange?.({ target: { value: '' } });
-        inputRef.current?.focus();
+        onChange && onChange({ target: { value: '' } });
+        inputRef.current && inputRef.current.focus();
     };
 
     return (
-        <div className={cn(
-            'ds-search',
-            `ds-search--${size}`,
-            isFocused && 'ds-search--focused',
-            className
-        )}>
+        <div
+            className={cn(
+                'ds-search',
+                `ds-search--${size}`,
+                isFocused && 'ds-search--focused',
+                className
+            )}
+        >
             <Search size={18} className="ds-search__icon" />
 
             <input
@@ -79,9 +80,10 @@ function SearchBar({
             />
 
             <AnimatePresence mode="wait">
-                {inputValue ? (
+                {inputValue && (
                     <motion.button
                         key="clear"
+                        type="button"
                         className="ds-search__clear"
                         onClick={handleClear}
                         initial={{ opacity: 0, scale: 0.8 }}
@@ -91,19 +93,7 @@ function SearchBar({
                     >
                         <X size={16} />
                     </motion.button>
-                ) : showShortcut ? (
-                    <motion.div
-                        key="shortcut"
-                        className="ds-search__shortcut"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                    >
-                        <Command size={12} />
-                        <span>K</span>
-                    </motion.div>
-                ) : null}
+                )}
             </AnimatePresence>
         </div>
     );

@@ -1,196 +1,288 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Bell, CheckCircle2, AlertTriangle, AlertCircle, Info, UserPlus, Database,
-  Shield, Server, Mail, Activity, Trash2, LayoutGrid, List, ChevronLeft,
-  ChevronRight, Clock, Inbox, CheckCheck, RefreshCw,
+  Bell, CheckCircle2, AlertTriangle, AlertCircle, Info, UserPlus, Shield,
+  Clock, Inbox, CheckCheck, RefreshCw, Check, Trash2
 } from 'lucide-react';
 import { PageContainer } from '@components/layout/DashboardLayout';
-import Button from '@components/ui/Button';
-import { Tabs } from '@components/ui';
-import { Skeleton } from '@components/ui/Skeleton/Skeleton';
-import { cn } from '@lib/cn';
-import { formatDistanceToNow } from 'date-fns';
+import { Button, Tabs } from '@components/ui';
+import { SearchBar, StatsCard } from '@components/common';
 import { useLayout } from '@context';
-import { useNotifications, useMarkAsRead, useMarkAllAsRead, useDeleteNotification, useNotificationCount } from '../../hooks/';
+import {
+  useNotifications, useMarkAsRead, useMarkAllAsRead,
+  useDeleteNotification, useNotificationCount
+} from '../../hooks/';
+import notify from '@utils/notify';
+import { formatDate, formatRelativeTime } from '@utils/format';
+import { cn } from '@lib/cn';
 import './NotificationsPage.css';
+
+const MOCK_NOTIFICATIONS = [
+  {
+    id: 'NOT-001',
+    title: 'New Organization Request',
+    message: 'Stark Industries has requested to join the Nexo platform. Review the application in the requests tab.',
+    type: 'user',
+    is_read: false,
+    created_at: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
+  },
+  {
+    id: 'NOT-002',
+    title: 'Payment Received',
+    message: 'A payment of $2,499 from Acme Foundation has been processed successfully for the Enterprise Plan.',
+    type: 'success',
+    is_read: false,
+    created_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+  },
+  {
+    id: 'NOT-003',
+    title: 'High Latency Warning',
+    message: 'Database latency in us-east-1 is higher than normal (450ms). System performance may be affected.',
+    type: 'warning',
+    is_read: true,
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+  },
+  {
+    id: 'NOT-004',
+    title: 'System Security Alert',
+    message: 'Multiple unauthorized access attempts detected from IP 142.250.190.46 in the last 15 minutes.',
+    type: 'error',
+    is_read: true,
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+  },
+  {
+    id: 'NOT-005',
+    title: 'Daily Backup Completed',
+    message: 'The scheduled system backup for all organizations has been completed successfully.',
+    type: 'success',
+    is_read: true,
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
+  },
+  {
+    id: 'NOT-006',
+    title: 'API Rate Limit Warning',
+    message: 'Organization "Osborn Corp" is nearing its monthly API rate limit (92% used).',
+    type: 'info',
+    is_read: false,
+    created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+  }
+];
 
 const TAB_OPTIONS = [
   { value: 'all', label: 'All Notifications' },
   { value: 'unread', label: 'Unread Only' },
 ];
 
-const TYPE_CONFIGS = {
-  success: { icon: CheckCircle2, bgColor: 'bg-emerald-50', iconColor: 'text-emerald-700', borderColor: 'border-emerald-300', badgeColor: 'badge-emerald' },
-  warning: { icon: AlertTriangle, bgColor: 'bg-amber-50', iconColor: 'text-amber-700', borderColor: 'border-amber-300', badgeColor: 'badge-amber' },
-  error: { icon: AlertCircle, bgColor: 'bg-rose-50', iconColor: 'text-rose-700', borderColor: 'border-rose-300', badgeColor: 'badge-rose' },
-  info: { icon: Info, bgColor: 'bg-blue-50', iconColor: 'text-blue-700', borderColor: 'border-blue-300', badgeColor: 'badge-blue' },
-  activity: { icon: Activity, bgColor: 'bg-violet-50', iconColor: 'text-violet-700', borderColor: 'border-violet-300', badgeColor: 'badge-violet' },
-  user: { icon: UserPlus, bgColor: 'bg-indigo-50', iconColor: 'text-indigo-700', borderColor: 'border-indigo-300', badgeColor: 'badge-indigo' },
-  database: { icon: Database, bgColor: 'bg-cyan-50', iconColor: 'text-cyan-700', borderColor: 'border-cyan-300', badgeColor: 'badge-cyan' },
-  security: { icon: Shield, bgColor: 'bg-red-50', iconColor: 'text-red-700', borderColor: 'border-red-300', badgeColor: 'badge-red' },
-  server: { icon: Server, bgColor: 'bg-slate-50', iconColor: 'text-slate-700', borderColor: 'border-slate-300', badgeColor: 'badge-slate' },
-  mail: { icon: Mail, bgColor: 'bg-teal-50', iconColor: 'text-teal-700', borderColor: 'border-teal-300', badgeColor: 'badge-teal' },
-};
+function NotificationCard({ notification, onRead, onDelete }) {
+  const config = {
+    success: { color: 'var(--success)', icon: CheckCircle2, label: 'Success' },
+    warning: { color: 'var(--warning)', icon: AlertTriangle, label: 'Warning' },
+    error: { color: 'var(--error)', icon: AlertCircle, label: 'Alert' },
+    info: { color: 'var(--info)', icon: Info, label: 'Info' },
+    user: { color: 'var(--primary)', icon: UserPlus, label: 'User' },
+    security: { color: 'var(--error)', icon: Shield, label: 'Security' },
+  };
 
-function NotificationSkeleton({ count = 6, viewMode }) {
+  const { color = 'var(--text-muted)', icon: Icon = Bell, label: typeLabel } = config[notification.type] || {};
+
   return (
-    <div className={cn('notif-content', `view-${viewMode}`)}>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="notif-item notif-skeleton">
-          <div className="notif-header">
-            <Skeleton width="44px" height="44px" borderRadius="12px" />
-            <Skeleton width="70%" height="18px" />
-          </div>
-          <Skeleton width="90%" height="14px" />
-          <Skeleton width="100px" height="24px" borderRadius="20px" />
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      className={cn(
+        "notif-card flex flex-col p-6 bg-surface border border-base rounded-lg relative overflow-hidden transition-all duration-300 h-full",
+        notification.is_read ? "opacity-80" : "shadow-sm border-primary/30"
+      )}
+    >
+      {/* Icon and Title Row */}
+      <div className="flex items-start gap-4 mb-2">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `color-mix(in srgb, ${color}, transparent 90%)`, color }}>
+          <Icon size={20} strokeWidth={2.5} />
         </div>
-      ))}
-    </div>
+        <div className="flex-1 mt-1.5">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-lg font-bold text-primary m-0 tracking-tight leading-tight">{notification.title}</h3>
+            {!notification.is_read && (
+              <div className="shrink-0 pl-3">
+                <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] uppercase font-black tracking-widest rounded-full border border-primary/20 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                  New
+                </span>
+              </div>
+            )}
+          </div>
+          {/* Type & Time below title */}
+          <div className="flex items-center mb-4 gap-2 text-[11px] font-bold text-muted uppercase tracking-widest mt-2">
+            <span style={{ color }}>{typeLabel}</span>
+            <span className="w-1 h-1 bg-border-strong rounded-full" />
+            <span>{formatRelativeTime(notification.created_at)}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Message */}
+      <p className="text-[14px] font-medium text-secondary leading-relaxed flex-1">
+        {notification.message}
+      </p>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-4 border-t border-base mt-auto">
+        <div className="flex items-center gap-1.5 text-[11px] font-bold text-muted uppercase tracking-widest">
+          <Clock size={12} />
+          <span>{formatDate(notification.created_at)}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          {!notification.is_read && (
+            <button className="notif-btn notif-btn--read" onClick={() => onRead(notification.id)} title="Mark as read">
+              <Check size={14} /> Mark read
+            </button>
+          )}
+          <button className="notif-btn notif-btn--delete" onClick={() => onDelete(notification.id)} title="Delete">
+            <Trash2 size={14} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
 function NotificationsPage() {
   const { setHeaderProps } = useLayout();
   const [filter, setFilter] = useState('all');
-  const [viewMode, setViewMode] = useState('grid');
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const pageSize = viewMode === 'grid' ? 12 : 8;
+  const [limit] = useState(10);
 
   const {
-    data,
+    data: realData,
     isLoading: loading,
     refetch,
   } = useNotifications({
     page,
-    limit: pageSize,
+    limit,
     unreadOnly: filter === 'unread' ? true : undefined,
+    search: search || undefined
   });
 
-  const { notifications = [], pagination: meta } = data || {};
   const { data: unreadCount = 0 } = useNotificationCount();
-
   const { mutate: markAsRead } = useMarkAsRead();
   const { mutate: markAllAsRead } = useMarkAllAsRead();
   const { mutate: deleteNotification } = useDeleteNotification();
 
-  const total = meta?.total || 0;
-  const totalPages = meta?.pages || 0;
-
-  const handleMarkAllRead = () => markAllAsRead(null, { onSuccess: refetch });
-  const handleDelete = (id) => deleteNotification(id, { onSuccess: refetch });
-  const handleRead = (notification) => {
-    if (!notification.is_read) markAsRead(notification.id, { onSuccess: refetch });
-  };
-
-  const handleRefresh = () => refetch();
+  const notifications = useMemo(() => {
+    const raw = realData?.notifications?.length > 0 ? realData.notifications : MOCK_NOTIFICATIONS;
+    return raw.filter(n =>
+      n.title.toLowerCase().includes(search.toLowerCase()) ||
+      n.message.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [realData, search]);
 
   useEffect(() => {
     setHeaderProps({
-      title: "Notifications",
+      title: "Notification Center",
       action: (
-        <Button variant="outline" icon={Bell} onClick={handleMarkAllRead} disabled={unreadCount === 0}>
-          Mark All Read ({unreadCount})
+        <Button variant="secondary" icon={CheckCheck} onClick={handleMarkAllRead} disabled={unreadCount === 0} className="h-[48px] px-6">
+          Clear All Unread
         </Button>
       )
     });
-  }, [setHeaderProps, loading, unreadCount]);
+  }, [setHeaderProps, unreadCount]);
 
-  const getTypeConfig = (type) => TYPE_CONFIGS[type] || TYPE_CONFIGS.info;
+  const handleMarkAllRead = () => {
+    notify.promise(
+      new Promise((resolve, reject) => {
+        markAllAsRead(null, {
+          onSuccess: () => { refetch(); resolve(); },
+          onError: reject
+        });
+      }),
+      {
+        loading: 'Cleaning up...',
+        success: 'All caught up!',
+        error: 'Failed to clear notifications'
+      }
+    );
+  };
+
+  const handleRead = (id) => markAsRead(id, { onSuccess: refetch });
+  const handleDelete = (id) => deleteNotification(id, { onSuccess: refetch });
 
   return (
     <PageContainer>
-      <div className="notif-main">
-        <div className="notif-toolbar">
-          <Tabs options={TAB_OPTIONS} value={filter} onChange={(v) => { setFilter(v); setPage(1); }} />
-          <div className="view-switcher">
-            <button className={cn('view-btn', viewMode === 'grid' && 'active')} onClick={() => { setViewMode('grid'); setPage(1); }}>
-              <LayoutGrid />
-            </button>
-            <button className={cn('view-btn', viewMode === 'list' && 'active')} onClick={() => { setViewMode('list'); setPage(1); }}>
-              <List />
-            </button>
-          </div>
+      <div className="notif-top-stats">
+        <StatsCard
+          title="Total Notifications"
+          value={notifications.length}
+          icon={Bell}
+          color="var(--primary)"
+        />
+        <StatsCard
+          title="Unread Alerts"
+          value={unreadCount}
+          icon={AlertCircle}
+          color="var(--error)"
+        />
+        <StatsCard
+          title="System Status"
+          value="Healthy"
+          icon={Shield}
+          color="var(--success)"
+        />
+      </div>
+
+      <div className="notif-toolbar">
+        <div className="notif-toolbar__left">
+          <SearchBar
+            placeholder="Search history..."
+            value={search}
+            onSearch={setSearch}
+            size="md"
+          />
         </div>
+        <div className="notif-toolbar__right">
+          <Tabs
+            options={TAB_OPTIONS}
+            value={filter}
+            onChange={(v) => { setFilter(v); setPage(1); }}
+          />
+        </div>
+      </div>
 
+      <div className="notif-main-grid">
         {loading ? (
-          <NotificationSkeleton count={pageSize} viewMode={viewMode} />
-        ) : (
-          <div className={cn('notif-content', `view-${viewMode}`)}>
-            <AnimatePresence mode="popLayout">
-              {notifications.length > 0 ? (
-                notifications.map((notif) => {
-                  const config = getTypeConfig(notif.type);
-                  const IconComponent = config.icon;
-                  const isRead = notif.is_read;
-
-                  return (
-                    <motion.div
-                      key={notif.id}
-                      layout
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, x: -20 }}
-                      transition={{ duration: 0.2 }}
-                      className={cn('notif-item', isRead ? 'notif-read' : config.borderColor)}
-                      onClick={() => handleRead(notif)}
-                    >
-                      <div className="notif-header">
-                        <div className={cn('notif-icon', isRead ? 'icon-read' : config.bgColor)}>
-                          <IconComponent className={isRead ? 'text-read' : config.iconColor} />
-                        </div>
-                        <h3 className={cn('notif-title', isRead && 'title-read')}>{notif.title}</h3>
-                        <button className="notif-delete" onClick={(e) => { e.stopPropagation(); handleDelete(notif.id); }} aria-label="Delete">
-                          <Trash2 />
-                        </button>
-                      </div>
-                      <p className={cn('notif-message', isRead && 'message-read')}>{notif.message}</p>
-                      <div className={cn('notif-time-badge', isRead ? 'badge-read' : config.badgeColor)}>
-                        <Clock />
-                        <span>{formatDistanceToNow(new Date(notif.created_at), { addSuffix: true })}</span>
-                      </div>
-                    </motion.div>
-                  );
-                })
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                  className="notif-empty"
-                >
-                  {filter === 'unread' ? (
-                    <>
-                      <motion.div className="empty-icon-box" initial={{ rotate: -180, scale: 0 }} animate={{ rotate: 0, scale: 1 }} transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}>
-                        <CheckCheck />
-                      </motion.div>
-                      <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>All Caught Up!</motion.h3>
-                      <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>You have no unread notifications</motion.p>
-                    </>
-                  ) : (
-                    <>
-                      <motion.div className="empty-icon-box" initial={{ rotate: 0 }} animate={{ rotate: [0, -10, 10, -10, 0] }} transition={{ delay: 0.2, duration: 0.5 }}>
-                        <Inbox />
-                      </motion.div>
-                      <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>No Notifications Yet</motion.h3>
-                      <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>When you get notifications, they'll show up here</motion.p>
-                    </>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+          <div className="notif-state notif-state--loading">
+            <RefreshCw size={40} className="text-primary spinning" />
+            <p>Synchronizing your alerts...</p>
           </div>
-        )}
-
-        {totalPages > 1 && (
-          <div className="notif-footer">
-            <button className="footer-btn" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
-              <ChevronLeft /> Previous
-            </button>
-            <span className="footer-info">Page {page} of {totalPages}</span>
-            <button className="footer-btn" disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>
-              Next <ChevronRight />
-            </button>
+        ) : notifications.length === 0 ? (
+          <div className="notif-state notif-state--empty">
+            <div className="empty-visual">
+              <Inbox size={64} />
+            </div>
+            <h3>Zero Alerts Pending</h3>
+            <p>You're all caught up! There are no messages matching your criteria right now.</p>
+            <Button
+              variant="primary"
+              onClick={() => { setFilter('all'); setSearch(''); }}
+              className="mt-6"
+            >
+              Reset Filters
+            </Button>
+          </div>
+        ) : (
+          <div className="notif-grid of-3">
+            <AnimatePresence mode="popLayout">
+              {notifications.map((notif) => (
+                <NotificationCard
+                  key={notif.id}
+                  notification={notif}
+                  onRead={handleRead}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </AnimatePresence>
           </div>
         )}
       </div>

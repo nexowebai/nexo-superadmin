@@ -169,15 +169,15 @@ export const Icons = {
 };
 
 export const ModalIcons = {
-    delete: { icon: Trash2, color: 'var(--ds-error-base)' },
-    logout: { icon: LogOut, color: 'var(--ds-error-base)' },
-    warning: { icon: AlertTriangle, color: 'var(--ds-warning-base)' },
-    success: { icon: CheckCircle, color: 'var(--ds-success-base)' },
-    error: { icon: XCircle, color: 'var(--ds-error-base)' },
-    info: { icon: Info, color: 'var(--ds-info-base)' },
-    confirm: { icon: CheckCircle, color: 'var(--ds-brand-500)' },
-    security: { icon: ShieldAlert, color: 'var(--ds-warning-base)' },
-    power: { icon: Power, color: 'var(--ds-error-base)' },
+    delete: { icon: Trash2, color: 'var(--error)' },
+    logout: { icon: LogOut, color: 'var(--error)' },
+    warning: { icon: AlertTriangle, color: 'var(--warning)' },
+    success: { icon: CheckCircle, color: 'var(--success)' },
+    error: { icon: XCircle, color: 'var(--error)' },
+    info: { icon: Info, color: 'var(--info)' },
+    confirm: { icon: CheckCircle, color: 'var(--primary)' },
+    security: { icon: ShieldAlert, color: 'var(--warning)' },
+    power: { icon: Power, color: 'var(--error)' },
 };
 
 export default Icons;

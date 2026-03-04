@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { BarChart3, Activity, TrendingUp } from "lucide-react";
 import {
     BarChart,
@@ -15,17 +14,10 @@ import {
 import { CardSkeleton } from "@components/ui/Card/Card";
 import { formatNumber } from "@utils/format";
 
-const smooth = { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] };
-
 function CustomTooltip({ active, payload, label }) {
     if (!active || !payload?.length) return null;
     return (
-        <motion.div
-            className="tooltip-pro"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.15 }}
-        >
+        <div className="tooltip-pro transition-all">
             <div className="tooltip-pro__label">{label}</div>
             {payload.map((entry, i) => (
                 <div key={i} className="tooltip-pro__item">
@@ -37,7 +29,7 @@ function CustomTooltip({ active, payload, label }) {
                     <strong>{formatNumber(entry.value)}</strong>
                 </div>
             ))}
-        </motion.div>
+        </div>
     );
 }
 
@@ -45,12 +37,7 @@ const DistributionCharts = ({ loading, barData, pieData, colors, isDark, onlyBar
     return (
         <>
             {(!onlyPie || !onlyBar) && !onlyPie && (
-                <motion.div
-                    className="card-pro"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ ...smooth, delay: 0.5 }}
-                >
+                <div className="card-pro">
                     <div className="card-pro__header">
                         <div className="card-pro__header-left">
                             <div className="card-pro__icon">
@@ -85,16 +72,11 @@ const DistributionCharts = ({ loading, barData, pieData, colors, isDark, onlyBar
                             </ResponsiveContainer>
                         )}
                     </div>
-                </motion.div>
+                </div>
             )}
 
             {(!onlyBar || !onlyPie) && !onlyBar && (
-                <motion.div
-                    className="card-pro"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ ...smooth, delay: 0.3 }}
-                >
+                <div className="card-pro">
                     <div className="card-pro__header">
                         <div className="card-pro__header-left">
                             <div className="card-pro__icon">
@@ -143,24 +125,21 @@ const DistributionCharts = ({ loading, barData, pieData, colors, isDark, onlyBar
                             </ResponsiveContainer>
                             <div className="legend-list">
                                 {pieData.map((item, i) => (
-                                    <motion.div
+                                    <div
                                         key={i}
                                         className="legend-row"
-                                        initial={{ opacity: 0, x: -8 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ ...smooth, delay: 0.4 + i * 0.06 }}
                                     >
                                         <div className="legend-row__left">
                                             <span className="legend-dot" style={{ background: item.color }} />
                                             <span className="legend-name">{item.name}</span>
                                         </div>
                                         <span className="legend-val">{item.value}</span>
-                                    </motion.div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
                     )}
-                </motion.div>
+                </div>
             )}
         </>
     );

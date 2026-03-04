@@ -1,26 +1,20 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
-    CreditCard, DollarSign, TrendingUp, Receipt, Search, Filter,
-    Download, Eye, CheckCircle2, Clock, XCircle, Building2,
-    Calendar, ChevronDown, ArrowUpRight, ArrowDownRight, RefreshCw
+    CreditCard, DollarSign, TrendingUp, Receipt, Download, Eye,
+    Building2, Calendar, RefreshCw, Clock, XCircle, CheckCircle2,
+    Filter, FileText, ArrowUpRight, ArrowDownRight
 } from 'lucide-react';
 import { useLayout } from '@context';
 import { PageContainer } from '@components/layout/DashboardLayout';
-import Button from '@components/ui/Button';
-import { StatusBadge, EmptyState, Select } from '@components/common';
-import { Card, CardHeader, CardTitle, CardContent } from '@components/ui/Card';
-import { Modal, ModalHeader, ModalTitle, ModalBody } from '@components/ui/Modal';
-import { Skeleton } from '@components/ui/Skeleton/Skeleton';
+import { DataTable, StatusBadge, TableActions, Select, SearchBar, StatsCard, StatsGrid } from '@components/common';
+import { Modal, ModalHeader, ModalTitle, ModalBody, Button } from '@components/ui';
 import { formatCurrency, formatDate } from '@utils/format';
 import notify from '@utils/notify';
 import './PaymentsPage.css';
 
-// Mock Data
 const MOCK_PAYMENTS = [
     {
         id: 'PAY-001',
-        organization_id: 'org_001',
         organization_name: 'Acme Foundation',
         org_code: 'ACM001',
         amount: 2499,
@@ -36,7 +30,6 @@ const MOCK_PAYMENTS = [
     },
     {
         id: 'PAY-002',
-        organization_id: 'org_002',
         organization_name: 'Global Health Initiative',
         org_code: 'GHI002',
         amount: 999,
@@ -51,7 +44,6 @@ const MOCK_PAYMENTS = [
     },
     {
         id: 'PAY-003',
-        organization_id: 'org_003',
         organization_name: 'EduTech Solutions',
         org_code: 'ETS003',
         amount: 99,
@@ -65,7 +57,6 @@ const MOCK_PAYMENTS = [
     },
     {
         id: 'PAY-004',
-        organization_id: 'org_004',
         organization_name: 'Research Labs Inc',
         org_code: 'RLI004',
         amount: 249,
@@ -81,20 +72,18 @@ const MOCK_PAYMENTS = [
     },
 ];
 
-const MOCK_STATS = {
-    total_revenue: 125680,
-    monthly_revenue: 15420,
-    pending_payments: 3850,
-    failed_payments: 1240,
-    growth_percent: 12.5,
-};
+const MOCK_STATS = [
+    { title: 'Total Revenue', value: '$125,680', icon: DollarSign, trend: 12.5, color: 'var(--primary)' },
+    { title: 'Active Subs', value: '1,420', icon: TrendingUp, trend: 8.4, color: 'var(--info)' },
+    { title: 'Pending', value: '$3,850', icon: Clock, trend: -2.1, color: 'var(--warning)' },
+    { title: 'Failed', value: '12', icon: XCircle, trend: 5.4, color: 'var(--error)' },
+];
 
 const STATUS_OPTIONS = [
     { value: '', label: 'All Status' },
     { value: 'completed', label: 'Completed' },
     { value: 'pending', label: 'Pending' },
     { value: 'failed', label: 'Failed' },
-    { value: 'refunded', label: 'Refunded' },
 ];
 
 const PLAN_OPTIONS = [
@@ -104,184 +93,62 @@ const PLAN_OPTIONS = [
     { value: 'enterprise', label: 'Enterprise' },
 ];
 
-// Stat Card Component
-function StatCard({ icon: Icon, label, value, subLabel, color = 'blue', trend, loading }) {
-    if (loading) {
-        return (
-            <div className="payment-stat-card">
-                <Skeleton width="48px" height="48px" borderRadius="12px" />
-                <div className="payment-stat-card__content">
-                    <Skeleton width="80px" height="28px" />
-                    <Skeleton width="60px" height="14px" style={{ marginTop: 4 }} />
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <motion.div
-            className={`payment-stat-card payment-stat-card--${color}`}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-        >
-            <div className="payment-stat-card__icon">
-                <Icon size={24} />
-            </div>
-            <div className="payment-stat-card__content">
-                <div className="payment-stat-card__value">{value}</div>
-                <div className="payment-stat-card__label">{label}</div>
-                {trend !== undefined && (
-                    <div className={`payment-stat-card__trend ${trend >= 0 ? 'up' : 'down'}`}>
-                        {trend >= 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                        <span>{Math.abs(trend)}%</span>
-                    </div>
-                )}
-                {subLabel && <div className="payment-stat-card__sub">{subLabel}</div>}
-            </div>
-        </motion.div>
-    );
-}
-
-// Payment Row Component
-function PaymentRow({ payment, onClick }) {
-    const statusConfig = {
-        completed: { icon: CheckCircle2, color: 'green' },
-        pending: { icon: Clock, color: 'yellow' },
-        failed: { icon: XCircle, color: 'red' },
-        refunded: { icon: RefreshCw, color: 'gray' },
-    };
-
-    const config = statusConfig[payment.status] || statusConfig.pending;
-
-    return (
-        <motion.div
-            className="payment-row"
-            onClick={() => onClick(payment)}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileHover={{ backgroundColor: 'var(--ds-bg-elevated)' }}
-            transition={{ duration: 0.15 }}
-        >
-            <div className="payment-row__org">
-                <div className="payment-row__avatar">
-                    <Building2 size={18} />
-                </div>
-                <div className="payment-row__org-info">
-                    <span className="payment-row__org-name">{payment.organization_name}</span>
-                    <span className="payment-row__org-code">#{payment.org_code}</span>
-                </div>
-            </div>
-
-            <div className="payment-row__plan">
-                <span className={`plan-tag plan-tag--${payment.plan.toLowerCase()}`}>
-                    {payment.plan}
-                </span>
-                <span className="payment-row__plan-type">{payment.plan_type}</span>
-            </div>
-
-            <div className="payment-row__amount">
-                <span className="payment-row__amount-value">{formatCurrency(payment.amount)}</span>
-                <span className="payment-row__method">{payment.payment_method}</span>
-            </div>
-
-            <div className="payment-row__date">
-                <span>{formatDate(payment.created_at)}</span>
-            </div>
-
-            <div className="payment-row__status">
-                <StatusBadge status={payment.status} />
-            </div>
-
-            <div className="payment-row__actions">
-                <button className="payment-row__action" title="View Details">
-                    <Eye size={16} />
-                </button>
-                <button className="payment-row__action" title="Download Invoice">
-                    <Download size={16} />
-                </button>
-            </div>
-        </motion.div>
-    );
-}
-
-// Payment Detail Modal
 function PaymentDetailModal({ payment, isOpen, onClose }) {
     if (!payment) return null;
 
-    const handleDownloadInvoice = () => {
-        notify.info('Invoice download will be available soon');
-    };
-
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="md">
+        <Modal isOpen={isOpen} onClose={onClose} size="lg">
             <ModalHeader>
-                <ModalTitle>Payment Details</ModalTitle>
+                <ModalTitle>Transaction Receipt</ModalTitle>
             </ModalHeader>
             <ModalBody>
-                <div className="payment-detail">
-                    {/* Header */}
-                    <div className="payment-detail__header">
-                        <div className="payment-detail__org">
-                            <div className="payment-detail__avatar">
-                                <Building2 size={24} />
+                <div className="space-y-6">
+                    <div className="flex items-center justify-between pb-6 border-b border-base">
+                        <div className="flex items-center gap-4">
+                            <div className="w-14 h-14 rounded-2xl bg-primary-soft text-primary flex items-center justify-center border border-primary/20 shadow-inner flex-shrink-0">
+                                <Building2 size={28} />
                             </div>
                             <div>
-                                <h3>{payment.organization_name}</h3>
-                                <span>#{payment.org_code}</span>
+                                <h3 className="text-xl font-bold text-primary m-0 mb-1">{payment.organization_name}</h3>
+                                <p className="text-xs font-mono font-bold text-muted m-0 uppercase tracking-widest">{payment.org_code} • {payment.id}</p>
                             </div>
                         </div>
-                        <StatusBadge status={payment.status} size="lg" />
+                        <StatusBadge status={payment.status} size="xl" />
                     </div>
 
-                    {/* Amount */}
-                    <div className="payment-detail__amount">
-                        <span className="payment-detail__amount-label">Amount Paid</span>
-                        <span className="payment-detail__amount-value">{formatCurrency(payment.amount)}</span>
+                    <div className="text-center py-10 bg-surface-lowest border border-base rounded-2xl shadow-sm relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-info" />
+                        <span className="block text-xs font-bold text-muted uppercase tracking-widest mb-3">Amount Transacted</span>
+                        <div className="text-5xl font-black text-primary mb-3 tracking-tight">{formatCurrency(payment.amount)}</div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-elevated rounded-full border border-base">
+                            <CreditCard size={14} className="text-muted" />
+                            <span className="text-sm font-bold text-secondary">via {payment.payment_method} {payment.card_last4 && `(•••• ${payment.card_last4})`}</span>
+                        </div>
                     </div>
 
-                    {/* Details Grid */}
-                    <div className="payment-detail__grid">
-                        <div className="payment-detail__item">
-                            <span className="payment-detail__item-label">Invoice ID</span>
-                            <span className="payment-detail__item-value">{payment.invoice_id}</span>
-                        </div>
-                        <div className="payment-detail__item">
-                            <span className="payment-detail__item-label">Payment ID</span>
-                            <span className="payment-detail__item-value">{payment.id}</span>
-                        </div>
-                        <div className="payment-detail__item">
-                            <span className="payment-detail__item-label">Plan</span>
-                            <span className="payment-detail__item-value">{payment.plan} ({payment.plan_type})</span>
-                        </div>
-                        <div className="payment-detail__item">
-                            <span className="payment-detail__item-label">Payment Method</span>
-                            <span className="payment-detail__item-value">
-                                {payment.payment_method}
-                                {payment.card_last4 && ` •••• ${payment.card_last4}`}
-                            </span>
-                        </div>
-                        <div className="payment-detail__item">
-                            <span className="payment-detail__item-label">Created At</span>
-                            <span className="payment-detail__item-value">{formatDate(payment.created_at)}</span>
-                        </div>
-                        {payment.paid_at && (
-                            <div className="payment-detail__item">
-                                <span className="payment-detail__item-label">Paid At</span>
-                                <span className="payment-detail__item-value">{formatDate(payment.paid_at)}</span>
-                            </div>
-                        )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <ReceiptItem label="Invoice Number" value={payment.invoice_id} />
+                        <ReceiptItem label="Subscription Plan" value={`${payment.plan} (${payment.plan_type})`} />
+                        <ReceiptItem label="Created Date" value={formatDate(payment.created_at)} />
+                        <ReceiptItem label="Settlement Date" value={payment.paid_at ? formatDate(payment.paid_at) : 'Awaiting Settlement'} />
                     </div>
 
                     {payment.error_message && (
-                        <div className="payment-detail__error">
-                            <XCircle size={18} />
-                            <span>{payment.error_message}</span>
+                        <div className="flex items-start gap-4 p-5 bg-error-soft/30 border border-error/50 rounded-xl text-error">
+                            <XCircle size={20} className="mt-0.5 shrink-0" />
+                            <div className="flex flex-col">
+                                <span className="font-bold mb-1">Transaction Failed</span>
+                                <span className="text-sm opacity-90 leading-relaxed">{payment.error_message}</span>
+                            </div>
                         </div>
                     )}
 
-                    <div className="payment-detail__actions">
-                        <Button variant="secondary" icon={Download} onClick={handleDownloadInvoice}>
-                            Download Invoice
+                    <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-base mt-2">
+                        <Button variant="outline" leftIcon={FileText} onClick={() => notify.info('Viewing full invoice')} className="flex-1 h-[48px]">
+                            View Full Invoice
+                        </Button>
+                        <Button variant="primary" leftIcon={Download} onClick={() => notify.info('Downloading receipt')} className="flex-1 h-[48px]">
+                            Download PDF Receipt
                         </Button>
                     </div>
                 </div>
@@ -289,6 +156,13 @@ function PaymentDetailModal({ payment, isOpen, onClose }) {
         </Modal>
     );
 }
+
+const ReceiptItem = ({ label, value }) => (
+    <div className="flex flex-col p-4 bg-surface-lowest border border-base rounded-xl transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm">
+        <span className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5">{label}</span>
+        <span className="text-[15px] font-bold text-primary">{value}</span>
+    </div>
+);
 
 function PaymentsPage() {
     const { setHeaderProps } = useLayout();
@@ -300,21 +174,19 @@ function PaymentsPage() {
 
     useEffect(() => {
         setHeaderProps({
-            title: "Payments",
-            action: (
-                <div className="flex items-center gap-3">
-                    <Button variant="secondary" icon={Download} onClick={handleExport}>
-                        Export
-                    </Button>
-                    <Button variant="secondary" icon={RefreshCw} onClick={handleRefresh} loading={loading}>
-                        Refresh
-                    </Button>
-                </div>
-            )
+            title: "Payments & Invoices",
+            action: null
         });
-    }, [setHeaderProps, loading]);
+    }, [setHeaderProps]);
 
-    // Filter payments
+    const handleRefresh = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            notify.success('Transactions synchronized');
+        }, 800);
+    };
+
     const filteredPayments = useMemo(() => {
         return MOCK_PAYMENTS.filter(payment => {
             if (status && payment.status !== status) return false;
@@ -331,131 +203,146 @@ function PaymentsPage() {
         });
     }, [search, status, plan]);
 
-    const handleRefresh = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            notify.success('Payments refreshed');
-        }, 1000);
-    };
-
-    const handleExport = () => {
-        notify.info('Export functionality coming soon');
-    };
+    const columns = useMemo(() => [
+        {
+            key: 'invoice_id',
+            label: 'Invoice #',
+            width: 140,
+            render: (val) => <span className="font-mono text-xs font-bold text-muted">{val}</span>
+        },
+        {
+            key: 'organization_name',
+            label: 'Organization',
+            width: 280,
+            sortable: true,
+            render: (val) => (
+                <div className="flex items-center gap-3">
+                    <div className="payment-org-icon-refined">
+                        <Building2 size={16} />
+                    </div>
+                    <span className="font-bold text-primary">{val}</span>
+                </div>
+            )
+        },
+        {
+            key: 'plan',
+            label: 'Plan',
+            width: 140,
+            render: (val) => (
+                <span className={`tier-badge-pro tier-badge-pro--${val.toLowerCase()}`}>
+                    {val}
+                </span>
+            )
+        },
+        {
+            key: 'plan_type',
+            label: 'Billing Cycle',
+            width: 130,
+            render: (val) => (
+                <span className="text-xs font-bold uppercase text-secondary bg-elevated px-2 py-1 rounded">
+                    {val}
+                </span>
+            )
+        },
+        {
+            key: 'payment_method',
+            label: 'Method',
+            width: 140,
+            render: (val, row) => (
+                <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-secondary uppercase">{val}</span>
+                    {row.card_last4 && <span className="text-[10px] text-muted tracking-wide">•••• {row.card_last4}</span>}
+                </div>
+            )
+        },
+        {
+            key: 'amount',
+            label: 'Amount',
+            width: 140,
+            sortable: true,
+            render: (val) => <span className="font-black text-primary">{formatCurrency(val)}</span>
+        },
+        {
+            key: 'created_at',
+            label: 'Date',
+            width: 150,
+            sortable: true,
+            render: (val) => (
+                <div className="date-pill">
+                    <Clock size={12} />
+                    <span>{formatDate(val)}</span>
+                </div>
+            )
+        },
+        {
+            key: 'status',
+            label: 'Status',
+            width: 140,
+            render: (val) => <StatusBadge status={val} />
+        },
+        {
+            key: 'actions',
+            label: 'Actions',
+            width: 120,
+            align: 'right',
+            render: (_, row) => (
+                <TableActions
+                    actions={[
+                        {
+                            label: 'Details',
+                            icon: Eye,
+                            variant: 'info',
+                            onClick: () => setSelectedPayment(row)
+                        },
+                        {
+                            label: 'Download',
+                            icon: Download,
+                            variant: 'success',
+                            onClick: () => notify.info('Downloading PDF...')
+                        }
+                    ]}
+                />
+            )
+        }
+    ], []);
 
     return (
         <PageContainer>
-            {/* Stats Row */}
-            <div className="payments-stats">
-                <StatCard
-                    icon={DollarSign}
-                    label="Total Revenue"
-                    value={formatCurrency(MOCK_STATS.total_revenue)}
-                    color="green"
-                    trend={MOCK_STATS.growth_percent}
-                    loading={loading}
-                />
-                <StatCard
-                    icon={TrendingUp}
-                    label="This Month"
-                    value={formatCurrency(MOCK_STATS.monthly_revenue)}
-                    color="blue"
-                    loading={loading}
-                />
-                <StatCard
-                    icon={Clock}
-                    label="Pending"
-                    value={formatCurrency(MOCK_STATS.pending_payments)}
-                    color="yellow"
-                    loading={loading}
-                />
-                <StatCard
-                    icon={XCircle}
-                    label="Failed"
-                    value={formatCurrency(MOCK_STATS.failed_payments)}
-                    color="red"
-                    loading={loading}
-                />
-            </div>
+            <StatsGrid className="mb-8" columns={4}>
+                {MOCK_STATS.map((stat, i) => (
+                    <StatsCard key={i} {...stat} loading={loading} />
+                ))}
+            </StatsGrid>
 
-            {/* Filters */}
-            <div className="payments-toolbar">
-                <div className="payments-search">
-                    <Search size={18} />
-                    <input
-                        type="text"
-                        placeholder="Search by organization, invoice..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
-                <div className="payments-filters">
-                    <Select
-                        options={STATUS_OPTIONS}
-                        value={status}
-                        onChange={setStatus}
-                        placeholder="Status"
-                    />
-                    <Select
-                        options={PLAN_OPTIONS}
-                        value={plan}
-                        onChange={setPlan}
-                        placeholder="Plan"
-                    />
-                </div>
-            </div>
-
-            {/* Payments Table */}
-            <Card className="payments-table-card">
-                <div className="payments-table-header">
-                    <div className="payments-table-col">Organization</div>
-                    <div className="payments-table-col">Plan</div>
-                    <div className="payments-table-col">Amount</div>
-                    <div className="payments-table-col">Date</div>
-                    <div className="payments-table-col">Status</div>
-                    <div className="payments-table-col">Actions</div>
-                </div>
-
-                <div className="payments-table-body">
-                    {loading ? (
-                        Array.from({ length: 4 }).map((_, i) => (
-                            <div key={i} className="payment-row payment-row--skeleton">
-                                <div className="payment-row__org">
-                                    <Skeleton width="40px" height="40px" borderRadius="10px" />
-                                    <div>
-                                        <Skeleton width="140px" height="14px" />
-                                        <Skeleton width="80px" height="12px" style={{ marginTop: 4 }} />
-                                    </div>
-                                </div>
-                                <Skeleton width="80px" height="24px" borderRadius="6px" />
-                                <Skeleton width="80px" height="20px" />
-                                <Skeleton width="90px" height="16px" />
-                                <Skeleton width="80px" height="24px" borderRadius="100px" />
-                                <div style={{ display: 'flex', gap: 8 }}>
-                                    <Skeleton width="32px" height="32px" borderRadius="8px" />
-                                    <Skeleton width="32px" height="32px" borderRadius="8px" />
-                                </div>
-                            </div>
-                        ))
-                    ) : filteredPayments.length === 0 ? (
-                        <EmptyState
-                            icon={Receipt}
-                            title="No payments found"
-                            description={search || status || plan ? 'Try adjusting your filters' : 'No payment records yet'}
+            <DataTable
+                columns={columns}
+                data={filteredPayments}
+                loading={loading}
+                emptyIcon={Receipt}
+                emptyTitle="No payments found"
+                emptyDescription="Try broadening your search or filter criteria"
+                showToolbar
+                search={search}
+                onSearchChange={setSearch}
+                onRefresh={handleRefresh}
+                onExportCSV={() => notify.info('Exporting data...')}
+                filters={
+                    <>
+                        <Select
+                            options={STATUS_OPTIONS}
+                            value={status}
+                            onChange={setStatus}
+                            placeholder="Status"
                         />
-                    ) : (
-                        <AnimatePresence mode="popLayout">
-                            {filteredPayments.map(payment => (
-                                <PaymentRow
-                                    key={payment.id}
-                                    payment={payment}
-                                    onClick={setSelectedPayment}
-                                />
-                            ))}
-                        </AnimatePresence>
-                    )}
-                </div>
-            </Card>
+                        <Select
+                            options={PLAN_OPTIONS}
+                            value={plan}
+                            onChange={setPlan}
+                            placeholder="Plan"
+                        />
+                    </>
+                }
+            />
 
             <PaymentDetailModal
                 payment={selectedPayment}

@@ -99,21 +99,22 @@
 
 .ds-form-label {
     font-family: var(--font-display);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    /* ~15px */
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .ds-form-input {
     height: 3rem;
     padding: 0 var(--space-4);
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-md);
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-base);
+    border-radius: var(--radius-xl);
     color: var(--text-primary);
     font-family: inherit;
-    font-size: 0.875rem;
-    transition: border-color var(--transition-fast) var(--ease-out), box-shadow var(--transition-fast) var(--ease-out);
+    font-size: 1rem;
+    transition: all var(--transition-normal);
 }
 
 .ds-form-input:focus {

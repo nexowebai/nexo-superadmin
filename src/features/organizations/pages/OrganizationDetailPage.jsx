@@ -31,7 +31,8 @@ function OrganizationDetailPage() {
   useEffect(() => {
     if (org) {
       setHeaderProps({
-        title: org.name
+        title: org.name,
+        action: null
       });
     }
   }, [setHeaderProps, org]);

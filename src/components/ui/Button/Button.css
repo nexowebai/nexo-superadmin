@@ -51,6 +51,7 @@
   background: var(--primary);
   color: white;
   box-shadow: var(--shadow-sm);
+  height: 3rem;
 }
 
 .ds-button--primary:hover:not(:disabled) {

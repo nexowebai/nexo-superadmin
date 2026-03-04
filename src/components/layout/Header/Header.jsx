@@ -37,7 +37,7 @@ function Header({ onMenuClick }) {
       <div className="ds-header__right">
         <Button
           variant="outline"
-          size="md"
+          size="xl"
           leftIcon={ArrowLeft}
           onClick={() => navigate(-1)}
           className="ds-header__back-btn"
