@@ -116,71 +116,68 @@ function PaymentDetailModal({ payment, isOpen, onClose }) {
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg">
-            <ModalHeader>
-                <ModalTitle>Transaction Receipt</ModalTitle>
-            </ModalHeader>
-            <ModalBody>
+            <div className="payment-receipt-content">
                 <div className="space-y-6">
                     <div className="flex items-center justify-between pb-6 border-b border-base">
                         <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 rounded-2xl bg-primary-soft text-primary flex items-center justify-center border border-primary/20 shadow-inner flex-shrink-0">
-                                <Building2 size={28} />
+                            <div className="w-12 h-12 rounded-md bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 flex-shrink-0">
+                                <Building2 size={24} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-primary m-0 mb-1">{payment.organization_name}</h3>
-                                <p className="text-xs font-mono font-bold text-muted m-0 uppercase tracking-widest">{payment.org_code} • {payment.id}</p>
+                                <h3 className="text-lg font-bold text-primary m-0 mb-0.5">{payment.organization_name}</h3>
+                                <p className="text-[10px] font-mono font-bold text-muted m-0 uppercase tracking-widest">{payment.org_code} • {payment.id}</p>
                             </div>
                         </div>
-                        <StatusBadge status={payment.status} size="xl" />
+                        <StatusBadge status={payment.status} size="sm" />
                     </div>
 
-                    <div className="text-center py-10 bg-surface-lowest border border-base rounded-2xl shadow-sm relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-info" />
-                        <span className="block text-xs font-bold text-muted uppercase tracking-widest mb-3">Amount Transacted</span>
-                        <div className="text-5xl font-black text-primary mb-3 tracking-tight">{formatCurrency(payment.amount)}</div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-elevated rounded-full border border-base">
-                            <CreditCard size={14} className="text-muted" />
-                            <span className="text-sm font-bold text-secondary">via {payment.payment_method} {payment.card_last4 && `(•••• ${payment.card_last4})`}</span>
+                    <div className="receipt-amount-section">
+                        <span className="block text-[10px] font-bold text-muted uppercase tracking-widest mb-2">Transacted Amount</span>
+                        <div className="text-4xl font-black text-primary mb-3 tracking-tight">{formatCurrency(payment.amount)}</div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-white rounded-full border border-base">
+                            <CreditCard size={12} className="text-muted" />
+                            <span className="text-xs font-bold text-secondary">via {payment.payment_method} {payment.card_last4 && `(•••• ${payment.card_last4})`}</span>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ReceiptItem label="Invoice Number" value={payment.invoice_id} />
-                        <ReceiptItem label="Subscription Plan" value={`${payment.plan} (${payment.plan_type})`} />
-                        <ReceiptItem label="Created Date" value={formatDate(payment.created_at)} />
-                        <ReceiptItem label="Settlement Date" value={payment.paid_at ? formatDate(payment.paid_at) : 'Awaiting Settlement'} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <ReceiptItem label="Invoice Identifier" value={payment.invoice_id} />
+                        <ReceiptItem label="Subscription Tier" value={`${payment.plan} (${payment.plan_type})`} />
+                        <ReceiptItem label="Provisioned Date" value={formatDate(payment.created_at)} />
+                        <ReceiptItem label="Settlement Node" value={payment.paid_at ? formatDate(payment.paid_at) : 'Awaiting Settlement'} />
                     </div>
 
                     {payment.error_message && (
-                        <div className="flex items-start gap-4 p-5 bg-error-soft/30 border border-error/50 rounded-xl text-error">
-                            <XCircle size={20} className="mt-0.5 shrink-0" />
+                        <div className="flex items-start gap-4 p-4 bg-rose-50 border border-rose-200 rounded-md text-rose-600">
+                            <XCircle size={18} className="mt-0.5 shrink-0" />
                             <div className="flex flex-col">
-                                <span className="font-bold mb-1">Transaction Failed</span>
-                                <span className="text-sm opacity-90 leading-relaxed">{payment.error_message}</span>
+                                <span className="text-sm font-bold mb-0.5">Transaction Error</span>
+                                <span className="text-xs opacity-90 leading-relaxed font-medium">{payment.error_message}</span>
                             </div>
                         </div>
                     )}
 
-                    <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-base mt-2">
-                        <Button variant="outline" leftIcon={FileText} onClick={() => notify.info('Viewing full invoice')} className="flex-1 h-[48px]">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-base mt-2">
+                        <Button variant="ghost" className="flex-1 h-11 border border-base rounded-md text-xs font-bold">
                             View Full Invoice
                         </Button>
-                        <Button variant="primary" leftIcon={Download} onClick={() => notify.info('Downloading receipt')} className="flex-1 h-[48px]">
-                            Download PDF Receipt
+                        <Button variant="primary" icon={Download} className="flex-1 h-11 rounded-md text-xs font-bold">
+                            Download Receipt
                         </Button>
                     </div>
                 </div>
-            </ModalBody>
+            </div>
         </Modal>
     );
 }
 
 const ReceiptItem = ({ label, value }) => (
-    <div className="flex flex-col p-4 bg-surface-lowest border border-base rounded-xl transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm">
-        <span className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5">{label}</span>
-        <span className="text-[15px] font-bold text-primary">{value}</span>
+    <div className="receipt-item">
+        <span className="receipt-item-label">{label}</span>
+        <span className="receipt-item-value">{value}</span>
     </div>
 );
+
 
 function PaymentsPage() {
     const { setHeaderProps } = useLayout();
@@ -328,143 +325,151 @@ function PaymentsPage() {
 
     return (
         <PageContainer>
-            <StatsGrid className="mb-8" columns={4}>
-                {MOCK_STATS.map((stat, i) => (
-                    <StatsCard key={i} {...stat} loading={loading} />
-                ))}
-            </StatsGrid>
+            <div className="payments-container-nx">
+                <div className="mb-8">
+                    <StatsGrid columns={4}>
+                        {MOCK_STATS.map((stat, i) => (
+                            <StatsCard key={i} {...stat} loading={loading} />
+                        ))}
+                    </StatsGrid>
+                </div>
 
-            {/* Interactive Analytics Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                {/* Chart 1: Revenue vs Expenses */}
-                <div className="card-pro p-6 flex flex-col">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-primary-soft flex items-center justify-center text-primary">
-                                <Activity size={20} />
+                {/* Interactive Analytics Section */}
+                <div className="analytics-grid-nx">
+                    {/* Chart 1: Revenue vs Expenses */}
+                    <div className="card-pro p-6">
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-md bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
+                                    <Activity size={20} />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-primary m-0">Revenue Velocity</h3>
+                                    <p className="text-xs text-muted mt-0.5 m-0 font-medium">Monthly revenue vs ops outflow</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-bold text-primary m-0">Financial Overview</h3>
-                                <p className="text-xs text-secondary mt-0.5 m-0 font-medium">Revenue & ending cost trend</p>
-                            </div>
+                            <Select
+                                options={[
+                                    { label: 'Revenue & Costs', value: 'revenue' },
+                                    { label: 'Net Profit', value: 'profit' }
+                                ]}
+                                value={chartView}
+                                onChange={setChartView}
+                                className="w-48"
+                            />
                         </div>
-                        <Select
-                            options={[
-                                { label: 'Revenue & Costs', value: 'revenue' },
-                                { label: 'Net Profit', value: 'profit' }
-                            ]}
-                            value={chartView}
-                            onChange={setChartView}
-                            className="w-56"
-                        />
+                        <div style={{ height: 260, width: '100%' }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart data={REVENUE_DATA} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                                    <defs>
+                                        <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.15} />
+                                            <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                                        </linearGradient>
+                                        <linearGradient id="colorExp" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="var(--error)" stopOpacity={0.15} />
+                                            <stop offset="95%" stopColor="var(--error)" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-base)" strokeOpacity={0.5} />
+                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-muted)', fontSize: 11, fontWeight: 700 }} dy={10} />
+                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-muted)', fontSize: 11, fontWeight: 700 }} tickFormatter={(value) => `$${value / 1000}k`} />
+                                    <RechartsTooltip
+                                        contentStyle={{ backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid var(--border-base)', color: 'var(--text-primary)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                                        cursor={{ stroke: 'var(--primary)', strokeWidth: 1 }}
+                                    />
+                                    <Area type="monotone" dataKey="revenue" stroke="var(--primary)" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRev)" />
+                                    {chartView === 'revenue' && (
+                                        <Area type="monotone" dataKey="expenses" stroke="var(--error)" strokeWidth={2.5} fillOpacity={1} fill="url(#colorExp)" />
+                                    )}
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
-                    <div style={{ height: 250, width: '100%', position: 'relative' }}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={REVENUE_DATA} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                <defs>
-                                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
-                                    </linearGradient>
-                                    <linearGradient id="colorExp" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="var(--error)" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="var(--error)" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-base)" />
-                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} tickFormatter={(value) => `$${value / 1000}k`} />
-                                <RechartsTooltip
-                                    contentStyle={{ backgroundColor: 'var(--bg-elevated)', borderRadius: '12px', border: '1px solid var(--border-base)', color: 'var(--text-primary)', fontWeight: 'bold' }}
-                                    itemStyle={{ fontWeight: 'bold' }}
-                                    cursor={false}
-                                />
-                                <Area type="monotone" dataKey="revenue" stroke="var(--primary)" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
-                                {chartView === 'revenue' && (
-                                    <Area type="monotone" dataKey="expenses" stroke="var(--error)" strokeWidth={3} fillOpacity={1} fill="url(#colorExp)" />
-                                )}
-                            </AreaChart>
-                        </ResponsiveContainer>
+
+                    {/* Chart 2: Plan Project Limits & Extra Analytics */}
+                    <div className="card-pro p-6">
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+                                    <BarChart2 size={20} />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-primary m-0">Subscription Density</h3>
+                                    <p className="text-xs text-muted mt-0.5 m-0 font-medium">Extra resource allocation metrics</p>
+                                </div>
+                            </div>
+                            <Select
+                                options={[
+                                    { label: 'Usage vs Limit', value: 'usage' },
+                                    { label: 'Extra Costs', value: 'extra' }
+                                ]}
+                                value={usageView}
+                                onChange={setUsageView}
+                                className="w-48"
+                            />
+                        </div>
+                        <div style={{ height: 260, width: '100%' }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={PLAN_DISTRIBUTION} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-base)" strokeOpacity={0.5} />
+                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-muted)', fontSize: 11, fontWeight: 700 }} dy={10} />
+                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-muted)', fontSize: 11, fontWeight: 700 }} />
+                                    <RechartsTooltip
+                                        contentStyle={{ backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid var(--border-base)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                                        cursor={{ fill: 'var(--bg-elevated)', opacity: 0.4 }}
+                                    />
+                                    <Bar dataKey={usageView === 'usage' ? 'baseLimit' : 'extraCost'} name={usageView === 'usage' ? "Allowed Projects" : "Extra Revenue"} fill="#94a3b8" radius={[4, 4, 0, 0]} barSize={28} />
+                                    <Bar dataKey={usageView === 'usage' ? 'avgUsage' : 'extraCost'} name={usageView === 'usage' ? "Avg Project Usage" : "Extra Usage"} fill="var(--primary)" radius={[4, 4, 0, 0]} barSize={28} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                 </div>
 
-                {/* Chart 2: Plan Project Limits & Extra Analytics */}
-                <div className="card-pro p-6 flex flex-col">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-info-soft flex items-center justify-center text-info">
-                                <BarChart2 size={20} />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-primary m-0">Project & Plan Analytics</h3>
-                                <p className="text-xs text-secondary mt-0.5 m-0 font-medium">Monitoring extra project allocation</p>
-                            </div>
-                        </div>
-                        <Select
-                            options={[
-                                { label: 'Usage vs Limit', value: 'usage' },
-                                { label: 'Extra Costs', value: 'extra' }
-                            ]}
-                            value={usageView}
-                            onChange={setUsageView}
-                            className="w-56"
-                        />
-                    </div>
-                    <div style={{ height: 250, width: '100%', position: 'relative' }}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={PLAN_DISTRIBUTION} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-base)" />
-                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
-                                <RechartsTooltip
-                                    contentStyle={{ backgroundColor: 'var(--bg-elevated)', borderRadius: '12px', border: '1px solid var(--border-base)', color: 'var(--text-primary)', fontWeight: 'bold' }}
-                                    cursor={false}
+                <div className="card-pro overflow-hidden">
+                    <DataTable
+                        columns={columns}
+                        data={filteredPayments}
+                        loading={loading}
+                        emptyIcon={Receipt}
+                        emptyTitle="No payments found"
+                        emptyDescription="Try broadening your search or filter criteria"
+                        showToolbar
+                        search={search}
+                        onSearchChange={setSearch}
+                        onRefresh={handleRefresh}
+                        onExportCSV={() => notify.info('Exporting data...')}
+                        filters={
+                            <>
+                                <Select
+                                    options={STATUS_OPTIONS}
+                                    value={status}
+                                    onChange={setStatus}
+                                    placeholder="Status"
+                                    className="w-40"
                                 />
-                                <Bar dataKey={usageView === 'usage' ? 'baseLimit' : 'extraCost'} name={usageView === 'usage' ? "Allowed Projects" : "Extra Revenue"} fill="var(--info)" radius={[4, 4, 0, 0]} barSize={32} />
-                                <Bar dataKey={usageView === 'usage' ? 'avgUsage' : 'extraCost'} name={usageView === 'usage' ? "Avg Project Usage" : "Extra Usage"} fill="var(--primary)" radius={[4, 4, 0, 0]} barSize={32} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                                <Select
+                                    options={PLAN_OPTIONS}
+                                    value={plan}
+                                    onChange={setPlan}
+                                    placeholder="Plan"
+                                    className="w-40"
+                                />
+                            </>
+                        }
+                    />
                 </div>
+
+                <PaymentDetailModal
+                    payment={selectedPayment}
+                    isOpen={!!selectedPayment}
+                    onClose={() => setSelectedPayment(null)}
+                />
             </div>
-
-            <DataTable
-                columns={columns}
-                data={filteredPayments}
-                loading={loading}
-                emptyIcon={Receipt}
-                emptyTitle="No payments found"
-                emptyDescription="Try broadening your search or filter criteria"
-                showToolbar
-                search={search}
-                onSearchChange={setSearch}
-                onRefresh={handleRefresh}
-                onExportCSV={() => notify.info('Exporting data...')}
-                filters={
-                    <>
-                        <Select
-                            options={STATUS_OPTIONS}
-                            value={status}
-                            onChange={setStatus}
-                            placeholder="Status"
-                        />
-                        <Select
-                            options={PLAN_OPTIONS}
-                            value={plan}
-                            onChange={setPlan}
-                            placeholder="Plan"
-                        />
-                    </>
-                }
-            />
-
-            <PaymentDetailModal
-                payment={selectedPayment}
-                isOpen={!!selectedPayment}
-                onClose={() => setSelectedPayment(null)}
-            />
         </PageContainer>
     );
 }
+
 
 export default PaymentsPage;

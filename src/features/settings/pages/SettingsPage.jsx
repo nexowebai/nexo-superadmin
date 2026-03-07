@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Settings as SettingsIcon, Save, Shield, Palette, Check, Info,
-    AlertTriangle, CheckCircle2, Sun, Moon, Mail
+    Settings as SettingsIcon, Save, Shield, Palette, Check,
+    AlertTriangle, CheckCircle2, Sun, Moon, Mail, Cpu, Globe, Activity
 } from 'lucide-react';
 import { PageContainer } from '@components/layout/DashboardLayout';
-import Button from '@components/ui/Button';
-import { Skeleton } from '@components/ui/Skeleton/Skeleton';
-import { Tabs } from '@components/ui';
+import { Button, Skeleton, Tabs, Switch } from '@components/ui';
 import { useTheme, useLayout } from '@context';
 import { useSystemSettings, useUpdateSettings } from '../../hooks/';
 import { cn } from '@lib/cn';
@@ -20,99 +18,82 @@ const CHART_THEMES = [
     { id: 'ocean', name: 'Ocean Breeze', colors: ['#0ea5e9', '#06b6d4', '#2dd4bf', '#38bdf8', '#7dd3fc'] },
 ];
 
-const BRAND_COLORS = [
-    { id: 'green', name: 'Nexo Green', color: '#10b981' },
-];
-
 const TAB_OPTIONS = [
-    { value: 'general', label: 'General', icon: SettingsIcon },
-    { value: 'appearance', label: 'Appearance', icon: Palette },
-    { value: 'access', label: 'Access Control', icon: Shield },
+    { value: 'general', label: 'Primary Config', icon: SettingsIcon },
+    { value: 'appearance', label: 'Visual Interface', icon: Palette },
+    { value: 'access', label: 'Platform Security', icon: Shield },
 ];
 
 function SettingsSkeleton() {
     return (
-        <div className="settings-skeleton">
-            <div className="flex gap-4 mb-8">
-                <Skeleton width="140px" height="48px" borderRadius="12px" />
-                <Skeleton width="140px" height="48px" borderRadius="12px" />
-                <Skeleton width="140px" height="48px" borderRadius="12px" />
+        <div className="settings-skeleton-v2 p-8 space-y-8">
+            <div className="flex gap-4">
+                <Skeleton width="180px" height="56px" borderRadius="16px" />
+                <Skeleton width="180px" height="56px" borderRadius="16px" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="md:col-span-2 space-y-6">
-                    <div className="card-pro p-8">
-                        <Skeleton width="200px" height="24px" className="mb-4" />
-                        <Skeleton width="350px" height="16px" className="mb-8" />
-                        <div className="grid grid-cols-2 gap-6">
-                            <Skeleton width="100%" height="48px" borderRadius="10px" />
-                            <Skeleton width="100%" height="48px" borderRadius="10px" />
-                        </div>
-                    </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div className="lg:col-span-2 space-y-8">
+                    <Skeleton width="100%" height="300px" borderRadius="24px" />
+                    <Skeleton width="100%" height="250px" borderRadius="24px" />
                 </div>
-                <div className="space-y-6">
-                    <div className="card-pro p-8">
-                        <Skeleton width="150px" height="20px" className="mb-6" />
-                        <Skeleton width="100%" height="120px" borderRadius="12px" />
-                    </div>
-                </div>
+                <Skeleton width="100%" height="450px" borderRadius="24px" />
             </div>
         </div>
     );
 }
 
-function SettingsPage() {
-    const { theme: appTheme, setTheme: setAppTheme, color: brandColor, setThemeColor } = useTheme();
+export default function SettingsPage() {
+    const { mode: appTheme, setTheme: setAppTheme } = useTheme();
     const { setHeaderProps } = useLayout();
     const { data, isLoading } = useSystemSettings();
     const { mutate: updateSettings } = useUpdateSettings();
 
-    useEffect(() => {
-        setHeaderProps({
-            title: 'System Settings',
-            action: (
-                <Button variant="primary" icon={Save} form="settings-form" className="h-[48px] px-8">
-                    Save Changes
-                </Button>
-            )
-        });
-    }, [setHeaderProps]);
-
     const [activeTab, setActiveTab] = useState('general');
-    const initialDataRef = useRef(null);
-
     const [settings, setSettings] = useState({
         system_name: 'Nexo Admin',
         max_file_size_mb: 10,
-        allowed_file_types: ['image/jpeg', 'image/png', 'application/pdf'],
+        support_email: 'support@nexo.com',
         backup_enabled: false,
         smtp_enabled: false,
         smtp_host: '',
         smtp_port: '',
         can_field_user_view_submission: true,
-        primary_color: '#10b981',
-        secondary_color: '#3b82f6',
     });
 
-    const [chartTheme, setChartTheme] = useState(() => localStorage.getItem('ds-chart-theme') || 'default');
+    const initialDataRef = useRef(null);
 
     useEffect(() => {
         if (data) {
             const apiSettings = {
-                system_name: data.system_name || 'DataStride',
+                system_name: data.system_name || 'Nexo Admin',
                 max_file_size_mb: data.max_file_size_mb || 10,
-                allowed_file_types: data.allowed_file_types || ['image/jpeg', 'image/png', 'application/pdf'],
+                support_email: data.support_email || 'support@nexo.com',
                 backup_enabled: data.backup_enabled || false,
                 smtp_enabled: data.smtp_enabled || false,
                 smtp_host: data.smtp_host || '',
                 smtp_port: data.smtp_port || '',
                 can_field_user_view_submission: data.can_field_user_view_submission ?? true,
-                primary_color: data.primary_color || '#10b981',
-                secondary_color: data.secondary_color || '#3b82f6',
             };
             initialDataRef.current = apiSettings;
             setSettings(apiSettings);
         }
     }, [data]);
+
+    useEffect(() => {
+        setHeaderProps({
+            title: 'Infrastructure Preferences',
+            action: (
+                <Button
+                    variant="primary"
+                    icon={Save}
+                    form="settings-form"
+                    className="h-11 px-8 rounded-md font-bold uppercase tracking-wider text-[11px] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                    Sync State
+                </Button>
+            )
+        });
+    }, [setHeaderProps]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -122,38 +103,17 @@ function SettingsPage() {
         }));
     };
 
-    const handleThemeSelect = (themeId) => {
-        setChartTheme(themeId);
-        localStorage.setItem('ds-chart-theme', themeId);
-        notify.success('Chart theme updated');
-    };
-
-    const handleAppThemeToggle = (newTheme) => {
-        setAppTheme(newTheme);
-        notify.success(`Switched to ${newTheme} mode`);
-    };
-
     const handleSubmit = (e) => {
         if (e) e.preventDefault();
-
         const changedFields = {};
         const initial = initialDataRef.current || {};
 
         Object.keys(settings).forEach(key => {
-            const currentValue = settings[key];
-            const initialValue = initial[key];
-
-            if (Array.isArray(currentValue)) {
-                if (JSON.stringify(currentValue) !== JSON.stringify(initialValue)) {
-                    changedFields[key] = currentValue;
-                }
-            } else if (currentValue !== initialValue) {
-                changedFields[key] = currentValue;
-            }
+            if (settings[key] !== initial[key]) changedFields[key] = settings[key];
         });
 
         if (Object.keys(changedFields).length === 0) {
-            notify.info('No changes to save');
+            notify.info('No environmental changes detected');
             return;
         }
 
@@ -168,9 +128,9 @@ function SettingsPage() {
                 });
             }),
             {
-                loading: 'Applying changes...',
-                success: 'Settings synchronized!',
-                error: (err) => err?.message || 'Synchronization failed',
+                loading: 'Synchronizing global state...',
+                success: 'Infrastructure updated successfully',
+                error: (err) => err?.message || 'Sync failed',
             }
         );
     };
@@ -179,246 +139,153 @@ function SettingsPage() {
 
     return (
         <PageContainer>
-            <div className="settings-v2">
-                <Tabs options={TAB_OPTIONS} value={activeTab} onChange={setActiveTab} className="mb-8 p-1 bg-elevated rounded-2xl w-fit" />
+            <div className="settings-v2-premium">
+                <div className="glass-nav mb-8 p-1 bg-white border border-base rounded-md w-fit shadow-sm">
+                    <Tabs options={TAB_OPTIONS} value={activeTab} onChange={setActiveTab} variant="premium" />
+                </div>
 
-                <form id="settings-form" className="settings-v2__content" onSubmit={handleSubmit}>
-                    <div className="settings-v2__main">
-                        {activeTab === 'general' && (
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                                <div className="settings-card">
-                                    <div className="settings-card__header">
-                                        <div className="icon-box bg-primary-soft text-primary">
-                                            <SettingsIcon size={24} />
+                <form id="settings-form" className="settings-grid" onSubmit={handleSubmit}>
+                    <div className="settings-main-column">
+                        <AnimatePresence mode="wait">
+                            {activeTab === 'general' && (
+                                <TabWrapper key="general">
+                                    <ConfigCard
+                                        icon={Globe}
+                                        title="Core Ecosystem"
+                                        desc="Primary identity and delivery constraints for the master instance."
+                                        variant="primary"
+                                    >
+                                        <div className="form-grid-2">
+                                            <InputGroup label="Instance Alias" name="system_name" value={settings.system_name} onChange={handleChange} hint="Global identifier across all platform modules." />
+                                            <InputGroup label="Contact Matrix" name="support_email" value={settings.support_email} onChange={handleChange} type="email" hint="Escalation endpoint for critical support." />
+                                            <InputGroup label="IO Buffer (MB)" name="max_file_size_mb" value={settings.max_file_size_mb} onChange={handleChange} type="number" hint="Absolute cap for binary packet delivery." />
                                         </div>
-                                        <div className="text-content">
-                                            <h3>Global Preferences</h3>
-                                            <p>Manage core system defaults and storage constraints.</p>
-                                        </div>
-                                    </div>
-                                    <div className="settings-card__body grid-2">
-                                        <div className="form-field-v2">
-                                            <label>Support Contact Email</label>
-                                            <input type="email" name="support_email" value={settings.support_email || 'support@nexo.com'} onChange={handleChange} placeholder="support@domain.com" />
-                                            <span className="field-hint">Used for help requests originating from organizations.</span>
-                                        </div>
-                                        <div className="form-field-v2">
-                                            <label>Max Upload Size (MB)</label>
-                                            <input type="number" name="max_file_size_mb" value={settings.max_file_size_mb} onChange={handleChange} min="1" max="500" />
-                                            <span className="field-hint">Absolute limit for total attachment size per submission.</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </ConfigCard>
 
-                                <div className="settings-card">
-                                    <div className="settings-card__header">
-                                        <div className="icon-box bg-secondary-soft text-secondary">
-                                            <Mail size={24} />
-                                        </div>
-                                        <div className="text-content">
-                                            <h3>SMTP Server Details</h3>
-                                            <p>Configure outgoing email server for system alerts.</p>
-                                        </div>
-                                    </div>
-                                    <div className="settings-card__body">
-                                        <div className="flex items-center justify-between mb-8 p-4 bg-elevated rounded-xl">
+                                    <ConfigCard
+                                        icon={Mail}
+                                        title="Protocol Routing"
+                                        desc="SMTP configuration for transactional telemetry and alerts."
+                                        variant="secondary"
+                                    >
+                                        <div className="flex items-center justify-between p-4 bg-white rounded-md border border-base mb-6 border-l-4 border-l-secondary">
                                             <div>
-                                                <span className="block font-bold text-primary">Enable Mail Delivery</span>
-                                                <span className="text-xs text-muted">Route all system emails through this SMTP server.</span>
+                                                <span className="block font-bold text-primary text-sm uppercase">Enable Telemetry Delivery</span>
+                                                <span className="text-[11px] text-muted font-medium italic">Route high-priority events through custom relay.</span>
                                             </div>
-                                            <label className="toggle-v2">
-                                                <input type="checkbox" name="smtp_enabled" checked={settings.smtp_enabled} onChange={handleChange} />
-                                                <span className="toggle-v2__slider"></span>
-                                            </label>
+                                            <Switch checked={settings.smtp_enabled} onChange={(val) => setSettings(p => ({ ...p, smtp_enabled: val }))} />
                                         </div>
 
                                         <AnimatePresence>
                                             {settings.smtp_enabled && (
-                                                <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    className="overflow-hidden"
-                                                >
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                                                        <div className="form-field-v2">
-                                                            <label>SMTP Host</label>
-                                                            <input type="text" name="smtp_host" value={settings.smtp_host || ''} onChange={handleChange} placeholder="smtp.mailtrap.io" />
-                                                        </div>
-                                                        <div className="form-field-v2">
-                                                            <label>Port</label>
-                                                            <input type="number" name="smtp_port" value={settings.smtp_port || ''} onChange={handleChange} placeholder="587" />
-                                                        </div>
+                                                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                                                    <div className="form-grid-2 pt-2">
+                                                        <InputGroup label="Relay Endpoint" name="smtp_host" value={settings.smtp_host} onChange={handleChange} />
+                                                        <InputGroup label="Access Port" name="smtp_port" value={settings.smtp_port} onChange={handleChange} type="number" />
                                                     </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
+                                    </ConfigCard>
+                                </TabWrapper>
+                            )}
 
-                        {activeTab === 'appearance' && (
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                                <div className="settings-card">
-                                    <div className="settings-card__header">
-                                        <div className="icon-box bg-warning-soft text-warning">
-                                            <Palette size={24} />
-                                        </div>
-                                        <div className="text-content">
-                                            <h3>User Interface Themes</h3>
-                                            <p>Personalize your session aesthetic and visualization styles.</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="settings-card__body">
-
-                                        <div className="mb-10">
-                                            <h4 className="text-xs font-bold uppercase tracking-widest text-muted mb-4">Application Mode</h4>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <button
-                                                    type="button"
-                                                    className={cn('mode-card', appTheme === 'light' && 'mode-card--active')}
-                                                    onClick={() => handleAppThemeToggle('light')}
-                                                >
-                                                    <div className="mode-card__preview light" />
-                                                    <div className="mode-card__info">
-                                                        <div className="flex items-center gap-3">
-                                                            <Sun size={18} className="text-warning" />
-                                                            <span>Light Aesthetics</span>
-                                                        </div>
-                                                        {appTheme === 'light' && <Check size={16} />}
-                                                    </div>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className={cn('mode-card', appTheme === 'dark' && 'mode-card--active')}
-                                                    onClick={() => handleAppThemeToggle('dark')}
-                                                >
-                                                    <div className="mode-card__preview dark" />
-                                                    <div className="mode-card__info">
-                                                        <div className="flex items-center gap-3">
-                                                            <Moon size={18} className="text-primary" />
-                                                            <span>Dark Aesthetics</span>
-                                                        </div>
-                                                        {appTheme === 'dark' && <Check size={16} />}
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {/* Brand Accent Color Removed - Forced Nexo Green */}
-
-                                        <div>
-                                            <h4 className="text-xs font-bold uppercase tracking-widest text-muted mb-4">Chart Color Palettes</h4>
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                                {CHART_THEMES.map(theme => (
-                                                    <div
-                                                        key={theme.id}
-                                                        className={cn('palette-card', chartTheme === theme.id && 'palette-card--active')}
-                                                        onClick={() => handleThemeSelect(theme.id)}
-                                                    >
-                                                        <div className="palette-card__colors">
-                                                            {theme.colors.map((c, i) => (
-                                                                <div key={i} style={{ background: c }} />
-                                                            ))}
-                                                        </div>
-                                                        <div className="palette-card__label">
-                                                            <span>{theme.name}</span>
-                                                            {chartTheme === theme.id && <CheckCircle2 size={14} />}
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
-
-                        {activeTab === 'access' && (
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                                <div className="settings-card">
-                                    <div className="settings-card__header">
-                                        <div className="icon-box bg-error-soft text-error">
-                                            <Shield size={24} />
-                                        </div>
-                                        <div className="text-content">
-                                            <h3>System Governance</h3>
-                                            <p>Global switches for platform behaviors and security.</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="settings-card__body divide-y divide-base">
-                                        <div className="py-5 flex items-center justify-between">
-                                            <div className="max-w-[80%]">
-                                                <span className="block font-bold text-primary">Field User Transparency</span>
-                                                <span className="text-sm text-muted">Allow field agents to view and audit their own submissions in real-time.</span>
-                                            </div>
-                                            <label className="toggle-v2">
-                                                <input type="checkbox" name="can_field_user_view_submission" checked={settings.can_field_user_view_submission} onChange={handleChange} />
-                                                <span className="toggle-v2__slider"></span>
-                                            </label>
-                                        </div>
-
-                                        <div className="py-5 flex items-center justify-between">
-                                            <div className="max-w-[80%]">
-                                                <span className="block font-bold text-primary">Automated Binary Backups</span>
-                                                <span className="text-sm text-muted">The system will automatically snapshot the database and S3 buckets every 24 hours.</span>
-                                            </div>
-                                            <label className="toggle-v2">
-                                                <input type="checkbox" name="backup_enabled" checked={settings.backup_enabled} onChange={handleChange} />
-                                                <span className="toggle-v2__slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="settings-card settings-card--danger">
-                                    <div className="settings-card__body">
-                                        <div className="flex items-start gap-4">
-                                            <div className="icon-box bg-transparent text-error p-0">
-                                                <AlertTriangle size={24} />
-                                            </div>
+                            {activeTab === 'appearance' && (
+                                <TabWrapper key="appearance">
+                                    <ConfigCard
+                                        icon={Palette}
+                                        title="Visual Intelligence"
+                                        desc="Interface aesthetics and data visualization preferences."
+                                        variant="info"
+                                    >
+                                        <div className="space-y-10">
                                             <div>
-                                                <h4 className="font-bold text-error text-lg">Critical Operations</h4>
-                                                <p className="text-sm text-error/80 mb-6">These actions cannot be undone and affect the entire platform availability.</p>
-                                                <div className="flex gap-4">
-                                                    <Button variant="danger" className="h-[48px] px-6">Flush Global Cache</Button>
-                                                    <Button variant="ghost" className="h-[48px] px-6 text-error hover:bg-error-soft border-error">Restart Services</Button>
+                                                <Label text="Global Chromatic Mode" />
+                                                <div className="theme-selector-grid">
+                                                    <ThemeChoice mode="light" current={appTheme} onSelect={setAppTheme} icon={Sun} label="Luminous" />
+                                                    <ThemeChoice mode="dark" current={appTheme} onSelect={setAppTheme} icon={Moon} label="Nocturnal" />
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <Label text="Telemetry Palettes" />
+                                                <div className="chart-palette-grid">
+                                                    {CHART_THEMES.map(t => (
+                                                        <PaletteCard key={t.id} theme={t} active={t.id === 'default'} />
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
+                                    </ConfigCard>
+                                </TabWrapper>
+                            )}
+
+                            {activeTab === 'access' && (
+                                <TabWrapper key="access">
+                                    <ConfigCard
+                                        icon={Shield}
+                                        title="System Governance"
+                                        desc="Fine-grained controls for platform transparency and resilience."
+                                        variant="error"
+                                    >
+                                        <div className="divide-y divide-base/30">
+                                            <ToggleRow
+                                                title="Field Transparency"
+                                                desc="Allow field agents to audit their own metadata in real-time."
+                                                checked={settings.can_field_user_view_submission}
+                                                onChange={(val) => setSettings(p => ({ ...p, can_field_user_view_submission: val }))}
+                                            />
+                                            <ToggleRow
+                                                title="Snapshot Redundancy"
+                                                desc="Enable automated 24h binary backups for disaster recovery."
+                                                checked={settings.backup_enabled}
+                                                onChange={(val) => setSettings(p => ({ ...p, backup_enabled: val }))}
+                                            />
+                                        </div>
+                                    </ConfigCard>
+
+                                    <div className="p-6 bg-rose-50 border border-rose-200 rounded-md overflow-hidden relative group">
+                                        <div className="absolute top-0 right-0 p-8 opacity-5 rotate-12 group-hover:rotate-45 transition-transform duration-700">
+                                            <AlertTriangle size={80} />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <h4 className="text-lg font-bold text-rose-700 mb-2 tracking-tight">Critical Overrides</h4>
+                                            <p className="text-sm font-medium text-rose-600/70 mb-6 max-w-md">Operations here affect instance integrity and data availability across all organizations.</p>
+                                            <div className="flex gap-4">
+                                                <Button variant="danger" className="h-10 px-6 rounded-md">Flush Master Cache</Button>
+                                                <Button variant="ghost" className="h-10 px-6 rounded-md border border-rose-200 text-rose-600 hover:bg-rose-100">Restart Engine</Button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        )}
+                                </TabWrapper>
+                            )}
+                        </AnimatePresence>
                     </div>
 
-                    <div className="settings-v2__sidebar">
-                        <div className="card-pro p-6 bg-surface-lowest text-center">
-                            <div className="w-20 h-20 bg-primary-soft text-primary rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-primary/20">
-                                <SettingsIcon size={32} />
+                    <div className="settings-sidebar-column">
+                        <div className="info-card-premium bg-white">
+                            <div className="w-20 h-20 rounded-md bg-zinc-50 text-primary flex items-center justify-center mx-auto mb-6 border border-base shadow-sm">
+                                <Cpu size={32} strokeWidth={2} />
                             </div>
-                            <h4 className="font-bold text-primary text-lg">{settings.system_name}</h4>
-                            <span className="text-xs font-bold text-muted uppercase tracking-widest">Master Instance</span>
-                            <div className="mt-8 pt-6 border-t border-base flex flex-col gap-2">
-                                <div className="flex justify-between text-xs">
-                                    <span className="text-muted">Storage:</span>
-                                    <span className="font-bold text-secondary">78.4 GB / 500 GB</span>
-                                </div>
-                                <div className="w-full h-1.5 bg-base rounded-full overflow-hidden">
-                                    <div className="h-full bg-primary" style={{ width: '15.6%' }} />
-                                </div>
+                            <h4 className="text-2xl font-black text-primary text-center mb-1 tracking-tight">{settings.system_name}</h4>
+                            <div className="mx-auto w-fit px-3 py-1 bg-primary text-[9px] font-black text-white uppercase tracking-[0.2em] rounded-full mb-8">
+                                Production v4.2
+                            </div>
+
+                            <div className="space-y-4">
+                                <ResourceMetric label="Resource Load" value="78.4%" />
+                                <ResourceMetric label="API Latency" value="42ms" />
+                                <ResourceMetric label="Encryption" value="AES-256" />
                             </div>
                         </div>
 
-                        <div className="mt-6 p-4 bg-primary-soft/30 rounded-2xl border border-primary/10">
-                            <div className="flex items-start gap-3">
-                                <Info className="text-primary mt-1" size={16} />
-                                <p className="text-[11px] leading-relaxed text-primary/80">
-                                    <strong>Real-time Update:</strong> Changes applied here will propagate to all organizations within 60 seconds of synchronization.
-                                </p>
+                        <div className="status-banner mt-6 p-5 bg-zinc-50 rounded-md border border-base flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shrink-0 shadow-glow-primary">
+                                <Activity size={20} />
+                            </div>
+                            <div>
+                                <h5 className="text-[11px] font-black text-primary uppercase tracking-[0.1em] mb-1">Live Engine Status</h5>
+                                <p className="text-[10px] leading-relaxed font-bold text-primary/70 mb-0 italic">Changes synchronize across organization nodes within 45 seconds of state commit.</p>
                             </div>
                         </div>
                     </div>
@@ -428,4 +295,80 @@ function SettingsPage() {
     );
 }
 
-export default SettingsPage;
+// Minimalistic UI Helpers
+const TabWrapper = ({ children }) => (
+    <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="space-y-8">
+        {children}
+    </motion.div>
+);
+
+const ConfigCard = ({ icon: Icon, title, desc, children, variant = 'primary' }) => (
+    <div className="premium-card">
+        <div className="card-header-nx">
+            <div className={cn("w-12 h-12 rounded-md flex items-center justify-center border shadow-sm", `bg-${variant}-soft text-${variant} border-${variant}/20`)}>
+                <Icon size={24} />
+            </div>
+            <div className="flex-1">
+                <h3 className="text-lg font-bold text-primary tracking-tight">{title}</h3>
+                <p className="text-sm font-medium text-muted opacity-80">{desc}</p>
+            </div>
+        </div>
+        <div className="p-8">{children}</div>
+    </div>
+);
+
+
+const InputGroup = ({ label, hint, ...props }) => (
+    <div className="space-y-2.5">
+        <Label text={label} />
+        <input className="premium-input w-full" {...props} />
+        {hint && <p className="text-[10px] font-bold text-muted/60 lowercase italic ml-1 tracking-wide">{hint}</p>}
+    </div>
+);
+
+const Label = ({ text }) => (
+    <span className="text-[11px] font-black text-primary uppercase tracking-[0.15em] ml-1">{text}</span>
+);
+
+const ToggleRow = ({ title, desc, checked, onChange }) => (
+    <div className="py-6 flex items-center justify-between">
+        <div className="max-w-[80%]">
+            <span className="block font-black text-primary text-base tracking-tight">{title}</span>
+            <span className="text-xs font-bold text-muted opacity-70 leading-relaxed">{desc}</span>
+        </div>
+        <Switch checked={checked} onChange={onChange} />
+    </div>
+);
+
+const ThemeChoice = ({ mode, current, onSelect, icon: Icon, label }) => (
+    <button type="button" onClick={() => onSelect(mode)} className={cn("theme-choice-btn", current === mode && "active")}>
+        <div className={cn("theme-preview", mode)} />
+        <div className="flex items-center justify-between mt-3 px-1">
+            <div className="flex items-center gap-2">
+                <Icon size={16} className={mode === 'light' ? 'text-warning' : 'text-primary'} />
+                <span className="text-[11px] font-black uppercase tracking-wider">{label}</span>
+            </div>
+            {current === mode && <Check size={14} className="text-primary" strokeWidth={3} />}
+        </div>
+    </button>
+);
+
+const PaletteCard = ({ theme, active }) => (
+    <div className={cn("palette-preview-card", active && "active")}>
+        <div className="flex gap-1.5 mb-3">
+            {theme.colors.map((c, i) => <div key={i} className="h-4 flex-1 rounded-md" style={{ background: c }} />)}
+        </div>
+        <div className="flex justify-between items-center text-[10px] font-black text-muted/60 uppercase tracking-widest">
+            {theme.name}
+            {active && <CheckCircle2 size={12} className="text-primary" />}
+        </div>
+    </div>
+);
+
+const ResourceMetric = ({ label, value }) => (
+    <div className="flex justify-between items-center p-3 rounded-md bg-white border border-base">
+        <span className="text-[10px] font-bold text-muted uppercase tracking-wider">{label}</span>
+        <span className="text-xs font-bold text-primary">{value}</span>
+    </div>
+);
+

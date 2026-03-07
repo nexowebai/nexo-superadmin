@@ -1,157 +1,112 @@
 /* =========================================
-   PAYMENTS PAGE (Refined V2)
+   PAYMENTS PAGE - CLEAN REDESIGN (White Cards, MD Radius)
    ========================================= */
 
-.table-toolbar-refined {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
+/* Main Containers */
+.payments-container-nx {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-4);
 }
 
-.toolbar-left {
-    flex: 1;
-    min-width: 0;
-}
-
-.toolbar-right {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-}
-
-.toolbar-divider {
-    width: 1px;
-    height: 32px;
-    background: var(--border-base);
-    margin: 0 var(--space-2);
-}
-
-.payment-org-icon-refined {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-elevated);
+/* Card Styling - Clean White */
+.card-pro {
+    background: #ffffff;
+    /* Explicit white */
     border: 1px solid var(--border-base);
     border-radius: var(--radius-md);
-    color: var(--text-muted);
-    transition: all var(--transition-fast);
+    /* md radius */
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
-.dt-row:hover .payment-org-icon-refined {
-    color: var(--primary);
-    border-color: var(--primary-soft);
-    background: var(--primary-soft);
-    transform: rotate(5deg) scale(1.1);
+.dark .card-pro {
+    background: var(--bg-surface);
 }
 
-/* Receipt Modal Styles */
-.payment-receipt {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-    padding: var(--space-2);
+.card-pro:hover {
+    box-shadow: var(--shadow-md);
 }
 
-.receipt-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: var(--space-6);
-    border-bottom: 2px dashed var(--border-base);
+/* Page Header Elements */
+.payment-header-nx {
+    margin-bottom: 2rem;
 }
 
-.receipt-org {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.receipt-org-icon {
-    width: 64px;
-    height: 64px;
+/* Table Refinements */
+.payment-org-icon-refined {
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--primary-soft);
-    border: 1px solid var(--primary);
-    border-radius: var(--radius-xl);
-    color: var(--primary);
-}
-
-.receipt-org-name {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.receipt-org-code {
-    font-size: 13px;
+    background: #f8fafc;
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-sm);
     color: var(--text-muted);
-    font-family: var(--font-mono);
-    margin: 4px 0 0;
+}
+
+.dark .payment-org-icon-refined {
+    background: var(--bg-elevated);
+}
+
+/* Badges */
+.tier-badge-pro {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+}
+
+.tier-badge-pro--enterprise {
+    background: #eff6ff;
+    color: #1e40af;
+    border: 1px solid #dbeafe;
+}
+
+.tier-badge-pro--professional {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #dcfce7;
+}
+
+.tier-badge-pro--basic {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+/* Modal Styles - Receipt */
+.payment-receipt-content {
+    background: #ffffff;
+    padding: 2rem;
 }
 
 .receipt-amount-section {
     text-align: center;
-    padding: var(--space-10) var(--space-6);
-    background: var(--bg-elevated);
-    border-radius: var(--radius-2xl);
+    padding: 3rem 1.5rem;
+    background: #fcfcfc;
     border: 1px solid var(--border-base);
-    position: relative;
-    box-shadow: var(--shadow-sm);
-}
-
-.amount-label {
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.amount-value {
-    font-size: 48px;
-    font-weight: 900;
-    color: var(--text-primary);
-    margin: 12px 0;
-    letter-spacing: -0.02em;
-}
-
-.amount-method {
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.receipt-info-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
+    border-radius: var(--radius-md);
+    margin: 1.5rem 0;
 }
 
 .receipt-item {
+    background: #ffffff;
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    padding: var(--space-5);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-lg);
-    transition: all var(--transition-fast);
-}
-
-.receipt-item:hover {
-    border-color: var(--primary-soft);
-    background: var(--bg-elevated);
-    transform: translateY(-2px);
+    gap: 0.25rem;
 }
 
 .receipt-item-label {
     font-size: 10px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -161,42 +116,33 @@
     font-size: 15px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-top: 6px;
 }
 
-.receipt-error-banner {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: var(--space-5);
-    background: rgba(239, 68, 68, 0.08);
-    border: 1px solid var(--error);
-    border-radius: var(--radius-xl);
-    color: var(--error);
+/* Analysis Section Grid */
+.analytics-grid-nx {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.receipt-footer {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    padding-top: var(--space-4);
-}
-
-@media (max-width: 768px) {
-    .table-toolbar-refined {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .toolbar-right {
-        justify-content: space-between;
-    }
-
-    .receipt-info-grid {
+@media (max-width: 1024px) {
+    .analytics-grid-nx {
         grid-template-columns: 1fr;
     }
+}
 
-    .receipt-footer {
-        flex-direction: column;
-    }
+/* Toolbar Refinement */
+.table-toolbar-refined {
+    background: #ffffff;
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dark .table-toolbar-refined {
+    background: var(--bg-surface);
 }

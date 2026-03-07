@@ -74,7 +74,7 @@
     padding: var(--space-2);
     background: var(--ds-bg-overlay);
     border: 1px solid var(--border-strong);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-md);
     box-shadow: var(--ds-shadow-2xl);
     animation: ds-picker-slide 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -107,7 +107,7 @@
     justify-content: center;
     background: transparent;
     border: none;
-    border-radius: var(--ds-radius-md);
+    border-radius: var(--radius-md);
     color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -158,7 +158,8 @@
     font-size: 0.875rem;
     font-weight: 500;
     border: none;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
+
     background: transparent;
     color: var(--text-primary);
     cursor: pointer;

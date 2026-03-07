@@ -1,72 +1,78 @@
-import { Building2, Users, FolderKanban } from "lucide-react";
-import { CardSkeleton } from "@components/ui/Card/Card";
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+    Building2,
+    Users,
+    ChevronRight,
+} from 'lucide-react';
+import { Button } from '@components/ui';
+
+const OrganizationCard = ({ org, onClick, delay }) => (
+    <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay, duration: 0.3 }}
+        onClick={onClick}
+        className="group relative flex flex-col items-center justify-center p-6 rounded-md bg-surface-base border border-base hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer aspect-square text-center"
+    >
+        <div className="relative w-16 h-16 rounded-md bg-surface border border-base flex items-center justify-center overflow-hidden mb-4 shadow-sm group-hover:scale-105 transition-transform">
+            {org.logo ? (
+                <img src={org.logo} alt={org.name} className="w-full h-full object-cover" />
+            ) : (
+                <span className="text-2xl font-bold text-primary/30">{org.name[0]}</span>
+            )}
+            <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 border-2 border-surface rounded-full ${org.status === 'active' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+        </div>
+
+        <div className="space-y-1">
+            <h4 className="text-sm font-bold text-primary tracking-tight truncate max-w-full px-2">{org.name}</h4>
+            <div className="flex flex-col items-center gap-1.5 pt-1">
+                <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 bg-surface-elevated rounded-md text-muted/60">
+                    {org.plan}
+                </span>
+                <div className="flex items-center gap-1 opacity-50">
+                    <Users className="w-3 h-3" />
+                    <span className="text-[10px] font-bold">{org.userCount} Users</span>
+                </div>
+            </div>
+        </div>
+
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <ChevronRight className="w-4 h-4 text-primary" />
+        </div>
+    </motion.div>
+);
 
 const OrganizationGrid = ({ loading, organizations, onOrgClick }) => {
     return (
-        <div className="card-pro">
-            <div className="card-pro__header">
-                <div className="card-pro__header-left">
-                    <div className="card-pro__icon">
-                        <Building2 size={18} strokeWidth={2.5} />
+        <div className="p-6 rounded-md bg-surface border border-base shadow-sm relative h-full flex flex-col">
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-md bg-surface-base flex items-center justify-center border border-base">
+                        <Building2 className="w-5 h-5 text-muted" />
                     </div>
-                    <h3>Active Organizations</h3>
+                    <div>
+                        <h3 className="text-lg font-bold text-primary tracking-tight m-0">Organizations</h3>
+                        <p className="text-xs font-medium text-muted m-0">Manage your connected business units</p>
+                    </div>
                 </div>
+                <Button variant="ghost" className="h-9 px-4 rounded-md border border-base bg-surface-subtle hover:bg-surface-elevated text-[11px] font-bold transition-all shadow-sm">
+                    View All
+                </Button>
             </div>
-            <div className="card-pro__content">
-                {loading ? (
-                    <div className="orgs-skeleton">
-                        {[1, 2, 3].map((i) => <CardSkeleton key={i} height={120} />)}
-                    </div>
-                ) : (
-                    <div className="orgs-grid">
-                        {organizations.map((org, i) => (
-                            <div
-                                key={org.id}
-                                className="org-card hover:translate-y-[-4px] transition-all duration-200 cursor-pointer"
-                                onClick={() => onOrgClick(org.id)}
-                            >
-                                <div className="org-card__header">
-                                    <div className="org-card__avatar">
-                                        {org.logo ? <img src={org.logo} alt={org.name} /> : <span>{org.name[0]}</span>}
-                                    </div>
-                                    <div className="org-card__info">
-                                        <h4>{org.name}</h4>
-                                        <div className="org-card__meta">
-                                            <span className={`plan-badge plan-badge--${org.plan.toLowerCase()}`}>{org.plan}</span>
-                                            <span className={`status-dot status-dot--${org.status}`} />
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div className="org-card__details">
-                                    <div className="org-detail-item">
-                                        <Users size={14} />
-                                        <span>{org.userCount} Users</span>
-                                    </div>
-                                    <div className="org-detail-item">
-                                        <FolderKanban size={14} />
-                                        <span>{org.projectCount} Projects</span>
-                                    </div>
-                                </div>
-
-                                <div className="org-card__footer">
-                                    <div className="org-progress">
-                                        <div className="org-progress__label">
-                                            <span>Storage Usage</span>
-                                            <span>{org.storageUsage}%</span>
-                                        </div>
-                                        <div className="org-progress__bar">
-                                            <div
-                                                className="org-progress__fill transition-all duration-1000"
-                                                style={{ width: `${org.storageUsage}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+            <div className="grid grid-cols-2 gap-4 flex-1 overflow-y-auto pr-1">
+                {loading
+                    ? [1, 2, 3, 4].map(i => <div key={i} className="aspect-square rounded-md bg-surface-base animate-pulse border border-base" />)
+                    : organizations.map((org, i) => (
+                        <OrganizationCard
+                            key={org.id}
+                            org={org}
+                            onClick={() => onOrgClick(org.id)}
+                            delay={i * 0.05}
+                        />
+                    ))
+                }
             </div>
         </div>
     );

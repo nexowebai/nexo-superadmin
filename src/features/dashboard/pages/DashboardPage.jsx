@@ -1,35 +1,38 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Zap } from "lucide-react";
+import {
+  Building2,
+  Users,
+  FolderKanban,
+  ShieldCheck,
+  Plus,
+  Activity,
+  Bell
+} from "lucide-react";
 import { PageContainer } from "@components/layout/DashboardLayout";
 import { useLayout } from "@context";
 import { useDashboardStats } from "../../hooks";
 import { formatNumber } from "@utils/format";
-import StatsOverview from "../components/StatsOverview";
-import OrganizationGrid from "../components/OrganizationGrid";
-import DistributionCharts from "../components/DistributionCharts";
-import NotificationCenter from "../components/NotificationCenter";
-import SystemHealth from "../components/SystemHealth";
-import GrowthAnalytics from "../components/GrowthAnalytics";
 import { Button } from "@components/ui";
-import { Building2, Users, FolderKanban, ShieldCheck } from "lucide-react";
+
+// Components
+import { StatsCard, StatsGrid } from "@components/common/StatsCard/StatsCard";
+import OrganizationGrid from "../components/OrganizationGrid";
+import FinancialPerformance from "../components/FinancialPerformance";
+import SystemHealth from "../components/SystemHealth";
+import NotificationCenter from "../components/NotificationCenter";
+
 import "./DashboardPage.css";
 
 const STATS_CONFIG = [
-  { key: "total_organizations", icon: "Building2", color: "#10b981", label: "Organizations" },
-  { key: "active_users", icon: "Users", color: "#10b981", label: "Active Users" },
-  { key: "total_projects", icon: "FolderKanban", color: "#10b981", label: "Projects" },
-  { key: "system_health", icon: "ShieldCheck", color: "#10b981", label: "System Health", isPercent: true },
+  { key: "total_organizations", icon: Building2, color: "var(--primary)", title: "Organizations" },
+  { key: "active_users", icon: Users, color: "var(--info)", title: "Total Users" },
+  { key: "total_projects", icon: FolderKanban, color: "var(--secondary)", title: "Active Projects" },
+  { key: "system_health", icon: ShieldCheck, color: "var(--success)", title: "Active Uptime", isPercent: true },
 ];
 
-// Re-map icons to Lucide components for StatsCard compatibility
-const ICON_MAP = {
-  Building2,
-  Users,
-  FolderKanban,
-  ShieldCheck
-};
+
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -38,33 +41,29 @@ function DashboardPage() {
 
   useEffect(() => {
     setHeaderProps({
-      title: (
-        <div className="dash-pro__title">
-          <span>Platform Overview</span>
-        </div>
-      ),
+      title: "Super Admin Control Center",
       action: (
-        <Button
-          variant="primary"
-          icon={Zap}
-          onClick={() => navigate('/organizations/create')}
-          className="h-[48px] px-6"
-        >
-          Add Organization
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            className="w-11 h-11 rounded-md border border-base bg-surface-subtle hover:bg-surface-elevated transition-all"
+          >
+            <Bell className="w-5 h-5 text-muted" />
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => navigate('/organizations/create')}
+            className="h-11 px-5 rounded-md font-bold text-[11px] uppercase tracking-wider hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary border-none shadow-sm shadow-emerald-500/10 flex items-center justify-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Add Organization
+          </Button>
+        </div>
       )
     });
-  }, [setHeaderProps]);
+  }, [setHeaderProps, navigate]);
 
-  const colors = useMemo(() => ({
-    primary: "#10b981", // Nexo Green
-    success: "#10b981",
-    warning: "#f59e0b",
-    error: "#ef4444",
-    info: "#10b981",
-    grid: "rgba(0,0,0,0.03)",
-    text: "#71717a",
-  }), []);
+
 
   const metrics = useMemo(() => {
     const summary = data?.summary || [];
@@ -73,7 +72,6 @@ function DashboardPage() {
       const value = stat?.value ?? 0;
       return {
         ...config,
-        icon: ICON_MAP[config.icon],
         value: config.isPercent ? `${value}%` : formatNumber(value),
         trend: config.key !== "system_health" ? Math.floor(Math.random() * 30) - 10 : undefined,
         delay: index * 0.05,
@@ -81,86 +79,62 @@ function DashboardPage() {
     });
   }, [data]);
 
-  const pieData = useMemo(() => {
-    const raw = data?.charts?.organization_status || [];
-    const colorMap = { active: colors.success, disabled: colors.error, pending: colors.warning };
-    return raw.map(item => ({ ...item, color: colorMap[item.name] || colors.info }));
-  }, [data, colors]);
-
-  const barData = useMemo(() => {
-    return (data?.charts?.plan_distribution || []).map(item => ({
-      ...item,
-      name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-    }));
-  }, [data]);
-
-  const notifications = useMemo(() => data?.recent_notifications || [], [data]);
-  const systemHealth = useMemo(() => {
-    const stat = (data?.summary || []).find(s => s.key === "system_health");
-    return stat?.value || 99.9;
-  }, [data]);
-
   const organizations = useMemo(() => [
     { id: 1, name: "Nexo Global Solutions", plan: "Enterprise", status: "active", userCount: 124, projectCount: 45, storageUsage: 78, logo: null },
     { id: 2, name: "Stark Industries", plan: "Pro", status: "active", userCount: 86, projectCount: 12, storageUsage: 42, logo: null },
     { id: 3, name: "Wayne Enterprises", plan: "Basic", status: "active", userCount: 24, projectCount: 8, storageUsage: 15, logo: null },
     { id: 4, name: "Cyberdyn Systems", plan: "Pro", status: "warning", userCount: 210, projectCount: 64, storageUsage: 92, logo: null },
-    { id: 5, name: "OsCorp", plan: "Enterprise", status: "active", userCount: 156, projectCount: 38, storageUsage: 65, logo: null },
-    { id: 6, name: "Umbrella Corp", plan: "Basic", status: "error", userCount: 12, projectCount: 2, storageUsage: 5, logo: null },
   ], []);
 
-  const slaMetrics = useMemo(() => ({
-    onTime: 87,
-    delayed: 8,
-    critical: 5,
-    avgResponseTime: "2.4h"
-  }), []);
-
   return (
-    <PageContainer className="dash-pro">
-      <StatsOverview loading={loading} metrics={metrics} />
+    <PageContainer className="dashboard-v2 pb-12 overflow-hidden">
+      {/* 1. Statistics Cards Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="mb-8"
+      >
+        <StatsGrid columns={4}>
+          {metrics.map((metric) => (
+            <StatsCard
+              key={metric.key}
+              title={metric.title}
+              value={metric.value}
+              trend={metric.trend}
+              icon={metric.icon}
+              color={metric.color}
+              loading={loading}
+            />
+          ))}
+        </StatsGrid>
+      </motion.section>
 
-      <GrowthAnalytics loading={loading} />
 
-      <OrganizationGrid
-        loading={loading}
-        organizations={organizations}
-        onOrgClick={(id) => navigate(`/organizations/${id}`)}
-      />
-
-      <div className="grid-pro">
-        <div className="grid-pro__main">
-          <DistributionCharts
-            loading={loading}
-            barData={barData}
-            pieData={pieData}
-            colors={colors}
-            isDark={false}
-            onlyBar={true}
-          />
-
-          <NotificationCenter
-            loading={loading}
-            notifications={notifications}
-            onViewAll={() => navigate("/notifications")}
-          />
+      {/* 2. Primary Layout: Analysis & Insights */}
+      <div className="layout-grid-nx">
+        {/* Main Column (2/3) */}
+        <div className="main-column-nx">
+          <div className="section-stack-nx">
+            <FinancialPerformance loading={loading} />
+            <OrganizationGrid
+              loading={loading}
+              organizations={organizations}
+              onOrgClick={(id) => navigate(`/organizations/${id}`)}
+            />
+          </div>
         </div>
 
-        <div className="grid-pro__side">
-          <DistributionCharts
-            loading={loading}
-            barData={barData}
-            pieData={pieData}
-            colors={colors}
-            isDark={false}
-            onlyPie={true}
-          />
-          <SystemHealth loading={loading} systemHealth={systemHealth} />
-        </div>
+        {/* Sidebar Column (1/3) */}
+        <aside className="sidebar-column-nx">
+          <div className="sidebar-stack-nx">
+            <SystemHealth loading={loading} />
+            <NotificationCenter loading={loading} />
+          </div>
+        </aside>
       </div>
     </PageContainer>
   );
 }
 
 export default DashboardPage;
-

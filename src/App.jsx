@@ -2,12 +2,11 @@ import { useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import { queryClient } from '@lib/queryClient';
-import { ThemeProvider, useTheme } from '@context/ThemeContext';
-import { AuthProvider, useAuth } from '@context/AuthContext';
+import { ThemeProvider, useTheme, LayoutProvider, AuthProvider, useAuth } from '@context';
 import { NotificationProvider } from './context/NotificationContext';
-import { LayoutProvider } from '@context';
 import AppRoutes from '@/routes';
 import '@styles/index.css';
+
 
 function SessionExpiredListener() {
     const { logout } = useAuth();
@@ -24,10 +23,10 @@ function SessionExpiredListener() {
 }
 
 function ThemedToaster() {
-    const { theme } = useTheme();
+    const { mode } = useTheme();
     return (
         <Toaster
-            theme={theme}
+            theme={mode}
             position="top-right"
             expand={true}
             richColors
@@ -75,3 +74,4 @@ export default function App() {
         </QueryClientProvider>
     );
 }
+

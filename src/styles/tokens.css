@@ -99,15 +99,16 @@
   --font-bold: 700;
 
   /* Border Radius */
-  --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 10px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
-  --radius-2xl: 20px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
   --ds-radius-md: var(--radius-md);
+
   --ds-radius-full: var(--radius-full);
 
   /* Shadows */
