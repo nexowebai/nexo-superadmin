@@ -25,7 +25,7 @@ const HealthMetric = ({ label, value, icon: Icon, color, delay }) => (
 
 const SystemHealth = ({ loading, systemHealth = 99.98 }) => {
     return (
-        <div className="p-6 rounded-md bg-surface border border-base shadow-sm h-full flex flex-col">
+        <div className="card-pro p-6 h-full flex flex-col">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-md bg-emerald-500/5 flex items-center justify-center border border-emerald-500/20">

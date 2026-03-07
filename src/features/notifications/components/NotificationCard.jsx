@@ -25,8 +25,8 @@ export function NotificationCard({ notification, onRead, onDelete }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className={cn(
-                "flex flex-col p-6 bg-surface border rounded-md relative overflow-hidden transition-all duration-300 h-full shadow-sm",
-                notification.is_read ? "opacity-70 border-base" : "border-primary/20 bg-primary/[0.02]"
+                "notif-card",
+                notification.is_read && "notif-card--read"
             )}
         >
             <div className="flex items-start gap-4 mb-4">
@@ -59,7 +59,7 @@ export function NotificationCard({ notification, onRead, onDelete }) {
                 {notification.message}
             </p>
 
-            <div className="flex items-center justify-between pt-4 border-t border-base/50 mt-auto">
+            <div className="flex items-center justify-between pt-4 border-t border-base mt-auto">
                 <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted uppercase tracking-widest opacity-60">
                     <Clock size={11} />
                     <span>{formatDate(notification.created_at)}</span>
@@ -67,15 +67,16 @@ export function NotificationCard({ notification, onRead, onDelete }) {
                 <div className="flex items-center gap-2">
                     {!notification.is_read && (
                         <button
-                            className="h-8 px-3 rounded-md border border-primary text-primary text-[10px] font-black uppercase tracking-wider bg-white hover:bg-primary hover:text-white transition-all flex items-center gap-1.5"
+                            className="notif-btn-pro notif-btn-read-pro h-8 px-4"
                             onClick={() => onRead(notification.id)}
                         >
-                            <Check size={12} /> Mark read
+                            <Check size={12} /> Mark Read
                         </button>
                     )}
                     <button
-                        className="h-8 w-8 rounded-md border border-base text-muted hover:text-error hover:border-error/30 hover:bg-error/5 transition-all flex items-center justify-center"
+                        className="notif-btn-pro notif-btn-delete-pro h-8 w-8 p-0 justify-center"
                         onClick={() => onDelete(notification.id)}
+                        title="Delete Notification"
                     >
                         <Trash2 size={14} />
                     </button>

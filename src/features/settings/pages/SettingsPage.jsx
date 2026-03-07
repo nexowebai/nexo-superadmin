@@ -33,13 +33,12 @@ export default function SettingsPage() {
 
     useEffect(() => {
         setHeaderProps({
-            title: 'Infrastructure Preferences',
+            title: 'Settings & Preferences',
             action: (
                 <Button
                     variant="primary"
                     icon={Save}
                     form="settings-form"
-                    className="h-11 px-8 rounded-md font-bold uppercase tracking-wider text-[11px] hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     Sync State
                 </Button>
@@ -52,7 +51,7 @@ export default function SettingsPage() {
     return (
         <PageContainer className="settings-page-v2 pb-12">
             <div className="settings-v2-premium">
-                <div className="glass-nav mb-8 p-1 bg-surface border border-base rounded-md w-fit shadow-sm">
+                <div className="mb-8 flex justify-center">
                     <Tabs
                         options={TAB_OPTIONS}
                         value={activeTab}

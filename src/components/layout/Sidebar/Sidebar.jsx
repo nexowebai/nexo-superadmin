@@ -340,10 +340,10 @@ function Sidebar({
         isOpen={showLogoutModal}
         onClose={() => setShowLogoutModal(false)}
         onConfirm={handleLogoutConfirm}
-        title="Sign Out"
-        description="Are you sure you want to sign out? You'll need to sign in again to access your account."
+        title="Account Logout"
+        description="Are you sure you want to exit your Super Admin session? You'll need to re-authenticate to regain access to the NEXO dashboard."
+        confirmText="Logout Now"
         variant="logout"
-        confirmText="Sign Out"
         cancelText="Cancel"
         loading={loggingOut}
       />

@@ -97,10 +97,15 @@ function Select({
     const updatePosition = useCallback(() => {
         if (isOpen && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const dropdownHeight = 240; // Max height from CSS or estimated
+            const shouldOpenUp = spaceBelow < dropdownHeight && rect.top > dropdownHeight;
+
             setCoords({
-                top: rect.bottom,
+                top: shouldOpenUp ? rect.top - 6 : rect.bottom + 6,
                 left: rect.left,
-                width: rect.width
+                width: rect.width,
+                isUp: shouldOpenUp
             });
         }
     }, [isOpen]);
@@ -213,10 +218,12 @@ function Select({
                         className="ds-select__dropdown ds-select-portal"
                         style={{
                             position: 'fixed',
-                            top: coords.top + 6,
+                            top: coords.top,
                             left: coords.left,
                             width: coords.width,
-                            zIndex: 30000
+                            zIndex: 30000,
+                            transform: coords.isUp ? 'translateY(-100%)' : 'none',
+                            transformOrigin: coords.isUp ? 'bottom' : 'top'
                         }}
                         variants={dropdownVariants}
                         initial="hidden"

@@ -2,8 +2,10 @@
   /* Backgrounds - Default Light Mode (Premium Nexo White) */
   --bg-base: #f8fafc;
   --bg-surface: #ffffff;
-  --bg-elevated: #f1f5f9;
+  --bg-elevated: #f5f7fa;
   --bg-subtle: #f9fafb;
+  --bg-table-header: #f3f3f3;
+  --bg-app: #ffffff;
 
   /* Text Colors */
   --text-primary: #1e293b;
@@ -151,25 +153,35 @@ body.dark-mode {
   --bg-surface: #16191f;
   --bg-elevated: #1f232b;
   --bg-subtle: #292d36;
+  --bg-table-header: #1d2129;
+  --bg-app: #0f1115;
 
   --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
   --text-dimmed: #64748b;
 
-  --border-base: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
+  --border-base: #272c36;
+  --border-strong: #333a45;
   --border-dimmed: rgba(255, 255, 255, 0.04);
 
   --sidebar-bg: #0f1115;
   --sidebar-hover: rgba(255, 255, 255, 0.04);
   --sidebar-active: rgba(var(--primary-rgb), 0.12);
+  --sidebar-active-bg: rgba(var(--primary-rgb), 0.1);
   --sidebar-text: #94a3b8;
   --sidebar-text-active: #f1f5f9;
 
-  --header-bg: rgba(15, 17, 21, 0.85);
+  --header-bg: rgba(22, 25, 31, 0.88);
+  --header-border: #272c36;
 
+  --card-bg: #16191f;
+  --card-border: #272c36;
   --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
 }
 
 input:focus,

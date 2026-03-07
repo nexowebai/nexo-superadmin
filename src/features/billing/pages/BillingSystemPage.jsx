@@ -40,7 +40,6 @@ export default function BillingSystemPage() {
                     variant="primary"
                     icon={Plus}
                     onClick={handleCreateClick}
-                    className="h-11 px-8 rounded-md font-bold uppercase tracking-wider text-[11px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-sm"
                 >
                     {activeTab === 'plans' ? 'Create Plan' : 'Generate Coupon'}
                 </Button>

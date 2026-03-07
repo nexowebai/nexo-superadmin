@@ -46,6 +46,7 @@ export default function PrivacyPolicyPage() {
                         variant="secondary"
                         icon={Globe}
                         onClick={() => window.open('/', '_blank')}
+                        className="px-6 h-11"
                     >
                         View Live
                     </Button>
@@ -54,7 +55,7 @@ export default function PrivacyPolicyPage() {
                         icon={Save}
                         loading={isSaving}
                         onClick={handleSave}
-                        className="px-6"
+                        className="px-6 h-11"
                     >
                         Publish Changes
                     </Button>

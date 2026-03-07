@@ -57,7 +57,7 @@ const NotificationCenter = ({ loading, notifications = [] }) => {
     const displayList = notifications.length > 0 ? notifications : MOCK_NOTIFICATIONS;
 
     return (
-        <div className="p-6 rounded-md bg-surface border border-base shadow-sm h-full flex flex-col">
+        <div className="card-pro p-6 h-full flex flex-col">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-md bg-surface-base flex items-center justify-center border border-base">
@@ -65,11 +65,11 @@ const NotificationCenter = ({ loading, notifications = [] }) => {
                     </div>
                     <div>
                         <h3 className="text-lg font-bold text-primary tracking-tight m-0">Notifications</h3>
-                        <p className="text-xs font-medium text-muted m-0">Recent system updates</p>
+                        <p className="text-xs font-medium text-muted m-0">Recent events</p>
                     </div>
                 </div>
-                <Button variant="ghost" className="w-8 h-8 rounded-md border border-base bg-surface-subtle hover:bg-surface-elevated p-0 text-muted transition-all">
-                    <MoreVertical className="w-4 h-4" />
+                <Button variant="ghost" className="h-9 px-4 rounded-md border border-base bg-surface-base hover:bg-surface-elevated text-[10px] font-black uppercase tracking-widest transition-all shadow-sm">
+                    View All
                 </Button>
             </div>
 
@@ -85,11 +85,6 @@ const NotificationCenter = ({ loading, notifications = [] }) => {
                     ))
                 }
             </div>
-
-            <Button variant="ghost" className="w-full h-10 bg-surface-subtle border border-base rounded-md mt-6 text-[10px] font-bold uppercase tracking-widest text-muted hover:bg-surface-elevated transition-all shadow-sm">
-                View All Events
-                <ArrowRight className="w-3 h-3 ml-2" />
-            </Button>
         </div>
     );
 };
