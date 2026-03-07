@@ -1,9 +1,9 @@
 export { default as StatsCard, StatsCardSkeleton, StatsGrid } from './StatsCard';
 export { default as SearchBar } from './SearchBar';
 export { default as EmptyState } from './EmptyState';
-export { default as StatusBadge } from './StatusBadge';
+
 export { default as ActionMenu } from './ActionMenu';
-export { default as Select } from './Select';
+
 export { DataTable, TableActions, TableToolbar, CellTooltip } from './DataTable';
 export { default as NotificationDrawer } from './Notification';
 export { AnimatedFolder, Lightbox, PreviewCard } from './AnimatedFolder';

@@ -2,7 +2,8 @@ import { Search, X, RefreshCw, Columns3, Download, Printer, FileSpreadsheet } fr
 import { useReactToPrint } from "react-to-print";
 import { saveAs } from "file-saver";
 import Papa from "papaparse";
-import { Select, SearchBar } from "@components/common";
+import { SearchBar } from "@components/common";
+import { Select } from "@components/ui";
 
 export default function TableToolbar({
   data = [],

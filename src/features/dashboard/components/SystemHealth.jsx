@@ -1,11 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-    ShieldCheck,
-    Zap,
-    Globe,
-    Database,
-} from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
+import { MOCK_HEALTH_METRICS } from '../constants/dashboardData';
 
 const HealthMetric = ({ label, value, icon: Icon, color, delay }) => (
     <motion.div
@@ -75,10 +71,11 @@ const SystemHealth = ({ loading, systemHealth = 99.98 }) => {
                 {/* Metrics Stack */}
                 <div className="grid grid-cols-1 gap-2 mt-auto">
                     <div className="grid grid-cols-2 gap-2">
-                        <HealthMetric label="System Speed" value="28ms" icon={Zap} color="#10b981" delay={0.1} />
-                        <HealthMetric label="API Load" value="Perfect" icon={Globe} color="#3b82f6" delay={0.2} />
+                        {MOCK_HEALTH_METRICS.slice(0, 2).map((metric, i) => (
+                            <HealthMetric key={i} {...metric} />
+                        ))}
                     </div>
-                    <HealthMetric label="Database Sync" value="94% Synced" icon={Database} delay={0.3} color="#8b5cf6" />
+                    {MOCK_HEALTH_METRICS[2] && <HealthMetric {...MOCK_HEALTH_METRICS[2]} />}
                 </div>
             </div>
         </div>

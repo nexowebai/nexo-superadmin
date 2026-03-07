@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { PageContainer } from '@components/layout/DashboardLayout';
 import Button from '@components/ui/Button';
 import { Skeleton } from '@components/ui/Skeleton/Skeleton';
-import { useProfile } from '../../hooks/';
+import { useProfile } from '../../auth/hooks/useProfile';
 import notify from '@utils/notify';
 import './ProfilePage.css';
 

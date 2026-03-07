@@ -1,9 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import {
-    Activity,
-    ArrowUpRight,
-} from 'lucide-react';
+import { Activity, ArrowUpRight } from 'lucide-react';
 import DatePicker from '@components/ui/DatePicker/DatePicker';
 import {
     AreaChart,
@@ -13,19 +10,10 @@ import {
     YAxis,
     ChartTooltip
 } from '@/components/ui/area-chart';
+import { useRevenueAnalysis } from '../hooks/useRevenueAnalysis';
 
 const FinancialPerformance = ({ loading }) => {
-    const [selectedDate, setSelectedDate] = useState('2026-03-01');
-
-    const chartData = useMemo(() => {
-        // Generate mock data for the last 30 days
-        return Array.from({ length: 30 }, (_, i) => {
-            const date = new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000);
-            const revenue = 15000 + Math.random() * 10000 + Math.sin(i / 2) * 5000;
-            const costs = 10000 + Math.random() * 5000 + Math.cos(i / 3) * 2000;
-            return { date, revenue, costs };
-        });
-    }, []);
+    const { selectedDate, setSelectedDate, chartData, stats } = useRevenueAnalysis();
 
     if (loading) return (
         <div className="h-[480px] w-full rounded-md bg-white animate-pulse border border-base" />
@@ -54,10 +42,10 @@ const FinancialPerformance = ({ loading }) => {
                         <div className="stat-nx">
                             <span className="text-[10px] uppercase font-bold tracking-wider text-muted block mb-1">Total Earnings</span>
                             <div className="flex items-center gap-2">
-                                <span className="text-2xl font-bold text-primary">$2.4M</span>
+                                <span className="text-2xl font-bold text-primary">{stats.totalEarnings}</span>
                                 <span className="text-[10px] font-bold text-emerald-600 flex items-center bg-emerald-500/5 px-2 py-0.5 rounded-md border border-emerald-500/10">
                                     <ArrowUpRight className="w-3 h-3 mr-0.5" />
-                                    +12.4%
+                                    {stats.earningsTrend}
                                 </span>
                             </div>
                         </div>
@@ -65,9 +53,9 @@ const FinancialPerformance = ({ loading }) => {
                         <div className="stat-nx">
                             <span className="text-[10px] uppercase font-bold tracking-wider text-muted block mb-1">Total Costs</span>
                             <div className="flex items-center gap-2">
-                                <span className="text-2xl font-bold text-primary">$842K</span>
+                                <span className="text-2xl font-bold text-primary">{stats.totalCosts}</span>
                                 <span className="text-[10px] font-bold text-emerald-600/60 flex items-center bg-zinc-500/5 px-2 py-0.5 rounded-md border border-base">
-                                    Healthy
+                                    {stats.costsStatus}
                                 </span>
                             </div>
                         </div>
@@ -84,15 +72,13 @@ const FinancialPerformance = ({ loading }) => {
             </div>
 
             {/* Main Analysis Engine - Area Chart */}
-            <div className="relative h-[340px] w-full mt-4">
+            <div className="relative w-full mt-4">
                 <AreaChart
                     data={chartData}
                     aspectRatio="3.5 / 1"
                     margin={{ top: 20, right: 10, bottom: 40, left: 45 }}
                 >
                     <Grid horizontal vertical={false} strokeOpacity={0.06} />
-
-                    {/* Revenue Area */}
                     <Area
                         dataKey="revenue"
                         fill="var(--primary)"
@@ -100,8 +86,6 @@ const FinancialPerformance = ({ loading }) => {
                         strokeWidth={2.5}
                         fadeEdges
                     />
-
-                    {/* Costs Area */}
                     <Area
                         dataKey="costs"
                         fill="#38bdf8"
@@ -109,10 +93,8 @@ const FinancialPerformance = ({ loading }) => {
                         strokeWidth={2}
                         fadeEdges
                     />
-
                     <YAxis numTicks={5} formatValue={(v) => `$${(v / 1000).toFixed(0)}K`} />
                     <XAxis numTicks={6} />
-
                     <ChartTooltip
                         rows={(point) => [
                             {
@@ -130,7 +112,7 @@ const FinancialPerformance = ({ loading }) => {
                 </AreaChart>
             </div>
 
-            {/* Legend & Meta */}
+            {/* Legend */}
             <div className="flex items-center justify-start gap-8 mt-10 pt-6 border-t border-base">
                 <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-primary" />

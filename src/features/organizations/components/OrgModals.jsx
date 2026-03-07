@@ -1,13 +1,9 @@
 import { useState, useCallback } from 'react';
-import { X, ShieldAlert, KeyRound, Bell, Tag, Send, Plus, CreditCard } from 'lucide-react';
-import { Select } from '@components/common';
+import { ShieldAlert, KeyRound, Bell, Tag, Send, Plus, CreditCard } from 'lucide-react';
 import notify from '@utils/notify';
-import { useDisableOrganization, useResetOrgPassword } from '../../hooks/';
-import { Modal, ModalHeader, ModalTitle, ModalDescription, ModalBody, ModalFooter, Button } from '@components/ui';
+import { useDisableOrganization, useResetOrgPassword } from '../hooks/useOrganizations';
+import { Modal, ModalHeader, ModalTitle, ModalDescription, ModalBody, ModalFooter, Button, Select } from '@components/ui';
 
-/* =========================================
-   1. DISABLE ORGANIZATION MODAL
-   ========================================= */
 export function DisableOrgModal({ isOpen, onClose, orgId, orgName, onSuccess }) {
     const [reason, setReason] = useState('');
     const { mutate: disableOrg } = useDisableOrganization();
@@ -18,16 +14,11 @@ export function DisableOrgModal({ isOpen, onClose, orgId, orgName, onSuccess }) 
             notify.error('Please provide a reason');
             return;
         }
-
         onClose();
         notify.promise(
             new Promise((resolve, reject) => {
                 disableOrg({ id: orgId, reason }, {
-                    onSuccess: () => {
-                        setReason('');
-                        if (onSuccess) onSuccess();
-                        resolve();
-                    },
+                    onSuccess: () => { setReason(''); onSuccess?.(); resolve(); },
                     onError: reject
                 });
             }),
@@ -46,14 +37,12 @@ export function DisableOrgModal({ isOpen, onClose, orgId, orgName, onSuccess }) 
                     <div className="ds-confirm-modal__icon" style={{ backgroundColor: 'var(--warning-soft)' }}>
                         <ShieldAlert size={28} className="text-warning" />
                     </div>
-
                     <ModalHeader className="ds-confirm-modal__header">
                         <ModalTitle className="ds-confirm-modal__title">Disable Organization</ModalTitle>
                         <ModalDescription className="ds-confirm-modal__description">
                             This will prevent all users of "{orgName}" from accessing the platform.
                         </ModalDescription>
                     </ModalHeader>
-
                     <ModalBody className="pb-6 px-6">
                         <div className="form-field-v2">
                             <label>Reason for disabling</label>
@@ -66,7 +55,6 @@ export function DisableOrgModal({ isOpen, onClose, orgId, orgName, onSuccess }) 
                             />
                         </div>
                     </ModalBody>
-
                     <ModalFooter className="ds-confirm-modal__footer">
                         <div className="ds-confirm-modal__actions">
                             <Button variant="secondary" onClick={onClose} type="button" fullWidth>Cancel</Button>
@@ -79,10 +67,7 @@ export function DisableOrgModal({ isOpen, onClose, orgId, orgName, onSuccess }) 
     );
 }
 
-/* =========================================
-   2. MANAGE SUBSCRIPTION PLAN MODAL
-   ========================================= */
-export function ManagePlanModal({ isOpen, onClose, orgName, orgId, currentPlan, onSuccess }) {
+export function ManagePlanModal({ isOpen, onClose, orgName, currentPlan, onSuccess }) {
     const [tier, setTier] = useState(currentPlan || 'professional');
     const [maxUsers, setMaxUsers] = useState(100);
     const [maxProjects, setMaxProjects] = useState(20);
@@ -90,21 +75,21 @@ export function ManagePlanModal({ isOpen, onClose, orgName, orgId, currentPlan, 
     const handleUpdate = (e) => {
         if (e) e.preventDefault();
         notify.success('Subscription plan updated successfully');
-        if (onSuccess) onSuccess();
+        onSuccess?.();
         onClose();
     };
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="md" showCloseButton>
-            <form onSubmit={handleUpdate} className="p-6">
-                <ModalHeader className="mb-6">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary-soft flex items-center justify-center text-primary">
+            <form onSubmit={handleUpdate}>
+                <ModalHeader>
+                    <div className="modal-form-header">
+                        <div className="modal-form-header__icon bg-primary-soft text-primary">
                             <CreditCard size={20} />
                         </div>
                         <div>
-                            <ModalTitle>Subscription Management</ModalTitle>
-                            <ModalDescription>Editing: {orgName}</ModalDescription>
+                            <ModalTitle>Manage Subscription</ModalTitle>
+                            <ModalDescription>Editing plan for {orgName}</ModalDescription>
                         </div>
                     </div>
                 </ModalHeader>
@@ -132,18 +117,17 @@ export function ManagePlanModal({ isOpen, onClose, orgName, orgId, currentPlan, 
                         </div>
                     </div>
                 </ModalBody>
-                <ModalFooter className="mt-8 flex gap-3">
-                    <Button variant="secondary" onClick={onClose} type="button" fullWidth>Cancel</Button>
-                    <Button variant="primary" type="submit" fullWidth>Save Changes</Button>
+                <ModalFooter>
+                    <div className="modal-form-footer">
+                        <Button variant="secondary" onClick={onClose} type="button" fullWidth>Cancel</Button>
+                        <Button variant="primary" type="submit" fullWidth>Save Changes</Button>
+                    </div>
                 </ModalFooter>
             </form>
         </Modal>
     );
 }
 
-/* =========================================
-   3. RESET ADMIN PASSWORD MODAL
-   ========================================= */
 export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
     const [password, setPassword] = useState('');
     const { mutate: resetPassword } = useResetOrgPassword();
@@ -154,16 +138,11 @@ export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
             notify.error('Password must be at least 8 characters');
             return;
         }
-
         onClose();
         notify.promise(
             new Promise((resolve, reject) => {
                 resetPassword({ id: orgId, password }, {
-                    onSuccess: () => {
-                        setPassword('');
-                        if (onSuccess) onSuccess();
-                        resolve();
-                    },
+                    onSuccess: () => { setPassword(''); onSuccess?.(); resolve(); },
                     onError: reject
                 });
             }),
@@ -182,14 +161,12 @@ export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
                     <div className="ds-confirm-modal__icon" style={{ backgroundColor: 'var(--warning-soft)' }}>
                         <KeyRound size={28} className="text-warning" />
                     </div>
-
                     <ModalHeader className="ds-confirm-modal__header">
                         <ModalTitle className="ds-confirm-modal__title">Reset Admin Password</ModalTitle>
                         <ModalDescription className="ds-confirm-modal__description">
-                            Enter a new password for the organization administrator.
+                            Set a new password for the organization administrator.
                         </ModalDescription>
                     </ModalHeader>
-
                     <ModalBody className="pb-6 px-6">
                         <div className="form-field-v2">
                             <label>New Password</label>
@@ -203,7 +180,6 @@ export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
                             />
                         </div>
                     </ModalBody>
-
                     <ModalFooter className="ds-confirm-modal__footer">
                         <div className="ds-confirm-modal__actions">
                             <Button variant="secondary" onClick={onClose} type="button" fullWidth>Cancel</Button>
@@ -216,10 +192,7 @@ export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
     );
 }
 
-/* =========================================
-   4. SEND PUSH NOTIFICATION MODAL
-   ========================================= */
-export function SendNotificationModal({ isOpen, onClose, orgName, orgId }) {
+export function SendNotificationModal({ isOpen, onClose, orgName }) {
     const [title, setTitle] = useState('');
     const [message, setMessage] = useState('');
     const [type, setType] = useState('info');
@@ -238,113 +211,117 @@ export function SendNotificationModal({ isOpen, onClose, orgName, orgId }) {
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="md" showCloseButton>
-            <form onSubmit={handleSend} className="p-6">
-                <ModalHeader className="mb-6">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary-soft flex items-center justify-center text-primary">
+            <form onSubmit={handleSend}>
+                <ModalHeader>
+                    <div className="modal-form-header">
+                        <div className="modal-form-header__icon bg-primary-soft text-primary">
                             <Bell size={20} />
                         </div>
                         <div>
-                            <ModalTitle>Send Push Notification</ModalTitle>
+                            <ModalTitle>Send Notification</ModalTitle>
                             <ModalDescription>To: {orgName}</ModalDescription>
                         </div>
                     </div>
                 </ModalHeader>
                 <ModalBody className="space-y-4">
                     <div className="form-field-v2">
-                        <label>Notification Title</label>
+                        <label>Title</label>
                         <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. System Maintenance" />
                     </div>
                     <div className="form-field-v2">
-                        <label>Message Content</label>
+                        <label>Message</label>
                         <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} placeholder="Type your message here..." />
                     </div>
                     <div className="form-field-v2">
-                        <label>Priority / Type</label>
+                        <label>Priority</label>
                         <Select
                             options={[
-                                { label: 'Informational', value: 'info' },
+                                { label: 'Info', value: 'info' },
                                 { label: 'Warning', value: 'warning' },
-                                { label: 'Critical Alert', value: 'error' }
+                                { label: 'Critical', value: 'error' }
                             ]}
                             value={type}
                             onChange={setType}
                         />
                     </div>
                 </ModalBody>
-                <ModalFooter className="mt-8 flex gap-3">
-                    <Button variant="secondary" onClick={onClose} type="button" fullWidth>Cancel</Button>
-                    <Button variant="primary" type="submit" icon={Send} fullWidth>Send Now</Button>
+                <ModalFooter>
+                    <div className="modal-form-footer">
+                        <Button variant="secondary" onClick={onClose} type="button" fullWidth>Cancel</Button>
+                        <Button variant="primary" type="submit" icon={Send} fullWidth>Send Now</Button>
+                    </div>
                 </ModalFooter>
             </form>
         </Modal>
     );
 }
 
-/* =========================================
-   5. MANAGE COUPONS MODAL
-   ========================================= */
-export function ManageCouponsModal({ isOpen, onClose, orgName, orgId }) {
-    const [assignedCoupons, setAssignedCoupons] = useState([
+export function ManageCouponsModal({ isOpen, onClose, orgName }) {
+    const [coupons, setCoupons] = useState([
         { id: '1', code: 'WELCOME50', discount: '50%', expiry: '2025-12-31' }
     ]);
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg" showCloseButton>
-            <div className="p-6">
-                <ModalHeader className="mb-6">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-info-soft flex items-center justify-center text-info">
-                            <Tag size={20} />
-                        </div>
-                        <div>
-                            <ModalTitle>Manage coupons</ModalTitle>
-                            <ModalDescription>Active coupons for {orgName}</ModalDescription>
-                        </div>
+            <ModalHeader>
+                <div className="modal-form-header">
+                    <div className="modal-form-header__icon bg-info-soft text-info">
+                        <Tag size={20} />
                     </div>
-                </ModalHeader>
-                <ModalBody>
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-bold text-primary m-0 text-sm italic">Assigned coupons</h4>
-                            <Button variant="primary" size="sm" icon={Plus}>Assign New</Button>
-                        </div>
-                        <div className="border border-base rounded-xl overflow-hidden">
-                            <table className="w-full text-sm">
-                                <thead className="bg-bg-elevated text-secondary font-bold">
+                    <div>
+                        <ModalTitle>Manage Coupons</ModalTitle>
+                        <ModalDescription>Active coupons for {orgName}</ModalDescription>
+                    </div>
+                </div>
+            </ModalHeader>
+            <ModalBody>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-bold text-secondary m-0">Assigned Coupons</h4>
+                        <Button variant="primary" size="sm" icon={Plus}>Assign New</Button>
+                    </div>
+                    <div className="border border-base rounded-md overflow-hidden">
+                        <table className="w-full text-sm">
+                            <thead className="bg-bg-elevated text-secondary font-bold">
+                                <tr>
+                                    <th className="p-3 text-left">Code</th>
+                                    <th className="p-3 text-left">Discount</th>
+                                    <th className="p-3 text-left">Expiry</th>
+                                    <th className="p-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {coupons.length === 0 ? (
                                     <tr>
-                                        <th className="p-3 text-left">Code</th>
-                                        <th className="p-3 text-left">Discount</th>
-                                        <th className="p-3 text-left">Expiry</th>
-                                        <th className="p-3 text-right">Actions</th>
+                                        <td colSpan={4} className="p-8 text-center text-muted">No coupons assigned</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {assignedCoupons.length === 0 ? (
-                                        <tr>
-                                            <td colSpan={4} className="p-10 text-center text-muted">No coupons assigned</td>
+                                ) : (
+                                    coupons.map(c => (
+                                        <tr key={c.id} className="border-t border-base">
+                                            <td className="p-3 font-mono font-bold text-primary">{c.code}</td>
+                                            <td className="p-3">{c.discount}</td>
+                                            <td className="p-3 text-secondary">{c.expiry}</td>
+                                            <td className="p-3 text-right">
+                                                <button
+                                                    className="text-error hover:underline text-xs font-bold"
+                                                    onClick={() => setCoupons(prev => prev.filter(x => x.id !== c.id))}
+                                                >
+                                                    Remove
+                                                </button>
+                                            </td>
                                         </tr>
-                                    ) : (
-                                        assignedCoupons.map(c => (
-                                            <tr key={c.id} className="border-t border-base">
-                                                <td className="p-3 font-mono font-bold text-primary">{c.code}</td>
-                                                <td className="p-3">{c.discount}</td>
-                                                <td className="p-3 text-secondary">{c.expiry}</td>
-                                                <td className="p-3 text-right">
-                                                    <button className="text-error hover:underline text-xs font-bold" onClick={() => setAssignedCoupons(prev => prev.filter(x => x.id !== c.id))}>Remove</button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
                     </div>
-                </ModalBody>
-                <ModalFooter className="mt-8">
+                </div>
+            </ModalBody>
+            <ModalFooter>
+                <div className="modal-form-footer modal-form-footer--single">
                     <Button variant="secondary" onClick={onClose} fullWidth>Close</Button>
-                </ModalFooter>
-            </div>
+                </div>
+            </ModalFooter>
         </Modal>
     );
 }

@@ -6,7 +6,6 @@
 .payments-container-nx {
     max-width: 1400px;
     margin: 0 auto;
-    padding: var(--space-4);
 }
 
 /* Card Styling - Clean White */

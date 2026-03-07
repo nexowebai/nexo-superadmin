@@ -3,6 +3,7 @@ export { default as Card, CardHeader, CardTitle, CardDescription, CardContent, C
 export { default as Skeleton, SkeletonText, SkeletonCard, SkeletonTable, SkeletonChart } from './Skeleton';
 export { default as Input } from './Input';
 export { default as Badge } from './Badge';
+export { default as StatusBadge } from './StatusBadge';
 export { default as Modal, ModalHeader, ModalTitle, ModalDescription, ModalBody, ModalFooter, ConfirmModal, AlertModal } from './Modal';
 export { default as Alert, AlertContainer } from './Alert';
 export { default as Tabs } from './Tabs/Tabs';
@@ -13,5 +14,6 @@ export { default as Switch } from './Switch';
 export { default as Checkbox } from './Checkbox';
 export { default as Toggle } from './Toggle';
 export { default as DatePicker } from './DatePicker';
-export { default as Select } from '../common/Select';
+export { default as Select } from './Select';
+export { StatusSelect } from './StatusSelect/StatusSelect';
 export { default as SEO } from '../common/SEO/SEO';

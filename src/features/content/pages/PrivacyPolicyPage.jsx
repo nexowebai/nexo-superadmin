@@ -101,7 +101,7 @@ export default function PrivacyPolicyPage() {
 
     return (
         <PageContainer>
-            <div className="policy-editor-container max-w-5xl mx-auto">
+            <div className="policy-editor-container">
 
                 <div className="policy-info-bar mb-6">
                     <Alert variant="info" title="Global Document">
@@ -109,8 +109,8 @@ export default function PrivacyPolicyPage() {
                     </Alert>
                 </div>
 
-                <div className="editor-layout card-pro shadow-2xl">
-                    <div className="editor-toolbar-v2 p-4 border-b border-base flex items-center justify-between sticky top-0 bg-surface z-10 rounded-t-2xl">
+                <div className="editor-layout card-pro shadow-xl">
+                    <div className="editor-toolbar-v2 p-4 border-b border-base flex items-center justify-between sticky top-0 bg-surface z-10 rounded-t-xl">
                         <div className="flex items-center gap-1">
                             <div className="toolbar-group flex items-center bg-bg-elevated rounded-lg p-1 mr-4">
                                 <button
@@ -162,7 +162,7 @@ export default function PrivacyPolicyPage() {
 
                     <div className="editor-content-area bg-bg-subtle p-8 min-h-[700px]">
                         {viewMode === 'edit' ? (
-                            <div className="paper-container mx-auto max-w-4xl bg-surface shadow-lg min-h-[800px] p-12 transition-all">
+                            <div className="paper-container mx-auto bg-surface shadow-lg min-h-[800px] p-6 transition-all">
                                 <textarea
                                     ref={textareaRef}
                                     className="w-full h-full min-h-[800px] border-none outline-none text-primary font-mono text-[15px] leading-relaxed resize-none bg-transparent"
@@ -173,7 +173,7 @@ export default function PrivacyPolicyPage() {
                                 />
                             </div>
                         ) : (
-                            <div className="paper-container mx-auto max-w-4xl bg-surface shadow-lg min-h-[800px] p-16 transition-all animate-fade-in">
+                            <div className="paper-container bg-surface shadow-lg min-h-[800px] p-12 transition-all animate-fade-in">
                                 <div className="prose-refined">
                                     {content.split('\n').map((line, i) => (
                                         <p key={i} className="mb-4">

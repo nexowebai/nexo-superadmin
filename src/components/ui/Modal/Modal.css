@@ -207,3 +207,122 @@
         transition: none !important;
     }
 }
+
+/* ==========================================
+   Modal Form Utilities (shared across all)
+   ========================================== */
+.form-field-v2 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.form-field-v2 label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.form-field-v2 input,
+.form-field-v2 textarea {
+    width: 100%;
+    height: 44px;
+    padding: 0 var(--space-4);
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-base);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color var(--transition-fast) ease,
+        box-shadow var(--transition-fast) ease;
+}
+
+.form-field-v2 textarea {
+    height: auto;
+    padding: var(--space-3) var(--space-4);
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+}
+
+.form-field-v2 input:focus,
+.form-field-v2 textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.form-field-v2 input::placeholder,
+.form-field-v2 textarea::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Modal form header pattern */
+.modal-form-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.modal-form-header__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Modal footer pattern */
+.modal-form-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    border-top: 1px solid var(--border-base);
+    background: var(--bg-surface);
+}
+
+.modal-form-footer--single {
+    grid-template-columns: 1fr;
+}
+
+/* Detail modal info grid */
+.modal-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+}
+
+.modal-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-base);
+}
+
+.modal-detail-item__label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.modal-detail-item__value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}

@@ -5,7 +5,7 @@ import { Shield, Eye, EyeOff } from 'lucide-react';
 import { PageContainer } from '@components/layout/DashboardLayout';
 import { useLayout } from '@context';
 import Button from '@components/ui/Button';
-import { useCreateAdmin } from '../../hooks/';
+import { useCreateAdmin } from '../hooks/useAdmins';
 import notify from '@utils/notify';
 
 const initialFormData = {

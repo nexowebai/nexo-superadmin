@@ -4,9 +4,9 @@ import { Shield, Plus, Mail, Phone } from 'lucide-react';
 import { useLayout } from '@context';
 import { PageContainer } from '@components/layout/DashboardLayout';
 import Button from '@components/ui/Button';
-import { DataTable, StatusBadge, TableActions } from '@components/common';
-import { ConfirmModal } from '@components/ui/Modal';
-import { useAdmins, useDeleteAdmin } from '../../hooks/';
+import { DataTable, TableActions } from '@components/common';
+import { ConfirmModal, StatusBadge } from '@components/ui';
+import { useAdmins, useDeleteAdmin } from '../hooks/useAdmins';
 import { formatDate } from '@utils/format';
 import '../css/admins.css';
 

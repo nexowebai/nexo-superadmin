@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { cn } from '@lib/cn';
-import Select from '../Select';
+import { Select } from '@components/ui';
 import './Pagination.css';
 
 const PER_PAGE_OPTIONS = [10, 20, 50, 100];

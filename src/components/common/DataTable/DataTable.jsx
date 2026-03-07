@@ -17,7 +17,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Skeleton } from "@components/ui/Skeleton/Skeleton";
-import { Select } from "@components/common";
+import { Select } from "@components/ui";
 import { cn } from "@lib/cn";
 import TableToolbar from "./TableToolbar";
 import { useLocalStorage } from "@hooks/useLocalStorage";

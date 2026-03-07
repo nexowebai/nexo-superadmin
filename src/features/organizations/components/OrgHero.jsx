@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Building2, Power, PowerOff, Bell, Tag, CreditCard } from 'lucide-react';
-import { StatusBadge } from '@components/common';
+import { StatusBadge } from '@components/ui';
 import Button from '@components/ui/Button';
 import { formatRelative } from '@utils/format';
 import { useNavigate } from 'react-router-dom';

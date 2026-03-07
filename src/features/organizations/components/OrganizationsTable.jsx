@@ -1,358 +1,63 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Users, FolderKanban, Calendar } from 'lucide-react';
 import { ConfirmModal } from '@components/ui';
-import { DataTable, StatusBadge, TableActions, Select } from '@components/common';
-import { useEnableOrganization, useDeleteOrganization, useUpdateOrganization } from '../../hooks/';
-import { formatDate } from '@utils/format';
+import { DataTable } from '@components/common';
+import { Select } from '@components/ui';
 import { exportToCSV, exportToPDF } from '@utils/exportService';
 import { DisableOrgModal } from './OrgModals';
+import { useOrganizationColumns } from './OrgColumns';
+import { STATUS_OPTIONS, TIER_OPTIONS, ORG_TABLE_CONFIG } from '../constants/organizationData';
 import notify from '@utils/notify';
 import '../css/organizations.css';
 
-const STATUS_OPTIONS = [
-  { value: '', label: 'All Status' },
-  { value: 'active', label: 'Active' },
-  { value: 'disabled', label: 'Disabled' },
-  { value: 'pending', label: 'Pending' },
-];
-
-const TIER_OPTIONS = [
-  { value: '', label: 'All Plans' },
-  { value: 'basic', label: 'Basic' },
-  { value: 'professional', label: 'Professional' },
-  { value: 'enterprise', label: 'Enterprise' },
-];
-
-const StatusDropdown = ({ value, onChange, disabled }) => {
-  const options = useMemo(() => [
-    { value: 'active', label: 'Active', variant: 'success' },
-    { value: 'pending', label: 'Pending', variant: 'warning' },
-    { value: 'disabled', label: 'Disabled', variant: 'danger' },
-  ], []);
-
-  const current = options.find(o => o.value === value) || options[0];
-
-  return (
-    <div className="status-dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
-      <Select
-        options={options}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        className={`status-select status-select--${current.variant}`}
-        size="sm"
-        fullWidth={false}
-        renderOption={(option) => (
-          <div className={`status-option status-option--${option.variant}`}>
-            <span className="status-option__dot" />
-            <span>{option.label}</span>
-          </div>
-        )}
-        renderValue={() => (
-          <div className={`status-trigger status-trigger--${current.variant}`}>
-            <span className="status-trigger__dot" />
-            <span>{current.label}</span>
-          </div>
-        )}
-      />
-    </div>
-  );
-};
-
 export default function OrganizationsTable({
-  data,
-  loading,
-  refetch,
-  page,
-  pagination,
-  onPageChange,
-  search,
-  setSearch,
-  status,
-  setStatus,
-  tier,
-  setTier,
-  dateRange,
+  data, loading, refetch, page, pagination, onPageChange,
+  search, setSearch, status, setStatus, tier, setTier, handleAction
 }) {
   const navigate = useNavigate();
   const [modalConfig, setModalConfig] = useState({ isOpen: false, type: null, data: null });
   const [disableModalOpen, setDisableModalOpen] = useState(false);
   const [selectedOrg, setSelectedOrg] = useState(null);
 
-  const { mutate: enableOrg } = useEnableOrganization();
-  const { mutate: deleteOrg } = useDeleteOrganization();
-  const { mutate: updateOrg } = useUpdateOrganization();
-
-  const organizations = data || [];
-
   const handleStatusChange = useCallback((org, newStatus) => {
     if (newStatus === org.status) return;
+    if (newStatus === 'disabled') { setSelectedOrg(org); setDisableModalOpen(true); return; }
+    handleAction(newStatus === 'active' && org.status === 'disabled' ? 'enable' : 'update',
+      newStatus === 'active' && org.status === 'disabled' ? org.id : { id: org.id, data: { status: newStatus } });
+  }, [handleAction]);
 
-    if (newStatus === 'disabled') {
-      setSelectedOrg(org);
-      setDisableModalOpen(true);
-      return;
-    }
+  const columns = useOrganizationColumns({ navigate, handleStatusChange, setModalConfig, setSelectedOrg, setDisableModalOpen });
 
-    if (newStatus === 'active' && org.status === 'disabled') {
-      setModalConfig({ type: 'enable', data: org, isOpen: true });
-      return;
-    }
-
-    // Direct update for other cases (e.g., active -> pending)
-    notify.promise(
-      new Promise((resolve, reject) => {
-        updateOrg(
-          { id: org.id, data: { status: newStatus } },
-          {
-            onSuccess: () => { refetch(); resolve(); },
-            onError: reject,
-          }
-        );
-      }),
-      {
-        loading: 'Updating status...',
-        success: 'Status updated successfully',
-        error: 'Failed to update status',
-      }
-    );
-  }, [updateOrg, refetch]);
-
-  const columns = useMemo(() => [
-    {
-      key: 'org_code',
-      label: 'ORG ID',
-      width: 110,
-      copyable: true,
-      sortable: true,
-    },
-    {
-      key: 'name',
-      label: 'Organization Details',
-      minWidth: 320,
-      sortable: true,
-      render: (_, org) => (
-        <div className="org-cell">
-          <div className="org-cell__logo">
-            {org.logo ? (
-              <img src={org.logo} alt="" />
-            ) : (
-              <Building2 size={18} strokeWidth={2.5} />
-            )}
-          </div>
-          <div className="org-cell__info">
-            <span className="org-cell__name">{org.name}</span>
-            <span className="org-cell__meta">
-              <span className="org-cell__id">#{org.org_code || org.id}</span>
-              <span className="org-cell__dot" />
-              <span className="org-cell__email">{org.email || 'no-email@nexo.com'}</span>
-            </span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: 'subscription_tier',
-      label: 'Subscription',
-      width: 140,
-      sortable: true,
-      render: (val) => (
-        <span className={`tier-badge-pro tier-badge-pro--${val?.toLowerCase()}`}>
-          {val}
-        </span>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      width: 180,
-      sortable: true,
-      render: (val, row) => (
-        <StatusDropdown
-          value={val}
-          onChange={(newStatus) => handleStatusChange(row, newStatus)}
-        />
-      ),
-    },
-    {
-      key: 'users_count',
-      label: 'Users',
-      width: 90,
-      sortable: true,
-      render: (val) => (
-        <div className="stat-pill">
-          <Users size={12} />
-          <span>{val || 0}</span>
-        </div>
-      ),
-    },
-    {
-      key: 'projects_count',
-      label: 'Projects',
-      width: 100,
-      sortable: true,
-      render: (val) => (
-        <div className="stat-pill">
-          <FolderKanban size={12} />
-          <span>{val || 0}</span>
-        </div>
-      ),
-    },
-    {
-      key: 'created_at',
-      label: 'Joined',
-      width: 130,
-      sortable: true,
-      render: (val) => (
-        <div className="date-pill">
-          <Calendar size={12} />
-          <span>{formatDate(val)}</span>
-        </div>
-      ),
-    },
-    {
-      key: 'actions',
-      label: 'Actions',
-      width: 240,
-      align: 'right',
-      render: (_, row) => (
-        <TableActions
-          onView={() => navigate(`/organizations/${row.id}`)}
-          onEdit={() => navigate(`/organizations/${row.id}/edit`)}
-          onTogglePower={() => {
-            if (row.status === 'disabled') {
-              setModalConfig({ type: 'enable', data: row, isOpen: true });
-            } else {
-              setSelectedOrg(row);
-              setDisableModalOpen(true);
-            }
-          }}
-          onDelete={() => setModalConfig({ type: 'delete', data: row, isOpen: true })}
-          isPowered={row.status !== 'disabled'}
-          showPower
-        />
-      ),
-    },
-  ], [navigate, handleStatusChange]);
-
-  const handleExportCSV = useCallback(() => {
-    exportToCSV(organizations, columns.filter((c) => c.key !== 'actions'), 'organizations_export');
-    notify.success('CSV Export initiated');
-  }, [organizations, columns]);
-
-  const handleExportPDF = useCallback(() => {
-    exportToPDF(organizations, columns.filter((c) => c.key !== 'actions'), {
-      title: 'Nexo Superadmin',
-      subtitle: 'Organizations Report',
-      dateRange: dateRange?.startDate
-        ? `${formatDate(dateRange.startDate)} - ${formatDate(dateRange.endDate || new Date())}`
-        : 'All Time',
-      filename: 'nexo_organizations_report',
-    });
-    notify.success('PDF Export initiated');
-  }, [organizations, columns, dateRange]);
-
-  const closeModal = () => {
-    setModalConfig({ isOpen: false, type: null, data: null });
-    setDisableModalOpen(false);
-    setSelectedOrg(null);
+  const handleExport = (type) => {
+    const fn = type === 'csv' ? exportToCSV : exportToPDF;
+    fn(data, columns.filter(c => c.key !== 'actions'), type === 'csv' ? 'org_export' : { title: 'Nexo Organizations', filename: 'nexo_org_report' });
+    notify.success(`${type.toUpperCase()} Export initiated`);
   };
 
-  const handleConfirmAction = useCallback(() => {
-    const { type, data: row } = modalConfig;
-    if (!row) return;
-
-    const action = type === 'delete' ? deleteOrg : enableOrg;
-    const messages = {
-      delete: { loading: 'Deleting organization...', success: 'Organization deleted!', error: 'Failed to delete' },
-      enable: { loading: 'Enabling organization...', success: 'Organization enabled!', error: 'Failed to enable' },
-    };
-
-    notify.promise(
-      new Promise((resolve, reject) => {
-        action(row.id, {
-          onSuccess: () => { closeModal(); refetch(); resolve(); },
-          onError: reject,
-        });
-      }),
-      messages[type]
-    );
-  }, [modalConfig, deleteOrg, enableOrg, refetch]);
-
-  const handlePageChange = useCallback((newPage, newLimit) => {
-    if (newLimit && newLimit !== pagination?.limit) {
-      onPageChange(1, newLimit);
-    } else {
-      onPageChange(newPage, pagination?.limit);
-    }
-  }, [onPageChange, pagination?.limit]);
+  const closeModal = () => { setModalConfig({ isOpen: false, type: null, data: null }); setDisableModalOpen(false); };
 
   return (
     <div className="organizations-table-container">
       <DataTable
-        columns={columns}
-        data={organizations}
-        loading={loading}
-        emptyIcon={Building2}
-        emptyTitle="No organizations found"
-        emptyDescription={search ? 'Try adjusting your search' : 'Create your first organization'}
-        storageKey="organizations-table"
-        stickyFirstColumn
-        stickyLastColumn
-        onRowClick={(org) => navigate(`/organizations/${org.id}`)}
-        showToolbar
-        fileName="nexo_organizations_report"
-        search={search}
-        onSearchChange={setSearch}
-        onRefresh={refetch}
-        onExportCSV={handleExportCSV}
-        onExportPDF={handleExportPDF}
+        columns={columns} data={data} loading={loading} {...ORG_TABLE_CONFIG}
+        search={search} onSearchChange={setSearch} onRefresh={refetch}
+        onExportCSV={() => handleExport('csv')} onExportPDF={() => handleExport('pdf')}
+        pagination={pagination} page={page} onPageChange={onPageChange}
         filters={
           <>
-            <Select
-              options={STATUS_OPTIONS}
-              value={status}
-              onChange={(v) => { setStatus(v); handlePageChange(1); }}
-              placeholder="Status"
-            />
-            <Select
-              options={TIER_OPTIONS}
-              value={tier}
-              onChange={(v) => { setTier(v); handlePageChange(1); }}
-              placeholder="Plan"
-            />
+            <Select options={STATUS_OPTIONS} value={status} onChange={setStatus} placeholder="Status" />
+            <Select options={TIER_OPTIONS} value={tier} onChange={setTier} placeholder="Plan" />
           </>
         }
-        pagination={pagination}
-        page={page}
-        onPageChange={handlePageChange}
       />
-
       <ConfirmModal
-        isOpen={modalConfig.isOpen}
-        onClose={closeModal}
-        onConfirm={handleConfirmAction}
+        isOpen={modalConfig.isOpen} onClose={closeModal}
+        onConfirm={() => { handleAction(modalConfig.type, modalConfig.data.id, closeModal); }}
         title={modalConfig.type === 'delete' ? 'Delete Organization' : 'Enable Organization'}
-        description={
-          modalConfig.type === 'delete'
-            ? `Are you sure you want to delete ${modalConfig.data?.name}? This action cannot be undone.`
-            : `Enable ${modalConfig.data?.name}?`
-        }
-        confirmText={modalConfig.type === 'delete' ? 'Delete' : 'Enable'}
+        description={`Confirm action for ${modalConfig.data?.name}?`}
         variant={modalConfig.type === 'delete' ? 'delete' : 'success'}
-        cancelText="Cancel"
       />
-
-      {selectedOrg && (
-        <DisableOrgModal
-          isOpen={disableModalOpen}
-          onClose={closeModal}
-          orgId={selectedOrg.id}
-          orgName={selectedOrg.name}
-          onSuccess={() => { closeModal(); refetch(); }}
-        />
-      )}
+      {selectedOrg && <DisableOrgModal isOpen={disableModalOpen} onClose={closeModal} orgId={selectedOrg.id} orgName={selectedOrg.name} onSuccess={() => { closeModal(); refetch(); }} />}
     </div>
   );
 }

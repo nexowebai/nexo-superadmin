@@ -1,1 +1,2 @@
-export * from '../../hooks/useRequests';
+export * from './useRequests';
+export * from './useRequestsPage';

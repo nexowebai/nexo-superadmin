@@ -1,1 +1,2 @@
-export * from '../../hooks/useSettings';
+export * from './useSettings';
+export * from './useSettingsPage';
