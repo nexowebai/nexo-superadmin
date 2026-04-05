@@ -2,12 +2,6 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { formatDate } from "./format";
 
-/**
- * Exports data to CSV
- * @param {Array} data - Array of objects
- * @param {Array} columns - Column definitions { key, label, render? }
- * @param {String} filename - Filename without extension
- */
 export const exportToCSV = (data, columns, filename = "export") => {
   if (!data.length) return;
 
@@ -23,7 +17,6 @@ export const exportToCSV = (data, columns, filename = "export") => {
     const values = exportableColumns.map((col) => {
       let val = row[col.key];
 
-      // Handle specific formatting if needed, though usually raw data is better for CSV
       if (col.key === "created_at" || col.key === "updated_at") {
         val = formatDate(val);
       }
@@ -45,16 +38,9 @@ export const exportToCSV = (data, columns, filename = "export") => {
   window.URL.revokeObjectURL(url);
 };
 
-/**
- * Exports data to PDF
- * @param {Array} data - Array of objects
- * @param {Array} columns - Column definitions
- * @param {Object} options - { title, subtitle, dateRange, filename }
- */
 export const exportToPDF = (data, columns, options = {}) => {
   if (!data.length) return;
   const {
-    title = "DataStride Report",
     subtitle = "List Export",
     dateRange = "All Time",
     filename = "export",

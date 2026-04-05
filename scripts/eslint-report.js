@@ -3,8 +3,7 @@ import path from "path";
 
 /**
  * Ultimate Premium ESLint Reporting Engine
- * Layout: Standard High-End Dashboard
- * Constraints: Default Expanded, Same-Row Iconography
+ * Categorized by severity into multiple high-fidelity tables.
  */
 
 const GITHUB_STEP_SUMMARY = process.env.GITHUB_STEP_SUMMARY;
@@ -25,32 +24,42 @@ const rulesWhyItMatters = {
     "no-debugger": "Debugger statements stop execution in the browser; strictly for dev.",
     "prefer-const": "Using const makes it clear which variables are immutable.",
     "no-var": "var is scoping-poisonous; using let/const prevents hoisting bugs.",
-    "no-restricted-syntax": "Institutional restrictions (no async/await) ensure deterministic state flow."
+    "no-restricted-syntax": "Institutional restrictions ensure deterministic state flow."
 };
 
-const getSeverityStatus = (severity, msg) => {
+function getCategory(severity, msg) {
     const isRestricted = msg.ruleId === "no-restricted-syntax" || msg.message.includes("STRICT VIOLATION");
     
-    if (severity === 2) {
-        if (isRestricted) return "🔴 **CRITICAL ARCHITECTURE VIOLATION**";
-        const highRules = ["hooks", "undef", "no-debugger", "react/jsx-key"];
-        if (highRules.some(r => msg.ruleId?.includes(r))) return "🔴 **HIGH SEVERITY ERROR**";
-        return "🔶 **MEDIUM PRIORITY ERROR**";
+    if (isRestricted || severity === 2) {
+        if (msg.message.includes("async/await") || msg.message.includes("Max 150")) {
+            return "CRITICAL";
+        }
+        return "HIGH";
     }
-    if (severity === 1) {
-        if (isRestricted) return "🛑 **POLICY VIOLATION (WARN)**";
-        if (msg.ruleId?.includes("hooks") || msg.ruleId?.includes("undef")) return "🔶 **PRIORITY WARNING**";
-        return "🟡 **ADVISORY WARNING**";
+    
+    if (msg.ruleId?.includes("hooks") || msg.ruleId?.includes("undef") || msg.ruleId?.includes("props")) {
+        return "MID";
     }
-    return "⚪ **LOW PRIORITY**";
-};
+    
+    return "LOW";
+}
 
-const getWhyItMatters = (ruleId) => {
+function getSeverityIcon(category) {
+    switch (category) {
+        case "CRITICAL": return "🔴";
+        case "HIGH": return "🛑";
+        case "MID": return "🔶";
+        case "LOW": return "🟡";
+        default: return "⚪";
+    }
+}
+
+function getWhyItMatters(ruleId) {
      for (const key in rulesWhyItMatters) {
         if (ruleId?.includes(key)) return rulesWhyItMatters[key];
      }
      return "Maintaining consistent coding standards ensures long-term codebase health.";
-};
+}
 
 async function generateReport() {
     try {
@@ -58,51 +67,68 @@ async function generateReport() {
 
         const results = JSON.parse(fs.readFileSync("eslint-results.json", "utf8"));
         
+        const categories = {
+            CRITICAL: [],
+            HIGH: [],
+            MID: [],
+            LOW: []
+        };
+
         let totalIssues = 0;
-        let criticalCount = 0;
-        let warningCount = 0;
-        let fileCount = 0;
+        let fileCount = new Set();
 
-        results.forEach(r => {
-            if (r.messages.length > 0) {
-                fileCount++;
-                r.messages.forEach(m => {
-                    totalIssues++;
-                    if (m.severity === 2 || m.message.includes("STRICT VIOLATION")) criticalCount++;
-                    else warningCount++;
-                });
-            }
-        });
+        results.forEach(result => {
+            if (result.messages.length === 0) return;
+            const filePath = path.relative(process.cwd(), result.filePath);
+            fileCount.add(filePath);
 
-        // Dashboard Header
-        let markdown = `# 🛡️ NEXO CODE QUALITY GUARD\n\n`;
-        
-        const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (criticalCount * 10) - (warningCount * 2));
-        const statusIcon = healthScore > 90 ? "🟢" : healthScore > 70 ? "🟡" : "🔴";
-
-        markdown += `### 💹 System Health: ${statusIcon} **${healthScore}%**  |  🎯 Issues: **${totalIssues}**  |  📂 Files: **${fileCount}**\n\n`;
-
-        if (totalIssues > 0) {
-            markdown += `## 📑 Audit Findings\n\n`;
-            markdown += "| Status | Location | Technical Issue | Architectural Context |\n";
-            markdown += "| :--- | :--- | :--- | :--- |\n";
-
-            results.forEach(result => {
-                if (result.messages.length === 0) return;
-                const filePath = path.relative(process.cwd(), result.filePath);
-                
-                result.messages.forEach(msg => {
-                    const sev = getSeverityStatus(msg.severity, msg);
-                    const why = getWhyItMatters(msg.ruleId);
-                    const ruleLink = msg.ruleId ? `[\`${msg.ruleId}\`](https://eslint.org/docs/rules/${msg.ruleId})` : "General";
-                    
-                    markdown += `| ${sev} | \`${filePath}:${msg.line}\` | **${msg.message.replace(/\|/g, "\\|")}**<br/>${ruleLink} | ${why} |\n`;
+            result.messages.forEach(msg => {
+                totalIssues++;
+                const category = getCategory(msg.severity, msg);
+                categories[category].push({
+                    file: filePath,
+                    line: msg.line,
+                    rule: msg.ruleId,
+                    message: msg.message,
+                    why: getWhyItMatters(msg.ruleId),
+                    icon: getSeverityIcon(category),
+                    category
                 });
             });
+        });
 
-            markdown += `\n\n> [!TIP]\n> **Action Plan**: Prioritize 🔴 Critical items first. Run \`npm run lint:fix\` for automated corrections.\n`;
-        } else {
+        // Calculate Header Stats
+        const criticalCount = categories.CRITICAL.length;
+        const warningCount = categories.HIGH.length + categories.MID.length + categories.LOW.length;
+        const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (criticalCount * 12) - (warningCount * 1.5));
+        const statusIcon = healthScore > 90 ? "🟢" : healthScore > 70 ? "🟡" : "🔴";
+
+        // Dashboard Header
+        let markdown = `# 🛡️ NEXO PREMIUM COMPLIANCE DASHBOARD\n\n`;
+        markdown += `### 💹 System Health: ${statusIcon} **${healthScore.toFixed(1)}%**  |  🎯 Issues: **${totalIssues}**  |  📂 Affected Files: **${fileCount.size}**\n\n`;
+
+        if (totalIssues === 0) {
             markdown += `### ✅ Clean Build: Architectural Standards Fully Met.\nYour code adheres to all institutional guardrails. No refactoring required.\n`;
+        } else {
+            const tableGenerator = (title, items) => {
+                if (items.length === 0) return "";
+                let tableHeader = `## ${items[0].icon} ${title} FINDINGS\n\n`;
+                tableHeader += "| Severity | Location | Technical Violation | Institutional Rationale |\n";
+                tableHeader += "| :--- | :--- | :--- | :--- |\n";
+                
+                items.forEach(item => {
+                    const ruleLink = item.rule ? `[\`${item.rule}\`](https://eslint.org/docs/rules/${item.rule})` : "Policy";
+                    tableHeader += `| **${item.category}** | \`${item.file}:${item.line}\` | **${item.message.replace(/\|/g, "\\|")}**<br/>${ruleLink} | ${item.why} |\n`;
+                });
+                return tableHeader + "\n\n";
+            };
+
+            markdown += tableGenerator("CRITICAL ARCHITECTURE", categories.CRITICAL);
+            markdown += tableGenerator("HIGH PRIORITY", categories.HIGH);
+            markdown += tableGenerator("MEDIUM ADVISORY", categories.MID);
+            markdown += tableGenerator("LOW IMPACT", categories.LOW);
+
+            markdown += `\n\n> [!TIP]\n> **Action Plan**: Focus on resolving 🔴 CRITICAL and 🛑 HIGH issues prior to merge. Run \`npm run lint:fix\` for automated compliance.\n`;
         }
 
         if (GITHUB_STEP_SUMMARY) {

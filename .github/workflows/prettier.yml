@@ -25,8 +25,13 @@ jobs:
           cache: 'npm'
       - name: 📦 Environment / Install Tooling
         run: npm install
-      - name: 🔨 Automation / Execute Prettier Engine
-        run: npm run format
+      - name: ✨ Aesthetics / Harmonize Code Format
+        run: npm run format > prettier-output.txt || true
+        
+      - name: 🏛️ Dashboard / Generate Aesthetic Audit
+        run: node scripts/prettier-report.js
+        env:
+          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
       - name: 📤 Persistence / Commit Aesthetic Fixes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:

@@ -1,23 +1,14 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
   useLocation,
-  useSearchParams,
 } from "react-router-dom";
-import { motion } from "framer-motion";
-import { CreditCard, DollarSign, Receipt, RefreshCw, Zap } from "lucide-react";
 import { useAuth } from "@context/AuthContext";
-import {
-  DashboardLayout,
-  PageContainer,
-} from "@components/layout/DashboardLayout";
+import { DashboardLayout } from "@components/layout/DashboardLayout";
 import AuthLayout from "@components/layout/AuthLayout";
 import { PageLoader } from "@components/ui";
-import { Skeleton } from "@components/ui/Skeleton";
-import { Alert } from "@components/ui/Alert";
-import ComingSoonPage from "@components/pages/ComingSoonPage";
 
 import LoginPage from "@features/auth/pages/LoginPage";
 import ForgotPasswordPage from "@features/auth/pages/ForgotPasswordPage";
@@ -61,37 +52,6 @@ const PrivacyPolicyPage = lazy(
   () => import("@features/content/pages/PrivacyPolicyPage"),
 );
 
-function PaymentsComingSoon() {
-  return (
-    <ComingSoonPage
-      title="Payments"
-      subtitle="Our comprehensive payment management system is almost ready."
-      icon={CreditCard}
-      features={[
-        {
-          icon: DollarSign,
-          title: "Revenue Tracking",
-          description: "Monitor all payment transactions",
-        },
-        {
-          icon: Receipt,
-          title: "Invoice Management",
-          description: "Generate and track invoices",
-        },
-        {
-          icon: RefreshCw,
-          title: "Refund Processing",
-          description: "Handle refunds with ease",
-        },
-        {
-          icon: Zap,
-          title: "Instant Payouts",
-          description: "Fast and secure payments",
-        },
-      ]}
-    />
-  );
-}
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuth();
@@ -121,24 +81,6 @@ function PublicRoute({ children }) {
   return children;
 }
 
-function SessionExpiredAlert() {
-  const [searchParams] = useSearchParams();
-  const sessionExpired = searchParams.get("session") === "expired";
-
-  if (!sessionExpired) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      style={{ marginBottom: 24 }}
-    >
-      <Alert variant="warning" title="Session Expired">
-        Your session has expired. Please sign in again to continue.
-      </Alert>
-    </motion.div>
-  );
-}
 
 function DashboardDispatcher() {
   const { user } = useAuth();

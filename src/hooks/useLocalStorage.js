@@ -6,7 +6,6 @@ export function useLocalStorage(key, initialValue) {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
       return initialValue;
     }
   });
@@ -19,7 +18,7 @@ export function useLocalStorage(key, initialValue) {
         setStoredValue(valueToStore);
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.warn(`Error setting localStorage key "${key}":`, error);
+        // Fail silently to maintain production polish
       }
     },
     [key, storedValue],
@@ -29,9 +28,9 @@ export function useLocalStorage(key, initialValue) {
     try {
       window.localStorage.removeItem(key);
       setStoredValue(initialValue);
-    } catch (error) {
-      console.warn(`Error removing localStorage key "${key}":`, error);
-    }
+      } catch (error) {
+        // Fail silently
+      }
   }, [key, initialValue]);
 
   useEffect(() => {

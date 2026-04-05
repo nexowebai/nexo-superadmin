@@ -1,6 +1,6 @@
 import { useNotifications as useNotificationContext } from "@context";
 
-export function useNotifications(options = {}) {
+export function useNotifications() {
   return useNotificationContext();
 }
 

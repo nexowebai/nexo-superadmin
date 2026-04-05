@@ -22,7 +22,7 @@ const notify = {
     });
   },
 
-  async: async (asyncFn, messages = {}) => {
+  async: (asyncFn, messages = {}) => {
     const {
       loading = "Loading...",
       success = "Success!",
@@ -31,19 +31,21 @@ const notify = {
 
     const toastId = toast.loading(loading);
 
-    try {
-      const result = await asyncFn();
-      toast.success(typeof success === "function" ? success(result) : success, {
-        id: toastId,
+    return asyncFn()
+      .then((result) => {
+        toast.success(
+          typeof success === "function" ? success(result) : success,
+          { id: toastId },
+        );
+        return result;
+      })
+      .catch((err) => {
+        toast.error(
+          typeof error === "function" ? error(err) : err?.message || error,
+          { id: toastId },
+        );
+        throw err;
       });
-      return result;
-    } catch (err) {
-      toast.error(
-        typeof error === "function" ? error(err) : err?.message || error,
-        { id: toastId },
-      );
-      throw err;
-    }
   },
 };
 
