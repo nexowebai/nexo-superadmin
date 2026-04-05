@@ -4,8 +4,6 @@ import {
   MessageSquare,
   Mail,
   Calendar,
-  Check,
-  X as XIcon,
   ShieldAlert,
 } from "lucide-react";
 import {
@@ -42,21 +40,14 @@ export function RequestDetailsModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" showCloseButton>
-      <ModalHeader>
-        <div
-          className="ds-modal-header__icon"
-          style={{
-            backgroundColor:
-              "color-mix(in srgb, var(--primary) 12%, var(--bg-surface))",
-            color: "var(--primary)",
-          }}
-        >
-          <Building2 size={24} />
+      <ModalHeader className="modal-form-header">
+        <div className="modal-form-header__icon ds-icon-bg--primary">
+          <Building2 size={20} />
         </div>
-        <div className="ds-modal-header__content">
+        <div className="modal-form-header__content">
           <ModalTitle>Request Information</ModalTitle>
           <ModalDescription>
-            Onboarding request for {request.organization_name}
+            Onboarding request for <span className="font-bold text-primary">{request.organization_name}</span>
           </ModalDescription>
         </div>
       </ModalHeader>
@@ -90,39 +81,44 @@ export function RequestDetailsModal({
           </p>
         </div>
       </ModalBody>
-      <ModalFooter className="ds-confirm-modal__footer">
-        {request.status === "pending" ? (
-          <>
+      <ModalFooter>
+        <div className="modal-form-footer">
+          {request.status === "pending" ? (
+            <>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  onClose();
+                  onReject(request);
+                }}
+                fullWidth
+                style={{ height: "3rem" }}
+              >
+                Reject
+              </Button>
+              <Button
+                variant="success"
+                onClick={() => {
+                  onApprove(request);
+                  onClose();
+                }}
+                fullWidth
+                style={{ height: "3rem" }}
+              >
+                Approve
+              </Button>
+            </>
+          ) : (
             <Button
-              variant="secondary"
-              onClick={() => {
-                onClose();
-                onReject(request);
-              }}
-              className="ds-confirm-modal__cancel"
+              variant="ghost"
+              onClick={onClose}
+              fullWidth
+              style={{ height: "3rem" }}
             >
-              Reject
+              Close
             </Button>
-            <Button
-              variant="success"
-              onClick={() => {
-                onApprove(request);
-                onClose();
-              }}
-              className="ds-confirm-modal__confirm"
-            >
-              Approve
-            </Button>
-          </>
-        ) : (
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            className="ds-confirm-modal__cancel w-full"
-          >
-            Close
-          </Button>
-        )}
+          )}
+        </div>
       </ModalFooter>
     </Modal>
   );
@@ -148,21 +144,14 @@ export function RejectRequestModal({ isOpen, onClose, request, onConfirm }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" showCloseButton>
       <form onSubmit={handleConfirm}>
-        <ModalHeader>
-          <div
-            className="ds-modal-header__icon"
-            style={{
-              backgroundColor:
-                "color-mix(in srgb, var(--error) 12%, var(--bg-surface))",
-              color: "var(--error)",
-            }}
-          >
-            <ShieldAlert size={24} />
+        <ModalHeader className="modal-form-header">
+          <div className="modal-form-header__icon ds-icon-bg--error">
+            <ShieldAlert size={20} />
           </div>
-          <div className="ds-modal-header__content">
+          <div className="modal-form-header__content">
             <ModalTitle>Deny Access Request</ModalTitle>
             <ModalDescription>
-              Reviewing: {request.organization_name}
+              Reviewing: <span className="font-bold text-primary">{request.organization_name}</span>
             </ModalDescription>
           </div>
         </ModalHeader>
@@ -183,22 +172,26 @@ export function RejectRequestModal({ isOpen, onClose, request, onConfirm }) {
             />
           </div>
         </ModalBody>
-        <ModalFooter className="ds-confirm-modal__footer">
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            type="button"
-            className="ds-confirm-modal__cancel"
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="danger"
-            type="submit"
-            className="ds-confirm-modal__confirm"
-          >
-            Decline Access
-          </Button>
+        <ModalFooter>
+          <div className="modal-form-footer">
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              type="button"
+              fullWidth
+              style={{ height: "3rem" }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              type="submit"
+              fullWidth
+              style={{ height: "3rem" }}
+            >
+              Decline Access
+            </Button>
+          </div>
         </ModalFooter>
       </form>
     </Modal>

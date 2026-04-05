@@ -55,7 +55,7 @@ export const useRequestColumns = ({
         label: "Requested At",
         width: 180,
         render: (val) => (
-          <div className="date-pill">
+          <div className="date-pill flex gap-2 items-center">
             <Calendar size={12} />
             <span>{formatDate(val)}</span>
           </div>
@@ -69,7 +69,7 @@ export const useRequestColumns = ({
           val ? (
             <div className="flex items-start gap-2 max-w-[280px]">
               <MessageSquare size={14} className="text-muted mt-1 shrink-0" />
-              <span className="text-sm text-secondary truncate-2-lines">
+              <span className="text-sm text-secondary truncate font-medium" title={val}>
                 {val}
               </span>
             </div>

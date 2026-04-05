@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { Card, CardSkeleton } from "./Card";
+import { Card } from "./Card";
+import { Skeleton } from "../Skeleton";
 import "./styles/StatsCard.css";
 
 const StatsCard = memo(function StatsCard({
@@ -13,7 +14,7 @@ const StatsCard = memo(function StatsCard({
   variant = "nx",
   className = "",
 }) {
-  if (loading) return <StatsCardSkeleton />;
+  if (loading) return <StatsCardSkeleton variant={variant} />;
 
   return (
     <Card
@@ -54,18 +55,32 @@ const StatsCard = memo(function StatsCard({
   );
 });
 
-function StatsCardSkeleton() {
+function StatsCardSkeleton({ variant = "nx" }) {
   return (
-    <Card variant="nx" padding="md" className="stats-card stats-card--loading">
+    <Card
+      variant={variant}
+      padding="md"
+      className="stats-card stats-card--loading"
+    >
       <div className="stats-card__header">
-        <CardSkeleton width="60%" height="16px" />
-        <CardSkeleton variant="circle" width="40px" height="40px" />
+        <Skeleton variant="text" width="60%" height="16px" />
+        <Skeleton variant="avatar" width="40px" height="40px" />
       </div>
       <div className="stats-card__value">
-        <CardSkeleton width="45%" height="32px" style={{ marginTop: 12 }} />
+        <Skeleton
+          variant="text"
+          width="45%"
+          height="32px"
+          style={{ marginTop: "12px" }}
+        />
       </div>
       <div className="stats-card__trend">
-        <CardSkeleton width="70%" height="14px" style={{ marginTop: 8 }} />
+        <Skeleton
+          variant="text"
+          width="70%"
+          height="14px"
+          style={{ marginTop: "8px" }}
+        />
       </div>
     </Card>
   );

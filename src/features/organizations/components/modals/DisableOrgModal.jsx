@@ -18,7 +18,6 @@ export default function DisableOrgModal({
   orgName,
   onSuccess,
 }) {
-  const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleDisable = async (e) => {

@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
-import { Copy } from "lucide-react";
-import { DataTable } from "@components/common";
+import { useMemo } from "react";
+import { Copy, Eye, Trash2 } from "lucide-react";
+import { DataTable, TableActions } from "@components/common";
 import { StatusBadge } from "@components/ui";
 
-export function BillingTables({ activeTab, plans, coupons, onCopy }) {
+export function BillingTables({ activeTab, plans, coupons, onCopy, onViewPlan, onDeletePlan, onViewCoupon, onDeleteCoupon }) {
   const planColumns = useMemo(
     () => [
       {
@@ -52,8 +52,22 @@ export function BillingTables({ activeTab, plans, coupons, onCopy }) {
         label: "Status",
         render: (val) => <StatusBadge status={val} size="sm" />,
       },
+      {
+        key: "actions",
+        label: "Actions",
+        width: 100,
+        align: "right",
+        render: (_, row) => (
+          <TableActions
+            actions={[
+              { label: "View", icon: Eye, variant: "primary", onClick: () => onViewPlan(row) },
+              { label: "Delete", icon: Trash2, variant: "danger", onClick: () => onDeletePlan(row) },
+            ]}
+          />
+        ),
+      },
     ],
-    [],
+    [onViewPlan, onDeletePlan],
   );
 
   const couponColumns = useMemo(
@@ -103,8 +117,22 @@ export function BillingTables({ activeTab, plans, coupons, onCopy }) {
         label: "Status",
         render: (val) => <StatusBadge status={val} size="sm" />,
       },
+      {
+        key: "actions",
+        label: "Actions",
+        width: 100,
+        align: "right",
+        render: (_, row) => (
+          <TableActions
+            actions={[
+              { label: "View", icon: Eye, variant: "primary", onClick: () => onViewCoupon(row) },
+              { label: "Delete", icon: Trash2, variant: "danger", onClick: () => onDeleteCoupon(row) },
+            ]}
+          />
+        ),
+      },
     ],
-    [onCopy],
+    [onCopy, onViewCoupon, onDeleteCoupon],
   );
 
   return (

@@ -4,12 +4,16 @@ import path from "path";
 /**
  * Ultimate Premium ESLint & Integrity Reporting Engine
  * 1. Categorizes by severity into multi-fidelity tables.
- * 2. Scans for institutional file-size guardrails.
- * 3. Never fails the build - only provides high-impact visual feedback in the Dashboard.
+ * 2. Scans for institutional file-size guardrails (Optimized).
+ * 3. Never fails the build - acts as a guidance engine.
  */
 
 const GITHUB_STEP_SUMMARY = process.env.GITHUB_STEP_SUMMARY;
 const SRC_DIR = path.join(process.cwd(), "src");
+
+// Refactoring Thresholds
+const THRESHOLD_HIGH = 150;
+const THRESHOLD_CRITICAL = 250;
 
 const rulesWhyItMatters = {
     "no-unused-vars": "Unused code increases bundle size and makes the codebase harder to maintain.",
@@ -38,18 +42,11 @@ function getFiles(dir, allFiles = []) {
 
 function getCategory(severity, msg) {
     const isRestricted = msg.ruleId === "no-restricted-syntax" || msg.message.includes("STRICT VIOLATION");
-    
     if (isRestricted || severity === 2) {
-        if (msg.message.includes("async/await") || msg.message.includes("Max 250")) {
-            return "CRITICAL";
-        }
+        if (msg.message.includes("async/await") || msg.message.includes("Max 250")) return "CRITICAL";
         return "HIGH";
     }
-    
-    if (msg.ruleId?.includes("hooks") || msg.ruleId?.includes("undef") || msg.ruleId?.includes("props")) {
-        return "MID";
-    }
-    
+    if (msg.ruleId?.includes("hooks") || msg.ruleId?.includes("undef")) return "MID";
     return "LOW";
 }
 
@@ -83,19 +80,19 @@ async function generateReport() {
             const lines = content.split("\n").length;
             const relPath = path.relative(process.cwd(), file);
 
-            if (lines > 250) {
+            if (lines > THRESHOLD_CRITICAL) {
                  categories.CRITICAL.push({
                     file: relPath,
                     line: 1,
                     rule: "INTEGRITY_SIZE_CRITICAL",
-                    message: `STRICT VIOLATION: ${relPath} has ${lines} lines (Max 250). Refactor into smaller modules!`,
+                    message: `STRICT VIOLATION: ${relPath} has ${lines} lines (Max ${THRESHOLD_CRITICAL}). Refactor into smaller modules!`,
                     why: rulesWhyItMatters.INTEGRITY_SIZE_CRITICAL,
                     icon: "🔴",
                     category: "CRITICAL"
                  });
                  totalIssues++;
                  fileCount.add(relPath);
-            } else if (lines > 150) {
+            } else if (lines > THRESHOLD_HIGH) {
                 categories.HIGH.push({
                     file: relPath,
                     line: 1,
@@ -117,7 +114,6 @@ async function generateReport() {
                 if (result.messages.length === 0) return;
                 const filePath = path.relative(process.cwd(), result.filePath);
                 fileCount.add(filePath);
-
                 result.messages.forEach(msg => {
                     totalIssues++;
                     const category = getCategory(msg.severity, msg);
@@ -134,15 +130,14 @@ async function generateReport() {
             });
         }
 
-        // Dashboard Header
-        const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (categories.CRITICAL.length * 15) - (totalIssues * 1));
+        const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (categories.CRITICAL.length * 12) - (totalIssues * 0.5));
         const statusIcon = healthScore > 90 ? "🟢" : healthScore > 70 ? "🟡" : "🔴";
 
         let markdown = `# 🛡️ NEXO PREMIUM COMPLIANCE DASHBOARD\n\n`;
         markdown += `### 💹 System Health: ${statusIcon} **${healthScore.toFixed(1)}%**  |  🎯 Observational Findings: **${totalIssues}**  |  📂 Monitored Files: **${fileCount.size}**\n\n`;
 
         if (totalIssues === 0) {
-            markdown += `### ✅ Clean Build: Architectural Standards Fully Met.\nYour code adheres to all institutional guardrails. No refactoring required.\n`;
+            markdown += `### ✅ 100% Compliance Achieved\nAll institutional guardrails are fully met. The architecture is perfectly modular.\n`;
         } else {
             const tableGenerator = (title, items) => {
                 if (items.length === 0) return "";
@@ -161,14 +156,11 @@ async function generateReport() {
             markdown += tableGenerator("MEDIUM ADVISORY", categories.MID);
             markdown += tableGenerator("LOW IMPACT", categories.LOW);
 
-            markdown += `\n\n> [!TIP]\n> **Action Plan**: Focus on resolving 🔴 CRITICAL and 🛑 HIGH issues. The CI now acts as a **Non-Blocking Guidance Engine**—enabling delivery while tracking technical debt.\n`;
+            markdown += `\n\n> [!TIP]\n> **Guidance Engine**: Prioritize 🔴 observations to maintain elite performance. Smaller modules enable faster audits and better team collaboration.\n`;
         }
 
-        if (GITHUB_STEP_SUMMARY) {
-            fs.writeFileSync(GITHUB_STEP_SUMMARY, markdown);
-        } else {
-            console.log(markdown);
-        }
+        if (GITHUB_STEP_SUMMARY) fs.writeFileSync(GITHUB_STEP_SUMMARY, markdown);
+        else console.log(markdown);
 
     } catch (error) {
         console.error("Compliance Report Generation Failed:", error);

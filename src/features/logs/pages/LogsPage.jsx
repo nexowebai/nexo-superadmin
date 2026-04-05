@@ -43,9 +43,13 @@ function LogsPage() {
     <PageContainer className="logs-v2 pb-12">
       {/* 1. Operational Telemetry */}
       <StatsGrid className="mb-8">
-        {stats.map((stat, i) => (
-          <StatsCard key={i} {...stat} loading={isLoading} />
-        ))}
+        {isLoading && stats.length === 0
+          ? Array.from({ length: 4 }).map((_, i) => (
+              <StatsCard key={`sk-${i}`} loading={true} />
+            ))
+          : stats.map((stat, i) => (
+              <StatsCard key={i} {...stat} loading={isLoading} />
+            ))}
       </StatsGrid>
 
       {/* 2. Transactional Audit Layer */}

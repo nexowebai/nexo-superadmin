@@ -37,31 +37,33 @@ export default function RequestsTable({
 
   return (
     <div className="requests-table-container">
-      <DataTable
-        columns={columns}
-        data={data}
-        loading={loading}
-        pagination={pagination}
-        page={page}
-        onPageChange={onPageChange}
-        emptyIcon={FileCheck}
-        {...REQUEST_TABLE_CONFIG}
-        showToolbar
-        search={search}
-        onSearchChange={setSearch}
-        onRefresh={refetch}
-        filters={
-          <Select
-            options={STATUS_OPTIONS}
-            value={status}
-            onChange={(v) => {
-              setStatus(v);
-            }}
-            placeholder="Filter Status"
-            className="w-48"
-          />
-        }
-      />
+      <div>
+        <DataTable
+          columns={columns}
+          data={data}
+          loading={loading}
+          pagination={pagination}
+          page={page}
+          onPageChange={onPageChange}
+          emptyIcon={FileCheck}
+          {...REQUEST_TABLE_CONFIG}
+          showToolbar
+          search={search}
+          onSearchChange={setSearch}
+          onRefresh={refetch}
+          filters={
+            <Select
+              options={STATUS_OPTIONS}
+              value={status}
+              onChange={(v) => {
+                setStatus(v);
+              }}
+              placeholder="Filter Status"
+              className="w-48"
+            />
+          }
+        />
+      </div>
 
       <RequestDetailsModal
         isOpen={detailModal.isOpen}

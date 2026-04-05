@@ -40,9 +40,13 @@ function DashboardPage() {
       {/* 1. Statistics Summary */}
       <section className="mb-8">
         <StatsGrid columns={4}>
-          {metrics.map(({ key, ...metricData }) => (
-            <StatsCard key={key} {...metricData} loading={loading} />
-          ))}
+          {loading && metrics.length === 0
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <StatsCard key={`sk-${i}`} loading={true} />
+              ))
+            : metrics.map(({ key, ...metricData }) => (
+                <StatsCard key={key} {...metricData} loading={loading} />
+              ))}
         </StatsGrid>
       </section>
 

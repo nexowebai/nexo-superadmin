@@ -23,11 +23,16 @@ function StatCard({
 
   if (loading) {
     return (
-      <div className={cn("stat-card", "stat-card--loading", className)}>
-        <div className="stat-card__skeleton-icon" />
-        <div className="stat-card__skeleton-content">
-          <div className="stat-card__skeleton-title" />
-          <div className="stat-card__skeleton-value" />
+      <div className={cn("stat-card stat-card--loading", className)}>
+        <div className="stat-card__main">
+          <div className="stat-card__skeleton-icon" />
+          <div className="stat-card__skeleton-content">
+            <div className="stat-card__skeleton-title" />
+            <div className="stat-card__skeleton-value" />
+          </div>
+        </div>
+        <div className="stat-card__footer">
+          <div className="stat-card__skeleton-footer" />
         </div>
       </div>
     );
