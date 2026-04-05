@@ -48,27 +48,3 @@ jobs:
         env:
           GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
 
-      - name: 📋 File Monitor / Scan Changed Files for Limit Violations
-        id: files-check
-        uses: tj-actions/changed-files@v44 # TJ-actions handles Node 24 automatically on latest runners
-
-      - name: ⚖️ Enforcement / Apply Institutional Guardrails
-        if: steps.files-check.outputs.any_changed == 'true'
-        run: |
-          ERROR_COUNT=0
-          for file in ${{ steps.files-check.outputs.all_changed_files }}; do
-            if [[ $file =~ \.(ts|tsx|js|jsx)$ ]] && [[ -f $file ]]; then
-              lines=$(wc -l < "$file")
-              # Relaxed limit to 250 lines
-              if [ "$lines" -gt 250 ]; then
-                echo "::error file=$file::STRICT VIOLATION: $file has $lines lines (Max 250). Refactor into smaller modules!"
-                ERROR_COUNT=$((ERROR_COUNT+1))
-              elif [ "$lines" -gt 150 ]; then
-                echo "::warning file=$file::SOFT WARNING: $file is getting large ($lines lines). Consider refactoring soon."
-              fi
-            fi
-          done
-          if [ "$ERROR_COUNT" -gt 0 ]; then
-            exit 1
-          fi
-

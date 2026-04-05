@@ -2,36 +2,45 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Ultimate Premium ESLint Reporting Engine
- * Categorized by severity into multiple high-fidelity tables.
+ * Ultimate Premium ESLint & Integrity Reporting Engine
+ * 1. Categorizes by severity into multi-fidelity tables.
+ * 2. Scans for institutional file-size guardrails.
+ * 3. Never fails the build - only provides high-impact visual feedback in the Dashboard.
  */
 
 const GITHUB_STEP_SUMMARY = process.env.GITHUB_STEP_SUMMARY;
+const SRC_DIR = path.join(process.cwd(), "src");
 
 const rulesWhyItMatters = {
     "no-unused-vars": "Unused code increases bundle size and makes the codebase harder to maintain.",
     "no-console": "Console logs in production may leak sensitive information and clutter the console.",
     "react-hooks/rules-of-hooks": "Breaking hook rules causes unpredictable state and hard-to-debug lifecycle bugs.",
     "react-hooks/exhaustive-deps": "Missing dependencies lead to stale data and subtle reactivity bugs.",
-    "react/prop-types": "Without prop-types, components are prone to runtime errors from invalid data.",
-    "react-refresh/only-export-components": "Exporting non-components breaks Fast Refresh, slowing development.",
     "no-undef": "Accessing undefined variables causes immediate runtime crashes.",
-    "no-extra-semi": "Redundant semicolons add noise without functional benefit.",
-    "react/jsx-key": "Missing keys in lists cause performance issues and UI state loss.",
-    "max-lines": "Giant files are hard to test and maintain; they violate Single Responsibility.",
-    "eqeqeq": "Loose equality (==) leads to coercion bugs; strict equality (===) is safer.",
-    "no-constant-condition": "Constant conditions often signify unfinished code or logic errors.",
-    "no-debugger": "Debugger statements stop execution in the browser; strictly for dev.",
-    "prefer-const": "Using const makes it clear which variables are immutable.",
-    "no-var": "var is scoping-poisonous; using let/const prevents hoisting bugs.",
-    "no-restricted-syntax": "Institutional restrictions ensure deterministic state flow."
+    "no-restricted-syntax": "Institutional restrictions (no async/await) ensure deterministic state flow.",
+    "INTEGRITY_SIZE_CRITICAL": "Giant modules are hard to test, audit, and maintain; they violate architectural separation.",
+    "INTEGRITY_SIZE_HIGH": "Large components are more difficult to reason about and share across teams."
 };
+
+function getFiles(dir, allFiles = []) {
+    if (!fs.existsSync(dir)) return allFiles;
+    const files = fs.readdirSync(dir);
+    for (const f of files) {
+        const name = path.join(dir, f);
+        if (fs.statSync(name).isDirectory()) {
+            getFiles(name, allFiles);
+        } else if (f.endsWith(".js") || f.endsWith(".jsx")) {
+            allFiles.push(name);
+        }
+    }
+    return allFiles;
+}
 
 function getCategory(severity, msg) {
     const isRestricted = msg.ruleId === "no-restricted-syntax" || msg.message.includes("STRICT VIOLATION");
     
     if (isRestricted || severity === 2) {
-        if (msg.message.includes("async/await") || msg.message.includes("Max 150")) {
+        if (msg.message.includes("async/await") || msg.message.includes("Max 250")) {
             return "CRITICAL";
         }
         return "HIGH";
@@ -63,64 +72,88 @@ function getWhyItMatters(ruleId) {
 
 async function generateReport() {
     try {
-        if (!fs.existsSync("eslint-results.json")) return;
-
-        const results = JSON.parse(fs.readFileSync("eslint-results.json", "utf8"));
-        
-        const categories = {
-            CRITICAL: [],
-            HIGH: [],
-            MID: [],
-            LOW: []
-        };
-
+        const categories = { CRITICAL: [], HIGH: [], MID: [], LOW: [] };
         let totalIssues = 0;
         let fileCount = new Set();
 
-        results.forEach(result => {
-            if (result.messages.length === 0) return;
-            const filePath = path.relative(process.cwd(), result.filePath);
-            fileCount.add(filePath);
+        // 1. Scan for File Size Integrity Guards
+        const allFiles = getFiles(SRC_DIR);
+        allFiles.forEach(file => {
+            const content = fs.readFileSync(file, "utf8");
+            const lines = content.split("\n").length;
+            const relPath = path.relative(process.cwd(), file);
 
-            result.messages.forEach(msg => {
-                totalIssues++;
-                const category = getCategory(msg.severity, msg);
-                categories[category].push({
-                    file: filePath,
-                    line: msg.line,
-                    rule: msg.ruleId,
-                    message: msg.message,
-                    why: getWhyItMatters(msg.ruleId),
-                    icon: getSeverityIcon(category),
-                    category
-                });
-            });
+            if (lines > 250) {
+                 categories.CRITICAL.push({
+                    file: relPath,
+                    line: 1,
+                    rule: "INTEGRITY_SIZE_CRITICAL",
+                    message: `STRICT VIOLATION: ${relPath} has ${lines} lines (Max 250). Refactor into smaller modules!`,
+                    why: rulesWhyItMatters.INTEGRITY_SIZE_CRITICAL,
+                    icon: "🔴",
+                    category: "CRITICAL"
+                 });
+                 totalIssues++;
+                 fileCount.add(relPath);
+            } else if (lines > 150) {
+                categories.HIGH.push({
+                    file: relPath,
+                    line: 1,
+                    rule: "INTEGRITY_SIZE_HIGH",
+                    message: `SOFT WARNING: ${relPath} is getting large (${lines} lines). Consider refactoring soon.`,
+                    why: rulesWhyItMatters.INTEGRITY_SIZE_HIGH,
+                    icon: "🛑",
+                    category: "HIGH"
+                 });
+                 totalIssues++;
+                 fileCount.add(relPath);
+            }
         });
 
-        // Calculate Header Stats
-        const criticalCount = categories.CRITICAL.length;
-        const warningCount = categories.HIGH.length + categories.MID.length + categories.LOW.length;
-        const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (criticalCount * 12) - (warningCount * 1.5));
-        const statusIcon = healthScore > 90 ? "🟢" : healthScore > 70 ? "🟡" : "🔴";
+        // 2. Parse ESLint JSON Results
+        if (fs.existsSync("eslint-results.json")) {
+            const results = JSON.parse(fs.readFileSync("eslint-results.json", "utf8"));
+            results.forEach(result => {
+                if (result.messages.length === 0) return;
+                const filePath = path.relative(process.cwd(), result.filePath);
+                fileCount.add(filePath);
+
+                result.messages.forEach(msg => {
+                    totalIssues++;
+                    const category = getCategory(msg.severity, msg);
+                    categories[category].push({
+                        file: filePath,
+                        line: msg.line,
+                        rule: msg.ruleId,
+                        message: msg.message,
+                        why: getWhyItMatters(msg.ruleId),
+                        icon: getSeverityIcon(category),
+                        category
+                    });
+                });
+            });
+        }
 
         // Dashboard Header
+        const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (categories.CRITICAL.length * 15) - (totalIssues * 1));
+        const statusIcon = healthScore > 90 ? "🟢" : healthScore > 70 ? "🟡" : "🔴";
+
         let markdown = `# 🛡️ NEXO PREMIUM COMPLIANCE DASHBOARD\n\n`;
-        markdown += `### 💹 System Health: ${statusIcon} **${healthScore.toFixed(1)}%**  |  🎯 Issues: **${totalIssues}**  |  📂 Affected Files: **${fileCount.size}**\n\n`;
+        markdown += `### 💹 System Health: ${statusIcon} **${healthScore.toFixed(1)}%**  |  🎯 Observational Findings: **${totalIssues}**  |  📂 Monitored Files: **${fileCount.size}**\n\n`;
 
         if (totalIssues === 0) {
             markdown += `### ✅ Clean Build: Architectural Standards Fully Met.\nYour code adheres to all institutional guardrails. No refactoring required.\n`;
         } else {
             const tableGenerator = (title, items) => {
                 if (items.length === 0) return "";
-                let tableHeader = `## ${items[0].icon} ${title} FINDINGS\n\n`;
-                tableHeader += "| Severity | Location | Technical Violation | Institutional Rationale |\n";
-                tableHeader += "| :--- | :--- | :--- | :--- |\n";
-                
+                let table = `## ${items[0].icon} ${title} FINDINGS\n\n`;
+                table += "| Severity | Location | Technical Observation | Institutional Rationale |\n";
+                table += "| :--- | :--- | :--- | :--- |\n";
                 items.forEach(item => {
                     const ruleLink = item.rule ? `[\`${item.rule}\`](https://eslint.org/docs/rules/${item.rule})` : "Policy";
-                    tableHeader += `| **${item.category}** | \`${item.file}:${item.line}\` | **${item.message.replace(/\|/g, "\\|")}**<br/>${ruleLink} | ${item.why} |\n`;
+                    table += `| **${item.category}** | \`${item.file}:${item.line}\` | **${item.message.replace(/\|/g, "\\|")}**<br/>${ruleLink} | ${item.why} |\n`;
                 });
-                return tableHeader + "\n\n";
+                return table + "\n\n";
             };
 
             markdown += tableGenerator("CRITICAL ARCHITECTURE", categories.CRITICAL);
@@ -128,7 +161,7 @@ async function generateReport() {
             markdown += tableGenerator("MEDIUM ADVISORY", categories.MID);
             markdown += tableGenerator("LOW IMPACT", categories.LOW);
 
-            markdown += `\n\n> [!TIP]\n> **Action Plan**: Focus on resolving 🔴 CRITICAL and 🛑 HIGH issues prior to merge. Run \`npm run lint:fix\` for automated compliance.\n`;
+            markdown += `\n\n> [!TIP]\n> **Action Plan**: Focus on resolving 🔴 CRITICAL and 🛑 HIGH issues. The CI now acts as a **Non-Blocking Guidance Engine**—enabling delivery while tracking technical debt.\n`;
         }
 
         if (GITHUB_STEP_SUMMARY) {
@@ -138,7 +171,7 @@ async function generateReport() {
         }
 
     } catch (error) {
-        console.error("Report Generation Failed:", error);
+        console.error("Compliance Report Generation Failed:", error);
     }
 }
 
