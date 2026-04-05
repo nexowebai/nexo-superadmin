@@ -52,7 +52,6 @@ const PrivacyPolicyPage = lazy(
   () => import("@features/content/pages/PrivacyPolicyPage"),
 );
 
-
 function ProtectedRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuth();
   const userRole = user?.role;
@@ -80,7 +79,6 @@ function PublicRoute({ children }) {
 
   return children;
 }
-
 
 function DashboardDispatcher() {
   const { user } = useAuth();
