@@ -2,5 +2,3 @@
 > nexo-frontend@1.0.0 format
 > prettier --write --list-different "src/**/*.{js,jsx,css,md,json}"
 
-src/hooks/useLocalStorage.js
-src/routes/index.jsx
