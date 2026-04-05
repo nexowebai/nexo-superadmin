@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@lib/cn';
-import './Button.css';
+import './styles/Button.css';
 
 const Button = forwardRef(({
     children,

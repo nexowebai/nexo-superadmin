@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '@lib/queryClient';
-import { systemApi } from '../../api/superAdminApi';
+import { logService as systemApi } from '../services/logService';
 
 export function useLogs(params = {}) {
     return useQuery({

@@ -23,9 +23,10 @@ export const MOCK_ORGANIZATIONS = [
 ];
 
 export const MOCK_NOTIFICATIONS = [
-    { id: 1, title: "Update Successful", subtitle: "System update applied to 14 nodes", time: "2m", status: "unread", icon: "CheckCircle2" },
-    { id: 2, title: "Security Alert", subtitle: "Login attempt from new location", time: "15m", status: "unread", icon: "ShieldAlert" },
-    { id: 3, title: "Storage Warning", subtitle: "Cloud storage approaching limit", time: "1h", status: "read", icon: "AlertCircle" },
+    { id: 1, title: "Update Successful", subtitle: "System update applied to 14 nodes", time: "2m", status: "unread", type: "success" },
+    { id: 2, title: "Security Alert", subtitle: "Login attempt from new location", time: "15m", status: "unread", type: "warning" },
+    { id: 3, title: "Organization Created", subtitle: "Hyperion Corp added successfully", time: "1h", status: "read", type: "primary" },
+    { id: 4, title: "Storage Warning", subtitle: "Cloud storage approaching limit", time: "2h", status: "read", type: "error" },
 ];
 
 export const MOCK_HEALTH_METRICS = [

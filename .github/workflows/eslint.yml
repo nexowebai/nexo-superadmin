@@ -1,0 +1,58 @@
+name: Strict Codebase Check
+on: 
+  push:
+    branches: ["**"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  eslint:
+    name: runner / eslint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      # Automated PR review with line-by-line comments (only for changed lines)
+      - name: Run ESLint with Reviewdog
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          eslint_flags: 'src/**/*.{ts,tsx,js,jsx}'
+          filter_mode: added # Comments only on new/changed lines
+          fail_on_error: true
+          level: error
+
+      # Strict Physical File Constraint Check (Only Changed Files)
+      - name: Strict 150-Line Limit Check
+        id: files-check
+        uses: tj-actions/changed-files@v44
+
+      - name: Enforcement of Limits
+        if: steps.files-check.outputs.any_changed == 'true'
+        run: |
+          for file in ${{ steps.files-check.outputs.all_changed_files }}; do
+            if [[ $file =~ \.(ts|tsx|js|jsx)$ ]] && [[ -f $file ]]; then
+              lines=$(wc -l < "$file")
+              if [ "$lines" -gt 150 ]; then
+                echo "::error file=$file::STRICT VIOLATION: $file has $lines lines (Max 150). Refactor into smaller modules!"
+                exit 1
+              fi
+            fi
+          done

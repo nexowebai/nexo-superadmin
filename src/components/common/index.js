@@ -1,4 +1,4 @@
-export { default as StatsCard, StatsCardSkeleton, StatsGrid } from './StatsCard';
+export { StatsCard, StatsCardSkeleton, StatsGrid } from '../ui/Card';
 export { default as SearchBar } from './SearchBar';
 export { default as EmptyState } from './EmptyState';
 

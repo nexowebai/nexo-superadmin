@@ -1,0 +1,25 @@
+name: Build & Bundle Size Check
+on: [push, pull_request]
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build:
+    name: Build Check / Size Stats
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm install
+      - run: npm run build
+      
+      - name: Report Compressed Size
+        uses: preactjs/compressed-size-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: "dist/**/*.{js,css}"
+          strip-hash: "\\.([^.{2,10}])+\\."
+          minimum-change-threshold: 100

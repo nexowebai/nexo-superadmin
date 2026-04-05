@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Building2 } from 'lucide-react';
 import { PageContainer } from '@components/layout/DashboardLayout';
-import { Button, ConfirmModal } from '@components/ui';
+import { ConfirmModal } from '@components/ui';
 import { useOrganizationDetail } from '../hooks/useOrganizationDetail';
 import OrgHero from '../components/OrgHero';
 import OrgStats from '../components/OrgStats';
@@ -11,7 +9,7 @@ import OrgSidebar from '../components/OrgSidebar';
 import OrgSkeleton from '../components/OrgSkeleton';
 import { DisableOrgModal, ResetPasswordModal, SendNotificationModal, ManageCouponsModal, ManagePlanModal } from '../components/OrgModals';
 import { useLayout } from '@context';
-import '../css/organizations.css';
+import '../styles/organizations.css';
 
 function OrganizationDetailPage() {
   const { setHeaderProps } = useLayout();
@@ -37,19 +35,6 @@ function OrganizationDetailPage() {
   }, [setHeaderProps, org]);
 
   if (loading) return <OrgSkeleton />;
-
-  if (!org) {
-    return (
-      <PageContainer>
-        <div className="org-not-found">
-          <Building2 size={56} strokeWidth={1.5} />
-          <h2>Organization Not Found</h2>
-          <p>The organization you're looking for doesn't exist or has been deleted.</p>
-          <Button onClick={() => navigate('/organizations')}>Back to Organizations</Button>
-        </div>
-      </PageContainer>
-    );
-  }
 
   return (
     <PageContainer>

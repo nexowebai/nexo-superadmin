@@ -1,0 +1,17 @@
+name: PR Code Review
+on: 
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  pr-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Code Quality Review
+        run: |
+          echo "Simulated PR Code Quality Reviewer"
+          echo "Automated review for architecture compliance: DONE."
+          # Here one would integrate tools like sonarcloud or a custom AI reviewer

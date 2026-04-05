@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Bell } from "lucide-react";
-
+import { Plus } from "lucide-react";
 import { PageContainer } from "@components/layout/DashboardLayout";
 import { useLayout } from "@context";
 import { Button } from "@components/ui";
 
 // Feature-specific
-import { StatsCard, StatsGrid } from "@components/common/StatsCard/StatsCard";
+import { StatsCard, StatsGrid } from "@components/ui";
 import OrganizationGrid from "../components/OrganizationGrid";
 import FinancialPerformance from "../components/FinancialPerformance";
 import SystemHealth from "../components/SystemHealth";
 import NotificationCenter from "../components/NotificationCenter";
 import { useDashboard } from "../hooks/useDashboard";
 
-import "./DashboardPage.css";
+import "../styles/dashboard.css";
 
 function DashboardPage() {
   const navigate = useNavigate();

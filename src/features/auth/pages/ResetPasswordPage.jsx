@@ -4,7 +4,7 @@ import { Lock, Eye, EyeOff, ArrowRight, CheckCircle, ArrowLeft } from 'lucide-re
 import { useForm } from 'react-hook-form';
 import { Button, Input, SEO } from '@components/ui';
 import { Alert } from '@components/ui/Alert';
-import { authApi } from '@features/auth/authApi';
+import { authService } from '../services/authService';
 import './AuthPages.css';
 
 function ResetPasswordPage() {
@@ -37,7 +37,7 @@ function ResetPasswordPage() {
         setLoading(true);
         setError('');
 
-        authApi.resetPassword(token, data.password)
+        authService.resetPassword({ token, password: data.password })
             .then(() => {
                 setSuccess(true);
             })

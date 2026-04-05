@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@lib/queryClient';
-import { notificationsApi } from '../../api/superAdminApi';
+import { notificationService as notificationsApi } from '../services/notificationService';
 import notify from '@utils/notify';
 
 export function useNotifications(params = {}) {

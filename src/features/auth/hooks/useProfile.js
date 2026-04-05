@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { authApi } from '../authApi';
+import { authService } from '../services/authService';
 import { useAuth } from '@context/AuthContext';
 import notify from '@utils/notify';
 
@@ -8,12 +8,12 @@ export function useProfile() {
 
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['profile'],
-        queryFn: () => authApi.getProfile(),
+        queryFn: () => authService.getProfile(),
         select: (res) => res?.data || res,
     });
 
     const updateProfileMutation = useMutation({
-        mutationFn: (payload) => authApi.updateProfile(payload),
+        mutationFn: (payload) => authService.updateProfile(payload),
         onSuccess: (res) => {
             const updatedUser = res?.data || res;
             updateUser(updatedUser);
@@ -26,7 +26,7 @@ export function useProfile() {
     });
 
     const changePasswordMutation = useMutation({
-        mutationFn: (payload) => authApi.changePassword(payload),
+        mutationFn: (payload) => authService.changePassword(payload),
         onSuccess: () => {
             notify.success('Password changed successfully');
         },

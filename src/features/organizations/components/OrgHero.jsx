@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Building2, Power, PowerOff, Bell, Tag, CreditCard } from 'lucide-react';
 import { StatusBadge } from '@components/ui';
 import Button from '@components/ui/Button';
@@ -11,7 +10,7 @@ export default function OrgHero({ org, onEnable, onDisable, onNotify, onManagePl
     if (!org) return null;
 
     return (
-        <motion.div
+        <div
             className="org-hero"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -55,6 +54,6 @@ export default function OrgHero({ org, onEnable, onDisable, onNotify, onManagePl
                     <Button variant="danger" icon={PowerOff} onClick={onDisable} fullWidth>Disable Org</Button>
                 )}
             </div>
-        </motion.div>
+        </div>
     );
 }

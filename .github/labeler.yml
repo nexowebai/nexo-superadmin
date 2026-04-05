@@ -1,0 +1,27 @@
+# Configuration for actions/labeler
+
+# Label based on changed files
+"feature":
+  - changed-files:
+    - any-glob-to-any-file: 'src/features/**/*'
+
+"styling":
+  - changed-files:
+    - any-glob-to-any-file: 'src/**/*.css'
+    - any-glob-to-any-file: 'src/styles/**/*'
+
+"infrastructure":
+  - changed-files:
+    - any-glob-to-any-file: '.github/**/*'
+    - any-glob-to-any-file: 'scripts/**/*'
+    - any-glob-to-any-file: 'package.json'
+
+"docs":
+  - changed-files:
+    - any-glob-to-any-file: '**/*.md'
+
+"logic":
+  - changed-files:
+    - any-glob-to-any-file: 'src/hooks/**/*'
+    - any-glob-to-any-file: 'src/services/**/*'
+    - any-glob-to-any-file: 'src/utils/**/*'

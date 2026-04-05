@@ -5,7 +5,6 @@ export function useRevenueAnalysis() {
     const [selectedDate, setSelectedDate] = useState('2026-03-01');
 
     const chartData = useMemo(() => {
-        // In a real app, this would fetch data based on selectedDate
         return MOCK_CHART_DATA;
     }, [selectedDate]);
 

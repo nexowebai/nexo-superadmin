@@ -207,6 +207,8 @@
   letter-spacing: 0.1em;
   text-align: left;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   position: relative;
   z-index: 10;
   transition: all var(--transition-fast) var(--ease-out);
@@ -399,7 +401,7 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  border: 1px solid var(--border-base);
   cursor: pointer;
   transition: all var(--transition-fast) var(--ease-out);
   flex-shrink: 0;

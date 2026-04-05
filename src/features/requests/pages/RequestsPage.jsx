@@ -7,7 +7,7 @@ import { StatsCard, StatsGrid } from '@components/common';
 import RequestsTable from '../components/RequestsTable';
 import { useRequestsPage } from '../hooks/useRequestsPage';
 import { MOCK_STATS } from '../constants/requestData';
-import '../css/requests.css';
+
 
 export default function RequestsPage() {
     const { setHeaderProps } = useLayout();

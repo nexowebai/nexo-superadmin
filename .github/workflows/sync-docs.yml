@@ -1,0 +1,43 @@
+name: 📚 Feature Docs Sync
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+    paths:
+      - 'src/features/**/docs/*.md'
+      - 'scripts/sync-feature-docs.js'
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+    paths:
+      - 'src/features/**/docs/*.md'
+
+jobs:
+  sync-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to push back the updated READMEs
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }} # Checkout the branch for PRs
+          
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: 📦 Install dependencies
+        run: npm install # Standard install to ensure script runtime dependencies if any
+
+      - name: 🔄 Sync Feature Documentation
+        run: node scripts/sync-feature-docs.js
+
+      - name: 📤 Commit and Push Changes
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: 📚 Sync feature READMEs with documentation charts"
+          file_pattern: 'src/features/**/README.md'
+          branch: ${{ github.head_ref || github.ref }}

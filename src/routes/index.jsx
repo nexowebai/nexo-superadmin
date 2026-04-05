@@ -11,6 +11,7 @@ import { CreditCard, DollarSign, Receipt, RefreshCw, Zap } from "lucide-react";
 import { useAuth } from "@context/AuthContext";
 import { DashboardLayout, PageContainer } from "@components/layout/DashboardLayout";
 import AuthLayout from "@components/layout/AuthLayout";
+import { PageLoader } from "@components/ui";
 import { Skeleton } from "@components/ui/Skeleton";
 import { Alert } from "@components/ui/Alert";
 import ComingSoonPage from "@components/pages/ComingSoonPage";
@@ -95,19 +96,6 @@ function PaymentsComingSoon() {
   );
 }
 
-function PageLoader() {
-  return (
-    <div className="ds-page-loader">
-      <div className="ds-page-loader__content">
-        <Skeleton variant="rect" width="100%" height={200} />
-        <div style={{ marginTop: 24 }}>
-          <Skeleton variant="text" width="60%" />
-          <Skeleton variant="text" width="40%" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuth();

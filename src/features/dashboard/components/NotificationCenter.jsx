@@ -1,93 +1,89 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-    Bell,
-    ArrowRight,
-    Clock,
-    CheckCircle2,
-    AlertCircle,
-    ShieldAlert,
-    MoreVertical,
-    Trash2
-} from 'lucide-react';
-import { Button } from '@components/ui';
+import { Bell, Clock, CheckCircle2, AlertCircle, ShieldAlert, Trash2, Building2 } from 'lucide-react';
+import { Button, Card } from '@components/ui';
+import { SkeletonCard } from '@components/ui/Skeleton/Skeleton';
 import { MOCK_NOTIFICATIONS } from '../constants/dashboardData';
 
-const ICON_MAP = {
-    'CheckCircle2': CheckCircle2,
-    'ShieldAlert': ShieldAlert,
-    'AlertCircle': AlertCircle,
-    'Bell': Bell
+const NOTIFICATION_ICONS = {
+    'success': { icon: CheckCircle2, color: 'var(--success)' },
+    'warning': { icon: ShieldAlert, color: 'var(--warning)' },
+    'error': { icon: AlertCircle, color: 'var(--error)' },
+    'primary': { icon: Building2, color: 'var(--primary)' },
+    'default': { icon: Bell, color: 'var(--text-muted)' }
 };
 
-const ActivityItem = ({ icon, title, subtitle, time, status, delay }) => {
-    const Icon = typeof icon === 'string' ? (ICON_MAP[icon] || Bell) : (icon || Bell);
+const ActivityItem = ({ title, subtitle, time, status, type, delay }) => {
+    const config = NOTIFICATION_ICONS[type] || NOTIFICATION_ICONS['default'];
+    const Icon = config.icon;
+    const color = config.color;
 
     return (
         <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay, duration: 0.3 }}
-            className="group relative flex items-start gap-4 p-4 rounded-md bg-surface-base border border-base hover:border-primary/30 transition-all cursor-pointer"
         >
-            <div className={`w-8 h-8 rounded-md border border-base shrink-0 flex items-center justify-center ${status === 'unread' ? 'bg-emerald-500/5 text-emerald-600 border-emerald-500/10' : 'bg-surface text-muted/30'
-                }`}>
-                <Icon className="w-4 h-4" />
-            </div>
-
-            <div className="min-w-0 flex-1 pr-6">
-                <h4 className="text-[13px] font-bold text-primary tracking-tight leading-tight truncate m-0 group-hover:text-primary transition-colors">
-                    {title}
-                </h4>
-                <p className="text-[11px] font-medium text-muted line-clamp-1 m-0 mt-1 opacity-70">{subtitle}</p>
-
-                <div className="flex items-center gap-1.5 mt-2.5 opacity-40">
-                    <Clock className="w-3 h-3" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider">{time} ago</span>
-                </div>
-            </div>
-
-            <div className="absolute top-4 right-4 flex items-center gap-2">
-                {status === 'unread' && (
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                )}
-                <button 
-                    className="opacity-0 group-hover:opacity-100 p-1.5 rounded-md hover:bg-red-500/10 hover:text-red-500 transition-all border border-transparent hover:border-red-500/20"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        // handle delete
+            <Card 
+                padding="md" 
+                hover 
+                className="notification-item group"
+            >
+                <div 
+                    className={`notification-item__icon ${status === 'unread' ? 'is-unread' : 'is-read'}`}
+                    style={{ 
+                        backgroundColor: `color-mix(in srgb, ${color} 10%, var(--bg-surface))`,
+                        color: color,
+                        borderColor: `color-mix(in srgb, ${color} 20%, transparent)`
                     }}
                 >
-                    <Trash2 size={12} />
-                </button>
-            </div>
+                    <Icon size={16} />
+                </div>
+
+                <div className="notification-item__content">
+                    <h4 className="notification-item__title">{title}</h4>
+                    <p className="notification-item__subtitle">{subtitle}</p>
+
+                    <div className="notification-item__time">
+                        <Clock size={12} />
+                        <span>{time} ago</span>
+                    </div>
+                </div>
+
+                <div className="notification-item__actions">
+                    {status === 'unread' && <div className="notification-item__dot" />}
+                    <button className="notification-item__delete-btn">
+                        <Trash2 size={12} />
+                    </button>
+                </div>
+            </Card>
         </motion.div>
     );
 }
 
-const NotificationCenter = ({ loading, notifications = [] }) => {
+export default function NotificationCenter({ loading, notifications = [] }) {
     const displayList = notifications.length > 0 ? notifications : MOCK_NOTIFICATIONS;
 
     return (
-        <div className="card-pro p-6 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-md bg-surface-base flex items-center justify-center border border-base">
-                        <Bell className="w-5 h-5 text-muted" />
+        <Card variant="pro" padding="md" className="notification-center-card">
+            <div className="notification-header">
+                <div className="notification-header__info">
+                    <div className="notification-header__icon">
+                        <Bell size={20} />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-primary tracking-tight m-0">Notifications</h3>
-                        <p className="text-xs font-medium text-muted m-0">Recent events</p>
+                        <h3 className="notification-header__title">Notifications</h3>
+                        <p className="notification-header__subtitle">Recent events</p>
                     </div>
                 </div>
-                <Button variant="ghost" className="h-9 px-4 rounded-md border border-base bg-surface-base hover:bg-surface-elevated text-[10px] font-black uppercase tracking-widest transition-all shadow-sm">
+                <Button variant="ghost" size="sm" className="notification-header__action">
                     View All
                 </Button>
             </div>
 
-            <div className="space-y-3 flex-1 overflow-y-auto pr-1">
+            <div className="notification-list">
                 {loading
-                    ? [1, 2, 3].map(i => <div key={i} className="h-20 rounded-md bg-surface-base animate-pulse border border-base" />)
+                    ? [1, 2, 3].map(i => <SkeletonCard key={i} showAvatar />)
                     : displayList.map((notif, i) => (
                         <ActivityItem
                             key={notif.id}
@@ -97,8 +93,6 @@ const NotificationCenter = ({ loading, notifications = [] }) => {
                     ))
                 }
             </div>
-        </div>
+        </Card>
     );
-};
-
-export default NotificationCenter;
+}

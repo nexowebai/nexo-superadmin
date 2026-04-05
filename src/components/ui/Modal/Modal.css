@@ -138,15 +138,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-2xl);
+    border-radius: 999px;
     margin: 0 0 var(--space-6);
     transition: all var(--transition-normal) var(--ease-out);
     border: 1px solid var(--border-base);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-}
-
-.ds-confirm-modal:hover .ds-confirm-modal__icon {
-    transform: scale(1.08) rotate(5deg);
 }
 
 .ds-confirm-modal__header {
@@ -171,7 +167,7 @@
 
 .ds-confirm-modal__footer {
     width: 100%;
-    padding: var(--space-6) var(--space-8);
+    padding: var(--space-3) var(--space-4);
     border-top: 1px solid var(--border-base);
     background: var(--bg-surface);
 }
@@ -265,18 +261,51 @@
 .modal-form-header {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-4);
     margin-bottom: var(--space-6);
 }
 
 .modal-form-header__icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    transition: all var(--transition-normal);
+}
+
+.modal-form-header__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Icon backgrounds */
+.ds-icon-bg--primary {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+.ds-icon-bg--success {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.ds-icon-bg--warning {
+    background: var(--warning-soft);
+    color: var(--warning);
+}
+
+.ds-icon-bg--danger {
+    background: var(--error-soft);
+    color: var(--error);
+}
+
+.ds-icon-bg--info {
+    background: var(--info-soft);
+    color: var(--info);
 }
 
 /* Modal footer pattern */

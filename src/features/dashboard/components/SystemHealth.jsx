@@ -1,76 +1,71 @@
-import { ShieldCheck } from 'lucide-react';
-import { MOCK_HEALTH_METRICS } from '../constants/dashboardData';
+import React from 'react';
+import { Activity, ShieldCheck, Zap, HardDrive } from 'lucide-react';
+import { Card } from '@components/ui';
+import { Skeleton } from '@components/ui/Skeleton/Skeleton';
 
-const HealthMetric = ({ label, value, icon: Icon, color }) => (
-    <div className="flex flex-col gap-2 p-4 rounded-md bg-surface-base border border-base hover:border-primary/30 transition-all cursor-default group">
-        <div className="flex items-center gap-2">
-            <div
-                className="w-6 h-6 rounded-md flex items-center justify-center border border-base bg-surface shadow-sm"
-                style={{ color }}
-            >
-                <Icon className="w-3.5 h-3.5" />
-            </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted opacity-70">{label}</span>
-        </div>
-        <span className="text-xl font-bold text-primary tabular-nums tracking-tight">{value}</span>
-    </div>
-);
+export default function SystemHealth({ loading }) {
+    if (loading) return (
+        <Card variant="nx" className="system-health-card">
+            <Skeleton variant="rect" width="100%" height="280px" />
+        </Card>
+    );
 
-const SystemHealth = ({ loading, systemHealth = 99.98 }) => {
+    const healthValue = 98;
+    const strokeDasharray = 2 * Math.PI * 56;
+    const strokeDashoffset = strokeDasharray - (healthValue / 100) * strokeDasharray;
+
     return (
-        <div className="card-pro p-6 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-md bg-emerald-500/5 flex items-center justify-center border border-emerald-500/20">
-                        <ShieldCheck className="w-5 h-5 text-emerald-600" />
+        <Card variant="nx" padding="lg" className="system-health-card">
+            <div className="health-compact-header">
+                <div className="health-header__info">
+                    <div className="health-header__icon">
+                        <Activity size={18} />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-primary tracking-tight m-0">System Health</h3>
-                        <p className="text-xs font-medium text-muted m-0">Real-time status</p>
+                        <h3 className="health-header__title">System Health</h3>
+                        <p className="health-header__subtitle">Infrastructure Status</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/5 border border-emerald-500/10">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Active</span>
+                <div className="health-badge health-badge--mini">
+                    <div className="health-badge__dot" />
+                    <span>OPERATIONAL</span>
                 </div>
             </div>
 
-            <div className="flex flex-col gap-8 flex-1">
-                {/* Visual Gauge */}
-                <div className="flex flex-col items-center justify-center py-2">
-                    <div className="relative">
-                        <svg className="w-32 h-32 transform -rotate-90">
-                            <circle
-                                cx="64" cy="64" r="56"
-                                fill="none" stroke="var(--border-dimmed)" strokeWidth="8"
-                            />
-                            <circle
-                                cx="64" cy="64" r="56"
-                                fill="none" stroke="var(--primary)" strokeWidth="8"
-                                strokeDasharray="351.85"
-                                strokeDashoffset={351.85 - (351.85 * (systemHealth / 100))}
-                                strokeLinecap="round"
-                            />
-                        </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-2xl font-black text-primary tracking-tight">{systemHealth}%</span>
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-muted">Uptime</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Metrics Stack */}
-                <div className="grid grid-cols-1 gap-2 mt-auto">
-                    <div className="grid grid-cols-2 gap-2">
-                        {MOCK_HEALTH_METRICS.slice(0, 2).map((metric, i) => (
-                            <HealthMetric key={i} {...metric} />
-                        ))}
-                    </div>
-                    {MOCK_HEALTH_METRICS[2] && <HealthMetric {...MOCK_HEALTH_METRICS[2]} />}
+            <div className="health-gauge">
+                <svg className="health-gauge__svg" viewBox="0 0 128 128">
+                    <circle className="health-gauge__track" cx="64" cy="64" r="56" />
+                    <circle 
+                        className="health-gauge__progress" 
+                        cx="64" cy="64" r="56"
+                        style={{ strokeDasharray, strokeDashoffset }}
+                    />
+                </svg>
+                <div className="health-gauge__label">
+                    <span className="health-gauge__value">{healthValue}%</span>
+                    <span className="health-gauge__text">Optimized</span>
                 </div>
             </div>
+
+            <div className="health-metrics-grid">
+                <MetricRow icon={ShieldCheck} label="API Uptime" value="100%" color="var(--success)" />
+                <MetricRow icon={Zap} label="Response" value="12ms" color="#0ea5e9" />
+                <MetricRow icon={HardDrive} label="Database" value="Normal" color="#8b5cf6" />
+                <MetricRow icon={Activity} label="Auto Scaler" value="Active" color="#f59e0b" />
+            </div>
+        </Card>
+    );
+}
+
+function MetricRow({ icon: Icon, label, value, color }) {
+    return (
+        <div className="health-stat-row">
+            <div className="health-stat-row__icon" style={{ color }}>
+                <Icon size={14} />
+            </div>
+            <span className="health-stat-row__label">{label}</span>
+            <span className="health-stat-row__value">{value}</span>
         </div>
     );
-};
+}
 
-export default SystemHealth;

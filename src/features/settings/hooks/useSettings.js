@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@lib/queryClient';
-import { systemApi } from '../../api/superAdminApi';
+import { settingsService as systemApi } from '../services/settingsService';
 import notify from '@utils/notify';
 
 export function useSystemSettings() {

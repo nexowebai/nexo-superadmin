@@ -1,12 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@lib/queryClient';
-import { organizationsApi } from '../../api/superAdminApi';
+import { orgService } from '../services/orgService';
 import notify from '@utils/notify';
 
 export function useOrganizations(params = {}) {
     return useQuery({
         queryKey: queryKeys.organizations.list(params),
-        queryFn: () => organizationsApi.getAll(params),
+        queryFn: () => orgService.getAll(params),
         select: (response) => ({
             organizations: response?.data?.organizations || response?.organizations || [],
             pagination: response?.data?.pagination || response?.pagination || { page: 1, limit: 10, total: 0, pages: 1 },
@@ -17,7 +17,7 @@ export function useOrganizations(params = {}) {
 export function useOrganization(id) {
     return useQuery({
         queryKey: queryKeys.organizations.detail(id),
-        queryFn: () => organizationsApi.getById(id),
+        queryFn: () => orgService.getById(id),
         enabled: !!id,
         select: (response) => response?.data?.organization || response?.organization || response?.data || null,
     });
@@ -26,7 +26,7 @@ export function useOrganization(id) {
 export function useCreateOrganization() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: organizationsApi.create,
+        mutationFn: orgService.create,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all });
         },
@@ -37,7 +37,7 @@ export function useCreateOrganization() {
 export function useUpdateOrganization() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }) => organizationsApi.update(id, data),
+        mutationFn: ({ id, data }) => orgService.update(id, data),
         onSuccess: (_, { id }) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all });
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.detail(id) });
@@ -49,7 +49,7 @@ export function useUpdateOrganization() {
 export function useDeleteOrganization() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: organizationsApi.delete,
+        mutationFn: orgService.delete,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all });
             notify.success('Organization deleted successfully');
@@ -61,7 +61,7 @@ export function useDeleteOrganization() {
 export function useEnableOrganization() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: organizationsApi.enable,
+        mutationFn: orgService.enable,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all });
             notify.success('Organization enabled successfully');
@@ -73,7 +73,7 @@ export function useEnableOrganization() {
 export function useDisableOrganization() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, reason }) => organizationsApi.disable(id, reason),
+        mutationFn: ({ id, reason }) => orgService.disable(id, reason),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all });
             notify.success('Organization disabled successfully');
@@ -85,7 +85,7 @@ export function useDisableOrganization() {
 export function useUpdatePlan() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }) => organizationsApi.updatePlan(id, data),
+        mutationFn: ({ id, data }) => orgService.updatePlan(id, data),
         onSuccess: (_, { id }) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all });
             queryClient.invalidateQueries({ queryKey: queryKeys.organizations.detail(id) });
@@ -97,7 +97,7 @@ export function useUpdatePlan() {
 
 export function useResetOrgPassword() {
     return useMutation({
-        mutationFn: ({ id, password }) => organizationsApi.resetAdminPassword(id, password),
+        mutationFn: ({ id, password }) => orgService.resetAdminPassword(id, password),
         onSuccess: () => notify.success('Admin password reset successfully'),
         onError: (err) => notify.error(err?.message || 'Failed to reset password'),
     });

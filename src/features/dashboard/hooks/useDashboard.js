@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '@lib/queryClient';
-import { dashboardApi } from '../../api/superAdminApi';
+import { dashboardService } from '../services/dashboardService';
 import { STATS_CONFIG, MOCK_ORGANIZATIONS } from '../constants/dashboardData';
 import { formatNumber } from '@utils/format';
 
 export function useDashboard() {
     const { data: rawData, isLoading: loading } = useQuery({
         queryKey: queryKeys.dashboard.stats,
-        queryFn: dashboardApi.getStats,
+        queryFn: () => dashboardService.getStats(),
         select: (response) => response?.data?.stats || response?.stats || response?.data || null,
         staleTime: 2 * 60 * 1000,
     });
