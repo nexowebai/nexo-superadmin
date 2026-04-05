@@ -28,9 +28,9 @@ export function useLocalStorage(key, initialValue) {
     try {
       window.localStorage.removeItem(key);
       setStoredValue(initialValue);
-      } catch (error) {
-        // Fail silently
-      }
+    } catch (error) {
+      // Fail silently
+    }
   }, [key, initialValue]);
 
   useEffect(() => {
