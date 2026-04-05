@@ -12,10 +12,10 @@ export function AppearanceTab({ theme, setTheme }) {
                 desc="Interface aesthetics and data visualization preferences."
                 variant="info"
             >
-                <div className="space-y-12">
-                    <div>
+                <div className="settings-stack">
+                    <div className="settings-group">
                         <Label text="Global Chromatic Mode" />
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+                        <div className="theme-selection-grid">
                             <ThemeChoice
                                 mode="light"
                                 current={theme}
@@ -33,9 +33,9 @@ export function AppearanceTab({ theme, setTheme }) {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="settings-group">
                         <Label text="Telemetry Palettes" />
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                        <div className="palette-selection-grid">
                             {CHART_THEMES.map(t => (
                                 <PaletteCard
                                     key={t.id}

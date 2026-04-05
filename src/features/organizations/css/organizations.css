@@ -44,9 +44,9 @@
   align-items: center;
   gap: var(--space-6);
   padding: var(--space-8);
-  background: var(--bg-surface);
+  background: var(--bg-surface-lowest);
   border: 1px solid var(--border-base);
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-xl);
   margin-bottom: var(--space-6);
 }
 
@@ -683,7 +683,7 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
 }
 
 .form-field label {
@@ -695,21 +695,24 @@
 .form-field input,
 .form-field textarea,
 .form-field select {
-  padding: 12px 14px;
-  border: 1px solid var(--border-base);
+  height: 3rem;
+  padding: 0 var(--space-4);
+  border: 1.5px solid var(--border-base);
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 0.9375rem;
+  font-weight: 500;
   outline: none;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-normal);
+  width: 100%;
 }
 
 .form-field input:focus,
 .form-field textarea:focus,
 .form-field select:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-soft);
+  box-shadow: 0 0 0 4px var(--primary-soft);
 }
 
 .form-field textarea {
@@ -915,10 +918,14 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  background: rgba(249, 250, 251, 0.5);
+  background: var(--bg-surface-lowest);
   border-bottom: 1px solid var(--border-base);
   margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) var(--space-5);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+body.dark-mode .form-section-header {
+  background: var(--bg-elevated);
 }
 
 .form-section-header svg {
@@ -927,13 +934,11 @@
 
 .form-section-header h3 {
   font-size: 15px;
-  font-weight: 700;
-  color: #111827;
+  font-weight: 800;
+  color: var(--text-primary);
   margin: 0;
-}
-
-.form-section-header p {
-  display: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .form-grid {

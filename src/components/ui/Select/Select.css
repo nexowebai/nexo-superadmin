@@ -141,7 +141,9 @@
     left: 0;
     right: 0;
     min-width: 140px;
-    background: var(--bg-surface);
+    background: var(--ds-bg-overlay);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
@@ -222,7 +224,7 @@
 }
 
 .ds-select__option--selected {
-    background: rgba(var(--primary-rgb), 0.1);
+    background: transparent;
     color: var(--primary);
     font-weight: var(--font-semibold);
 }

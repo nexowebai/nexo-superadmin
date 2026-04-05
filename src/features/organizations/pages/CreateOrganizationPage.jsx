@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Building2, User, CreditCard, Save } from 'lucide-react';
 import { useLayout } from '@context';
 import { PageContainer } from '@components/layout/DashboardLayout';
-import { Button, Select, Skeleton } from '@components/ui';
+import { Button, Select, Skeleton, DatePicker } from '@components/ui';
 
 // Feature-specific
 import { useCreateOrganizationPage } from '../hooks/useCreateOrganizationPage';
@@ -62,7 +62,14 @@ export default function CreateOrganizationPage() {
                         <div className="form-grid">
                             <div className="form-field"><label>Subscription Tier</label><Select options={TIER_OPTIONS} value={formData.subscription_tier} onChange={(v) => handleDropdownChange('subscription_tier', v)} fullWidth /></div>
                             <div className="form-field"><label>Plan Type</label><Select options={PLAN_OPTIONS} value={formData.plan_type} onChange={(v) => handleDropdownChange('plan_type', v)} fullWidth /></div>
-                            <div className="form-field"><label>Expires At</label><input type="date" name="plan_expires_at" value={formData.plan_expires_at} onChange={handleChange} /></div>
+                            <div className="form-field">
+                                <label>Expires At</label>
+                                <DatePicker 
+                                    value={formData.plan_expires_at} 
+                                    onChange={(v) => handleDropdownChange('plan_expires_at', v)} 
+                                    fullWidth
+                                />
+                            </div>
                             <div className="form-field"><label>Max Users</label><input type="number" name="max_users" value={formData.max_users} onChange={handleChange} min="1" /></div>
                         </div>
                     </div>

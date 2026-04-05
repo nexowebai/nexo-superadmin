@@ -1,15 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { ShieldCheck } from 'lucide-react';
 import { MOCK_HEALTH_METRICS } from '../constants/dashboardData';
 
-const HealthMetric = ({ label, value, icon: Icon, color, delay }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay, duration: 0.3 }}
-        className="flex flex-col gap-2 p-4 rounded-md bg-surface-base border border-base hover:border-primary/30 transition-all cursor-default group"
-    >
+const HealthMetric = ({ label, value, icon: Icon, color }) => (
+    <div className="flex flex-col gap-2 p-4 rounded-md bg-surface-base border border-base hover:border-primary/30 transition-all cursor-default group">
         <div className="flex items-center gap-2">
             <div
                 className="w-6 h-6 rounded-md flex items-center justify-center border border-base bg-surface shadow-sm"
@@ -20,7 +13,7 @@ const HealthMetric = ({ label, value, icon: Icon, color, delay }) => (
             <span className="text-[10px] font-bold uppercase tracking-wider text-muted opacity-70">{label}</span>
         </div>
         <span className="text-xl font-bold text-primary tabular-nums tracking-tight">{value}</span>
-    </motion.div>
+    </div>
 );
 
 const SystemHealth = ({ loading, systemHealth = 99.98 }) => {
@@ -51,13 +44,11 @@ const SystemHealth = ({ loading, systemHealth = 99.98 }) => {
                                 cx="64" cy="64" r="56"
                                 fill="none" stroke="var(--border-dimmed)" strokeWidth="8"
                             />
-                            <motion.circle
-                                initial={{ strokeDashoffset: 351.85 }}
-                                animate={{ strokeDashoffset: 351.85 - (351.85 * (systemHealth / 100)) }}
-                                transition={{ duration: 1.5, ease: "easeOut" }}
+                            <circle
                                 cx="64" cy="64" r="56"
                                 fill="none" stroke="var(--primary)" strokeWidth="8"
                                 strokeDasharray="351.85"
+                                strokeDashoffset={351.85 - (351.85 * (systemHealth / 100))}
                                 strokeLinecap="round"
                             />
                         </svg>

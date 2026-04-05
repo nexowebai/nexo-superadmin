@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import {
     Building2,
     Users,
@@ -7,40 +6,46 @@ import {
 } from 'lucide-react';
 import { Button } from '@components/ui';
 
-const OrganizationCard = ({ org, onClick, delay }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay, duration: 0.3 }}
+const OrganizationCard = ({ org, onClick }) => (
+    <div
         onClick={onClick}
-        className="group relative flex items-center gap-4 p-4 rounded-md bg-surface border border-base hover:border-primary/40 hover:shadow-md transition-all cursor-pointer"
+        className="group relative flex items-start gap-4 p-4 rounded-md bg-surface border border-base hover:border-primary/40 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden"
     >
-        <div className="relative w-12 h-12 rounded-lg bg-surface-base border border-base flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+        <div className="relative w-10 h-10 rounded-md bg-surface-base border border-base flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-500 shadow-sm">
             {org.logo ? (
                 <img src={org.logo} alt={org.name} className="w-full h-full object-cover" />
             ) : (
-                <Building2 className="w-6 h-6 text-primary/40" />
+                <Building2 className="w-5 h-5 text-primary opacity-50" />
             )}
-            <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 border-2 border-surface rounded-full ${org.status === 'active' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+            <div className={`absolute bottom-0 right-0 w-2.5 h-2.5 border-2 border-surface rounded-full ${org.status === 'active' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]'}`} />
         </div>
 
-        <div className="flex-1 min-w-0">
-            <h4 className="text-[14px] font-bold text-primary tracking-tight truncate m-0">{org.name}</h4>
-            <div className="flex items-center gap-2 mt-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-primary/60 bg-primary/5 px-2 py-0.5 rounded">
+        <div className="relative min-w-0 flex-1 pr-6">
+            <h4 className="text-[13px] font-bold text-primary tracking-tight leading-tight truncate m-0 group-hover:text-primary transition-colors">
+                {org.name}
+            </h4>
+            <div className="flex items-center gap-1.5 mt-1">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">
                     {org.plan}
                 </span>
-                <span className="text-[10px] font-medium text-muted flex items-center gap-1">
-                    <Users className="w-3 h-3" />
-                    {org.userCount}
-                </span>
+                <span className="text-[10px] font-medium text-muted/20">•</span>
+                <span className="text-[10px] font-bold text-muted uppercase tracking-wider">{org.userCount} Members</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 mt-2.5 opacity-40 group-hover:opacity-70 transition-opacity">
+                <Users className="w-3 h-3" />
+                <span className="text-[9px] font-black uppercase tracking-widest">Team Access Active</span>
             </div>
         </div>
 
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <ChevronRight className="w-4 h-4 text-muted" />
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-0 translate-x-2">
+            <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center text-primary shadow-sm border border-primary/20">
+                <ChevronRight className="w-3.5 h-3.5" />
+            </div>
         </div>
-    </motion.div>
+    </div>
 );
 
 const OrganizationGrid = ({ loading, organizations, onOrgClick }) => {
@@ -53,23 +58,22 @@ const OrganizationGrid = ({ loading, organizations, onOrgClick }) => {
                     </div>
                     <div>
                         <h3 className="text-lg font-bold text-primary tracking-tight m-0">Organizations</h3>
-                        <p className="text-xs font-medium text-muted m-0">Manage connected business units</p>
+                        <p className="text-xs font-medium text-muted m-0">Business Units Hub</p>
                     </div>
                 </div>
                 <Button variant="ghost" className="h-9 px-4 rounded-md border border-base bg-surface-base hover:bg-surface-elevated text-[10px] font-black uppercase tracking-widest transition-all shadow-sm">
-                    View All
+                    View Managed
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 flex-1 overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1 overflow-y-auto pr-1">
                 {loading
-                    ? [1, 2, 3, 4].map(i => <div key={i} className="h-20 rounded-md bg-surface-base animate-pulse border border-base" />)
+                    ? [1, 2, 3, 4, 5, 6].map(i => <div key={i} className="h-24 rounded-md bg-surface-base animate-pulse border border-base" />)
                     : organizations.map((org, i) => (
                         <OrganizationCard
                             key={org.id}
                             org={org}
                             onClick={() => onOrgClick(org.id)}
-                            delay={i * 0.05}
                         />
                     ))
                 }

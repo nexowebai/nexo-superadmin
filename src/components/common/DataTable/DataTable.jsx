@@ -1,5 +1,4 @@
-import { useMemo, useCallback, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useCallback, useRef } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -206,26 +205,28 @@ function DataTable({
                         style={{ width: header.getSize() }}
                       >
                         <div className="dt-th-content">
-                          <span
-                            className="dt-label"
-                            onClick={header.column.getToggleSortingHandler()}
-                          >
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                          </span>
-
-                          {header.column.getCanSort() && (
-                            <div
-                              className={cn("dt-header-actions", header.column.getCanResize() && "dt-resizer")}
-                              onMouseDown={header.getResizeHandler()}
-                              onTouchStart={header.getResizeHandler()}
+                          <div className={cn("dt-th-group", header.column.getCanSort() && "dt-th--sortable")}>
+                            <span
+                              className="dt-label"
                               onClick={header.column.getToggleSortingHandler()}
                             >
-                              <SortIcon
-                                isSorted={header.column.getIsSorted()}
-                                isSortedDesc={header.column.getIsSorted() === "desc"}
-                              />
-                            </div>
-                          )}
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                            </span>
+
+                            {header.column.getCanSort() && (
+                              <div
+                                className={cn("dt-header-actions", header.column.getCanResize() && "dt-resizer")}
+                                onMouseDown={header.getResizeHandler()}
+                                onTouchStart={header.getResizeHandler()}
+                                onClick={header.column.getToggleSortingHandler()}
+                              >
+                                <SortIcon
+                                  isSorted={header.column.getIsSorted()}
+                                  isSortedDesc={header.column.getIsSorted() === "desc"}
+                                />
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </th>
                     );
@@ -274,14 +275,11 @@ function DataTable({
                   </td>
                 </tr>
               ) : (
-                table.getRowModel().rows.map((row, rowIdx) => (
-                  <motion.tr
+                table.getRowModel().rows.map((row) => (
+                  <tr
                     key={row.id}
                     className={cn("dt-row", onRowClick && "dt-row--clickable")}
                     onClick={(e) => handleRowClick(row.original, e)}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: Math.min(rowIdx * 0.03, 0.15) }}
                   >
                     {row.getVisibleCells().map((cell, colIdx) => (
                       <td
@@ -300,7 +298,7 @@ function DataTable({
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
-                  </motion.tr>
+                  </tr>
                 ))
               )}
             </tbody>

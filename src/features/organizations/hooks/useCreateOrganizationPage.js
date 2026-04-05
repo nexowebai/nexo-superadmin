@@ -46,7 +46,7 @@ export function useCreateOrganizationPage(id) {
         setFormData(prev => ({ ...prev, [name]: value }));
     }, []);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         let payload;
@@ -71,7 +71,9 @@ export function useCreateOrganizationPage(id) {
         const promise = isEdit ? updateOrg({ id, data: payload }) : createOrg(payload);
 
         notify.promise(
-            promise.then(() => navigate(isEdit ? `/organizations/${id}` : '/organizations')),
+            promise.then(() => {
+                navigate(isEdit ? `/organizations/${id}` : '/organizations');
+            }),
             {
                 loading: isEdit ? 'Updating organization...' : 'Creating organization...',
                 success: isEdit ? 'Organization updated successfully!' : 'Organization created successfully!',

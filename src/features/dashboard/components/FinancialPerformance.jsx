@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Activity, ArrowUpRight } from 'lucide-react';
 import DatePicker from '@components/ui/DatePicker/DatePicker';
 import {
@@ -20,9 +19,7 @@ const FinancialPerformance = ({ loading }) => {
     );
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
+        <div
             className="card-pro relative p-6 bg-surface border border-base shadow-sm overflow-hidden"
         >
             {/* Header Intelligence */}
@@ -34,7 +31,7 @@ const FinancialPerformance = ({ loading }) => {
                         </div>
                         <div>
                             <h3 className="text-lg font-bold text-primary tracking-tight m-0">Revenue Overview</h3>
-                            <p className="text-muted text-xs font-medium m-0 opacity-80">Track your earnings and costs</p>
+                            <p className="text-muted text-xs font-medium m-0 opacity-80">Track your earnings and trends</p>
                         </div>
                     </div>
 
@@ -123,7 +120,7 @@ const FinancialPerformance = ({ loading }) => {
                     <span className="text-[10px] font-bold uppercase tracking-wider text-muted">Operational Costs</span>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

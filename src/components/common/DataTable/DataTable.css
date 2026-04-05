@@ -247,24 +247,49 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.dt-th-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
 .dt-header-actions.dt-resizer {
   cursor: col-resize;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
 }
 
-.dt-header-actions.dt-resizer::before {
+.dt-header-actions.dt-resizer:hover {
+  background: var(--bg-surface-lowest);
+}
+
+.dt-header-actions.dt-resizer::after {
   content: '';
   position: absolute;
-  right: -10px;
+  right: -8px;
   top: 50%;
   transform: translateY(-50%);
   width: 2px;
   height: 14px;
   background: var(--primary);
-  border-radius: 4px;
   opacity: 0;
+  border-radius: 4px;
   transition: opacity var(--transition-fast);
 }
+
+.dt-header-actions.dt-resizer:hover::after,
+.dt-th-group:hover .dt-header-actions.dt-resizer::after {
+  opacity: 0.4;
+}
+
+/* Removed old resizer pseudo-element */
 
 .dt-header-actions.dt-resizer:hover::before {
   opacity: 0.5;
@@ -362,8 +387,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   white-space: nowrap;
+  padding: 0 var(--space-6);
 }
 
 .dt-action-btn {
@@ -382,45 +408,72 @@
 }
 
 .dt-action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.dt-action-view,
-.dt-action-success {
-  background: var(--success-soft);
-  color: var(--success);
-  border-color: var(--success);
-}
-
-.dt-action-view:hover,
-.dt-action-success:hover {
-  background: var(--success);
-  color: white;
-}
-
-.dt-action-edit,
-.dt-action-info {
+.dt-action-info,
+.dt-action-view {
   background: var(--info-soft);
   color: var(--info);
+  border-color: rgba(var(--info-rgb), 0.2);
+}
+
+.dt-action-info:hover,
+.dt-action-view:hover {
+  background: var(--info);
+  color: white;
   border-color: var(--info);
 }
 
-.dt-action-edit:hover,
-.dt-action-info:hover {
-  background: var(--info);
+.dt-action-success {
+  background: var(--success-soft);
+  color: var(--success);
+  border-color: rgba(var(--success-rgb), 0.2);
+}
+
+.dt-action-success:hover {
+  background: var(--success);
   color: white;
+  border-color: var(--success);
+}
+
+.dt-action-warning {
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-color: rgba(var(--warning-rgb), 0.2);
+}
+
+.dt-action-warning:hover {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+
+.dt-action-danger,
+.dt-action-delete {
+  background: var(--error-soft);
+  color: var(--error);
+  border-color: rgba(var(--error-rgb), 0.2);
+}
+
+.dt-action-danger:hover,
+.dt-action-delete:hover {
+  background: var(--error);
+  color: white;
+  border-color: var(--error);
 }
 
 .dt-action-primary {
   background: var(--primary-soft);
-  color: var(--brand-600);
-  border-color: var(--brand-600);
+  color: var(--primary);
+  border-color: rgba(var(--primary-rgb), 0.2);
 }
 
 .dt-action-primary:hover {
-  background: var(--brand-600);
+  background: var(--primary);
   color: white;
+  border-color: var(--primary);
 }
 
 .dt-action-delete,

@@ -57,7 +57,7 @@ export function TableActions({
                             aria-label={action.label}
                             disabled={action.disabled}
                         >
-                            {Icon && <Icon size={15} />}
+                            {Icon && <Icon size={18} strokeWidth={1.8} />}
                         </button>
                     );
                 })}

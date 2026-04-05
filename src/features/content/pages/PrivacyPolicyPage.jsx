@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
                 <div className="editor-layout card-pro shadow-xl">
                     <div className="editor-toolbar-v2 p-4 border-b border-base flex items-center justify-between sticky top-0 bg-surface z-10 rounded-t-xl">
                         <div className="flex items-center gap-1">
-                            <div className="toolbar-group flex items-center bg-bg-elevated rounded-lg p-1 mr-4">
+                            <div className="toolbar-group flex items-center gap-1.5 bg-bg-elevated rounded-lg p-1 mr-4">
                                 <button
                                     className={`mode-btn ${viewMode === 'edit' ? 'active' : ''}`}
                                     onClick={() => setViewMode('edit')}

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Plus, Bell } from "lucide-react";
 
 import { PageContainer } from "@components/layout/DashboardLayout";
@@ -40,12 +39,7 @@ function DashboardPage() {
   return (
     <PageContainer className="dashboard-v2 pb-12 overflow-hidden">
       {/* 1. Statistics Summary */}
-      <motion.section
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="mb-8"
-      >
+      <section className="mb-8">
         <StatsGrid columns={4}>
           {metrics.map(({ key, ...metricData }) => (
             <StatsCard
@@ -55,7 +49,7 @@ function DashboardPage() {
             />
           ))}
         </StatsGrid>
-      </motion.section>
+      </section>
 
       {/* 2. Analytical Intelligence Grid */}
       <div className="layout-grid-nx">

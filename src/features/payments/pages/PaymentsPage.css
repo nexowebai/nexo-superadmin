@@ -10,17 +10,15 @@
 
 /* Card Styling - Clean White */
 .card-pro {
-    background: #ffffff;
-    /* Explicit white */
+    background: var(--bg-surface);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-md);
-    /* md radius */
     box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
     overflow: hidden;
 }
 
-.dark .card-pro {
+body.dark-mode .card-pro {
     background: var(--bg-surface);
 }
 
@@ -46,7 +44,7 @@
     color: var(--text-muted);
 }
 
-.dark .payment-org-icon-refined {
+body.dark-mode .payment-org-icon-refined {
     background: var(--bg-elevated);
 }
 
@@ -80,21 +78,21 @@
 
 /* Modal Styles - Receipt */
 .payment-receipt-content {
-    background: #ffffff;
+    background: var(--bg-surface);
     padding: 2rem;
 }
 
 .receipt-amount-section {
     text-align: center;
     padding: 3rem 1.5rem;
-    background: #fcfcfc;
+    background: var(--bg-elevated);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-md);
     margin: 1.5rem 0;
 }
 
 .receipt-item {
-    background: #ffffff;
+    background: var(--bg-surface);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-sm);
     padding: 1rem;
@@ -133,7 +131,7 @@
 
 /* Toolbar Refinement */
 .table-toolbar-refined {
-    background: #ffffff;
+    background: var(--bg-surface);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     padding: 1rem 1.5rem;
@@ -142,6 +140,6 @@
     justify-content: space-between;
 }
 
-.dark .table-toolbar-refined {
+body.dark-mode .table-toolbar-refined {
     background: var(--bg-surface);
 }

@@ -13,13 +13,13 @@ export function LevelBadge({ level }) {
     const { color, bg, icon: Icon } = config[level] || config.info;
 
     return (
-        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-black tracking-wider border transition-all"
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black tracking-wider border transition-all"
             style={{
                 color,
                 backgroundColor: bg,
-                borderColor: `color-mix(in srgb, ${color} 20%, transparent)`
+                borderColor: `color-mix(in srgb, ${color} 25%, transparent)`
             }}>
-            <Icon size={11} strokeWidth={3} />
+            <Icon size={12} strokeWidth={3} />
             <span>{level.toUpperCase()}</span>
         </div>
     );

@@ -9,6 +9,7 @@ import { StatusBadge, Select } from '@components/ui';
 import { formatCurrency, formatDate } from '@utils/format';
 import notify from '@utils/notify';
 import { STATUS_OPTIONS, PLAN_OPTIONS } from '../constants/paymentData';
+import { cn } from '@lib/cn';
 
 export function PaymentTable({
     data,
@@ -47,12 +48,22 @@ export function PaymentTable({
             key: 'plan',
             label: 'Plan',
             width: 140,
-            render: (val) => (
-                <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border border-base ${val.toLowerCase() === 'enterprise' ? 'bg-primary/5 text-primary border-primary/10' : 'bg-surface-elevated text-secondary'
-                    }`}>
-                    {val}
-                </span>
-            )
+            render: (val) => {
+                const planLower = val.toLowerCase();
+                let planClass = 'bg-surface-elevated text-secondary';
+                if (planLower === 'enterprise') planClass = 'bg-primary/10 text-primary border-primary/20';
+                if (planLower === 'professional') planClass = 'bg-info/10 text-info border-info/20';
+                if (planLower === 'premium') planClass = 'bg-amber-500/10 text-amber-600 border-amber-500/20';
+                
+                return (
+                    <span className={cn(
+                        "px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border",
+                        planClass
+                    )}>
+                        {val}
+                    </span>
+                );
+            }
         },
         {
             key: 'amount',

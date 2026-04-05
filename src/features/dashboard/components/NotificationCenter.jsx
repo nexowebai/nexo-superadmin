@@ -7,7 +7,8 @@ import {
     CheckCircle2,
     AlertCircle,
     ShieldAlert,
-    MoreVertical
+    MoreVertical,
+    Trash2
 } from 'lucide-react';
 import { Button } from '@components/ui';
 import { MOCK_NOTIFICATIONS } from '../constants/dashboardData';
@@ -34,7 +35,7 @@ const ActivityItem = ({ icon, title, subtitle, time, status, delay }) => {
                 <Icon className="w-4 h-4" />
             </div>
 
-            <div className="min-w-0 pr-4">
+            <div className="min-w-0 flex-1 pr-6">
                 <h4 className="text-[13px] font-bold text-primary tracking-tight leading-tight truncate m-0 group-hover:text-primary transition-colors">
                     {title}
                 </h4>
@@ -46,12 +47,23 @@ const ActivityItem = ({ icon, title, subtitle, time, status, delay }) => {
                 </div>
             </div>
 
-            {status === 'unread' && (
-                <div className="absolute top-4 right-4 w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-            )}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+                {status === 'unread' && (
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                )}
+                <button 
+                    className="opacity-0 group-hover:opacity-100 p-1.5 rounded-md hover:bg-red-500/10 hover:text-red-500 transition-all border border-transparent hover:border-red-500/20"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        // handle delete
+                    }}
+                >
+                    <Trash2 size={12} />
+                </button>
+            </div>
         </motion.div>
     );
-};
+}
 
 const NotificationCenter = ({ loading, notifications = [] }) => {
     const displayList = notifications.length > 0 ? notifications : MOCK_NOTIFICATIONS;

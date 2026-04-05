@@ -14,6 +14,7 @@ function LogsPage() {
   const { setHeaderProps } = useLayout();
   const {
     isLoading,
+    isFetching,
     logs,
     pagination,
     page,
@@ -50,7 +51,7 @@ function LogsPage() {
       {/* 2. Transactional Audit Layer */}
       <LogsTable
         data={logs}
-        loading={isLoading}
+        loading={isFetching}
         pagination={pagination}
         page={page}
         onPageChange={(p, l) => { setPage(p); setLimit(l); }}

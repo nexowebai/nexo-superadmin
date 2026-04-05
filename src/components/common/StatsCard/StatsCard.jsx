@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { Skeleton } from '@components/ui';
 import './StatsCard.css';
 
 const StatsCard = memo(function StatsCard({
@@ -40,14 +41,14 @@ function StatsCardSkeleton() {
     return (
         <div className="stats-card stats-skeleton">
             <div className="stats-header">
-                <div className="skeleton-text" style={{ width: '60%' }} />
-                <div className="skeleton-circle" />
+                <Skeleton width="60%" height="14px" />
+                <Skeleton variant="circle" width="40px" height="40px" className="rounded-lg" />
             </div>
             <div className="stats-value">
-                <div className="skeleton-text" style={{ width: '40%', height: '32px' }} />
+                <Skeleton width="45%" height="36px" />
             </div>
             <div className="stats-trend">
-                <div className="skeleton-text" style={{ width: '50%', height: '20px' }} />
+                <Skeleton width="55%" height="18px" />
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ export function useLogsPage() {
     const [logType, setLogType] = useState('');
     const [selectedLog, setSelectedLog] = useState(null);
 
-    const { data: realData, isLoading, refetch } = useLogs({
+    const { data: realData, isLoading, isFetching, refetch } = useLogs({
         page,
         limit,
         search: search || undefined,
@@ -38,6 +38,7 @@ export function useLogsPage() {
 
     return {
         isLoading,
+        isFetching,
         logs,
         pagination,
         page,

@@ -9,8 +9,14 @@
 .editor-toolbar-v2 {
     background: var(--bg-surface);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    border-top-left-radius: var(--radius-2xl);
-    border-top-right-radius: var(--radius-2xl);
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    border: 1px solid var(--border-base);
+}
+
+body.dark-mode .editor-toolbar-v2 {
+    background: var(--bg-elevated);
+    border-color: var(--border-base);
 }
 
 .mode-btn {
@@ -42,6 +48,10 @@
     box-shadow: var(--shadow-sm);
 }
 
+body.dark-mode .mode-btn.active {
+    background: var(--bg-elevated);
+}
+
 .editor-tool-btn {
     width: 32px;
     height: 32px;
@@ -63,11 +73,16 @@
 }
 
 .paper-container {
+    background: var(--bg-surface);
     border: 1px solid var(--border-base);
-    border-radius: 4px;
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-xl);
     position: relative;
     overflow: hidden;
+}
+
+body.dark-mode .paper-container {
+    background: var(--bg-surface);
 }
 
 .paper-container textarea {
