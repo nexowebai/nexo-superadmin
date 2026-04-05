@@ -14,9 +14,16 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm install
-      - run: npm run build
+      - run: npm install
+      - name: 🏗️ Production / Build Distributable
+        run: npm run build
       
-      - name: Report Compressed Size
+      - name: 🏛️ Dashboard / Generate Performance Audit
+        run: node scripts/bundle-report.js
+        env:
+          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
+      
+      - name: 🛡️ Guard / Report Compressed Size
         uses: preactjs/compressed-size-action@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

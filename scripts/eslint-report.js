@@ -2,46 +2,47 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Premium ESLint Report Generator for GitHub Action Step Summaries
- * Focuses on Executive UX, Institutional Integrity, and Actionable Intelligence.
+ * Ultimate Premium ESLint Reporting Engine
+ * Layout: Standard High-End Dashboard
+ * Constraints: Default Expanded, Same-Row Iconography
  */
 
 const GITHUB_STEP_SUMMARY = process.env.GITHUB_STEP_SUMMARY;
 
 const rulesWhyItMatters = {
-    "no-unused-vars": "Unused code increases bundle size and makes the codebase harder to maintain and reason about.",
-    "no-console": "Console logs in production may leak sensitive information and clutter the browser console.",
-    "react-hooks/rules-of-hooks": "Breaking hook rules causes unpredictable state and lifecycle bugs that are extremely hard to debug.",
-    "react-hooks/exhaustive-deps": "Missing dependencies in hooks lead to stale data and subtle reactivity bugs.",
-    "react/prop-types": "Without prop-types or TypeScript, components are prone to runtime errors from missing or invalid data.",
-    "react-refresh/only-export-components": "Exporting non-components from a component file breaks Fast Refresh, slowing down development.",
+    "no-unused-vars": "Unused code increases bundle size and makes the codebase harder to maintain.",
+    "no-console": "Console logs in production may leak sensitive information and clutter the console.",
+    "react-hooks/rules-of-hooks": "Breaking hook rules causes unpredictable state and hard-to-debug lifecycle bugs.",
+    "react-hooks/exhaustive-deps": "Missing dependencies lead to stale data and subtle reactivity bugs.",
+    "react/prop-types": "Without prop-types, components are prone to runtime errors from invalid data.",
+    "react-refresh/only-export-components": "Exporting non-components breaks Fast Refresh, slowing development.",
     "no-undef": "Accessing undefined variables causes immediate runtime crashes.",
-    "no-extra-semi": "Redundant semicolons add noise to the code without any functional benefit.",
-    "react/jsx-key": "Missing keys in lists cause React to re-render more than necessary, leading to performance issues and UI state loss.",
-    "max-lines": "Giant files are hard to test, review, and maintain. They usually indicate a violation of the Single Responsibility Principle.",
-    "eqeqeq": "Using loose equality (==) leads to unexpected type coercion bugs. Strict equality (===) is safer.",
-    "no-constant-condition": "Constant conditions (like `if (true)`) often signify unfinished code or logic errors.",
-    "no-debugger": "The debugger statement stops execution in the browser, which is strictly for development only.",
-    "prefer-const": "Using const by default makes it clear which variables travel and which are immutable.",
-    "no-var": "var is scoping-poisonous; using let/const ensures block-scoping and prevents hoisting bugs.",
-    "no-restricted-syntax": "Institutional restrictions (like banning async/await) ensure deterministic state flow across the Super-Admin panel."
+    "no-extra-semi": "Redundant semicolons add noise without functional benefit.",
+    "react/jsx-key": "Missing keys in lists cause performance issues and UI state loss.",
+    "max-lines": "Giant files are hard to test and maintain; they violate Single Responsibility.",
+    "eqeqeq": "Loose equality (==) leads to coercion bugs; strict equality (===) is safer.",
+    "no-constant-condition": "Constant conditions often signify unfinished code or logic errors.",
+    "no-debugger": "Debugger statements stop execution in the browser; strictly for dev.",
+    "prefer-const": "Using const makes it clear which variables are immutable.",
+    "no-var": "var is scoping-poisonous; using let/const prevents hoisting bugs.",
+    "no-restricted-syntax": "Institutional restrictions (no async/await) ensure deterministic state flow."
 };
 
-const getSeverityLabel = (severity, msg) => {
+const getSeverityStatus = (severity, msg) => {
     const isRestricted = msg.ruleId === "no-restricted-syntax" || msg.message.includes("STRICT VIOLATION");
     
     if (severity === 2) {
-        if (isRestricted) return "🔴 CRITICAL FAILURE";
+        if (isRestricted) return "🔴 **CRITICAL ARCHITECTURE VIOLATION**";
         const highRules = ["hooks", "undef", "no-debugger", "react/jsx-key"];
-        if (highRules.some(r => msg.ruleId?.includes(r))) return "🔴 HIGH SEVERITY";
-        return "🔶 MEDIUM PRIORITY";
+        if (highRules.some(r => msg.ruleId?.includes(r))) return "🔴 **HIGH SEVERITY ERROR**";
+        return "🔶 **MEDIUM PRIORITY ERROR**";
     }
     if (severity === 1) {
-        if (isRestricted) return "🔴 ARCHITECTURAL VIOLATION (WARN)";
-        if (msg.ruleId?.includes("hooks") || msg.ruleId?.includes("undef")) return "🔶 PRIORITY FIX (WARN)";
-        return "🟡 ADVISORY";
+        if (isRestricted) return "🛑 **POLICY VIOLATION (WARN)**";
+        if (msg.ruleId?.includes("hooks") || msg.ruleId?.includes("undef")) return "🔶 **PRIORITY WARNING**";
+        return "🟡 **ADVISORY WARNING**";
     }
-    return "⚪ LOW";
+    return "⚪ **LOW PRIORITY**";
 };
 
 const getWhyItMatters = (ruleId) => {
@@ -53,10 +54,7 @@ const getWhyItMatters = (ruleId) => {
 
 async function generateReport() {
     try {
-        if (!fs.existsSync("eslint-results.json")) {
-            console.error("Results file not found.");
-            return;
-        }
+        if (!fs.existsSync("eslint-results.json")) return;
 
         const results = JSON.parse(fs.readFileSync("eslint-results.json", "utf8"));
         
@@ -76,52 +74,35 @@ async function generateReport() {
             }
         });
 
-        // 🏆 Executive Dashboard
-        let markdown = `# 🛡️ CODE QUALITY INSPECTOR EXECUTIVE SUMMARY\n\n`;
+        // Dashboard Header
+        let markdown = `# 🛡️ NEXO CODE QUALITY GUARD\n\n`;
         
         const healthScore = totalIssues === 0 ? 100 : Math.max(0, 100 - (criticalCount * 10) - (warningCount * 2));
-        const statusEmoji = healthScore > 90 ? "🟢 EXCELLENT" : healthScore > 70 ? "🟡 STABLE" : "🔴 DEGRADED";
+        const statusIcon = healthScore > 90 ? "🟢" : healthScore > 70 ? "🟡" : "🔴";
 
-        markdown += `> [!NOTE]\n> **System Integrity Report**\n> Current architectural health: **${healthScore}%** (${statusEmoji})\n\n`;
-
-        markdown += "| Metric | Status |\n";
-        markdown += "| :--- | :--- |\n";
-        markdown += `| **Total Issues Found** | ${totalIssues} |\n`;
-        markdown += `| **Critical Violations** | ${criticalCount} |\n`;
-        markdown += `| **Affected Files** | ${fileCount} |\n`;
-        markdown += `| **Review Status** | ${totalIssues === 0 ? "✅ APPROVED" : "⚠️ NEEDS REFACTOR"} |\n\n`;
+        markdown += `### 💹 System Health: ${statusIcon} **${healthScore}%**  |  🎯 Issues: **${totalIssues}**  |  📂 Files: **${fileCount}**\n\n`;
 
         if (totalIssues > 0) {
-            markdown += `## 📋 Detailed Audit Findings\n\n`;
-            
+            markdown += `## 📑 Audit Findings\n\n`;
+            markdown += "| Status | Location | Technical Issue | Architectural Context |\n";
+            markdown += "| :--- | :--- | :--- | :--- |\n";
+
             results.forEach(result => {
                 if (result.messages.length === 0) return;
-
                 const filePath = path.relative(process.cwd(), result.filePath);
-                markdown += `### 📄 \`${filePath}\`\n`;
-                markdown += `<details>\n<summary>View ${result.messages.length} issue(s) for this file</summary>\n\n`;
-                
-                markdown += "| Severity | Line | Issue Description | Why it Matters |\n";
-                markdown += "| :--- | :--- | :--- | :--- |\n";
                 
                 result.messages.forEach(msg => {
-                    const sev = getSeverityLabel(msg.severity, msg);
+                    const sev = getSeverityStatus(msg.severity, msg);
                     const why = getWhyItMatters(msg.ruleId);
-                    const ruleLabel = msg.ruleId ? `[\`${msg.ruleId}\`](https://eslint.org/docs/rules/${msg.ruleId})` : "General";
+                    const ruleLink = msg.ruleId ? `[\`${msg.ruleId}\`](https://eslint.org/docs/rules/${msg.ruleId})` : "General";
                     
-                    markdown += "| " + sev + " | `" + msg.line + "` | **" + msg.message.replace(/\|/g, "\\|") + "**<br/>" + ruleLabel + " | " + why + " |\n";
+                    markdown += `| ${sev} | \`${filePath}:${msg.line}\` | **${msg.message.replace(/\|/g, "\\|")}**<br/>${ruleLink} | ${why} |\n`;
                 });
-                
-                markdown += "\n</details>\n\n";
             });
 
-            markdown += `## 🚀 Next Steps\n`;
-            markdown += `1. **Review Violations**: Prioritize rules marked as \`🔴 CRITICAL\` or \`ARCHITECTURAL VIOLATION\`.\n`;
-            markdown += `2. **Auto-Fix**: Run \`npm run lint:fix\` to automatically resolve style-related issues.\n`;
-            markdown += `3. **Refactor**: Fragment large files (>150 lines) into smaller, reusable UI components.\n`;
+            markdown += `\n\n> [!TIP]\n> **Action Plan**: Prioritize 🔴 Critical items first. Run \`npm run lint:fix\` for automated corrections.\n`;
         } else {
-            markdown += `## ✅ Perfect Architectural Compliance\n`;
-            markdown += `No issues detected. Your code meets all institutional standards for the NEXO Super-Admin platform.\n`;
+            markdown += `### ✅ Clean Build: Architectural Standards Fully Met.\nYour code adheres to all institutional guardrails. No refactoring required.\n`;
         }
 
         if (GITHUB_STEP_SUMMARY) {
@@ -131,7 +112,7 @@ async function generateReport() {
         }
 
     } catch (error) {
-        console.error("Audit failure:", error);
+        console.error("Report Generation Failed:", error);
     }
 }
 

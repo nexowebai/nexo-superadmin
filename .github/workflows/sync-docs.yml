@@ -35,6 +35,11 @@ jobs:
       - name: 🔄 Automation / Orchestrate Feature Doc Sync
         run: node scripts/sync-feature-docs.js
 
+      - name: 🏛️ Dashboard / Generate Documentation Audit
+        run: node scripts/sync-report.js
+        env:
+          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
+
       - name: 📤 Resolution / Commit Synchronized Intelligence
         if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
