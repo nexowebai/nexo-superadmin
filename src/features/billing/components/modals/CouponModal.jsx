@@ -28,7 +28,9 @@ export function CouponModal({
       notify.error("Please enter a coupon code");
       return;
     }
-    notify.success(isEdit ? "Coupon updated successfully" : "Coupon created successfully");
+    notify.success(
+      isEdit ? "Coupon updated successfully" : "Coupon created successfully",
+    );
     onClose();
   };
 
@@ -40,9 +42,13 @@ export function CouponModal({
             <Sparkles size={20} />
           </div>
           <div>
-            <ModalTitle>{isEdit ? "Update Coupon" : "Create Coupon"}</ModalTitle>
+            <ModalTitle>
+              {isEdit ? "Update Coupon" : "Create Coupon"}
+            </ModalTitle>
             <ModalDescription>
-              {isEdit ? `Adjusting parameters for ${initialData.code}` : "Generate a discount coupon for organizations"}
+              {isEdit
+                ? `Adjusting parameters for ${initialData.code}`
+                : "Generate a discount coupon for organizations"}
             </ModalDescription>
           </div>
         </div>
@@ -67,19 +73,25 @@ export function CouponModal({
                 { label: "Percentage (%)", value: "percentage" },
                 { label: "Fixed Amount ($)", value: "fixed" },
               ]}
-              value={isEdit ? (initialData.type || "percentage") : discountType}
+              value={isEdit ? initialData.type || "percentage" : discountType}
               onChange={setDiscountType}
             />
           </div>
           <div className="form-field-v2">
             <label>
-              {(isEdit ? initialData.type : discountType) === "percentage" ? "Discount (%)" : "Discount ($)"}
+              {(isEdit ? initialData.type : discountType) === "percentage"
+                ? "Discount (%)"
+                : "Discount ($)"}
             </label>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder={(isEdit ? initialData.type : discountType) === "percentage" ? "20" : "100"}
+              placeholder={
+                (isEdit ? initialData.type : discountType) === "percentage"
+                  ? "20"
+                  : "100"
+              }
             />
           </div>
         </div>

@@ -1,6 +1,13 @@
 import { useCallback } from "react";
 
-export const getTooltipResolver = ({ xScale, yScale, data, lines, xAccessor, bisectDate }) => {
+export const getTooltipResolver = ({
+  xScale,
+  yScale,
+  data,
+  lines,
+  xAccessor,
+  bisectDate,
+}) => {
   return (pixelX) => {
     const x0 = xScale.invert(pixelX);
     const index = bisectDate(data, x0, 1);
@@ -22,10 +29,16 @@ export const getTooltipResolver = ({ xScale, yScale, data, lines, xAccessor, bis
     const yPositions = {};
     for (const line of lines) {
       const value = d[line.dataKey];
-      if (typeof value === "number") yPositions[line.dataKey] = yScale(value) ?? 0;
+      if (typeof value === "number")
+        yPositions[line.dataKey] = yScale(value) ?? 0;
     }
 
-    return { point: d, index: finalIndex, x: xScale(xAccessor(d)) ?? 0, yPositions };
+    return {
+      point: d,
+      index: finalIndex,
+      x: xScale(xAccessor(d)) ?? 0,
+      yPositions,
+    };
   };
 };
 

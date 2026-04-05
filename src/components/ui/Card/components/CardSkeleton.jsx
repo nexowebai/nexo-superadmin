@@ -12,7 +12,10 @@ export function CardSkeleton({
   return (
     <div className={cn("ds-card", `ds-card--padding-${padding}`, className)}>
       {showHeader && (
-        <div className="ds-card__header" style={{ marginBottom: "var(--space-4)" }}>
+        <div
+          className="ds-card__header"
+          style={{ marginBottom: "var(--space-4)" }}
+        >
           <Skeleton variant="title" width="60%" />
           <Skeleton variant="text" width="40%" />
         </div>

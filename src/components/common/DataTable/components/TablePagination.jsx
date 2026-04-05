@@ -1,4 +1,9 @@
-import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from "lucide-react";
+import {
+  ChevronsLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsRight,
+} from "lucide-react";
 import { Select } from "@components/ui";
 import { cn } from "@lib/cn";
 
@@ -37,9 +42,7 @@ export const TablePagination = ({
             {Math.min(page * pagination.limit, pagination.total)}
           </span>{" "}
           of{" "}
-          <span className="dt-pagination__info--bold">
-            {pagination.total}
-          </span>
+          <span className="dt-pagination__info--bold">{pagination.total}</span>
         </div>
       </div>
 
@@ -66,9 +69,7 @@ export const TablePagination = ({
             {Array.from({ length: pagination.pages }, (_, i) => i + 1)
               .filter(
                 (p) =>
-                  p === 1 ||
-                  p === pagination.pages ||
-                  Math.abs(p - page) <= 1,
+                  p === 1 || p === pagination.pages || Math.abs(p - page) <= 1,
               )
               .reduce((acc, p, i, arr) => {
                 if (i > 0 && p - arr[i - 1] > 1) acc.push("...");

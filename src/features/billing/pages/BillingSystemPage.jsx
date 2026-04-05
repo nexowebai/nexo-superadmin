@@ -36,16 +36,31 @@ export default function BillingSystemPage() {
     handleCreateClick,
   } = useBillingPage();
 
-  const [deleteModal, setDeleteModal] = useState({ isOpen: false, type: "", name: "", id: null });
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    type: "",
+    name: "",
+    id: null,
+  });
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
 
   const handleDeletePlan = useCallback((plan) => {
-    setDeleteModal({ isOpen: true, type: "Plan", name: plan.name, id: plan.id });
+    setDeleteModal({
+      isOpen: true,
+      type: "Plan",
+      name: plan.name,
+      id: plan.id,
+    });
   }, []);
 
   const handleDeleteCoupon = useCallback((coupon) => {
-    setDeleteModal({ isOpen: true, type: "Coupon", name: coupon.code, id: coupon.id });
+    setDeleteModal({
+      isOpen: true,
+      type: "Coupon",
+      name: coupon.code,
+      id: coupon.id,
+    });
   }, []);
 
   const handleConfirmDelete = () => {
@@ -68,7 +83,11 @@ export default function BillingSystemPage() {
     <PageContainer className="billing-v2 pb-12">
       <div className="flex flex-col gap-8">
         <div className="flex justify-center">
-          <Tabs options={TAB_OPTIONS} value={activeTab} onChange={setActiveTab} />
+          <Tabs
+            options={TAB_OPTIONS}
+            value={activeTab}
+            onChange={setActiveTab}
+          />
         </div>
 
         <BillingTables
@@ -117,7 +136,9 @@ export default function BillingSystemPage() {
 
       <ConfirmModal
         isOpen={deleteModal.isOpen}
-        onClose={() => setDeleteModal({ isOpen: false, type: "", name: "", id: null })}
+        onClose={() =>
+          setDeleteModal({ isOpen: false, type: "", name: "", id: null })
+        }
         onConfirm={handleConfirmDelete}
         title={`Delete ${deleteModal.type}`}
         description={`Are you sure you want to delete the ${deleteModal.type.toLowerCase()} "${deleteModal.name}"? This action cannot be undone.`}

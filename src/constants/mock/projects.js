@@ -3,7 +3,8 @@ export const MOCK_PROJECTS_FULL = [
     id: "a30617b1-3f6f-4576-83d2-60089017b1e1",
     project_code: "PR-USL531",
     name: "Urban Slum Living Conditions Assessment",
-    description: "A comprehensive survey capturing sanitation, housing quality, water access, waste disposal systems, and health risks in informal settlements.",
+    description:
+      "A comprehensive survey capturing sanitation, housing quality, water access, waste disposal systems, and health risks in informal settlements.",
     is_active: true,
     start_date: "2025-11-13",
     end_date: "2026-01-31",
@@ -27,23 +28,107 @@ export const MOCK_PROJECTS_FULL = [
     documents_count: 8,
     gradient: "linear-gradient(135deg, #10b981, #059669)",
     forms: [
-      { id: "f1", form_code: "FR-ECP2152", name: "Elder Citizen Poll", status: "published", submissions_count: 342, fields_count: 24, image: "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400" },
-      { id: "f2", form_code: "FR-HHS4521", name: "Household Survey", status: "published", submissions_count: 287, fields_count: 45, image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400" },
-      { id: "f3", form_code: "FR-WAS8871", name: "Water Access Survey", status: "published", submissions_count: 198, fields_count: 18, image: "https://images.unsplash.com/photo-1538300342682-cf57afb97285?w=400" },
-      { id: "f4", form_code: "FR-SAN3345", name: "Sanitation Assessment", status: "published", submissions_count: 256, fields_count: 22, image: "https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?w=400" },
-      { id: "f5", form_code: "FR-HLT9912", name: "Health Risk Assessment", status: "draft", submissions_count: 0, fields_count: 35, image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400" },
-      { id: "f6", form_code: "FR-FBK7721", name: "Feedback Form", status: "published", submissions_count: 165, fields_count: 12, image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400" },
+      {
+        id: "f1",
+        form_code: "FR-ECP2152",
+        name: "Elder Citizen Poll",
+        status: "published",
+        submissions_count: 342,
+        fields_count: 24,
+        image:
+          "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400",
+      },
+      {
+        id: "f2",
+        form_code: "FR-HHS4521",
+        name: "Household Survey",
+        status: "published",
+        submissions_count: 287,
+        fields_count: 45,
+        image:
+          "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400",
+      },
+      {
+        id: "f3",
+        form_code: "FR-WAS8871",
+        name: "Water Access Survey",
+        status: "published",
+        submissions_count: 198,
+        fields_count: 18,
+        image:
+          "https://images.unsplash.com/photo-1538300342682-cf57afb97285?w=400",
+      },
+      {
+        id: "f4",
+        form_code: "FR-SAN3345",
+        name: "Sanitation Assessment",
+        status: "published",
+        submissions_count: 256,
+        fields_count: 22,
+        image:
+          "https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?w=400",
+      },
+      {
+        id: "f5",
+        form_code: "FR-HLT9912",
+        name: "Health Risk Assessment",
+        status: "draft",
+        submissions_count: 0,
+        fields_count: 35,
+        image:
+          "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400",
+      },
+      {
+        id: "f6",
+        form_code: "FR-FBK7721",
+        name: "Feedback Form",
+        status: "published",
+        submissions_count: 165,
+        fields_count: 12,
+        image:
+          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400",
+      },
     ],
     recent_activity: [
-      { id: "a1", message: "New submission received for Household Survey", created_at: "2026-01-12T08:30:00.000000Z", type: "submission" },
-      { id: "a2", message: "John Kariuki completed 5 submissions", created_at: "2026-01-11T16:45:00.000000Z", type: "milestone" },
+      {
+        id: "a1",
+        message: "New submission received for Household Survey",
+        created_at: "2026-01-12T08:30:00.000000Z",
+        type: "submission",
+      },
+      {
+        id: "a2",
+        message: "John Kariuki completed 5 submissions",
+        created_at: "2026-01-11T16:45:00.000000Z",
+        type: "milestone",
+      },
     ],
     timeline: [
-      { id: "t1", title: "Project Created", description: "Project initialized with basic settings", date: "2025-11-18", status: "completed", type: "milestone" },
-      { id: "t7", title: "Data Collection Complete", description: "Target: 1500 submissions", date: "2026-01-31", status: "pending", type: "milestone" },
+      {
+        id: "t1",
+        title: "Project Created",
+        description: "Project initialized with basic settings",
+        date: "2025-11-18",
+        status: "completed",
+        type: "milestone",
+      },
+      {
+        id: "t7",
+        title: "Data Collection Complete",
+        description: "Target: 1500 submissions",
+        date: "2026-01-31",
+        status: "pending",
+        type: "milestone",
+      },
     ],
     documents: [
-      { id: "doc1", name: "Project Proposal.pdf", type: "pdf", size: "2.4 MB", uploaded_at: "2025-11-15T10:00:00.000000Z" },
+      {
+        id: "doc1",
+        name: "Project Proposal.pdf",
+        type: "pdf",
+        size: "2.4 MB",
+        uploaded_at: "2025-11-15T10:00:00.000000Z",
+      },
     ],
   },
   {

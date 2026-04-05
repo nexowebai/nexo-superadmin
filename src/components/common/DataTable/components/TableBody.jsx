@@ -23,9 +23,7 @@ export const TableBody = ({
                 key={cIdx}
                 className={cn(
                   "dt-td",
-                  cIdx === 0 &&
-                    stickyFirstColumn &&
-                    "dt-td--sticky-left",
+                  cIdx === 0 && stickyFirstColumn && "dt-td--sticky-left",
                   col.id === "actions" &&
                     stickyLastColumn &&
                     "dt-td--sticky-right",
@@ -81,9 +79,7 @@ export const TableBody = ({
               key={cell.id}
               className={cn(
                 "dt-td",
-                colIdx === 0 &&
-                  stickyFirstColumn &&
-                  "dt-td--sticky-left",
+                colIdx === 0 && stickyFirstColumn && "dt-td--sticky-left",
                 cell.column.id === "actions" &&
                   stickyLastColumn &&
                   "dt-td--sticky-right",
@@ -95,10 +91,7 @@ export const TableBody = ({
                 minWidth: cell.column.columnDef.minSize,
               }}
             >
-              {flexRender(
-                cell.column.columnDef.cell,
-                cell.getContext(),
-              )}
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </td>
           ))}
         </tr>

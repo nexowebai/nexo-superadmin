@@ -13,17 +13,43 @@ const overlayVariants = {
 
 const modalVariants = {
   initial: { opacity: 0, y: 14, scale: 0.985 },
-  animate: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] } },
-  exit: { opacity: 0, y: 10, scale: 0.99, transition: { duration: 0.16, ease: [0.22, 1, 0.36, 1] } },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: 10,
+    scale: 0.99,
+    transition: { duration: 0.16, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
-export function Modal({ isOpen, onClose, children, size = "md", showCloseButton = true, closeOnOverlay = true, closeOnEscape = true, className, labelledBy, describedBy }) {
+export function Modal({
+  isOpen,
+  onClose,
+  children,
+  size = "md",
+  showCloseButton = true,
+  closeOnOverlay = true,
+  closeOnEscape = true,
+  className,
+  labelledBy,
+  describedBy,
+}) {
   const modalRef = useRef(null);
   const closeBtnRef = useRef(null);
   const lastActiveRef = useRef(null);
 
   const requestClose = useCallback(() => onClose(), [onClose]);
-  const handleKeyDown = useCallback(e => { if (e.key === "Escape" && closeOnEscape) requestClose(); }, [closeOnEscape, requestClose]);
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape" && closeOnEscape) requestClose();
+    },
+    [closeOnEscape, requestClose],
+  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -31,13 +57,19 @@ export function Modal({ isOpen, onClose, children, size = "md", showCloseButton 
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
     const timer = setTimeout(() => {
-      (closeBtnRef.current || modalRef.current?.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))?.focus();
+      (
+        closeBtnRef.current ||
+        modalRef.current?.querySelector(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        )
+      )?.focus();
     }, 0);
     return () => {
       clearTimeout(timer);
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
-      if (typeof lastActiveRef.current?.focus === "function") lastActiveRef.current.focus();
+      if (typeof lastActiveRef.current?.focus === "function")
+        lastActiveRef.current.focus();
     };
   }, [isOpen, handleKeyDown]);
 
@@ -46,10 +78,38 @@ export function Modal({ isOpen, onClose, children, size = "md", showCloseButton 
   return createPortal(
     <AnimatePresence mode="wait">
       {isOpen && (
-        <motion.div className="ds-modal-overlay" variants={overlayVariants} initial="initial" animate="animate" exit="exit" onClick={e => e.target === e.currentTarget && closeOnOverlay && requestClose()}>
-          <motion.div ref={modalRef} className={cn("ds-modal", `ds-modal--${size}`, className)} variants={modalVariants} initial="initial" animate="animate" exit="exit" role="dialog" aria-modal="true" aria-labelledby={labelledBy} aria-describedby={describedBy}>
+        <motion.div
+          className="ds-modal-overlay"
+          variants={overlayVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          onClick={(e) =>
+            e.target === e.currentTarget && closeOnOverlay && requestClose()
+          }
+        >
+          <motion.div
+            ref={modalRef}
+            className={cn("ds-modal", `ds-modal--${size}`, className)}
+            variants={modalVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={labelledBy}
+            aria-describedby={describedBy}
+          >
             {showCloseButton && (
-              <button ref={closeBtnRef} type="button" className="ds-modal__close" onClick={requestClose} aria-label="Close modal"><X size={18} /></button>
+              <button
+                ref={closeBtnRef}
+                type="button"
+                className="ds-modal__close"
+                onClick={requestClose}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
             )}
             {children}
           </motion.div>
@@ -60,11 +120,25 @@ export function Modal({ isOpen, onClose, children, size = "md", showCloseButton 
   );
 }
 
-export const ModalHeader = ({ children, className }) => <div className={cn("ds-modal__header", className)}>{children}</div>;
-export const ModalTitle = ({ children, className, id }) => <h2 id={id} className={cn("ds-modal__title", className)}>{children}</h2>;
-export const ModalDescription = ({ children, className, id }) => <p id={id} className={cn("ds-modal__description", className)}>{children}</p>;
-export const ModalBody = ({ children, className }) => <div className={cn("ds-modal__body", className)}>{children}</div>;
-export const ModalFooter = ({ children, className }) => <div className={cn("ds-modal__footer", className)}>{children}</div>;
+export const ModalHeader = ({ children, className }) => (
+  <div className={cn("ds-modal__header", className)}>{children}</div>
+);
+export const ModalTitle = ({ children, className, id }) => (
+  <h2 id={id} className={cn("ds-modal__title", className)}>
+    {children}
+  </h2>
+);
+export const ModalDescription = ({ children, className, id }) => (
+  <p id={id} className={cn("ds-modal__description", className)}>
+    {children}
+  </p>
+);
+export const ModalBody = ({ children, className }) => (
+  <div className={cn("ds-modal__body", className)}>{children}</div>
+);
+export const ModalFooter = ({ children, className }) => (
+  <div className={cn("ds-modal__footer", className)}>{children}</div>
+);
 
 export { ConfirmModal, AlertModal } from "./components/SpecialModals";
 export default Modal;

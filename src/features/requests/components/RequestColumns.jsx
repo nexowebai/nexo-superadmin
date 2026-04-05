@@ -69,7 +69,10 @@ export const useRequestColumns = ({
           val ? (
             <div className="flex items-start gap-2 max-w-[280px]">
               <MessageSquare size={14} className="text-muted mt-1 shrink-0" />
-              <span className="text-sm text-secondary truncate font-medium" title={val}>
+              <span
+                className="text-sm text-secondary truncate font-medium"
+                title={val}
+              >
                 {val}
               </span>
             </div>

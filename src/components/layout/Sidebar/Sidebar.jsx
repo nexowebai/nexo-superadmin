@@ -1,7 +1,19 @@
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, X, LayoutGrid, Building2, Bell, Settings, CreditCard, FileText, Briefcase, ShieldAlert, ShieldCheck } from "lucide-react";
+import {
+  ChevronLeft,
+  X,
+  LayoutGrid,
+  Building2,
+  Bell,
+  Settings,
+  CreditCard,
+  FileText,
+  Briefcase,
+  ShieldAlert,
+  ShieldCheck,
+} from "lucide-react";
 import { ConfirmModal } from "@components/ui/Modal";
 import { cn } from "@lib/cn";
 import { rotate } from "@lib/motion";
@@ -26,10 +38,12 @@ function Sidebar({
 
   useEffect(() => {
     // Audit log for state transitions in production
-    console.debug(`[Sidebar] State change | isOpen: ${isOpen} | onClose: ${!!onClose}`);
+    console.debug(
+      `[Sidebar] State change | isOpen: ${isOpen} | onClose: ${!!onClose}`,
+    );
   }, [isOpen, onClose]);
 
-  const toggleSidebar = useCallback(() => setIsCollapsed(prev => !prev), []);
+  const toggleSidebar = useCallback(() => setIsCollapsed((prev) => !prev), []);
   const handleClose = useCallback(() => onClose?.(), [onClose]);
   const handleLinkClick = useCallback(() => {
     if (window.innerWidth <= 768) onClose?.();
@@ -38,7 +52,7 @@ function Sidebar({
   const handleLogoutConfirm = useCallback(() => {
     setLoggingOut(true);
     onLogout?.()
-      .catch(error => console.error("Logout failure:", error))
+      .catch((error) => console.error("Logout failure:", error))
       .finally(() => {
         setLoggingOut(false);
         setShowLogoutModal(false);
@@ -58,13 +72,29 @@ function Sidebar({
     { to: "/settings", icon: Settings, label: "Settings" },
   ];
 
-  const userDisplayName = user?.full_name || user?.name || user?.email?.split("@")[0] || "User";
-  const userInitials = userDisplayName.split(" ").filter(Boolean).map(n => n[0]).join("").toUpperCase().slice(0, 2);
+  const userDisplayName =
+    user?.full_name || user?.name || user?.email?.split("@")[0] || "User";
+  const userInitials = userDisplayName
+    .split(" ")
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   return (
     <>
-      <div className={cn("ds-sidebar-backdrop", isOpen && "show")} onClick={() => onClose?.()} />
-      <aside className={cn("ds-sidebar", isCollapsed && "ds-sidebar--collapsed", isOpen && "ds-sidebar--open")}>
+      <div
+        className={cn("ds-sidebar-backdrop", isOpen && "show")}
+        onClick={() => onClose?.()}
+      />
+      <aside
+        className={cn(
+          "ds-sidebar",
+          isCollapsed && "ds-sidebar--collapsed",
+          isOpen && "ds-sidebar--open",
+        )}
+      >
         <div className="ds-sidebar__header">
           <div className="ds-sidebar__logo">
             <AnimatePresence mode="wait">
@@ -72,24 +102,38 @@ function Sidebar({
                 key={isCollapsed ? "compact" : "full"}
                 src={isCollapsed ? nexo : nexoFull}
                 alt="Nexo"
-                className={isCollapsed ? "ds-sidebar__logo-compact" : "ds-sidebar__logo-full"}
+                className={
+                  isCollapsed
+                    ? "ds-sidebar__logo-compact"
+                    : "ds-sidebar__logo-full"
+                }
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
               />
             </AnimatePresence>
           </div>
-          <button className="ds-sidebar__close" onClick={handleClose}><X size={20} /></button>
+          <button className="ds-sidebar__close" onClick={handleClose}>
+            <X size={20} />
+          </button>
           <button className="ds-sidebar__toggle" onClick={toggleSidebar}>
-            <motion.div animate={isCollapsed ? { rotate: 180 } : { rotate: 0 }} transition={{ duration: 0.3 }}>
+            <motion.div
+              animate={isCollapsed ? { rotate: 180 } : { rotate: 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <ChevronLeft size={16} />
             </motion.div>
           </button>
         </div>
 
         <nav className="ds-sidebar__nav">
-          {links.map(link => (
-            <SidebarLink key={link.to} {...link} isCollapsed={isCollapsed} onClick={handleLinkClick} />
+          {links.map((link) => (
+            <SidebarLink
+              key={link.to}
+              {...link}
+              isCollapsed={isCollapsed}
+              onClick={handleLinkClick}
+            />
           ))}
         </nav>
 

@@ -21,8 +21,28 @@ export default function PrivacyPolicyPage() {
       title: "Privacy Policy Management",
       action: (
         <div className="flex gap-3">
-          <Button variant="secondary" icon={Globe} onClick={() => window.open("/", "_blank")}>View Live</Button>
-          <Button variant="primary" icon={Save} loading={isSaving} onClick={() => { setIsSaving(true); setTimeout(() => { setIsSaving(false); setLastSaved(new Date().toLocaleString()); notify.success("Privacy policy updated successfully"); }, 800); }}>Publish Changes</Button>
+          <Button
+            variant="secondary"
+            icon={Globe}
+            onClick={() => window.open("/", "_blank")}
+          >
+            View Live
+          </Button>
+          <Button
+            variant="primary"
+            icon={Save}
+            loading={isSaving}
+            onClick={() => {
+              setIsSaving(true);
+              setTimeout(() => {
+                setIsSaving(false);
+                setLastSaved(new Date().toLocaleString());
+                notify.success("Privacy policy updated successfully");
+              }, 800);
+            }}
+          >
+            Publish Changes
+          </Button>
         </div>
       ),
     });
@@ -33,29 +53,64 @@ export default function PrivacyPolicyPage() {
     if (!textarea) return;
     const { selectionStart: start, selectionEnd: end, value: text } = textarea;
     const finalSuffix = suffix || prefix;
-    const newText = text.substring(0, start) + prefix + text.substring(start, end) + finalSuffix + text.substring(end);
+    const newText =
+      text.substring(0, start) +
+      prefix +
+      text.substring(start, end) +
+      finalSuffix +
+      text.substring(end);
     setContent(newText);
-    setTimeout(() => { textarea.focus(); textarea.setSelectionRange(start + prefix.length, end + prefix.length); }, 0);
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + prefix.length, end + prefix.length);
+    }, 0);
   };
 
-  const applyColor = (color) => insertFormatting(`<span style="color: ${color}">`, "</span>");
+  const applyColor = (color) =>
+    insertFormatting(`<span style="color: ${color}">`, "</span>");
 
   return (
     <PageContainer>
       <div className="policy-editor-container">
-        <div className="policy-info-bar mb-6"><Alert variant="info" title="Global Document">Official Privacy Policy shared across all platform interfaces.</Alert></div>
+        <div className="policy-info-bar mb-6">
+          <Alert variant="info" title="Global Document">
+            Official Privacy Policy shared across all platform interfaces.
+          </Alert>
+        </div>
         <div className="editor-layout card-pro shadow-xl">
-          <PolicyToolbar viewMode={viewMode} setViewMode={setViewMode} insertFormatting={insertFormatting} applyColor={applyColor} lastSaved={lastSaved} />
+          <PolicyToolbar
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            insertFormatting={insertFormatting}
+            applyColor={applyColor}
+            lastSaved={lastSaved}
+          />
           <div className="editor-content-area bg-bg-subtle p-8 min-h-[700px]">
             {viewMode === "edit" ? (
               <div className="paper-container mx-auto bg-surface shadow-lg min-h-[800px] p-6 transition-all">
-                <textarea ref={textareaRef} className="w-full h-full min-h-[800px] border-none outline-none text-primary font-mono text-[15px] leading-relaxed resize-none bg-transparent" value={content} onChange={e => setContent(e.target.value)} spellCheck={false} />
+                <textarea
+                  ref={textareaRef}
+                  className="w-full h-full min-h-[800px] border-none outline-none text-primary font-mono text-[15px] leading-relaxed resize-none bg-transparent"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  spellCheck={false}
+                />
               </div>
             ) : (
               <div className="paper-container bg-surface shadow-lg min-h-[800px] p-12 transition-all animate-fade-in prose-refined">
                 {content.split("\n").map((line, i) => (
                   <p key={i} className="mb-4">
-                    {line.startsWith("# ") ? <h1 className="text-3xl font-black mb-6 border-b pb-4">{line.replace("# ", "")}</h1> : line.startsWith("## ") ? <h2 className="text-xl font-bold mt-8 mb-4">{line.replace("## ", "")}</h2> : line}
+                    {line.startsWith("# ") ? (
+                      <h1 className="text-3xl font-black mb-6 border-b pb-4">
+                        {line.replace("# ", "")}
+                      </h1>
+                    ) : line.startsWith("## ") ? (
+                      <h2 className="text-xl font-bold mt-8 mb-4">
+                        {line.replace("## ", "")}
+                      </h2>
+                    ) : (
+                      line
+                    )}
                   </p>
                 ))}
               </div>

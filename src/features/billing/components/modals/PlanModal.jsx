@@ -11,7 +11,13 @@ import {
 } from "@components/ui";
 import notify from "@utils/notify";
 
-export function PlanModal({ isOpen, onClose, billingCycle, setBillingCycle, initialData }) {
+export function PlanModal({
+  isOpen,
+  onClose,
+  billingCycle,
+  setBillingCycle,
+  initialData,
+}) {
   const isEdit = !!initialData;
 
   return (
@@ -22,9 +28,13 @@ export function PlanModal({ isOpen, onClose, billingCycle, setBillingCycle, init
             <Rocket size={20} />
           </div>
           <div>
-            <ModalTitle>{isEdit ? "Update Plan" : "Create New Plan"}</ModalTitle>
+            <ModalTitle>
+              {isEdit ? "Update Plan" : "Create New Plan"}
+            </ModalTitle>
             <ModalDescription>
-              {isEdit ? `Modifying configuration for ${initialData.name}` : "Set up a new subscription plan for organizations"}
+              {isEdit
+                ? `Modifying configuration for ${initialData.name}`
+                : "Set up a new subscription plan for organizations"}
             </ModalDescription>
           </div>
         </div>
@@ -32,12 +42,20 @@ export function PlanModal({ isOpen, onClose, billingCycle, setBillingCycle, init
       <ModalBody className="space-y-5">
         <div className="form-field-v2">
           <label>Plan Name</label>
-          <input type="text" defaultValue={initialData?.name} placeholder="e.g. Enterprise Plus" />
+          <input
+            type="text"
+            defaultValue={initialData?.name}
+            placeholder="e.g. Enterprise Plus"
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="form-field-v2">
             <label>Base Price ($)</label>
-            <input type="number" defaultValue={initialData?.price} placeholder="99.00" />
+            <input
+              type="number"
+              defaultValue={initialData?.price}
+              placeholder="99.00"
+            />
           </div>
           <div className="form-field-v2">
             <label>Billing Cycle</label>
@@ -54,11 +72,19 @@ export function PlanModal({ isOpen, onClose, billingCycle, setBillingCycle, init
         <div className="grid grid-cols-2 gap-4">
           <div className="form-field-v2">
             <label>Max Projects</label>
-            <input type="number" defaultValue={initialData?.base_projects} placeholder="20" />
+            <input
+              type="number"
+              defaultValue={initialData?.base_projects}
+              placeholder="20"
+            />
           </div>
           <div className="form-field-v2">
             <label>Extra Cost Per Unit ($)</label>
-            <input type="number" defaultValue={initialData?.extra_project_cost} placeholder="5.00" />
+            <input
+              type="number"
+              defaultValue={initialData?.extra_project_cost}
+              placeholder="5.00"
+            />
           </div>
         </div>
       </ModalBody>

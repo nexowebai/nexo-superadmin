@@ -47,7 +47,10 @@ export function RequestDetailsModal({
         <div className="modal-form-header__content">
           <ModalTitle>Request Information</ModalTitle>
           <ModalDescription>
-            Onboarding request for <span className="font-bold text-primary">{request.organization_name}</span>
+            Onboarding request for{" "}
+            <span className="font-bold text-primary">
+              {request.organization_name}
+            </span>
           </ModalDescription>
         </div>
       </ModalHeader>
@@ -151,7 +154,10 @@ export function RejectRequestModal({ isOpen, onClose, request, onConfirm }) {
           <div className="modal-form-header__content">
             <ModalTitle>Deny Access Request</ModalTitle>
             <ModalDescription>
-              Reviewing: <span className="font-bold text-primary">{request.organization_name}</span>
+              Reviewing:{" "}
+              <span className="font-bold text-primary">
+                {request.organization_name}
+              </span>
             </ModalDescription>
           </div>
         </ModalHeader>

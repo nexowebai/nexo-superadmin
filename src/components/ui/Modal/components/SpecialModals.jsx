@@ -1,7 +1,13 @@
 import { useCallback } from "react";
 import Button from "@components/ui/Button";
 import { ModalIcons } from "@constants/icons";
-import { Modal, ModalHeader, ModalTitle, ModalDescription, ModalFooter } from "../Modal";
+import {
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalFooter,
+} from "../Modal";
 
 export function ConfirmModal({
   isOpen,
@@ -21,10 +27,14 @@ export function ConfirmModal({
       case "delete":
       case "logout":
       case "error":
-      case "power": return "danger";
-      case "warning": return "warning";
-      case "success": return "success";
-      default: return "primary";
+      case "power":
+        return "danger";
+      case "warning":
+        return "warning";
+      case "success":
+        return "success";
+      default:
+        return "primary";
     }
   };
 
@@ -34,19 +44,46 @@ export function ConfirmModal({
   }, [onClose, onConfirm]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="sm" showCloseButton labelledBy="ds-confirm-title" describedBy="ds-confirm-desc">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="sm"
+      showCloseButton
+      labelledBy="ds-confirm-title"
+      describedBy="ds-confirm-desc"
+    >
       <div className="ds-confirm-modal">
-        <div className="ds-confirm-modal__icon" style={{ backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--bg-elevated))` }}>
+        <div
+          className="ds-confirm-modal__icon"
+          style={{
+            backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--bg-elevated))`,
+          }}
+        >
           <IconComponent size={28} style={{ color: iconConfig.color }} />
         </div>
         <ModalHeader className="ds-confirm-modal__header">
-          <ModalTitle id="ds-confirm-title" className="ds-confirm-modal__title">{title}</ModalTitle>
-          <ModalDescription id="ds-confirm-desc" className="ds-confirm-modal__description">{description}</ModalDescription>
+          <ModalTitle id="ds-confirm-title" className="ds-confirm-modal__title">
+            {title}
+          </ModalTitle>
+          <ModalDescription
+            id="ds-confirm-desc"
+            className="ds-confirm-modal__description"
+          >
+            {description}
+          </ModalDescription>
         </ModalHeader>
         <ModalFooter className="ds-confirm-modal__footer">
           <div className="ds-confirm-modal__actions">
-            <Button variant="secondary" onClick={onClose} fullWidth>{cancelText}</Button>
-            <Button variant={getConfirmButtonVariant()} onClick={handleConfirm} fullWidth>{confirmText}</Button>
+            <Button variant="secondary" onClick={onClose} fullWidth>
+              {cancelText}
+            </Button>
+            <Button
+              variant={getConfirmButtonVariant()}
+              onClick={handleConfirm}
+              fullWidth
+            >
+              {confirmText}
+            </Button>
           </div>
         </ModalFooter>
       </div>
@@ -66,18 +103,39 @@ export function AlertModal({
   const IconComponent = iconConfig.icon;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="sm" showCloseButton labelledBy="ds-alert-title" describedBy="ds-alert-desc">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="sm"
+      showCloseButton
+      labelledBy="ds-alert-title"
+      describedBy="ds-alert-desc"
+    >
       <div className="ds-confirm-modal">
-        <div className="ds-confirm-modal__icon" style={{ backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--bg-elevated))` }}>
+        <div
+          className="ds-confirm-modal__icon"
+          style={{
+            backgroundColor: `color-mix(in srgb, ${iconConfig.color} 12%, var(--bg-elevated))`,
+          }}
+        >
           <IconComponent size={28} style={{ color: iconConfig.color }} />
         </div>
         <ModalHeader className="ds-confirm-modal__header">
-          <ModalTitle id="ds-alert-title" className="ds-confirm-modal__title">{title}</ModalTitle>
-          <ModalDescription id="ds-alert-desc" className="ds-confirm-modal__description">{description}</ModalDescription>
+          <ModalTitle id="ds-alert-title" className="ds-confirm-modal__title">
+            {title}
+          </ModalTitle>
+          <ModalDescription
+            id="ds-alert-desc"
+            className="ds-confirm-modal__description"
+          >
+            {description}
+          </ModalDescription>
         </ModalHeader>
         <ModalFooter className="ds-confirm-modal__footer ds-confirm-modal__footer--single">
           <div className="ds-confirm-modal__actions ds-confirm-modal__actions--single">
-            <Button variant="primary" onClick={onClose} fullWidth>{buttonText}</Button>
+            <Button variant="primary" onClick={onClose} fullWidth>
+              {buttonText}
+            </Button>
           </div>
         </ModalFooter>
       </div>

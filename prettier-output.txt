@@ -2,3 +2,37 @@
 > nexo-frontend@1.0.0 format
 > prettier --write --list-different "src/**/*.{js,jsx,css,md,json}"
 
+src/components/common/DataTable/components/TableBody.jsx
+src/components/common/DataTable/components/TablePagination.jsx
+src/components/common/DataTable/DataTable.jsx
+src/components/layout/Sidebar/Sidebar.jsx
+src/components/ui/AreaChart/hooks/useChartInteraction.js
+src/components/ui/AreaChart/hooks/utils/interactionResolvers.js
+src/components/ui/Card/components/CardSkeleton.jsx
+src/components/ui/Card/styles/Card.css
+src/components/ui/Card/styles/StatsCard.css
+src/components/ui/ChartCard/ChartCard.jsx
+src/components/ui/ChartCard/components/ChartParts.jsx
+src/components/ui/DateRangePicker/components/DateRangeComponents.jsx
+src/components/ui/DateRangePicker/DateRangePicker.jsx
+src/components/ui/Modal/components/SpecialModals.jsx
+src/components/ui/Modal/Modal.jsx
+src/components/ui/Select/components/SelectComponents.jsx
+src/components/ui/Select/Select.jsx
+src/components/ui/StatCard/StatCard.css
+src/constants/mock/projects.js
+src/constants/mock/shared.js
+src/constants/mock/submissions.js
+src/constants/mock/tasks.js
+src/features/auth/components/AuthVisual.jsx
+src/features/auth/components/AuthVisual/DashboardCards.jsx
+src/features/auth/components/AuthVisual/VisualExtras.jsx
+src/features/billing/components/BillingTables.jsx
+src/features/billing/components/modals/CouponModal.jsx
+src/features/billing/components/modals/PlanModal.jsx
+src/features/billing/pages/BillingSystemPage.jsx
+src/features/content/components/PolicyToolbar.jsx
+src/features/content/pages/PrivacyPolicyPage.jsx
+src/features/requests/components/RequestColumns.jsx
+src/features/requests/components/RequestModals.jsx
+src/styles/tokens.css

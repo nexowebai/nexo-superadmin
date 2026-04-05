@@ -1,9 +1,18 @@
 import { MainDashboardCard, StatsCard } from "./AuthVisual/DashboardCards";
-import { BarChartCard, TeamAvatarsCard, FloatingBackgroundElements } from "./AuthVisual/VisualExtras";
+import {
+  BarChartCard,
+  TeamAvatarsCard,
+  FloatingBackgroundElements,
+} from "./AuthVisual/VisualExtras";
 
 export function AuthVisual() {
   return (
-    <svg viewBox="0 0 500 380" fill="none" xmlns="http://www.w3.org/2000/svg" className="ds-auth__svg">
+    <svg
+      viewBox="0 0 500 380"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="ds-auth__svg"
+    >
       <defs>
         <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
@@ -19,7 +28,10 @@ export function AuthVisual() {
         </linearGradient>
         <filter id="glow">
           <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
         </filter>
       </defs>
 

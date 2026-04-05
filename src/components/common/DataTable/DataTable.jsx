@@ -40,7 +40,7 @@ function DataTable({
 }) {
   const tableRef = useRef(null);
   const [copiedId, copyToClipboard] = useCopyToClipboard();
-  
+
   const [columnVisibility, setColumnVisibility] = useLocalStorage(
     storageKey ? `dt-cols-${storageKey}` : null,
     {},
@@ -75,7 +75,11 @@ function DataTable({
                   copyToClipboard(value, `${row.id}-${col.key}`);
                 }}
               >
-                {copiedId === `${row.id}-${col.key}` ? <Check size={12} /> : <Copy size={12} />}
+                {copiedId === `${row.id}-${col.key}` ? (
+                  <Check size={12} />
+                ) : (
+                  <Copy size={12} />
+                )}
               </button>
             </div>
           );
@@ -110,14 +114,20 @@ function DataTable({
     columnResizeMode: "onChange",
   });
 
-  const handleRowClick = useCallback((row, e) => {
-    const target = e.target;
-    if (target.closest(".dt-actions") || target.closest("button")) return;
-    onRowClick?.(row);
-  }, [onRowClick]);
+  const handleRowClick = useCallback(
+    (row, e) => {
+      const target = e.target;
+      if (target.closest(".dt-actions") || target.closest("button")) return;
+      onRowClick?.(row);
+    },
+    [onRowClick],
+  );
 
   const visibleColumns = useMemo(
-    () => Object.keys(columnVisibility).filter((key) => columnVisibility[key] !== false),
+    () =>
+      Object.keys(columnVisibility).filter(
+        (key) => columnVisibility[key] !== false,
+      ),
     [columnVisibility],
   );
 
@@ -129,7 +139,9 @@ function DataTable({
           data={data}
           columns={userColumns}
           visibleColumns={visibleColumns}
-          onColumnToggle={(key) => setColumnVisibility((prev) => ({ ...prev, [key]: !prev[key] }))}
+          onColumnToggle={(key) =>
+            setColumnVisibility((prev) => ({ ...prev, [key]: !prev[key] }))
+          }
           fileName={fileName}
           printRef={tableRef}
           search={search}
@@ -145,7 +157,11 @@ function DataTable({
       <div className="dt-container">
         <div className="dt-wrapper" ref={tableRef}>
           <table className="dt-table">
-            <TableHead table={table} stickyFirstColumn={stickyFirstColumn} stickyLastColumn={stickyLastColumn} />
+            <TableHead
+              table={table}
+              stickyFirstColumn={stickyFirstColumn}
+              stickyLastColumn={stickyLastColumn}
+            />
             <TableBody
               table={table}
               loading={loading}
