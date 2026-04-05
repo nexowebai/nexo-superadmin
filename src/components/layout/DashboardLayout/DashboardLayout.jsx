@@ -69,7 +69,13 @@ function PageContainer({ children, className }) {
   return <div className={cn("ds-page-container", className)}>{children}</div>;
 }
 
-function PageHeader({ title, description, children, backPath, backLabel = 'Back' }) {
+function PageHeader({
+  title,
+  description,
+  children,
+  backPath,
+  backLabel = "Back",
+}) {
   const navigate = useNavigate();
 
   return (

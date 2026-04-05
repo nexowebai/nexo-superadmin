@@ -1,1 +1,1 @@
-export { default } from './EntityCard';
+export { default } from "./EntityCard";

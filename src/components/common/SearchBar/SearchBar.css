@@ -3,114 +3,116 @@
    ========================================= */
 
 .ds-search {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: var(--bg-surface);
-    border: 1.5px solid var(--border-base);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-normal);
-    width: 100%;
-    max-width: 320px;
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-base);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  width: 100%;
+  max-width: 320px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
 
 .ds-search:hover {
-    border-color: var(--border-strong);
+  border-color: var(--border-strong);
 }
 
 .ds-search--focused {
-    border-color: var(--primary);
-    background: var(--bg-surface) !important;
-    box-shadow: 0 0 0 4px var(--primary-soft), 0 10px 15px -3px rgba(var(--primary-rgb), 0.08);
-    transform: translateY(-1px);
+  border-color: var(--primary);
+  background: var(--bg-surface) !important;
+  box-shadow:
+    0 0 0 4px var(--primary-soft),
+    0 10px 15px -3px rgba(var(--primary-rgb), 0.08);
+  transform: translateY(-1px);
 }
 
 /* Sizes */
 .ds-search--sm {
-    height: 40px;
+  height: 40px;
 }
 
 .ds-search--md {
-    height: 52px;
+  height: 52px;
 }
 
 .ds-search--lg {
-    height: 60px;
+  height: 60px;
 }
 
 /* Icon */
 .ds-search__icon {
-    position: absolute;
-    left: 18px;
-    color: var(--text-muted);
-    pointer-events: none;
-    transition: all var(--transition-normal);
+  position: absolute;
+  left: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all var(--transition-normal);
 }
 
 .ds-search--focused .ds-search__icon {
-    color: var(--primary);
-    transform: scale(1.1) translateX(2px);
+  color: var(--primary);
+  transform: scale(1.1) translateX(2px);
 }
 
 /* Input */
 .ds-search__input {
-    width: 100%;
-    height: 100%;
-    padding: 0 44px 0 52px;
-    background: transparent;
-    border: none;
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 600;
-    outline: none;
+  width: 100%;
+  height: 100%;
+  padding: 0 44px 0 52px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
 }
 
 .ds-search__input::placeholder {
-    color: var(--text-muted);
-    font-weight: 400;
-    transition: all var(--transition-fast);
+  color: var(--text-muted);
+  font-weight: 400;
+  transition: all var(--transition-fast);
 }
 
 .ds-search--focused .ds-search__input::placeholder {
-    opacity: 0.7;
-    transform: translateX(4px);
+  opacity: 0.7;
+  transform: translateX(4px);
 }
 
 /* Clear Button */
 .ds-search__clear {
-    position: absolute;
-    right: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: var(--radius-lg);
-    color: var(--text-muted);
-    background: var(--border-base);
-    border: none;
-    cursor: pointer;
-    transition: all var(--transition-fast);
+  position: absolute;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  background: var(--border-base);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .ds-search__clear:hover {
-    background: var(--error-soft);
-    color: var(--error);
-    transform: scale(1.1);
+  background: var(--error-soft);
+  color: var(--error);
+  transform: scale(1.1);
 }
 
 /* Keyboard Shortcut Placeholder (Optional) */
 .ds-search__shortcut {
-    position: absolute;
-    right: 14px;
-    padding: 4px 6px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-base);
-    border-radius: 6px;
-    color: var(--text-muted);
-    font-size: 10px;
-    font-weight: 800;
-    pointer-events: none;
+  position: absolute;
+  right: 14px;
+  padding: 4px 6px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-base);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  pointer-events: none;
 }

@@ -330,7 +330,7 @@
   color: #111827 !important;
 }
 
-.ds-auth-form .ds-checkbox-input:checked+.ds-checkbox-box {
+.ds-auth-form .ds-checkbox-input:checked + .ds-checkbox-box {
   background: #16a34a !important;
   border-color: #16a34a !important;
   box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1) !important;
@@ -350,7 +350,11 @@
 }
 
 .ds-auth-transition--success {
-  background: radial-gradient(circle at center, rgba(22, 163, 74, 0.1) 0%, #0a0a0f 100%);
+  background: radial-gradient(
+    circle at center,
+    rgba(22, 163, 74, 0.1) 0%,
+    #0a0a0f 100%
+  );
 }
 
 .ds-auth-transition__content {

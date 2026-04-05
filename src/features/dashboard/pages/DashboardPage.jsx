@@ -31,7 +31,7 @@ function DashboardPage() {
         >
           Add Organization
         </Button>
-      )
+      ),
     });
   }, [setHeaderProps, navigate]);
 
@@ -41,11 +41,7 @@ function DashboardPage() {
       <section className="mb-8">
         <StatsGrid columns={4}>
           {metrics.map(({ key, ...metricData }) => (
-            <StatsCard
-              key={key}
-              {...metricData}
-              loading={loading}
-            />
+            <StatsCard key={key} {...metricData} loading={loading} />
           ))}
         </StatsGrid>
       </section>

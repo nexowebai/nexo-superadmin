@@ -3,6 +3,7 @@
 Premium animated Area Chart built with `@visx`, `framer-motion`, and `d3-array`.
 
 ## 🏗️ Architecture
+
 The component is split into several modular parts to ensure maintainability and stick to the 150-line rule:
 
 - **AreaChart.jsx**: The main entry point that handles layout, responsive sizing, and orchestration using `ChartInner`.
@@ -13,12 +14,14 @@ The component is split into several modular parts to ensure maintainability and 
 - **components/Grid.jsx**, **XAxis.jsx**, **YAxis.jsx**: Visual reference elements.
 
 ## 🚀 Key Features
+
 - **Smooth Animations**: Leverages `framer-motion` for transitions and `visx` for SVG path generation.
 - **High Performance**: Optimized using `useMemo` and `useCallback` to prevent unnecessary re-renders.
 - **Customizable**: Flexible tooltip rendering and multi-series support.
 - **Responsive**: Adapts to parent container size using `@visx/responsive`.
 
 ## 📂 Structure
+
 ```mermaid
 graph TD
     AreaChart --> ParentSize

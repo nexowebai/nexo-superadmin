@@ -1,4 +1,12 @@
-import { Search, X, RefreshCw, Columns3, Download, Printer, FileSpreadsheet } from "lucide-react";
+import {
+  Search,
+  X,
+  RefreshCw,
+  Columns3,
+  Download,
+  Printer,
+  FileSpreadsheet,
+} from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { saveAs } from "file-saver";
 import Papa from "papaparse";
@@ -41,7 +49,7 @@ export default function TableToolbar({
           }
         });
         return mapped;
-      })
+      }),
     );
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, `${fileName}.csv`);
@@ -140,7 +148,6 @@ export default function TableToolbar({
           >
             <Printer size={18} />
           </button>
-
         </div>
       </div>
     </div>

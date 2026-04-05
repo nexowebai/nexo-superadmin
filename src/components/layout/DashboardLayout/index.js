@@ -1,1 +1,6 @@
-export { default, DashboardLayout, PageContainer, PageHeader } from './DashboardLayout';
+export {
+  default,
+  DashboardLayout,
+  PageContainer,
+  PageHeader,
+} from "./DashboardLayout";

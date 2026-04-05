@@ -26,7 +26,7 @@ export default function OrganizationsPage() {
     setTier,
     dateRange,
     handleAction,
-    refetch
+    refetch,
   } = useOrganizationsPage();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function OrganizationsPage() {
         >
           Add Organization
         </Button>
-      )
+      ),
     });
   }, [setHeaderProps, navigate]);
 

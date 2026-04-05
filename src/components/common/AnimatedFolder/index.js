@@ -1,1 +1,6 @@
-export { AnimatedFolder, Lightbox, PreviewCard, default } from './AnimatedFolder';
+export {
+  AnimatedFolder,
+  Lightbox,
+  PreviewCard,
+  default,
+} from "./AnimatedFolder";

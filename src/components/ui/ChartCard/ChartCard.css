@@ -1,146 +1,148 @@
 .chart-card {
-    background: var(--ds-surface-1);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
-    transition: all var(--ds-transition-base) var(--ease-out);
+  background: var(--ds-surface-1);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--ds-transition-base) var(--ease-out);
 }
 
 .chart-card:hover {
-    border-color: var(--ds-border-hover);
-    box-shadow: var(--ds-shadow-md);
+  border-color: var(--ds-border-hover);
+  box-shadow: var(--ds-shadow-md);
 }
 
 /* Header */
 .chart-card__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-4);
-    margin-bottom: var(--space-6);
-    flex-wrap: wrap;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
 }
 
 .chart-card__title-section {
-    flex: 1;
-    min-width: 200px;
+  flex: 1;
+  min-width: 200px;
 }
 
 .chart-card__title {
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
-    margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-1) 0;
 }
 
 .chart-card__subtitle {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .chart-card__controls {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 /* Trend Indicator */
 .chart-card__trend {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-1-5) var(--space-3);
-    border-radius: var(--ds-radius-md);
-    font-size: var(--text-sm);
-    font-weight: var(--font-semibold);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1-5) var(--space-3);
+  border-radius: var(--ds-radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
 }
 
 .chart-card__trend--up {
-    background: var(--ds-success-soft);
-    color: var(--ds-success-base);
+  background: var(--ds-success-soft);
+  color: var(--ds-success-base);
 }
 
 .chart-card__trend--down {
-    background: var(--ds-error-soft);
-    color: var(--ds-error-base);
+  background: var(--ds-error-soft);
+  color: var(--ds-error-base);
 }
 
 .chart-card__trend--neutral {
-    background: var(--ds-surface-2);
-    color: var(--text-secondary);
+  background: var(--ds-surface-2);
+  color: var(--text-secondary);
 }
 
 .chart-card__actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 /* Body */
 .chart-card__body {
-    position: relative;
-    min-height: 200px;
+  position: relative;
+  min-height: 200px;
 }
 
 /* Loading State */
 .chart-card__loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
 }
 
 .chart-card__skeleton {
-    width: 100%;
-    height: 300px;
-    background: linear-gradient(90deg,
-            var(--ds-surface-2) 0%,
-            var(--ds-surface-3) 50%,
-            var(--ds-surface-2) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: var(--radius-lg);
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(
+    90deg,
+    var(--ds-surface-2) 0%,
+    var(--ds-surface-3) 50%,
+    var(--ds-surface-2) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-lg);
 }
 
 @keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
+  0% {
+    background-position: -200% 0;
+  }
 
-    100% {
-        background-position: 200% 0;
-    }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Empty State */
 .chart-card__empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-    color: var(--ds-text-tertiary);
-    font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--ds-text-tertiary);
+  font-size: var(--text-sm);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .chart-card {
-        padding: var(--space-4);
-    }
+  .chart-card {
+    padding: var(--space-4);
+  }
 
-    .chart-card__header {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .chart-card__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .chart-card__controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .chart-card__controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .chart-card__trend {
-        justify-content: center;
-    }
+  .chart-card__trend {
+    justify-content: center;
+  }
 }

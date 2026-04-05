@@ -4,142 +4,142 @@
 
 /* Main Containers */
 .payments-container-nx {
-    max-width: 1400px;
-    margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* Card Styling - Clean White */
 .card-pro {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-    overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 body.dark-mode .card-pro {
-    background: var(--bg-surface);
+  background: var(--bg-surface);
 }
 
 .card-pro:hover {
-    box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md);
 }
 
 /* Page Header Elements */
 .payment-header-nx {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 /* Table Refinements */
 .payment-org-icon-refined {
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f8fafc;
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-sm);
-    color: var(--text-muted);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
 }
 
 body.dark-mode .payment-org-icon-refined {
-    background: var(--bg-elevated);
+  background: var(--bg-elevated);
 }
 
 /* Badges */
 .tier-badge-pro {
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
 }
 
 .tier-badge-pro--enterprise {
-    background: #eff6ff;
-    color: #1e40af;
-    border: 1px solid #dbeafe;
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #dbeafe;
 }
 
 .tier-badge-pro--professional {
-    background: #f0fdf4;
-    color: #166534;
-    border: 1px solid #dcfce7;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #dcfce7;
 }
 
 .tier-badge-pro--basic {
-    background: #f8fafc;
-    color: #475569;
-    border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
 }
 
 /* Modal Styles - Receipt */
 .payment-receipt-content {
-    background: var(--bg-surface);
-    padding: 2rem;
+  background: var(--bg-surface);
+  padding: 2rem;
 }
 
 .receipt-amount-section {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-md);
-    margin: 1.5rem 0;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-md);
+  margin: 1.5rem 0;
 }
 
 .receipt-item {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-sm);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .receipt-item-label {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .receipt-item-value {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 /* Analysis Section Grid */
 .analytics-grid-nx {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 1024px) {
-    .analytics-grid-nx {
-        grid-template-columns: 1fr;
-    }
+  .analytics-grid-nx {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Toolbar Refinement */
 .table-toolbar-refined {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 body.dark-mode .table-toolbar-refined {
-    background: var(--bg-surface);
+  background: var(--bg-surface);
 }

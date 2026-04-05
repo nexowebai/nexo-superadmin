@@ -45,9 +45,7 @@ function Header({ onMenuClick }) {
           Back
         </Button>
 
-        <div className="ds-header__action">
-          {action}
-        </div>
+        <div className="ds-header__action">{action}</div>
       </div>
     </header>
   );

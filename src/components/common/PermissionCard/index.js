@@ -1,1 +1,1 @@
-export { default } from './PermissionCard';
+export { default } from "./PermissionCard";

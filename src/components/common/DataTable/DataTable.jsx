@@ -28,11 +28,17 @@ const SortIcon = ({ isSorted, isSortedDesc }) => (
   <div className={cn("dt-sort-indicator", isSorted && "is-active")}>
     <ArrowUp
       size={12}
-      className={cn("dt-arrow dt-arrow-up", isSorted && !isSortedDesc && "active")}
+      className={cn(
+        "dt-arrow dt-arrow-up",
+        isSorted && !isSortedDesc && "active",
+      )}
     />
     <ArrowDown
       size={12}
-      className={cn("dt-arrow dt-arrow-down", isSorted && isSortedDesc && "active")}
+      className={cn(
+        "dt-arrow dt-arrow-down",
+        isSorted && isSortedDesc && "active",
+      )}
     />
   </div>
 );
@@ -65,11 +71,11 @@ function DataTable({
   const [copiedId, copyToClipboard] = useCopyToClipboard();
   const [columnVisibility, setColumnVisibility] = useLocalStorage(
     storageKey ? `dt-cols-${storageKey}` : null,
-    {}
+    {},
   );
   const [columnSizing, setColumnSizing] = useLocalStorage(
     storageKey ? `dt-widths-${storageKey}` : null,
-    {}
+    {},
   );
 
   const columns = useMemo(() => {
@@ -97,7 +103,11 @@ function DataTable({
                   copyToClipboard(value, `${row.id}-${col.key}`);
                 }}
               >
-                {copiedId === `${row.id}-${col.key}` ? <Check size={12} /> : <Copy size={12} />}
+                {copiedId === `${row.id}-${col.key}` ? (
+                  <Check size={12} />
+                ) : (
+                  <Copy size={12} />
+                )}
               </button>
             </div>
           );
@@ -107,7 +117,7 @@ function DataTable({
           content = value ?? "—";
         }
 
-        if (typeof content === 'string' || typeof content === 'number') {
+        if (typeof content === "string" || typeof content === "number") {
           return <CellTooltip content={content} />;
         }
 
@@ -142,19 +152,22 @@ function DataTable({
       if (target.closest(".dt-actions") || target.closest("button")) return;
       onRowClick?.(row);
     },
-    [onRowClick]
+    [onRowClick],
   );
 
   const handleRowsChange = useCallback(
     (newLimit) => {
       onPageChange?.(1, newLimit);
     },
-    [onPageChange]
+    [onPageChange],
   );
 
   const visibleColumns = useMemo(
-    () => Object.keys(columnVisibility).filter((key) => columnVisibility[key] !== false),
-    [columnVisibility]
+    () =>
+      Object.keys(columnVisibility).filter(
+        (key) => columnVisibility[key] !== false,
+      ),
+    [columnVisibility],
   );
 
   return (
@@ -191,7 +204,8 @@ function DataTable({
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header, idx) => {
                     const isFirst = idx === 0 && stickyFirstColumn;
-                    const isLast = header.column.id === "actions" && stickyLastColumn;
+                    const isLast =
+                      header.column.id === "actions" && stickyLastColumn;
 
                     return (
                       <th
@@ -200,29 +214,42 @@ function DataTable({
                           "dt-th",
                           isFirst && "dt-th--sticky-left",
                           isLast && "dt-th--sticky-right",
-                          header.column.getCanSort() && "dt-th--sortable"
+                          header.column.getCanSort() && "dt-th--sortable",
                         )}
                         style={{ width: header.getSize() }}
                       >
                         <div className="dt-th-content">
-                          <div className={cn("dt-th-group", header.column.getCanSort() && "dt-th--sortable")}>
+                          <div
+                            className={cn(
+                              "dt-th-group",
+                              header.column.getCanSort() && "dt-th--sortable",
+                            )}
+                          >
                             <span
                               className="dt-label"
                               onClick={header.column.getToggleSortingHandler()}
                             >
-                              {flexRender(header.column.columnDef.header, header.getContext())}
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
                             </span>
 
                             {header.column.getCanSort() && (
                               <div
-                                className={cn("dt-header-actions", header.column.getCanResize() && "dt-resizer")}
+                                className={cn(
+                                  "dt-header-actions",
+                                  header.column.getCanResize() && "dt-resizer",
+                                )}
                                 onMouseDown={header.getResizeHandler()}
                                 onTouchStart={header.getResizeHandler()}
                                 onClick={header.column.getToggleSortingHandler()}
                               >
                                 <SortIcon
                                   isSorted={header.column.getIsSorted()}
-                                  isSortedDesc={header.column.getIsSorted() === "desc"}
+                                  isSortedDesc={
+                                    header.column.getIsSorted() === "desc"
+                                  }
                                 />
                               </div>
                             )}
@@ -243,8 +270,12 @@ function DataTable({
                         key={cIdx}
                         className={cn(
                           "dt-td",
-                          cIdx === 0 && stickyFirstColumn && "dt-td--sticky-left",
-                          col.id === "actions" && stickyLastColumn && "dt-td--sticky-right"
+                          cIdx === 0 &&
+                            stickyFirstColumn &&
+                            "dt-td--sticky-left",
+                          col.id === "actions" &&
+                            stickyLastColumn &&
+                            "dt-td--sticky-right",
                         )}
                       >
                         {col.id === "actions" ? (
@@ -286,16 +317,24 @@ function DataTable({
                         key={cell.id}
                         className={cn(
                           "dt-td",
-                          colIdx === 0 && stickyFirstColumn && "dt-td--sticky-left",
-                          cell.column.id === "actions" && stickyLastColumn && "dt-td--sticky-right",
-                          cell.column.columnDef.meta?.align && `dt-td--${cell.column.columnDef.meta.align}`
+                          colIdx === 0 &&
+                            stickyFirstColumn &&
+                            "dt-td--sticky-left",
+                          cell.column.id === "actions" &&
+                            stickyLastColumn &&
+                            "dt-td--sticky-right",
+                          cell.column.columnDef.meta?.align &&
+                            `dt-td--${cell.column.columnDef.meta.align}`,
                         )}
                         style={{
                           width: cell.column.getSize(),
-                          minWidth: cell.column.columnDef.minSize
+                          minWidth: cell.column.columnDef.minSize,
                         }}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </td>
                     ))}
                   </tr>
@@ -333,7 +372,9 @@ function DataTable({
                 {Math.min(page * pagination.limit, pagination.total)}
               </span>{" "}
               of{" "}
-              <span className="dt-pagination__info--bold">{pagination.total}</span>
+              <span className="dt-pagination__info--bold">
+                {pagination.total}
+              </span>
             </div>
           </div>
 
@@ -362,7 +403,7 @@ function DataTable({
                     (p) =>
                       p === 1 ||
                       p === pagination.pages ||
-                      Math.abs(p - page) <= 1
+                      Math.abs(p - page) <= 1,
                   )
                   .reduce((acc, p, i, arr) => {
                     if (i > 0 && p - arr[i - 1] > 1) acc.push("...");
@@ -377,12 +418,15 @@ function DataTable({
                     ) : (
                       <button
                         key={p}
-                        className={cn("dt-page-btn", page === p && "dt-page-btn--active")}
+                        className={cn(
+                          "dt-page-btn",
+                          page === p && "dt-page-btn--active",
+                        )}
                         onClick={() => onPageChange(p, pagination.limit)}
                       >
                         {p}
                       </button>
-                    )
+                    ),
                   )}
               </div>
 

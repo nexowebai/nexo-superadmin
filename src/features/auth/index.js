@@ -1,2 +1,2 @@
-export { default } from './authSlice';
-export * from './authSlice';
+export { default } from "./authSlice";
+export * from "./authSlice";

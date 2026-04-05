@@ -1,76 +1,76 @@
 .ds-empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
 }
 
 .ds-empty-state--sm {
-    padding: var(--space-6) var(--space-4);
+  padding: var(--space-6) var(--space-4);
 }
 
 .ds-empty-state--lg {
-    padding: var(--space-8) var(--space-8);
+  padding: var(--space-8) var(--space-8);
 }
 
 .ds-empty-state__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 64px;
-    margin-bottom: var(--space-4);
-    background: var(--bg-elevated);
-    border-radius: var(--radius-full);
-    color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--space-4);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
 }
 
 .ds-empty-state__icon svg {
-    width: 32px;
-    height: 32px;
+  width: 32px;
+  height: 32px;
 }
 
 .ds-empty-state--sm .ds-empty-state__icon {
-    width: 48px;
-    height: 48px;
+  width: 48px;
+  height: 48px;
 }
 
 .ds-empty-state--sm .ds-empty-state__icon svg {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .ds-empty-state--lg .ds-empty-state__icon {
-    width: 80px;
-    height: 80px;
+  width: 80px;
+  height: 80px;
 }
 
 .ds-empty-state--lg .ds-empty-state__icon svg {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .ds-empty-state__title {
-    margin: 0 0 var(--space-2);
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
 }
 
 .ds-empty-state--sm .ds-empty-state__title {
-    font-size: var(--text-base);
+  font-size: var(--text-base);
 }
 
 .ds-empty-state__description {
-    margin: 0 0 var(--space-4);
-    max-width: 400px;
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    line-height: 1.6;
+  margin: 0 0 var(--space-4);
+  max-width: 400px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 .ds-empty-state__action {
-    margin-top: var(--space-2);
+  margin-top: var(--space-2);
 }

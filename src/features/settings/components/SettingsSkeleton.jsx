@@ -1,1 +1,1 @@
-export { SettingsPageSkeleton as SettingsSkeleton } from '@components/skeletons';
+export { SettingsPageSkeleton as SettingsSkeleton } from "@components/skeletons";

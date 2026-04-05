@@ -11,7 +11,7 @@
   overflow-x: hidden;
 }
 
-.ds-sidebar--collapsed~.ds-dashboard__main {
+.ds-sidebar--collapsed ~ .ds-dashboard__main {
   margin-left: var(--sidebar-collapsed);
 }
 

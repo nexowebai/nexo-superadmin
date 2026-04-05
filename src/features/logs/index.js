@@ -1,2 +1,2 @@
-export { default as LogsPage } from './pages/LogsPage';
-export * from '../hooks';
+export { default as LogsPage } from "./pages/LogsPage";
+export * from "../hooks";

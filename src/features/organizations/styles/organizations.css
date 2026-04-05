@@ -61,7 +61,11 @@
   width: 90px;
   height: 90px;
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--brand-500) 0%,
+    var(--brand-700) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -475,7 +479,11 @@
 }
 
 .org-usage-bar__fill--green {
-  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    var(--primary-hover) 100%
+  );
 }
 
 .org-usage-bar__fill--teal {
@@ -525,9 +533,11 @@
   width: 56px;
   height: 56px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg,
-      var(--brand-500) 0%,
-      var(--brand-600) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--brand-500) 0%,
+    var(--brand-600) 100%
+  );
   color: white;
   display: flex;
   align-items: center;
@@ -880,7 +890,6 @@
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-
 }
 
 .tier-badge--basic {
@@ -993,7 +1002,6 @@ body.dark-mode .form-section-header {
    PRINT STYLES
    ========================================= */
 @media print {
-
   .org-hero__actions,
   .org-actions,
   .org-admin button {

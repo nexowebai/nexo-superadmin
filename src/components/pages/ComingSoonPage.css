@@ -66,10 +66,8 @@
 .coming-soon__grid {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(
-      var(--ds-border-subtle) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(var(--ds-border-subtle) 1px, transparent 1px),
     linear-gradient(90deg, var(--ds-border-subtle) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
@@ -137,7 +135,8 @@
   );
   border-radius: var(--radius-md);
   color: white;
-  box-shadow: 0 4px 24px rgba(var(--ds-primary-rgb), 0.3),
+  box-shadow:
+    0 4px 24px rgba(var(--ds-primary-rgb), 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
@@ -243,7 +242,7 @@
   font-weight: 600;
   color: var(--ds-text-tertiary);
   text-transform: uppercase;
-  
+
   margin-bottom: 24px;
 }
 

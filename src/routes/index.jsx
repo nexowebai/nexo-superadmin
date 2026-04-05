@@ -9,7 +9,10 @@ import {
 import { motion } from "framer-motion";
 import { CreditCard, DollarSign, Receipt, RefreshCw, Zap } from "lucide-react";
 import { useAuth } from "@context/AuthContext";
-import { DashboardLayout, PageContainer } from "@components/layout/DashboardLayout";
+import {
+  DashboardLayout,
+  PageContainer,
+} from "@components/layout/DashboardLayout";
 import AuthLayout from "@components/layout/AuthLayout";
 import { PageLoader } from "@components/ui";
 import { Skeleton } from "@components/ui/Skeleton";
@@ -21,47 +24,41 @@ import ForgotPasswordPage from "@features/auth/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@features/auth/pages/ResetPasswordPage";
 import SetPasswordPage from "@features/auth/pages/SetPasswordPage";
 
-const SuperAdminDashboardPage = lazy(() =>
-  import("@features/dashboard/pages/DashboardPage")
+const SuperAdminDashboardPage = lazy(
+  () => import("@features/dashboard/pages/DashboardPage"),
 );
-const OrganizationsPage = lazy(() =>
-  import("@features/organizations/pages/OrganizationsPage")
+const OrganizationsPage = lazy(
+  () => import("@features/organizations/pages/OrganizationsPage"),
 );
-const OrganizationDetailPage = lazy(() =>
-  import("@features/organizations/pages/OrganizationDetailPage")
+const OrganizationDetailPage = lazy(
+  () => import("@features/organizations/pages/OrganizationDetailPage"),
 );
-const CreateOrganizationPage = lazy(() =>
-  import("@features/organizations/pages/CreateOrganizationPage")
+const CreateOrganizationPage = lazy(
+  () => import("@features/organizations/pages/CreateOrganizationPage"),
 );
-const AdminsPage = lazy(() =>
-  import("@features/admins/pages/AdminsPage")
+const AdminsPage = lazy(() => import("@features/admins/pages/AdminsPage"));
+const CreateAdminPage = lazy(
+  () => import("@features/admins/pages/CreateAdminPage"),
 );
-const CreateAdminPage = lazy(() =>
-  import("@features/admins/pages/CreateAdminPage")
+const RequestsPage = lazy(
+  () => import("@features/requests/pages/RequestsPage"),
 );
-const RequestsPage = lazy(() =>
-  import("@features/requests/pages/RequestsPage")
+const LogsPage = lazy(() => import("@features/logs/pages/LogsPage"));
+const SettingsPage = lazy(
+  () => import("@features/settings/pages/SettingsPage"),
 );
-const LogsPage = lazy(() =>
-  import("@features/logs/pages/LogsPage")
+const NotificationsPage = lazy(
+  () => import("@features/notifications/pages/NotificationsPage"),
 );
-const SettingsPage = lazy(() =>
-  import("@features/settings/pages/SettingsPage")
+const ProfilePage = lazy(() => import("@features/settings/pages/ProfilePage"));
+const PaymentsPage = lazy(
+  () => import("@features/payments/pages/PaymentsPage"),
 );
-const NotificationsPage = lazy(() =>
-  import("@features/notifications/pages/NotificationsPage")
+const BillingSystemPage = lazy(
+  () => import("@features/billing/pages/BillingSystemPage"),
 );
-const ProfilePage = lazy(() =>
-  import("@features/settings/pages/ProfilePage")
-);
-const PaymentsPage = lazy(() =>
-  import("@features/payments/pages/PaymentsPage")
-);
-const BillingSystemPage = lazy(() =>
-  import("@features/billing/pages/BillingSystemPage")
-);
-const PrivacyPolicyPage = lazy(() =>
-  import("@features/content/pages/PrivacyPolicyPage")
+const PrivacyPolicyPage = lazy(
+  () => import("@features/content/pages/PrivacyPolicyPage"),
 );
 
 function PaymentsComingSoon() {
@@ -95,7 +92,6 @@ function PaymentsComingSoon() {
     />
   );
 }
-
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuth();
@@ -144,7 +140,6 @@ function SessionExpiredAlert() {
   );
 }
 
-
 function DashboardDispatcher() {
   const { user } = useAuth();
   const role = user?.role;
@@ -168,196 +163,201 @@ function SettingsDispatcher() {
   );
 }
 
-const router = createBrowserRouter([
-  { path: "/", element: <Navigate to="/dashboard" replace /> },
+const router = createBrowserRouter(
+  [
+    { path: "/", element: <Navigate to="/dashboard" replace /> },
+    {
+      element: (
+        <PublicRoute>
+          <AuthLayout />
+        </PublicRoute>
+      ),
+      children: [
+        {
+          path: "login",
+          element: <LoginPage />,
+        },
+        {
+          path: "forgot-password",
+          element: <ForgotPasswordPage />,
+        },
+        {
+          path: "reset-password",
+          element: <ResetPasswordPage />,
+        },
+        {
+          path: "set-password",
+          element: <SetPasswordPage />,
+        },
+      ],
+    },
+    {
+      element: (
+        <ProtectedRoute>
+          <DashboardLayout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "dashboard",
+          element: <DashboardDispatcher />,
+        },
+        {
+          path: "notifications",
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <NotificationsPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "organizations",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <OrganizationsPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "organizations/create",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <CreateOrganizationPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "organizations/:id",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <OrganizationDetailPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "organizations/:id/edit",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <CreateOrganizationPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "admins",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <AdminsPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "admins/create",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <CreateAdminPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "requests",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <RequestsPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "payments",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <PaymentsPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "logs",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <LogsPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "profile",
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <ProfilePage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "billing",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <BillingSystemPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "policy",
+          element: (
+            <ProtectedRoute allowedRoles={["super-admin"]}>
+              <Suspense fallback={<PageLoader />}>
+                <PrivacyPolicyPage />
+              </Suspense>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "user-settings",
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <ProfilePage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "settings",
+          element: <SettingsDispatcher />,
+        },
+      ],
+    },
+    { path: "*", element: <Navigate to="/dashboard" replace /> },
+  ],
   {
-    element: (
-      <PublicRoute>
-        <AuthLayout />
-      </PublicRoute>
-    ),
-    children: [
-      {
-        path: "login",
-        element: <LoginPage />,
-      },
-      {
-        path: "forgot-password",
-        element: <ForgotPasswordPage />,
-      },
-      {
-        path: "reset-password",
-        element: <ResetPasswordPage />,
-      },
-      {
-        path: "set-password",
-        element: <SetPasswordPage />,
-      },
-    ],
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
   },
-  {
-    element: (
-      <ProtectedRoute>
-        <DashboardLayout />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: "dashboard",
-        element: <DashboardDispatcher />,
-      },
-      {
-        path: "notifications",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <NotificationsPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "organizations",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <OrganizationsPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "organizations/create",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <CreateOrganizationPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "organizations/:id",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <OrganizationDetailPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "organizations/:id/edit",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <CreateOrganizationPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "admins",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <AdminsPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "admins/create",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <CreateAdminPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "requests",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <RequestsPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "payments",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <PaymentsPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "logs",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <LogsPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "profile",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ProfilePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "billing",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <BillingSystemPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "policy",
-        element: (
-          <ProtectedRoute allowedRoles={["super-admin"]}>
-            <Suspense fallback={<PageLoader />}>
-              <PrivacyPolicyPage />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "user-settings",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ProfilePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "settings",
-        element: <SettingsDispatcher />,
-      },
-    ],
-  },
-  { path: "*", element: <Navigate to="/dashboard" replace /> },
-], {
-  future: {
-    v7_startTransition: true,
-    v7_relativeSplatPath: true,
-    v7_fetcherPersist: true,
-    v7_normalizeFormMethod: true,
-    v7_partialHydration: true,
-    v7_skipActionErrorRevalidation: true,
-  }
-});
+);
 
 export default function AppRoutes() {
-  return <RouterProvider router={router} future={{ v7_startTransition: true }} />;
+  return (
+    <RouterProvider router={router} future={{ v7_startTransition: true }} />
+  );
 }

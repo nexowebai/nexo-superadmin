@@ -1,1 +1,1 @@
-export { DetailPageSkeleton as default } from '@components/skeletons';
+export { DetailPageSkeleton as default } from "@components/skeletons";

@@ -1,2 +1,2 @@
-export { default as NotificationsPage } from './pages/NotificationsPage';
-export * from '../hooks';
+export { default as NotificationsPage } from "./pages/NotificationsPage";
+export * from "../hooks";

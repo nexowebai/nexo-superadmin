@@ -1,8 +1,18 @@
-import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { subscribeToNotifications, unsubscribeFromChannel } from '@lib/supabase';
-import { notificationService } from '@features/notifications/services/notificationService';
-import { useAuth } from '@context/AuthContext';
-import notify from '@utils/notify';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
+import {
+  subscribeToNotifications,
+  unsubscribeFromChannel,
+} from "@lib/supabase";
+import { notificationService } from "@features/notifications/services/notificationService";
+import { useAuth } from "@context/AuthContext";
+import notify from "@utils/notify";
 
 export const NotificationContext = createContext(null);
 
@@ -39,14 +49,16 @@ export function NotificationProvider({ children }) {
         if (options.append) {
           setNotifications((prev) => {
             const existingIds = new Set(prev.map((n) => n.id));
-            const uniqueNew = newNotifications.filter((n) => !existingIds.has(n.id));
+            const uniqueNew = newNotifications.filter(
+              (n) => !existingIds.has(n.id),
+            );
             return [...prev, ...uniqueNew];
           });
         } else {
           setNotifications(newNotifications);
         }
 
-        if (typeof data?.unread_count === 'number') {
+        if (typeof data?.unread_count === "number") {
           setUnreadCount(data.unread_count);
         }
 
@@ -55,27 +67,32 @@ export function NotificationProvider({ children }) {
         setPage(pageNum);
         setInitialFetched(true);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => {
         if (mountedRef.current) setLoading(false);
       });
   }, []);
 
-  const markAsRead = useCallback((notificationId) => {
-    const notif = notifications.find((n) => n.id === notificationId);
+  const markAsRead = useCallback(
+    (notificationId) => {
+      const notif = notifications.find((n) => n.id === notificationId);
 
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === notificationId ? { ...n, is_read: true } : n))
-    );
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n.id === notificationId ? { ...n, is_read: true } : n,
+        ),
+      );
 
-    if (notif && !notif.is_read) {
-      setUnreadCount((prev) => Math.max(0, prev - 1));
-    }
+      if (notif && !notif.is_read) {
+        setUnreadCount((prev) => Math.max(0, prev - 1));
+      }
 
-    notificationService.markAsRead(notificationId).catch(() => {
-      notify.error('Failed to mark notification as read');
-    });
-  }, [notifications]);
+      notificationService.markAsRead(notificationId).catch(() => {
+        notify.error("Failed to mark notification as read");
+      });
+    },
+    [notifications],
+  );
 
   const markAllAsRead = useCallback(() => {
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
@@ -83,24 +100,27 @@ export function NotificationProvider({ children }) {
 
     notificationService
       .markAllAsRead()
-      .then(() => notify.success('All notifications marked as read'))
-      .catch(() => notify.error('Failed to mark notifications as read'));
+      .then(() => notify.success("All notifications marked as read"))
+      .catch(() => notify.error("Failed to mark notifications as read"));
   }, []);
 
-  const deleteNotification = useCallback((notificationId) => {
-    const notif = notifications.find((n) => n.id === notificationId);
+  const deleteNotification = useCallback(
+    (notificationId) => {
+      const notif = notifications.find((n) => n.id === notificationId);
 
-    setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
+      setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
 
-    if (notif && !notif.is_read) {
-      setUnreadCount((prev) => Math.max(0, prev - 1));
-    }
+      if (notif && !notif.is_read) {
+        setUnreadCount((prev) => Math.max(0, prev - 1));
+      }
 
-    notificationService
-      .delete(notificationId)
-      .then(() => notify.success('Notification deleted'))
-      .catch(() => notify.error('Failed to delete notification'));
-  }, [notifications]);
+      notificationService
+        .delete(notificationId)
+        .then(() => notify.success("Notification deleted"))
+        .catch(() => notify.error("Failed to delete notification"));
+    },
+    [notifications],
+  );
 
   useEffect(() => {
     mountedRef.current = true;
@@ -140,31 +160,39 @@ export function NotificationProvider({ children }) {
           const oldNotif = prev.find((n) => n.id === updatedNotification.id);
           if (oldNotif && !oldNotif.is_read && updatedNotification.is_read) {
             setUnreadCount((count) => Math.max(0, count - 1));
-          } else if (oldNotif && oldNotif.is_read && !updatedNotification.is_read) {
+          } else if (
+            oldNotif &&
+            oldNotif.is_read &&
+            !updatedNotification.is_read
+          ) {
             setUnreadCount((count) => count + 1);
           }
-          return prev.map((n) => (n.id === updatedNotification.id ? updatedNotification : n));
+          return prev.map((n) =>
+            n.id === updatedNotification.id ? updatedNotification : n,
+          );
         });
       },
       onDelete: (deletedNotification) => {
         if (!mountedRef.current) return;
 
         setRealtimeConnected(true);
-        setNotifications((prev) => prev.filter((n) => n.id !== deletedNotification.id));
+        setNotifications((prev) =>
+          prev.filter((n) => n.id !== deletedNotification.id),
+        );
         if (deletedNotification && !deletedNotification.is_read) {
           setUnreadCount((prev) => Math.max(0, prev - 1));
         }
       },
       onConnectionChange: (status) => {
         if (mountedRef.current) {
-          setRealtimeConnected(status === 'SUBSCRIBED');
+          setRealtimeConnected(status === "SUBSCRIBED");
         }
       },
     });
 
     channelRef.current = channel;
 
-    return () => { };
+    return () => {};
   }, [userId]);
 
   useEffect(() => {
@@ -201,7 +229,9 @@ export function NotificationProvider({ children }) {
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
+    throw new Error(
+      "useNotifications must be used within a NotificationProvider",
+    );
   }
   return context;
 };

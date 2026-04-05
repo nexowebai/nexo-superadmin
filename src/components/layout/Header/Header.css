@@ -15,8 +15,8 @@
   transition: left 0.3s var(--ease-out);
 }
 
-.ds-sidebar--collapsed~.ds-dashboard__main .ds-header,
-.ds-sidebar--collapsed+* .ds-header {
+.ds-sidebar--collapsed ~ .ds-dashboard__main .ds-header,
+.ds-sidebar--collapsed + * .ds-header {
   left: var(--sidebar-collapsed);
 }
 

@@ -1,1 +1,8 @@
-export { default, Skeleton, SkeletonText, SkeletonCard, SkeletonTable, SkeletonChart } from './Skeleton';
+export {
+  default,
+  Skeleton,
+  SkeletonText,
+  SkeletonCard,
+  SkeletonTable,
+  SkeletonChart,
+} from "./Skeleton";

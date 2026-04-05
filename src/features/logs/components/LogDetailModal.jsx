@@ -1,19 +1,62 @@
-import React from 'react';
+import React from "react";
 import {
-  Mail, Shield, Building2, Clock, Server, AlertCircle, Calendar, Lock, Terminal,
-  Activity, Hash, Globe, User, Copy
+  Mail,
+  Shield,
+  Building2,
+  Clock,
+  Server,
+  AlertCircle,
+  Calendar,
+  Lock,
+  Terminal,
+  Activity,
+  Hash,
+  Globe,
+  User,
+  Copy,
 } from "lucide-react";
 import {
-  Modal, ModalHeader, ModalTitle, ModalDescription, ModalBody, ModalFooter, Button
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalBody,
+  ModalFooter,
+  Button,
 } from "@components/ui";
 import notify from "@utils/notify";
 
 const levelConfig = {
-  info: { color: "var(--info)", bg: "var(--info-soft)", icon: Terminal, label: "Information" },
-  success: { color: "var(--success)", bg: "var(--success-soft)", icon: Activity, label: "Success" },
-  warn: { color: "var(--warning)", bg: "var(--warning-soft)", icon: AlertCircle, label: "Warning" },
-  warning: { color: "var(--warning)", bg: "var(--warning-soft)", icon: AlertCircle, label: "Warning" },
-  error: { color: "var(--error)", bg: "var(--error-soft)", icon: Shield, label: "Critical" },
+  info: {
+    color: "var(--info)",
+    bg: "var(--info-soft)",
+    icon: Terminal,
+    label: "Information",
+  },
+  success: {
+    color: "var(--success)",
+    bg: "var(--success-soft)",
+    icon: Activity,
+    label: "Success",
+  },
+  warn: {
+    color: "var(--warning)",
+    bg: "var(--warning-soft)",
+    icon: AlertCircle,
+    label: "Warning",
+  },
+  warning: {
+    color: "var(--warning)",
+    bg: "var(--warning-soft)",
+    icon: AlertCircle,
+    label: "Warning",
+  },
+  error: {
+    color: "var(--error)",
+    bg: "var(--error-soft)",
+    icon: Shield,
+    label: "Critical",
+  },
 };
 
 const DetailItem = ({ icon: Icon, label, value, mono = false }) => {
@@ -38,8 +81,8 @@ export default function LogDetailModal({ log, isOpen, onClose }) {
   const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     return {
-      date: date.toLocaleDateString(undefined, { dateStyle: 'long' }),
-      time: date.toLocaleTimeString([], { hour12: true })
+      date: date.toLocaleDateString(undefined, { dateStyle: "long" }),
+      time: date.toLocaleTimeString([], { hour12: true }),
     };
   };
 
@@ -66,26 +109,52 @@ export default function LogDetailModal({ log, isOpen, onClose }) {
       </ModalHeader>
 
       <ModalBody className="space-y-6">
-        <div className="bg-bg-elevated border-l-4 rounded-r-md p-5 space-y-3" style={{ borderLeftColor: config.color }}>
+        <div
+          className="bg-bg-elevated border-l-4 rounded-r-md p-5 space-y-3"
+          style={{ borderLeftColor: config.color }}
+        >
           <div className="flex items-center gap-2">
             <Terminal size={14} className="text-muted" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-muted">Activity Summary</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-muted">
+              Activity Summary
+            </span>
           </div>
-          <p className="text-sm font-bold text-primary leading-relaxed m-0">{log.message}</p>
+          <p className="text-sm font-bold text-primary leading-relaxed m-0">
+            {log.message}
+          </p>
         </div>
 
         <div className="space-y-4">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted">Initiator Context</h4>
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted">
+            Initiator Context
+          </h4>
           <div className="modal-detail-grid">
             <DetailItem icon={Mail} label="Email Identity" value={log.email} />
-            <DetailItem icon={Shield} label="Access Role" value={log.user_role || 'Super Admin'} />
-            <DetailItem icon={Building2} label="Entity" value={log.organization_name || 'System Central'} />
-            <DetailItem icon={Globe} label="Resource origin" value={log.ip_address === "::1" ? "Localhost (::1)" : log.ip_address} mono />
+            <DetailItem
+              icon={Shield}
+              label="Access Role"
+              value={log.user_role || "Super Admin"}
+            />
+            <DetailItem
+              icon={Building2}
+              label="Entity"
+              value={log.organization_name || "System Central"}
+            />
+            <DetailItem
+              icon={Globe}
+              label="Resource origin"
+              value={
+                log.ip_address === "::1" ? "Localhost (::1)" : log.ip_address
+              }
+              mono
+            />
           </div>
         </div>
 
         <div className="space-y-4">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted">Temporal Data</h4>
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted">
+            Temporal Data
+          </h4>
           <div className="modal-detail-grid">
             <DetailItem icon={Calendar} label="Audit Date" value={date} />
             <DetailItem icon={Clock} label="Timestamp" value={time} mono />
@@ -99,8 +168,12 @@ export default function LogDetailModal({ log, isOpen, onClose }) {
                 <Lock size={18} />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-rose-800 m-0 mb-1">Temporary Credential</p>
-                <code className="text-sm font-black text-rose-900">{log.temp_password}</code>
+                <p className="text-[10px] font-black uppercase tracking-widest text-rose-800 m-0 mb-1">
+                  Temporary Credential
+                </p>
+                <code className="text-sm font-black text-rose-900">
+                  {log.temp_password}
+                </code>
               </div>
             </div>
             <Button
@@ -120,7 +193,12 @@ export default function LogDetailModal({ log, isOpen, onClose }) {
 
       <ModalFooter>
         <div className="modal-form-footer modal-form-footer--single">
-          <Button variant="secondary" onClick={onClose} fullWidth className="h-11 font-bold">
+          <Button
+            variant="secondary"
+            onClick={onClose}
+            fullWidth
+            className="h-11 font-bold"
+          >
             Dismiss Audit Trace
           </Button>
         </div>

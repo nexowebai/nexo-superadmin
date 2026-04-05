@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
-import { useLayout } from '@context';
-import { PageContainer } from '@components/layout/DashboardLayout';
-import { StatsCard, StatsGrid } from '@components/common';
+import { useEffect } from "react";
+import { useLayout } from "@context";
+import { PageContainer } from "@components/layout/DashboardLayout";
+import { StatsCard, StatsGrid } from "@components/common";
 
 // Feature-specific
-import { useLogsPage } from '../hooks/useLogsPage';
-import { LogsTable } from '../components/LogsTable';
-import LogDetailModal from '../components/LogDetailModal';
+import { useLogsPage } from "../hooks/useLogsPage";
+import { LogsTable } from "../components/LogsTable";
+import LogDetailModal from "../components/LogDetailModal";
 
-import './LogsPage.css';
+import "./LogsPage.css";
 
 function LogsPage() {
   const { setHeaderProps } = useLayout();
@@ -29,13 +29,13 @@ function LogsPage() {
     selectedLog,
     setSelectedLog,
     refetch,
-    stats
+    stats,
   } = useLogsPage();
 
   useEffect(() => {
     setHeaderProps({
       title: "System Logs & Audit",
-      action: null
+      action: null,
     });
   }, [setHeaderProps]);
 
@@ -54,7 +54,10 @@ function LogsPage() {
         loading={isFetching}
         pagination={pagination}
         page={page}
-        onPageChange={(p, l) => { setPage(p); setLimit(l); }}
+        onPageChange={(p, l) => {
+          setPage(p);
+          setLimit(l);
+        }}
         search={search}
         onSearchChange={setSearch}
         level={level}

@@ -3,8 +3,9 @@
 This codebase was a chaotic mess of "copy-pasted" garbage. Here is the clinical diagnosis of the technical debt that was killing this project.
 
 ## 🏛️ ARCHITECTURE & STRUCTURE (15 points)
+
 1.  **Monolithic Imports**: Importing from `@/services/api` in every file is a developer's nightmare.
-2.  **Circular Dependency Hell**: Services importing auth which imports client which imports services. 
+2.  **Circular Dependency Hell**: Services importing auth which imports client which imports services.
 3.  **Flat Folder Syndrome**: `src/features` was just a dump of files with no internal hierarchy.
 4.  **Zombie Code**: `superAdminApi.js` was a 5,000-line ghost ship of unused endpoints.
 5.  **Dangling Aliases**: `@auth` pointing to a file that doesn't exist anymore. Classic rookie mistake.
@@ -20,6 +21,7 @@ This codebase was a chaotic mess of "copy-pasted" garbage. Here is the clinical 
 15. **Manual Error Handling**: `try-catch` blocks everywhere instead of a global interceptor.
 
 ## 🎨 UI/UX & STYLING (15 points)
+
 16. **Copy-Paste Styling**: `card-pro` and `card-nx` duplicated 50 times in different CSS files.
 17. **Magic Numbers**: Random `z-index: 9999` and `padding: 13px` scattered throughout the codebase.
 18. **CSS Global Pollution**: Importing `organizations.css` in a way that breaks other pages.
@@ -37,6 +39,7 @@ This codebase was a chaotic mess of "copy-pasted" garbage. Here is the clinical 
 30. **Typography Chaos**: 5 different font sizes for "Headings" across the apps.
 
 ## 💻 LOGIC & CODE QUALITY (20 points)
+
 31. **Line Count Horror**: 500-line components that should have been 5 files.
 32. **Logic in JSX**: Calculating percentages and filtering lists directly in the `return` statement.
 33. **Missing TypeScript**: (Roasted!) Using JS in a production-grade app is playing with fire.
@@ -59,4 +62,5 @@ This codebase was a chaotic mess of "copy-pasted" garbage. Here is the clinical 
 50. **Lack of Documentation**: No READMEs, no comments, just "trust me bro" code.
 
 ---
-*Status: Fix in Progress. Optimization level: ANTIGRAVITY TURBO.*
+
+_Status: Fix in Progress. Optimization level: ANTIGRAVITY TURBO._

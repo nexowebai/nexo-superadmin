@@ -82,7 +82,7 @@ const SidebarGroup = memo(function SidebarGroup({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const location = useLocation();
   const isChildActive = children?.some?.((child) =>
-    location.pathname.startsWith(child.props?.to)
+    location.pathname.startsWith(child.props?.to),
   );
 
   const handleToggle = useCallback(() => {
@@ -95,7 +95,7 @@ const SidebarGroup = memo(function SidebarGroup({
     <div
       className={cn(
         "ds-sidebar__group",
-        isChildActive && "ds-sidebar__group--active"
+        isChildActive && "ds-sidebar__group--active",
       )}
     >
       <button
@@ -220,7 +220,8 @@ function Sidebar({
   const links = getLinksForRole();
   const roleLabel = ROLE_LABELS[role] || "User";
 
-  const userDisplayName = user?.full_name || user?.name || user?.email?.split('@')[0] || "User";
+  const userDisplayName =
+    user?.full_name || user?.name || user?.email?.split("@")[0] || "User";
   const userInitials = userDisplayName
     .split(" ")
     .filter(Boolean)
@@ -240,7 +241,7 @@ function Sidebar({
         className={cn(
           "ds-sidebar",
           isCollapsed && "ds-sidebar--collapsed",
-          isOpen && "ds-sidebar--open"
+          isOpen && "ds-sidebar--open",
         )}
       >
         <div className="ds-sidebar__header">
@@ -283,7 +284,11 @@ function Sidebar({
             onClick={toggleSidebar}
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <ChevronLeft size={16} transition={{ duration: 0.3 }} style={{ transform: isCollapsed ? 'rotate(180deg)' : 'none' }} />
+            <ChevronLeft
+              size={16}
+              transition={{ duration: 0.3 }}
+              style={{ transform: isCollapsed ? "rotate(180deg)" : "none" }}
+            />
           </button>
         </div>
 
@@ -302,7 +307,12 @@ function Sidebar({
         </nav>
 
         <div className="ds-sidebar__footer">
-          <div className={cn("ds-sidebar__user-card", isCollapsed && "ds-sidebar__user-card--collapsed")}>
+          <div
+            className={cn(
+              "ds-sidebar__user-card",
+              isCollapsed && "ds-sidebar__user-card--collapsed",
+            )}
+          >
             <div className="ds-sidebar__user-details">
               <div className="ds-sidebar__user-avatar">
                 {user.avatar ? (
@@ -317,7 +327,9 @@ function Sidebar({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <span className="ds-sidebar__user-name">{userDisplayName}</span>
+                  <span className="ds-sidebar__user-name">
+                    {userDisplayName}
+                  </span>
                   <span className="ds-sidebar__user-role">{roleLabel}</span>
                 </motion.div>
               )}

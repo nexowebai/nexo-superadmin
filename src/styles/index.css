@@ -1,8 +1,8 @@
-@import './tokens.css';
-@import './reset.css';
-@import './animations.css';
+@import "./tokens.css";
+@import "./reset.css";
+@import "./animations.css";
 
-@import './forms.css';
+@import "./forms.css";
 
 @tailwind base;
 @tailwind components;
@@ -73,7 +73,6 @@ body {
   box-shadow: var(--shadow-lg);
 }
 
-
 .ds-page {
   padding: var(--space-6);
   min-height: 200px;
@@ -81,22 +80,22 @@ body {
 
 /* Global Resets & Smoothing */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Hide Number Input Spinners */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .app-loader {
@@ -137,13 +136,13 @@ input,
 select,
 textarea,
 button {
-  transition: background-color var(--transition-fast) var(--ease-out),
+  transition:
+    background-color var(--transition-fast) var(--ease-out),
     border-color var(--transition-fast) var(--ease-out),
     color var(--transition-fast) var(--ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -180,23 +179,23 @@ button {
   line-height: 1.4 !important;
 }
 
-[data-sonner-toast][data-theme='dark'] .nx-toast {
+[data-sonner-toast][data-theme="dark"] .nx-toast {
   background: #1e293b !important;
 }
 
 /* Severity overrides for Sonner richColors */
-[data-sonner-toast][data-type='success'] .nx-toast {
+[data-sonner-toast][data-type="success"] .nx-toast {
   border-left: 4px solid var(--success) !important;
 }
 
-[data-sonner-toast][data-type='error'] .nx-toast {
+[data-sonner-toast][data-type="error"] .nx-toast {
   border-left: 4px solid var(--error) !important;
 }
 
-[data-sonner-toast][data-type='warning'] .nx-toast {
+[data-sonner-toast][data-type="warning"] .nx-toast {
   border-left: 4px solid var(--warning) !important;
 }
 
-[data-sonner-toast][data-type='info'] .nx-toast {
+[data-sonner-toast][data-type="info"] .nx-toast {
   border-left: 4px solid var(--info) !important;
 }

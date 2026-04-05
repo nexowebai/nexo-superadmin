@@ -273,7 +273,7 @@
 }
 
 .dt-header-actions.dt-resizer::after {
-  content: '';
+  content: "";
   position: absolute;
   right: -8px;
   top: 50%;
@@ -518,7 +518,7 @@
 }
 
 .dt-code {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: var(--text-xs);
   padding: var(--space-1) var(--space-2);
   background: var(--bg-elevated);
@@ -767,7 +767,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .dt-row,
   .dt-action-btn,
   .dt-nav-btn,
@@ -779,7 +778,6 @@
 }
 
 @media print {
-
   .dt-actions,
   .table-toolbar,
   .dt-pagination {
