@@ -13,28 +13,29 @@ on:
 
 jobs:
   sync-docs:
+    name: 📚 Documentation / Sync Features
     runs-on: ubuntu-latest
     permissions:
       contents: write # Needed to push back the updated READMEs
 
     steps:
-      - name: 📥 Checkout repository
+      - name: 📥 Initialize / Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }} # Checkout the branch for PRs
           
-      - name: ⚙️ Setup Node.js
+      - name: ⚙️ Runtime / Setup Node.js Context
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
 
-      - name: 📦 Install dependencies
+      - name: 📦 Environment / Install Tooling Dependencies
         run: npm install # Standard install to ensure script runtime dependencies if any
 
-      - name: 🔄 Sync Feature Documentation
+      - name: 🔄 Automation / Orchestrate Feature Doc Sync
         run: node scripts/sync-feature-docs.js
 
-      - name: 📤 Commit and Push Changes
+      - name: 📤 Resolution / Commit Synchronized Intelligence
         if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:

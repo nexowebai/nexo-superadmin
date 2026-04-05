@@ -1,4 +1,4 @@
-name: Auto-Format Code
+name: ✨ Aesthetic / Auto-Formatter
 on:
   push:
     branches: ["**"]
@@ -9,22 +9,26 @@ env:
 
 jobs:
   format:
-    name: runner / prettier
+    name: ✨ Style Clean / Prettier
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Initialize / Checkout Repository
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-      - uses: actions/setup-node@v4
+      - name: ⚙️ Runtime / Setup Node.js Context
+        uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '22'
           cache: 'npm'
-      - run: npm install
-      - name: Prettier Format
+      - name: 📦 Environment / Install Tooling
+        run: npm install
+      - name: 🔨 Automation / Execute Prettier Engine
         run: npm run format
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: 📤 Persistence / Commit Aesthetic Fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "style: auto-format code with prettier [skip ci]"
           commit_author_name: Nexo Automator

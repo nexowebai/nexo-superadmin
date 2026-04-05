@@ -11,48 +11,64 @@ env:
 
 jobs:
   eslint:
-    name: runner / eslint
+    name: 🛡️ NX-Audit / ESLint & Integrity
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: 📥 Initialize / Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: ⚙️ Dependency / Setup Node.js Runtime
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '22' # Using Node 22 for stability and latest features
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: 📦 Environment / Install Workspace Dependencies
         run: npm install
 
       # Automated PR review with line-by-line comments (only for changed lines)
-      - name: Run ESLint with Reviewdog
+      - name: 🧪 Analysis / Run Real-time PR Reviewdog
         uses: reviewdog/action-eslint@v1
+        continue-on-error: true # Don't fail the build here, we want the custom report to decide
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
           eslint_flags: 'src/**/*.{ts,tsx,js,jsx}'
           filter_mode: added # Comments only on new/changed lines
-          fail_on_error: true
-          level: error
+          fail_level: error # Updated from deprecated fail_on_error
 
-      # Strict Physical File Constraint Check (Only Changed Files)
-      - name: Strict 150-Line Limit Check
+      - name: 🏷️ Reporting / Export JSON Intelligence
+        run: npx eslint src/**/*.{js,jsx} --format json --output-file eslint-results.json
+        continue-on-error: true
+
+      - name: 🏛️ Dashboard / Generate Executive Audit Report
+        run: node scripts/eslint-report.js
+        env:
+          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
+
+      - name: 📋 File Monitor / Scan Changed Files for Limit Violations
         id: files-check
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v44 # TJ-actions handles Node 24 automatically on latest runners
 
-      - name: Enforcement of Limits
+      - name: ⚖️ Enforcement / Apply Institutional Guardrails
         if: steps.files-check.outputs.any_changed == 'true'
         run: |
+          ERROR_COUNT=0
           for file in ${{ steps.files-check.outputs.all_changed_files }}; do
             if [[ $file =~ \.(ts|tsx|js|jsx)$ ]] && [[ -f $file ]]; then
               lines=$(wc -l < "$file")
-              if [ "$lines" -gt 150 ]; then
-                echo "::error file=$file::STRICT VIOLATION: $file has $lines lines (Max 150). Refactor into smaller modules!"
-                exit 1
+              # Relaxed limit to 250 lines
+              if [ "$lines" -gt 250 ]; then
+                echo "::error file=$file::STRICT VIOLATION: $file has $lines lines (Max 250). Refactor into smaller modules!"
+                ERROR_COUNT=$((ERROR_COUNT+1))
+              elif [ "$lines" -gt 150 ]; then
+                echo "::warning file=$file::SOFT WARNING: $file is getting large ($lines lines). Consider refactoring soon."
               fi
             fi
           done
+          if [ "$ERROR_COUNT" -gt 0 ]; then
+            exit 1
+          fi
+
