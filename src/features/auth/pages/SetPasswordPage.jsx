@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Lock, Eye, EyeOff, ArrowRight, CheckCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button, Input, SEO } from "@components/ui";
-import { Alert } from "@components/ui/Alert";
+import { AuthAlert } from "../components/AuthAlert";
 import { authService } from "../services/authService";
 import "./AuthPages.css";
 
@@ -72,9 +72,7 @@ function SetPasswordPage() {
   if (!token) {
     return (
       <div className="ds-auth-form">
-        <Alert variant="error">
-          This setup link is invalid. Contact your administrator.
-        </Alert>
+        <AuthAlert type="error" message="This setup link is invalid. Contact your administrator." />
       </div>
     );
   }
@@ -130,9 +128,12 @@ function SetPasswordPage() {
       </div>
 
       {error && (
-        <Alert variant="error" dismissible onDismiss={() => setError("")}>
-          {error}
-        </Alert>
+        <AuthAlert 
+          type="error"
+          message={error} 
+          onDismiss={() => setError("")} 
+          className="mb-6" 
+        />
       )}
 
       <form className="ds-auth-form__form" onSubmit={handleSubmit(onSubmit)}>

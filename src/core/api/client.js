@@ -16,10 +16,11 @@ let isRedirecting = false;
 apiClient.interceptors.request.use(
   (config) => {
     const token = sessionService.getAccessToken();
-    const isLogin = config.url?.includes("/login");
+    const url = config.url || "";
+    const isLogin = url.indexOf("/login") !== -1;
 
     if (token && !isLogin) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = "Bearer " + token;
     }
     return config;
   },
@@ -29,19 +30,23 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    const errorData = error.response?.data;
-    const errorMessage = errorData?.error?.message || errorData?.message || "";
+    const response = error.response;
+    const errorData = response ? response.data : null;
+    const errorObj = errorData ? errorData.error : null;
+    const errorMessage = (errorObj ? errorObj.message : null) || (errorData ? errorData.message : null) || "";
 
     if (
-      errorMessage.toLowerCase().includes("invalid token") ||
-      errorMessage.toLowerCase().includes("token expired") ||
-      errorMessage.toLowerCase().includes("jwt expired") ||
-      error.response?.status === 401
+      errorMessage.toLowerCase().indexOf("invalid token") !== -1 ||
+      errorMessage.toLowerCase().indexOf("token expired") !== -1 ||
+      errorMessage.toLowerCase().indexOf("jwt expired") !== -1 ||
+      (response && response.status === 401)
     ) {
-      const isLoginRequest = error.config?.url?.includes("/login");
+      const config = error.config;
+      const configUrl = config ? config.url : "";
+      const isLoginRequest = configUrl.indexOf("/login") !== -1;
       const token = sessionService.getAccessToken();
 
-      if (token && (token.includes("mock") || token.startsWith("sb_"))) {
+      if (token && (token.indexOf("mock") !== -1 || token.indexOf("sb_") === 0)) {
         console.warn("Suppressing 401 for mock/preview token");
         return Promise.reject(errorData || error);
       }

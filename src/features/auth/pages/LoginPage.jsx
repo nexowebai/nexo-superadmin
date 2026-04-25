@@ -4,7 +4,7 @@ import { Eye, EyeOff, ArrowRight, Mail, Lock } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { cn } from "@lib/cn";
 import { Button, Input, Checkbox, SEO } from "@components/ui";
-import { Alert } from "@components/ui/Alert";
+import { AuthAlert } from "../components/AuthAlert";
 import { useAuth } from "@context/AuthContext";
 import "./AuthPages.css";
 
@@ -83,9 +83,12 @@ function LoginPage() {
       </div>
 
       {error && (
-        <Alert variant="error" dismissible onDismiss={clearAuthError}>
-          {error}
-        </Alert>
+        <AuthAlert 
+          type="error"
+          message={error} 
+          onDismiss={clearAuthError} 
+          className="mb-6" 
+        />
       )}
 
       <form className="ds-auth-form__form" onSubmit={handleSubmit(onSubmit)}>

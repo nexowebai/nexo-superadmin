@@ -6,7 +6,7 @@ import {
   useUpdateOrganization,
 } from "./useOrganizations";
 import { MOCK_ORGANIZATIONS } from "../constants/organizationData";
-import notify from "@utils/notify";
+import { useMutationAction } from "@hooks";
 
 export function useOrganizationsPage() {
   const [page, setPage] = useState(1);
@@ -30,17 +30,16 @@ export function useOrganizationsPage() {
     subscription_tier: tier || undefined,
   });
 
-  const { mutate: enableOrg } = useEnableOrganization();
-  const { mutate: deleteOrg } = useDeleteOrganization();
-  const { mutate: updateOrg } = useUpdateOrganization();
+  const { mutate: enableOrgMutate } = useEnableOrganization();
+  const { mutate: deleteOrgMutate } = useDeleteOrganization();
+  const { mutate: updateOrgMutate } = useUpdateOrganization();
 
   const organizations = useMemo(() => {
-    return data?.organizations?.length > 0
-      ? data.organizations
-      : MOCK_ORGANIZATIONS;
+    const hasData = data && data.organizations && data.organizations.length > 0;
+    return hasData ? data.organizations : MOCK_ORGANIZATIONS;
   }, [data]);
 
-  const pagination = data?.pagination || {
+  const pagination = (data && data.pagination) || {
     page,
     limit: 10,
     total: organizations.length,
@@ -49,49 +48,46 @@ export function useOrganizationsPage() {
 
   const handlePageChange = useCallback((newPage) => setPage(newPage), []);
 
-  const handleAction = useCallback(
-    (type, orgId, onSuccess) => {
-      const action =
-        type === "delete"
-          ? deleteOrg
-          : type === "enable"
-            ? enableOrg
-            : updateOrg;
-      const messages = {
-        delete: {
-          loading: "Deleting organization...",
-          success: "Organization deleted!",
-          error: "Failed to delete",
-        },
-        enable: {
-          loading: "Enabling organization...",
-          success: "Organization enabled!",
-          error: "Failed to enable",
-        },
-        update: {
-          loading: "Updating status...",
-          success: "Status updated!",
-          error: "Failed",
-        },
-      };
-
-      notify.promise(
-        new Promise((resolve, reject) => {
-          const payload =
-            type === "update" ? { id: orgId.id, data: orgId.data } : orgId;
-          action(payload, {
-            onSuccess: () => {
-              onSuccess?.();
-              refetch();
-              resolve();
-            },
-            onError: reject,
-          });
-        }),
-        messages[type] || messages.update,
-      );
+  const messages = {
+    delete: {
+      loading: "Deleting organization...",
+      success: "Organization deleted!",
+      error: "Failed to delete",
     },
-    [deleteOrg, enableOrg, updateOrg, refetch],
+    enable: {
+      loading: "Enabling organization...",
+      success: "Organization enabled!",
+      error: "Failed to enable",
+    },
+    update: {
+      loading: "Updating status...",
+      success: "Status updated!",
+      error: "Failed",
+    },
+  };
+
+  const deleteOrg = useMutationAction(deleteOrgMutate, {
+    messages: messages.delete,
+    onSuccess: () => refetch(),
+  });
+
+  const enableOrg = useMutationAction(enableOrgMutate, {
+    messages: messages.enable,
+    onSuccess: () => refetch(),
+  });
+
+  const updateOrg = useMutationAction(updateOrgMutate, {
+    messages: messages.update,
+    onSuccess: () => refetch(),
+  });
+
+  const handleAction = useCallback(
+    (type, id) => {
+      if (type === "delete") deleteOrg(id);
+      else if (type === "enable") enableOrg(id);
+      else if (type === "update") updateOrg({ id: id.id, data: id.data });
+    },
+    [deleteOrg, enableOrg, updateOrg]
   );
 
   return {

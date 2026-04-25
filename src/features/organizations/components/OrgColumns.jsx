@@ -25,40 +25,50 @@ export const useOrganizationColumns = ({
         label: "Organization Details",
         minWidth: 320,
         sortable: true,
-        render: (_, org) => (
-          <div className="org-cell">
-            <div className="org-cell__logo">
-              {org.logo ? (
-                <img src={org.logo} alt="" />
-              ) : (
-                <Building2 size={18} strokeWidth={2.5} />
-              )}
-            </div>
-            <div className="org-cell__info">
-              <span className="org-cell__name">{org.name}</span>
-              <span className="org-cell__meta">
-                <span className="org-cell__id">#{org.org_code || org.id}</span>
-                <span className="org-cell__dot" />
-                <span className="org-cell__email">
-                  {org.email || "no-email@nexo.com"}
+        render: (_, org) => {
+          const logo = org ? org.logo : null;
+          const name = org ? org.name : "";
+          const orgCode = org ? (org.org_code || org.id) : "";
+          const email = org ? (org.email || "no-email@nexo.com") : "no-email@nexo.com";
+
+          return (
+            <div className="org-cell">
+              <div className="org-cell__logo">
+                {logo ? (
+                  <img src={logo} alt="" />
+                ) : (
+                  <Building2 size={18} strokeWidth={2.5} />
+                )}
+              </div>
+              <div className="org-cell__info">
+                <span className="org-cell__name">{name}</span>
+                <span className="org-cell__meta">
+                  <span className="org-cell__id">#{orgCode}</span>
+                  <span className="org-cell__dot" />
+                  <span className="org-cell__email">
+                    {email}
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
-          </div>
-        ),
+          );
+        },
       },
       {
         key: "subscription_tier",
         label: "Subscription",
         width: 140,
         sortable: true,
-        render: (val) => (
-          <span
-            className={`tier-badge-pro tier-badge-pro--${val?.toLowerCase()}`}
-          >
-            {val}
-          </span>
-        ),
+        render: (val) => {
+          const lowerVal = val ? val.toLowerCase() : "";
+          return (
+            <span
+              className={"tier-badge-pro tier-badge-pro--" + lowerVal}
+            >
+              {val}
+            </span>
+          );
+        },
       },
       {
         key: "status",
@@ -115,8 +125,8 @@ export const useOrganizationColumns = ({
         align: "right",
         render: (_, row) => (
           <TableActions
-            onView={() => navigate(`/organizations/${row.id}`)}
-            onEdit={() => navigate(`/organizations/${row.id}/edit`)}
+            onView={() => navigate("/organizations/" + row.id)}
+            onEdit={() => navigate("/organizations/" + row.id + "/edit")}
             onTogglePower={() => {
               if (row.status === "disabled") {
                 setModalConfig({ type: "enable", data: row, isOpen: true });

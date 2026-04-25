@@ -4,7 +4,7 @@
   gap: 1rem;
   width: 100%;
   animation: authFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-sans);
 }
 
 @keyframes authFadeIn {
@@ -25,7 +25,7 @@
 }
 
 .ds-auth-form__title {
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-size: 30px;
   font-weight: 700;
   color: #1f2937;
@@ -84,11 +84,11 @@
   font-weight: 600 !important;
   font-size: 14px !important;
   margin-bottom: 6px !important;
-  font-family: "Inter", sans-serif !important;
+  font-family: var(--font-sans) !important;
 }
 
 .ds-auth-form input {
-  font-family: "Inter", sans-serif !important;
+  font-family: var(--font-sans) !important;
   background-color: #ffffff !important;
   color: #1f2937 !important;
   border: 1.5px solid #e5e7eb !important;

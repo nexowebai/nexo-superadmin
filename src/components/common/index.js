@@ -20,3 +20,4 @@ export { default as FormPageHeader } from "./FormPageHeader";
 export { default as PermissionCard } from "./PermissionCard";
 export { default as ProfileUpload } from "./ProfileUpload";
 export { default as EntityCard } from "./EntityCard";
+export { ErrorBoundary, ErrorFallback } from "./ErrorBoundary/ErrorBoundary";

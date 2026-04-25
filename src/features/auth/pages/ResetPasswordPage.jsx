@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button, Input, SEO } from "@components/ui";
-import { Alert } from "@components/ui/Alert";
+import { AuthAlert } from "../components/AuthAlert";
 import { authService } from "../services/authService";
 import "./AuthPages.css";
 
@@ -60,9 +60,7 @@ function ResetPasswordPage() {
   if (!token) {
     return (
       <div className="ds-auth-form">
-        <Alert variant="error">
-          This reset link is invalid or has expired.
-        </Alert>
+        <AuthAlert type="error" message="This reset link is invalid or has expired." />
 
         <div style={{ textAlign: "center", marginTop: "24px" }}>
           <Link to="/forgot-password" className="ds-auth-form__back-link">
@@ -117,9 +115,12 @@ function ResetPasswordPage() {
       </div>
 
       {error && (
-        <Alert variant="error" dismissible onDismiss={() => setError("")}>
-          {error}
-        </Alert>
+        <AuthAlert 
+          type="error"
+          message={error} 
+          onDismiss={() => setError("")} 
+          className="mb-6" 
+        />
       )}
 
       <form className="ds-auth-form__form" onSubmit={handleSubmit(onSubmit)}>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Mail, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button, Input, SEO } from "@components/ui";
-import { Alert } from "@components/ui/Alert";
+import { AuthAlert } from "../components/AuthAlert";
 import { authService } from "../services/authService";
 import "./AuthPages.css";
 
