@@ -95,13 +95,15 @@
 }
 
 .ds-button--secondary {
-  background: var(--bg-elevated);
-  color: var(--text-primary);
+  background: color-mix(in srgb, var(--primary), var(--bg-subtle) 95%);
+  color: var(--text-secondary);
   border-color: var(--border-base);
 }
 
 .ds-button--secondary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--bg-elevated) 95%, black);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
 }
 
 .ds-button--action {

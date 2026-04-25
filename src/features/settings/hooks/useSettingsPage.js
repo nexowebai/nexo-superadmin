@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useSystemSettings, useUpdateSettings } from "./useSettings";
 import { INITIAL_SETTINGS } from "../constants/settingsData";
 import notify from "@utils/notify";
@@ -7,7 +8,12 @@ export function useSettingsPage() {
   const { data, isLoading } = useSystemSettings();
   const { mutate: updateSettings } = useUpdateSettings();
 
-  const [activeTab, setActiveTab] = useState("general");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "general";
+
+  const setActiveTab = useCallback((tab) => {
+    setSearchParams({ tab }, { replace: true });
+  }, [setSearchParams]);
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
   const initialDataRef = useRef(null);
 
@@ -15,6 +21,7 @@ export function useSettingsPage() {
     if (data) {
       const apiSettings = {
         system_name: data.system_name || INITIAL_SETTINGS.system_name,
+        theme_color: data.theme_color || INITIAL_SETTINGS.theme_color,
         max_file_size_mb:
           data.max_file_size_mb || INITIAL_SETTINGS.max_file_size_mb,
         support_email: data.support_email || INITIAL_SETTINGS.support_email,

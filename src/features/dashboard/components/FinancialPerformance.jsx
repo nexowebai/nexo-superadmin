@@ -35,7 +35,7 @@ export default function FinancialPerformance({ loading }) {
             <Activity size={24} strokeWidth={2.5} />
           </div>
           <div>
-            <h3 className="text-xl font-black text-primary tracking-tight leading-none mb-1.5">
+            <h3 className="text-xl font-black text-[var(--text-primary)] tracking-tight leading-none mb-1.5">
               Capital Analytics
             </h3>
             <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ export default function FinancialPerformance({ loading }) {
               Net Performance
             </span>
             <div className="flex items-baseline gap-4">
-              <span className="text-4xl font-black text-primary tracking-tighter leading-none">
+              <span className="text-4xl font-black text-[var(--text-primary)] tracking-tighter leading-none">
                 {stats.totalEarnings}
               </span>
               <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-success-soft text-[10px] font-black text-success border border-success-soft">
@@ -85,7 +85,7 @@ export default function FinancialPerformance({ loading }) {
               Resource Burn
             </span>
             <div className="flex items-baseline gap-4">
-              <span className="text-4xl font-black text-primary tracking-tighter leading-none">
+              <span className="text-4xl font-black text-[var(--text-primary)] tracking-tighter leading-none">
                 {stats.totalCosts}
               </span>
               <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-subtle text-[10px] font-black text-secondary border border-base">

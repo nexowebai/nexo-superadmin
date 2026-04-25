@@ -1,17 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { orgService } from "../services/orgService";
 import { useLayout } from "@context";
-import { Settings } from "lucide-react";
-import React from "react";
+import { Edit } from "lucide-react";
 import { Button } from "@components/ui";
 
 export const useOrgDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { setHeaderProps } = useLayout();
-  
+
   const [modals, setModals] = useState({
     disable: false,
     reset: false,
@@ -41,19 +40,22 @@ export const useOrgDetail = () => {
 
   useEffect(() => {
     setHeaderProps({
-      title: "Organization Intelligence",
+      title: "Organization Detail",
       backPath: "/organizations",
       action: (
         <Button
-          variant="secondary"
-          size="sm"
-          icon={Settings}
-          className="font-black uppercase tracking-widest text-[10px] border-slate-200 dark:border-slate-800"
+          variant="primary"
+          size="md"
+          icon={Edit}
+          onClick={() => navigate(`/organizations/${id}/edit`)}
+          className="font-black uppercase tracking-widest text-[10px]"
         >
-          Config
+          Edit Organization
         </Button>
       )
     });
+
+    return () => setHeaderProps({ title: "", action: null });
   }, [setHeaderProps]);
 
   return {

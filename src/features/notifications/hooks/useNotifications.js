@@ -55,3 +55,24 @@ export function useDeleteNotification() {
     },
   });
 }
+export function useDeleteAllNotifications() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: notificationsApi.deleteAll,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all });
+      notify.success("Notification archive cleared");
+    },
+  });
+}
+
+export function useDeleteUnreadNotifications() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: notificationsApi.deleteUnread,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all });
+      notify.success("Unread notifications cleared");
+    },
+  });
+}

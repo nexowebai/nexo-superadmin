@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FileCheck } from "lucide-react";
+import { FileCheck, Search, RefreshCw } from "lucide-react";
 import { DataTable, SearchBar } from "@components/common";
-import { Select } from "@components/ui";
+import { Select, SearchEmptyState, Button } from "@components/ui";
 import { STATUS_OPTIONS, REQUEST_TABLE_CONFIG } from "../constants/requestData";
 import { useRequestColumns } from "./RequestColumns";
 import { RequestDetailsModal, RejectRequestModal } from "./RequestModals";
@@ -35,35 +35,50 @@ export default function RequestsTable({
     setDetailModal,
   });
 
+  const showEmpty = !loading && data.length === 0;
+  const emptyType = search ? "search" : (status ? "filter" : "search");
+
+  const handleReset = () => {
+    setSearch("");
+    setStatus("");
+  };
+
   return (
     <div className="requests-table-container">
-      <div>
-        <DataTable
-          columns={columns}
-          data={data}
-          loading={loading}
-          pagination={pagination}
-          page={page}
-          onPageChange={onPageChange}
-          emptyIcon={FileCheck}
-          {...REQUEST_TABLE_CONFIG}
-          showToolbar
-          search={search}
-          onSearchChange={setSearch}
-          onRefresh={refetch}
-          filters={
-            <Select
-              options={STATUS_OPTIONS}
-              value={status}
-              onChange={(v) => {
-                setStatus(v);
-              }}
-              placeholder="Filter Status"
-              className="w-48"
-            />
-          }
-        />
-      </div>
+      <DataTable
+        columns={columns}
+        data={data}
+        loading={loading}
+        pagination={pagination}
+        page={page}
+        onPageChange={onPageChange}
+        stickyFirstColumn={true}
+        stickyLastColumn={true}
+        emptyIcon={FileCheck}
+        {...REQUEST_TABLE_CONFIG}
+        showToolbar
+        search={search}
+        onSearchChange={setSearch}
+        onRefresh={refetch}
+        renderEmpty={showEmpty ? (
+          <SearchEmptyState
+            onReset={handleReset}
+            searchTerm={search}
+            type={emptyType}
+          />
+        ) : null}
+        filters={
+          <Select
+            options={STATUS_OPTIONS}
+            value={status}
+            onChange={(v) => {
+              setStatus(v);
+            }}
+            placeholder="Filter Status"
+            className="w-48"
+          />
+        }
+      />
 
       <RequestDetailsModal
         isOpen={detailModal.isOpen}

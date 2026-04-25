@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
+  LabelList,
 } from "recharts";
 import { Select } from "@components/ui";
 import { PLAN_DISTRIBUTION } from "../constants/paymentData";
@@ -41,7 +42,7 @@ export function SubscriptionDensityChart({ usageView, setUsageView }) {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={PLAN_DISTRIBUTION}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            margin={{ top: 25, right: 10, left: 0, bottom: 0 }}
           >
             <CartesianGrid
               strokeDasharray="3 3"
@@ -86,14 +87,32 @@ export function SubscriptionDensityChart({ usageView, setUsageView }) {
               fill="#94a3b8"
               radius={[4, 4, 0, 0]}
               barSize={28}
-            />
+            >
+              <LabelList 
+                dataKey={usageView === "usage" ? "baseLimit" : "extraCost"} 
+                position="top" 
+                fill="var(--text-muted)"
+                fontSize={10}
+                fontWeight={700}
+                offset={10}
+              />
+            </Bar>
             <Bar
               dataKey={usageView === "usage" ? "avgUsage" : "extraCost"}
               name={usageView === "usage" ? "Avg Project Usage" : "Extra Usage"}
               fill="var(--primary)"
               radius={[4, 4, 0, 0]}
               barSize={28}
-            />
+            >
+              <LabelList 
+                dataKey={usageView === "usage" ? "avgUsage" : "extraCost"} 
+                position="top" 
+                fill="var(--primary)"
+                fontSize={10}
+                fontWeight={900}
+                offset={10}
+              />
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

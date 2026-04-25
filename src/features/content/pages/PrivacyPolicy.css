@@ -72,47 +72,36 @@ body.dark-mode .mode-btn.active {
   transform: translateY(-1px);
 }
 
-.paper-container {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-xl);
-  position: relative;
-  overflow: hidden;
-}
-
-body.dark-mode .paper-container {
-  background: var(--bg-surface);
-}
-
-.paper-container textarea {
-  font-family: "JetBrains Mono", "Fira Code", monospace;
-  line-height: 1.8;
-}
-
 .prose-refined {
   font-family: var(--font-sans);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   line-height: 1.8;
 }
 
 .prose-refined h1 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 900;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 .prose-refined h2 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
 }
 
 .prose-refined strong {
   font-weight: 800;
   color: var(--primary);
+}
+
+.editor-content-area textarea:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .animate-fade-in {

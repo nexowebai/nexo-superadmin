@@ -28,6 +28,8 @@ export default function CreateOrganizationPage() {
     setHeaderProps({
       title: isEdit ? "Edit Organization" : "Add Organization",
     });
+
+    return () => setHeaderProps({ title: "", action: null });
   }, [setHeaderProps, isEdit]);
 
   if (isLoading)

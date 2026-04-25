@@ -93,17 +93,23 @@ function Select({
       if (!isInside) setIsOpen(false);
     };
 
+    const handleScroll = (e) => {
+      if (isOpen && !dropdownRef.current?.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+
     if (isOpen) {
       updatePosition();
       document.addEventListener("mousedown", handleEvents, true);
-      window.addEventListener("scroll", updatePosition, true);
-      window.addEventListener("resize", updatePosition);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", () => setIsOpen(false));
       if (searchable) setTimeout(() => inputRef.current?.focus(), 100);
     }
     return () => {
       document.removeEventListener("mousedown", handleEvents, true);
-      window.removeEventListener("scroll", updatePosition, true);
-      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", () => setIsOpen(false));
     };
   }, [isOpen, updatePosition, searchable]);
 
@@ -170,65 +176,62 @@ function Select({
           if (!disabled) setIsOpen(!isOpen);
         }}
       />
-      {isOpen &&
-        createPortal(
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="select-dropdown"
-              ref={dropdownRef}
-              className={cn("ds-select-portal-menu", coords.isUp && "ds-select-portal-menu--up")}
-              style={{
-                position: "fixed",
-                top: coords.top,
-                left: coords.left,
-                width: coords.width,
-                zIndex: 2000000,
-                transform: coords.isUp ? "translateY(-100%)" : "none",
-                transformOrigin: coords.isUp ? "bottom" : "top",
-                maxHeight: coords.maxHeight,
-                pointerEvents: "auto"
-              }}
-              variants={getVariants(coords.isUp)}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {searchable && (
-                <div className="ds-select-portal-search">
-                  <input
-                    ref={inputRef}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search options..."
-                    className="ds-select-portal-search-input"
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                </div>
-              )}
-              <div 
-                className="ds-select-portal-options"
-                style={{ maxHeight: coords.maxHeight - (searchable ? 60 : 20) }}
-              >
-                {filteredOptions.length ? (
-                  filteredOptions.map((o) => (
-                    <SelectOption
-                      key={o.value}
-                      option={o}
-                      isSelected={isSelected(o.value)}
-                      multiple={multiple}
-                      renderOption={renderOption}
-                      onClick={handleSelect}
-                    />
-                  ))
-                ) : (
-                  <div className="ds-select-portal-empty">No options found</div>
-                )}
+      <AnimatePresence mode="wait">
+        {isOpen && (
+          <motion.div
+            key="select-dropdown"
+            ref={dropdownRef}
+            className={cn("ds-select-portal-menu", coords.isUp && "ds-select-portal-menu--up")}
+            style={{
+              position: "absolute",
+              top: "calc(100% + 8px)",
+              left: 0,
+              width: "100%",
+              zIndex: 1000,
+              maxHeight: 300,
+              pointerEvents: "auto",
+              transformOrigin: "top"
+            }}
+            variants={getVariants(false)}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {searchable && (
+              <div className="ds-select-portal-search">
+                <input
+                  ref={inputRef}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search options..."
+                  className="ds-select-portal-search-input"
+                  onClick={(e) => e.stopPropagation()}
+                />
               </div>
-            </motion.div>
-          </AnimatePresence>,
-          document.body,
+            )}
+            <div 
+              className="ds-select-portal-options"
+              style={{ maxHeight: 240 }}
+            >
+              {filteredOptions.length ? (
+                filteredOptions.map((o) => (
+                  <SelectOption
+                    key={o.value}
+                    option={o}
+                    isSelected={isSelected(o.value)}
+                    multiple={multiple}
+                    renderOption={renderOption}
+                    onClick={handleSelect}
+                  />
+                ))
+              ) : (
+                <div className="ds-select-portal-empty">No options found</div>
+              )}
+            </div>
+          </motion.div>
         )}
+      </AnimatePresence>
       {error && <span className="ds-select__error">{error}</span>}
     </div>
   );

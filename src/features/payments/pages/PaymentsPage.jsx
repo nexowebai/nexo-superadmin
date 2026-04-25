@@ -36,6 +36,8 @@ function PaymentsPage() {
       title: "Payments & Invoices",
       action: null,
     });
+
+    return () => setHeaderProps({ title: "", action: null });
   }, [setHeaderProps]);
 
   return (

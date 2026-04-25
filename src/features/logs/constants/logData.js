@@ -44,24 +44,28 @@ export const MOCK_STATS = [
     value: "45.2K",
     icon: Terminal,
     color: "var(--primary)",
+    trend: 12,
   },
   {
     title: "Security Alerts",
     value: "14",
     icon: Shield,
     color: "var(--error)",
+    trend: -5,
   },
   {
     title: "System Errors",
     value: "3",
     icon: XCircle,
     color: "var(--warning)",
+    trend: 2,
   },
   {
     title: "Health Score",
     value: "98%",
     icon: CheckCircle2,
     color: "var(--success)",
+    trend: 0.5,
   },
 ];
 

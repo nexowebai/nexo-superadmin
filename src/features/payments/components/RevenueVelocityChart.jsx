@@ -98,7 +98,19 @@ export function RevenueVelocityChart({ chartView, setChartView }) {
               type="monotone"
               dataKey="revenue"
               stroke="var(--primary)"
-              strokeWidth={2.5}
+              strokeWidth={3}
+              dot={{
+                r: 4,
+                fill: "var(--bg-surface)",
+                stroke: "var(--primary)",
+                strokeWidth: 2,
+              }}
+              activeDot={{
+                r: 6,
+                fill: "var(--primary)",
+                stroke: "var(--bg-surface)",
+                strokeWidth: 2,
+              }}
               fillOpacity={1}
               fill="url(#colorRev)"
             />
@@ -107,7 +119,19 @@ export function RevenueVelocityChart({ chartView, setChartView }) {
                 type="monotone"
                 dataKey="expenses"
                 stroke="var(--error)"
-                strokeWidth={2.5}
+                strokeWidth={3}
+                dot={{
+                  r: 4,
+                  fill: "var(--bg-surface)",
+                  stroke: "var(--error)",
+                  strokeWidth: 2,
+                }}
+                activeDot={{
+                  r: 6,
+                  fill: "var(--error)",
+                  stroke: "var(--bg-surface)",
+                  strokeWidth: 2,
+                }}
                 fillOpacity={1}
                 fill="url(#colorExp)"
               />

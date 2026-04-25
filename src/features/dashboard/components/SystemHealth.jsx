@@ -27,7 +27,7 @@ export default function SystemHealth({ loading }) {
           </div>
           <div>
             <h3 className="text-sm font-bold text-[var(--text-primary)]">Infrastructure</h3>
-            <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">Health Status</p>
+            <p className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">Health Status</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[var(--success-soft)] text-[10px] font-black text-[var(--success)] border border-[var(--success-soft)] uppercase tracking-tighter">
@@ -116,7 +116,7 @@ function MetricBox({ icon: Icon, label, value, trend }) {
         <div className="w-6 h-6 rounded-md bg-[var(--bg-subtle)] flex items-center justify-center text-[var(--text-muted)]">
           <Icon size={14} />
         </div>
-        <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider">{label}</span>
+        <span className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">{label}</span>
       </div>
       <div className="flex items-center justify-between">
         <span className="text-base font-black text-[var(--text-primary)]">{value}</span>

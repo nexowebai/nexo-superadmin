@@ -8,6 +8,7 @@ export function useLogsPage() {
   const [search, setSearch] = useState("");
   const [level, setLevel] = useState("");
   const [logType, setLogType] = useState("");
+  const [dateRange, setDateRange] = useState({ start: null, end: null });
   const [selectedLog, setSelectedLog] = useState(null);
 
   const {
@@ -21,6 +22,8 @@ export function useLogsPage() {
     search: search || undefined,
     log_level: level || undefined,
     log_type: logType || undefined,
+    start_date: dateRange.start || undefined,
+    end_date: dateRange.end || undefined,
   });
 
   const logs = realData?.logs?.length > 0 ? realData.logs : MOCK_LOGS;
@@ -63,6 +66,11 @@ export function useLogsPage() {
     setLogType: handleTypeChange,
     selectedLog,
     setSelectedLog,
+    dateRange,
+    setDateRange: (range) => {
+      setDateRange(range);
+      setPage(1);
+    },
     refetch,
     stats: MOCK_STATS,
   };

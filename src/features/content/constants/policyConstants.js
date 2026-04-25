@@ -13,10 +13,16 @@ We use the information we collect to deliver and improve our services...
 `;
 
 export const COLORS = [
-  { label: "Primary", value: "#10b981" },
+  { label: "Emerald", value: "#10b981" },
   { label: "Blue", value: "#3b82f6" },
-  { label: "Orange", value: "#f97316" },
+  { label: "Indigo", value: "#6366f1" },
   { label: "Purple", value: "#8b5cf6" },
+  { label: "Pink", value: "#ec4899" },
   { label: "Rose", value: "#e11d48" },
-  { label: "Gray", value: "#475569" },
+  { label: "Red", value: "#ef4444" },
+  { label: "Orange", value: "#f97316" },
+  { label: "Amber", value: "#f59e0b" },
+  { label: "Yellow", value: "#eab308" },
+  { label: "Slate", value: "#475569" },
+  { label: "Dark", value: "#0f172a" },
 ];

@@ -9,7 +9,6 @@ import {
   UserPlus,
   Shield,
   Clock,
-  Check,
   Trash2,
 } from "lucide-react";
 import { cn } from "@lib/cn";
@@ -38,14 +37,19 @@ export function NotificationCard({ notification, onRead, onDelete }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       className={cn("notif-card", notification.is_read && "notif-card--read")}
+      style={{
+        backgroundColor: `color-mix(in srgb, ${color}, var(--bg-surface) 96%)`,
+        borderColor: `color-mix(in srgb, ${color}, transparent 60%)`,
+        borderRadius: "var(--radius-md)",
+      }}
     >
       <div className="flex items-start gap-4 mb-4">
         <div
           className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 border"
           style={{
-            backgroundColor: `color-mix(in srgb, ${color}, transparent 92%)`,
+            backgroundColor: `color-mix(in srgb, ${color}, transparent 88%)`,
             color,
-            borderColor: `color-mix(in srgb, ${color}, transparent 80%)`,
+            borderColor: `color-mix(in srgb, ${color}, transparent 70%)`,
           }}
         >
           <Icon size={20} strokeWidth={2.2} />
@@ -74,7 +78,7 @@ export function NotificationCard({ notification, onRead, onDelete }) {
         </div>
       </div>
 
-      <p className="text-[13px] font-medium text-secondary/80 leading-relaxed flex-1 m-0 mb-6">
+      <p className="text-[13px] font-normal text-secondary/80 leading-relaxed flex-1 m-0 mb-6">
         {notification.message}
       </p>
 
@@ -88,19 +92,46 @@ export function NotificationCard({ notification, onRead, onDelete }) {
             <button
               className="notif-btn-pro notif-btn-read-pro h-8 px-4"
               onClick={() => onRead(notification.id)}
-            >
-              <Check size={12} /> Mark Read
+            > Mark Read
             </button>
           )}
           <button
-            className="notif-btn-pro notif-btn-delete-pro h-8 w-8 p-0 justify-center"
-            onClick={() => onDelete(notification.id)}
+            className="w-9 h-9 rounded-md  hover:bg-rose-600 text-rose-600 hover:text-white flex items-center justify-center transition-all duration-200 border border-rose-100 hover:border-rose-600 relative z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(notification.id);
+            }}
             title="Delete Notification"
           >
-            <Trash2 size={14} />
+            <Trash2 size={18} strokeWidth={2.5} />
           </button>
         </div>
       </div>
     </motion.div>
+  );
+}
+
+export function NotificationSkeleton() {
+  return (
+    <div className="notif-card p-6 border border-base rounded-md opacity-60 pointer-events-none">
+      <div className="flex items-start gap-4 mb-4">
+        <div className="w-10 h-10 rounded-md bg-slate-100 animate-pulse shrink-0" />
+        <div className="flex-1 space-y-2">
+          <div className="h-4 bg-slate-100 animate-pulse rounded-full w-2/3" />
+          <div className="h-3 bg-slate-100 animate-pulse rounded-full w-1/3" />
+        </div>
+      </div>
+      <div className="space-y-2 mb-6 flex-1">
+        <div className="h-3 bg-slate-100 animate-pulse rounded-full w-full" />
+        <div className="h-3 bg-slate-100 animate-pulse rounded-full w-5/6" />
+      </div>
+      <div className="pt-4 border-t border-base flex justify-between items-center">
+        <div className="h-3 bg-slate-100 animate-pulse rounded-full w-1/4" />
+        <div className="flex gap-2">
+          <div className="w-16 h-8 bg-slate-100 animate-pulse rounded-md" />
+          <div className="w-8 h-8 bg-slate-100 animate-pulse rounded-md" />
+        </div>
+      </div>
+    </div>
   );
 }

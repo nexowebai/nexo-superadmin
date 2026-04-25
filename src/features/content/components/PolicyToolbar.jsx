@@ -12,6 +12,22 @@ import {
 } from "lucide-react";
 import { COLORS } from "../constants/policyConstants";
 
+const EditIcon = ({ size = 16 }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2.5" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+  </svg>
+);
+
 export const PolicyToolbar = ({
   viewMode,
   setViewMode,
@@ -26,7 +42,7 @@ export const PolicyToolbar = ({
           className={`mode-btn ${viewMode === "edit" ? "active" : ""}`}
           onClick={() => setViewMode("edit")}
         >
-          <Edit3 size={16} /> Edit
+          <EditIcon size={16} /> Edit
         </button>
         <button
           className={`mode-btn ${viewMode === "preview" ? "active" : ""}`}
@@ -42,46 +58,39 @@ export const PolicyToolbar = ({
             <button
               className="editor-tool-btn"
               onClick={() => insertFormatting("**")}
+              title="Bold"
             >
               <Bold size={16} />
             </button>
             <button
               className="editor-tool-btn"
               onClick={() => insertFormatting("*")}
+              title="Italic"
             >
               <Italic size={16} />
-            </button>
-            <button
-              className="editor-tool-btn"
-              onClick={() => insertFormatting("<u>", "</u>")}
-            >
-              <Underline size={16} />
-            </button>
-            <button
-              className="editor-tool-btn"
-              onClick={() => insertFormatting("~~")}
-            >
-              <Strikethrough size={16} />
             </button>
           </div>
           <div className="flex items-center gap-1 border-r border-base pr-3 mr-3">
             <button
               className="editor-tool-btn"
               onClick={() => insertFormatting("# ")}
+              title="Heading 1"
             >
               <Type size={16} />
             </button>
             <button
               className="editor-tool-btn"
-              onClick={() => insertFormatting("- ")}
+              onClick={() => insertFormatting("## ")}
+              title="Heading 2"
             >
-              <List size={16} />
+              <Type size={13} />
             </button>
             <button
               className="editor-tool-btn"
-              onClick={() => insertFormatting("`")}
+              onClick={() => insertFormatting("- ")}
+              title="List"
             >
-              <Code size={16} />
+              <List size={16} />
             </button>
           </div>
           <div className="flex items-center gap-2 px-2">

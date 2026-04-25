@@ -4,6 +4,8 @@ import {
   useMarkAsRead,
   useMarkAllAsRead,
   useDeleteNotification,
+  useDeleteAllNotifications,
+  useDeleteUnreadNotifications,
   useNotificationCount,
 } from "./useNotifications";
 import { MOCK_NOTIFICATIONS } from "../constants/notificationData";
@@ -30,6 +32,8 @@ export function useNotificationsPage() {
   const { mutate: markAsRead } = useMarkAsRead();
   const { mutate: markAllAsRead } = useMarkAllAsRead();
   const { mutate: deleteNotification } = useDeleteNotification();
+  const { mutate: deleteAllNotifications } = useDeleteAllNotifications();
+  const { mutate: deleteUnreadNotifications } = useDeleteUnreadNotifications();
 
   const notifications = useMemo(() => {
     const raw =
@@ -71,6 +75,14 @@ export function useNotificationsPage() {
     [deleteNotification, refetch],
   );
 
+  const handleDeleteAll = useCallback(() => {
+    if (filter === "unread") {
+      deleteUnreadNotifications(null, { onSuccess: refetch });
+    } else {
+      deleteAllNotifications(null, { onSuccess: refetch });
+    }
+  }, [filter, deleteAllNotifications, deleteUnreadNotifications, refetch]);
+
   return {
     loading,
     notifications,
@@ -84,6 +96,7 @@ export function useNotificationsPage() {
     handleRead,
     handleDelete,
     handleMarkAllRead,
+    handleDeleteAll,
     refetch,
   };
 }

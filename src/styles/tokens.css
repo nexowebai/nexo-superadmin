@@ -13,34 +13,25 @@
   --text-muted: #64748b;
   --text-dimmed: #94a3b8;
 
-  /* Global Brand Identity (Vibrant Violet/Indigo) */
-  --primary: #7c3aed;
-  --primary-hover: #6d28d9;
-  --primary-soft: rgba(124, 58, 237, 0.08);
-  --primary-rgb: 124, 58, 237;
-
-  /* Semantic System */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #f43f5e;
-  --info: #0ea5e9;
-
-  --success-soft: rgba(16, 185, 129, 0.08);
-  --warning-soft: rgba(245, 158, 11, 0.08);
-  --error-soft: rgba(244, 63, 94, 0.08);
-  --info-soft: rgba(14, 165, 233, 0.08);
+  /* Semantic System (Dynamically injected via ThemeContext) */
+  --primary-hover: color-mix(in srgb, var(--primary), black 10%);
+  --primary-soft: color-mix(in srgb, var(--primary), transparent 92%);
+  --success-soft: color-mix(in srgb, var(--success), transparent 92%);
+  --warning-soft: color-mix(in srgb, var(--warning), transparent 92%);
+  --error-soft: color-mix(in srgb, var(--error), transparent 92%);
+  --info-soft: color-mix(in srgb, var(--info), transparent 92%);
 
   /* Borders */
   --border-base: #e2e8f0;
   --border-strong: #cbd5e1;
 
-  /* Branded Sidebar */
-  --sidebar-bg: #1e1b4b;
-  --sidebar-border: rgba(255, 255, 255, 0.05);
+  /* Branded Sidebar (Theme-Aware) */
+  --sidebar-bg: color-mix(in srgb, var(--primary), #0f172a 92%);
+  --sidebar-border: rgba(255, 255, 255, 0.04);
   --sidebar-hover: rgba(255, 255, 255, 0.06);
   --sidebar-active: #ffffff;
-  --sidebar-active-bg: rgba(124, 58, 237, 0.2);
-  --sidebar-text: #a78bfa;
+  --sidebar-active-bg: color-mix(in srgb, var(--primary), transparent 80%);
+  --sidebar-text: color-mix(in srgb, var(--primary), #94a3b8 70%);
   --sidebar-text-active: #ffffff;
   --sidebar-width: 280px;
   --sidebar-collapsed: 80px;
@@ -107,17 +98,13 @@
 
 /* COMPREHENSIVE DARK MODE OVERHAUL - ELITE EDITION */
 body.dark-mode {
-  /* Surface & Base Levels for Maximum Depth */
-  --bg-base: #020617;
-  /* Deepest Navy (Ground) */
-  --bg-surface: #0f172a;
-  /* Card Surfaces */
-  --bg-elevated: #1e293b;
-  /* Modals, Popovers */
-  --bg-subtle: #0f172a;
-  --bg-table-header: #1e293b;
-  /* Distinct Header Section */
-  --bg-app: #020617;
+  /* Dynamic Tinted Surfaces (Subtle primary absorption) */
+  --bg-base: color-mix(in srgb, var(--primary), #020617 96%);
+  --bg-surface: color-mix(in srgb, var(--primary), #0f172a 94%);
+  --bg-elevated: color-mix(in srgb, var(--primary), #1e293b 92%);
+  --bg-subtle: var(--bg-surface);
+  --bg-table-header: var(--bg-elevated);
+  --bg-app: var(--bg-base);
 
   /* Typography Refinement */
   --text-primary: #f8fafc;
@@ -125,28 +112,15 @@ body.dark-mode {
   --text-muted: #64748b;
   --text-dimmed: #475569;
 
-  /* Brand Primary (Vibrant but eye-friendly) */
-  --primary: #a78bfa;
-  --primary-hover: #c4b5fd;
-  --primary-soft: rgba(167, 139, 250, 0.15);
-  --primary-rgb: 167, 139, 250;
-
-  /* Brighter Semantic Colors for Dark Mode */
-  --success: #34d399;
-  --warning: #fbbf24;
-  --error: #fb7185;
-  --info: #38bdf8;
-  --success-soft: rgba(52, 211, 153, 0.1);
-  --warning-soft: rgba(251, 191, 36, 0.1);
-  --error-soft: rgba(251, 113, 133, 0.1);
-  --info-soft: rgba(56, 189, 248, 0.1);
+  /* Brand Primary (Vibrant but eye-friendly) - Injected via Context */
+  --primary-hover: color-mix(in srgb, var(--primary), white 10%);
 
   /* Stronger Borders for depth */
   --border-base: #1e293b;
   --border-strong: #334155;
 
-  /* Sidebar Adjustment (Kept distinct from base) */
-  --sidebar-bg: #0b0e1a;
+  /* Sidebar Adjustment (Kept distinct and themed) */
+  --sidebar-bg: color-mix(in srgb, var(--primary), #0b0e1a 90%);
   --sidebar-border: rgba(255, 255, 255, 0.04);
   --sidebar-text: #64748b;
   --sidebar-text-active: #ffffff;

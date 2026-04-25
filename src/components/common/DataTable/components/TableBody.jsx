@@ -12,6 +12,7 @@ export const TableBody = ({
   emptyIcon: EmptyIcon,
   emptyTitle,
   emptyDescription,
+  renderEmpty,
 }) => {
   if (loading) {
     return (
@@ -31,9 +32,8 @@ export const TableBody = ({
               >
                 {col.id === "actions" ? (
                   <div className="dt-actions">
-                    <Skeleton width="32px" height="32px" />
-                    <Skeleton width="32px" height="32px" />
-                    <Skeleton width="32px" height="32px" />
+                    <Skeleton width="80px" height="32px" borderRadius="var(--radius-sm)" />
+                    <Skeleton width="80px" height="32px" borderRadius="var(--radius-sm)" />
                   </div>
                 ) : (
                   <Skeleton width="80%" height="18px" />
@@ -51,15 +51,19 @@ export const TableBody = ({
       <tbody>
         <tr>
           <td colSpan={table.getVisibleLeafColumns().length}>
-            <div className="dt-empty">
-              {EmptyIcon && (
-                <div className="dt-empty-icon">
-                  <EmptyIcon size={48} />
-                </div>
-              )}
-              <h4 className="dt-empty-title">{emptyTitle}</h4>
-              <p className="dt-empty-description">{emptyDescription}</p>
-            </div>
+            {renderEmpty ? (
+              <div className="py-12">{renderEmpty}</div>
+            ) : (
+              <div className="dt-empty">
+                {EmptyIcon && (
+                  <div className="dt-empty-icon">
+                    <EmptyIcon size={48} />
+                  </div>
+                )}
+                <h4 className="dt-empty-title">{emptyTitle}</h4>
+                <p className="dt-empty-description">{emptyDescription}</p>
+              </div>
+            )}
           </td>
         </tr>
       </tbody>
@@ -88,7 +92,7 @@ export const TableBody = ({
               )}
               style={{
                 width: cell.column.getSize(),
-                minWidth: cell.column.columnDef.minSize,
+                minWidth: cell.column.getSize(),
               }}
             >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}

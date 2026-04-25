@@ -37,6 +37,7 @@ function DataTable({
   pagination,
   page = 1,
   onPageChange,
+  renderEmpty,
 }) {
   const tableRef = useRef(null);
   const [copiedId, copyToClipboard] = useCopyToClipboard();
@@ -161,28 +162,35 @@ function DataTable({
         />
       )}
 
-      <div className="dt-container">
-        <div className="dt-wrapper" ref={tableRef}>
-          <table className="dt-table">
-            <TableHead
-              table={table}
-              stickyFirstColumn={stickyFirstColumn}
-              stickyLastColumn={stickyLastColumn}
-            />
-            <TableBody
-              table={table}
-              loading={loading}
-              onRowClick={onRowClick}
-              handleRowClick={handleRowClick}
-              stickyFirstColumn={stickyFirstColumn}
-              stickyLastColumn={stickyLastColumn}
-              emptyIcon={emptyIcon}
-              emptyTitle={emptyTitle}
-              emptyDescription={emptyDescription}
-            />
-          </table>
+      {renderEmpty && data.length === 0 && !loading ? (
+        <div className="dt-empty-surface">
+          {renderEmpty}
         </div>
-      </div>
+      ) : (
+        <div className="dt-container">
+          <div className="dt-wrapper" ref={tableRef}>
+            <table className="dt-table">
+              <TableHead
+                table={table}
+                stickyFirstColumn={stickyFirstColumn}
+                stickyLastColumn={stickyLastColumn}
+              />
+              <TableBody
+                table={table}
+                loading={loading}
+                onRowClick={onRowClick}
+                handleRowClick={handleRowClick}
+                stickyFirstColumn={stickyFirstColumn}
+                stickyLastColumn={stickyLastColumn}
+                emptyIcon={emptyIcon}
+                emptyTitle={emptyTitle}
+                emptyDescription={emptyDescription}
+                renderEmpty={renderEmpty}
+              />
+            </table>
+          </div>
+        </div>
+      )}
 
       <TablePagination
         pagination={pagination}

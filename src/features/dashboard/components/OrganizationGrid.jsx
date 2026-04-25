@@ -54,7 +54,7 @@ export default function OrganizationGrid() {
             <Building2 size={24} strokeWidth={2.5} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-primary tracking-tight">Active Partners</h2>
+            <h2 className="text-xl font-black text-[var(--text-primary)] tracking-tight">Active Partners</h2>
             <p className="text-[10px] font-black text-secondary uppercase tracking-widest opacity-70">
               Manage ecosystem entities
             </p>

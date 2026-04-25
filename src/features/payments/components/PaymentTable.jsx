@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Building2, Clock, Eye, Download, Receipt } from "lucide-react";
 import { DataTable, TableActions } from "@components/common";
-import { StatusBadge, Select } from "@components/ui";
+import { StatusBadge, Select, SearchEmptyState } from "@components/ui";
 import { formatCurrency, formatDate } from "@utils/format";
 import notify from "@utils/notify";
 import { STATUS_OPTIONS, PLAN_OPTIONS } from "../constants/paymentData";
@@ -34,13 +34,10 @@ export function PaymentTable({
       {
         key: "organization_name",
         label: "Organization",
-        width: 280,
+        width: 320,
         sortable: true,
         render: (val) => (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-md bg-surface-base border border-base flex items-center justify-center text-muted/60">
-              <Building2 size={14} />
-            </div>
             <span className="font-bold text-primary text-[13px]">{val}</span>
           </div>
         ),
@@ -48,7 +45,7 @@ export function PaymentTable({
       {
         key: "plan",
         label: "Plan",
-        width: 140,
+        width: 160,
         render: (val) => {
           const planLower = val.toLowerCase();
           let planClass = "bg-surface-elevated text-secondary";
@@ -74,7 +71,7 @@ export function PaymentTable({
       {
         key: "amount",
         label: "Amount",
-        width: 140,
+        width: 180,
         sortable: true,
         render: (val) => (
           <span className="font-black text-primary tabular-nums">
@@ -85,7 +82,7 @@ export function PaymentTable({
       {
         key: "created_at",
         label: "Date",
-        width: 150,
+        width: 180,
         sortable: true,
         render: (val) => (
           <div className="flex items-center gap-1.5 opacity-60">
@@ -103,7 +100,7 @@ export function PaymentTable({
       {
         key: "actions",
         label: "Actions",
-        width: 120,
+        width: 60,
         align: "right",
         render: (_, row) => (
           <TableActions
@@ -141,6 +138,21 @@ export function PaymentTable({
       onSearchChange={onSearchChange}
       onRefresh={onRefresh}
       onExportCSV={() => notify.info("Exporting data...")}
+      stickyFirstColumn={true}
+      stickyLastColumn={true}
+      renderEmpty={
+        data.length === 0 && !loading ? (
+          <SearchEmptyState
+            onReset={() => {
+              onSearchChange("");
+              setStatus("");
+              setPlan("");
+            }}
+            searchTerm={search}
+            type={search ? "search" : (status || plan ? "filter" : "search")}
+          />
+        ) : null
+      }
       filters={
         <>
           <Select

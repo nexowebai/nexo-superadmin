@@ -1,23 +1,21 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
   Bell,
   AlertCircle,
   Shield,
   CheckCheck,
-  Inbox,
-  RefreshCw,
+  Trash2,
 } from "lucide-react";
 
 import { PageContainer } from "@components/layout/DashboardLayout";
-import { Button, Tabs } from "@components/ui";
+import { Button, Tabs, ConfirmModal, SearchEmptyState } from "@components/ui";
 import { SearchBar, StatsCard } from "@components/common";
 import { useLayout } from "@context";
 
-// Feature-specific
 import { useNotificationsPage } from "../hooks/useNotificationsPage";
 import { TAB_OPTIONS } from "../constants/notificationData";
-import { NotificationCard } from "../components/NotificationCard";
+import { NotificationCard, NotificationSkeleton } from "../components/NotificationCard";
 
 import "./NotificationsPage.css";
 
@@ -34,28 +32,38 @@ function NotificationsPage() {
     handleRead,
     handleDelete,
     handleMarkAllRead,
+    handleDeleteAll,
   } = useNotificationsPage();
 
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+
   useEffect(() => {
+    const hasUnread = unreadCount > 0;
+    const hasNotifications = notifications.length > 0;
+    const isUnreadFilter = filter === "unread";
+
     setHeaderProps({
-      title: "Notification Center",
-      action: (
+      title: "Audit Center",
+      action: hasNotifications ? (
         <Button
           variant="secondary"
-          icon={CheckCheck}
-          onClick={handleMarkAllRead}
-          disabled={unreadCount === 0}
+          icon={hasUnread ? CheckCheck : Trash2}
+          onClick={hasUnread ? handleMarkAllRead : () => setShowClearConfirm(true)}
           className="h-11 px-6 rounded-md font-bold uppercase tracking-wider text-[11px] shadow-sm"
         >
-          Clear All Unread
+          {hasUnread 
+            ? "Mark all read" 
+            : (isUnreadFilter ? "Clear unread" : "Clear notifications")}
         </Button>
-      ),
+      ) : null,
     });
-  }, [setHeaderProps, unreadCount, handleMarkAllRead]);
+
+    return () => setHeaderProps({ title: "", action: null });
+  }, [setHeaderProps, unreadCount, notifications.length, handleMarkAllRead, setShowClearConfirm, filter]);
 
   return (
     <PageContainer className="notifications-v2 pb-12">
-      {/* 1. Operational Markers */}
+      {/* 1. Activity Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatsCard
           title="Total Notifications"
@@ -70,7 +78,7 @@ function NotificationsPage() {
           color="var(--error)"
         />
         <StatsCard
-          title="System Status"
+          title="System Health"
           value="Healthy"
           icon={Shield}
           color="var(--success)"
@@ -81,7 +89,7 @@ function NotificationsPage() {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
         <div className="w-full sm:max-w-md">
           <SearchBar
-            placeholder="Search history..."
+            placeholder="Search alerts..."
             value={search}
             onSearch={setSearch}
             className="h-11"
@@ -93,35 +101,20 @@ function NotificationsPage() {
       {/* 3. Notification Feed */}
       <div className="min-h-[400px]">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-surface border border-base rounded-md border-dashed">
-            <RefreshCw size={32} className="text-primary animate-spin mb-4" />
-            <p className="text-sm font-bold text-muted uppercase tracking-widest">
-              Synchronizing alerts...
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <NotificationSkeleton key={i} />
+            ))}
           </div>
         ) : notifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-surface border border-base rounded-md border-dashed text-center">
-            <div className="w-16 h-16 rounded-full bg-surface-subtle flex items-center justify-center text-muted mb-6">
-              <Inbox size={32} />
-            </div>
-            <h3 className="text-lg font-bold text-primary mb-2">
-              Zero Alerts Pending
-            </h3>
-            <p className="text-sm text-secondary px-6 max-w-sm mb-8">
-              You're all caught up! There are no messages matching your criteria
-              right now.
-            </p>
-            <Button
-              variant="primary"
-              onClick={() => {
-                setFilter("all");
-                setSearch("");
-              }}
-              className="h-10 px-6"
-            >
-              Reset Filters
-            </Button>
-          </div>
+          <SearchEmptyState 
+            searchTerm={search}
+            type={search ? "search" : "filter"}
+            onReset={() => {
+              setFilter("all");
+              setSearch("");
+            }}
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
@@ -137,6 +130,20 @@ function NotificationsPage() {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={showClearConfirm}
+        onClose={() => setShowClearConfirm(false)}
+        onConfirm={handleDeleteAll}
+        title={filter === "unread" ? "Clear Unread Alerts?" : "Clear All Notifications?"}
+        description={
+          filter === "unread"
+            ? "Are you sure you want to delete only your unread notifications? This will not affect read alerts."
+            : "Are you sure you want to permanently delete all notifications from your archive? This action cannot be undone."
+        }
+        confirmText={filter === "unread" ? "Yes, Clear Unread" : "Yes, Clear All"}
+        variant="delete"
+      />
     </PageContainer>
   );
 }

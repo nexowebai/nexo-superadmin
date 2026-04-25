@@ -49,7 +49,7 @@ export const ToggleRow = ({ title, desc, checked, onChange }) => (
   </div>
 );
 
-export const ThemeChoice = ({ mode, current, onSelect, icon: Icon, label }) => (
+export const ThemeChoice = ({ mode, current, onSelect, label }) => (
   <button
     type="button"
     onClick={() => onSelect(mode)}
@@ -57,35 +57,48 @@ export const ThemeChoice = ({ mode, current, onSelect, icon: Icon, label }) => (
   >
     <div
       className={cn(
-        "theme-choice-preview",
-        mode === "light" ? "light-preview" : "dark-preview",
+        "theme-choice-preview-modern",
+        mode === "light" ? "light-mode-preview" : "dark-mode-preview",
       )}
-    />
-    <div className="theme-choice-footer">
-      <div className="theme-choice-label-group">
-        <Icon
-          size={16}
-          className={current === mode ? "text-primary" : "text-muted"}
-        />
-        <span className="theme-choice-name">{label}</span>
+    >
+      <div className="preview-sidebar" />
+      <div className="preview-content">
+        <div className="preview-header" />
+        <div className="preview-blocks">
+          <div className="preview-block" />
+          <div className="preview-block w-[70%]" />
+        </div>
       </div>
+    </div>
+    <div className="theme-choice-footer-v2">
+      <span className="theme-choice-name">{label}</span>
       {current === mode && (
-        <Check size={14} className="text-primary" strokeWidth={3} />
+        <div className="selected-dot animate-in zoom-in" />
       )}
     </div>
   </button>
 );
 
-export const PaletteCard = ({ theme, active }) => (
-  <div className={cn("palette-card", active && "active")}>
-    <div className="palette-colors">
+export const PaletteCard = ({ theme, active, onSelect }) => (
+  <button
+    type="button"
+    onClick={() => onSelect && onSelect(theme.id)}
+    className={cn("palette-card-v2", active && "active")}
+  >
+    <div className="palette-preview-v2">
       {theme.colors.map((c, i) => (
-        <div key={i} className="palette-color" style={{ background: c }} />
+        <div 
+          key={i} 
+          className="palette-swatch" 
+          style={{ 
+            backgroundColor: c,
+            zIndex: theme.colors.length - i
+          }} 
+        />
       ))}
     </div>
-    <div className="palette-footer">
-      {theme.name}
-      {active && <CheckCircle2 size={12} className="text-primary" />}
+    <div className="palette-info">
+      <span className="palette-name">{theme.name}</span>
     </div>
-  </div>
+  </button>
 );

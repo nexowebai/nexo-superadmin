@@ -8,7 +8,7 @@ import {
   FileText,
 } from "lucide-react";
 import { DataTable, TableActions } from "@components/common";
-import { Select } from "@components/ui";
+import { Select, SearchEmptyState } from "@components/ui";
 import { LevelBadge, TypeBadge } from "./LogBadges";
 import { LEVEL_OPTIONS, TYPE_OPTIONS } from "../constants/logData";
 import notify from "@utils/notify";
@@ -135,6 +135,21 @@ export function LogsTable({
       onSearchChange={onSearchChange}
       onRefresh={onRefresh}
       onExportCSV={() => notify.info("Export started")}
+      stickyFirstColumn={true}
+      stickyLastColumn={true}
+      renderEmpty={
+        data.length === 0 && !loading ? (
+          <SearchEmptyState
+            onReset={() => {
+              onSearchChange("");
+              setLevel("");
+              setLogType("");
+            }}
+            searchTerm={search}
+            type={search ? "search" : (level || logType ? "filter" : "search")}
+          />
+        ) : null
+      }
       filters={
         <>
           <Select

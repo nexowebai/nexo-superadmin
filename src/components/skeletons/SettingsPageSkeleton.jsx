@@ -3,7 +3,7 @@ import { Skeleton } from "../ui/Skeleton/Skeleton";
 export function SettingsPageSkeleton() {
   return (
     <div className="space-y-8">
-      <div className="flex gap-3">
+      <div className="flex justify-center gap-4 mb-10">
         <Skeleton width="160px" height="44px" borderRadius="var(--radius-md)" />
         <Skeleton width="160px" height="44px" borderRadius="var(--radius-md)" />
         <Skeleton width="160px" height="44px" borderRadius="var(--radius-md)" />

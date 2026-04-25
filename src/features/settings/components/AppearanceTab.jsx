@@ -7,43 +7,53 @@ import {
   ThemeChoice,
   PaletteCard,
 } from "./SettingsComponents";
-import { CHART_THEMES } from "../constants/settingsData";
+import { APP_THEMES } from "../constants/settingsData";
+import { useTheme } from "@context";
 
-export function AppearanceTab({ theme, setTheme }) {
+export function AppearanceTab({ theme, setTheme, settings, setSettingValue }) {
+  const { setThemeColor, color: activeColorId } = useTheme();
+
+  const handlePaletteSelect = (id) => {
+    setSettingValue("theme_color", id);
+    setThemeColor(id);
+  };
   return (
     <TabWrapper>
       <ConfigCard
         icon={Palette}
-        title="Visual Intelligence"
-        desc="Interface aesthetics and data visualization preferences."
+        title="Visual Interface"
+        desc="Customize the platform aesthetics and global theme highlights."
         variant="info"
       >
         <div className="settings-stack">
           <div className="settings-group">
             <Label text="Global Chromatic Mode" />
-            <div className="theme-selection-grid">
+            <div className="theme-selection-grid-v2">
               <ThemeChoice
                 mode="light"
                 current={theme}
                 onSelect={setTheme}
-                icon={Sun}
-                label="Luminous"
+                label="Light"
               />
               <ThemeChoice
                 mode="dark"
                 current={theme}
                 onSelect={setTheme}
-                icon={Moon}
-                label="Nocturnal"
+                label="Dark"
               />
             </div>
           </div>
 
           <div className="settings-group">
-            <Label text="Telemetry Palettes" />
-            <div className="palette-selection-grid">
-              {CHART_THEMES.map((t) => (
-                <PaletteCard key={t.id} theme={t} active={t.id === "default"} />
+            <Label text="Theme Accent Color" />
+            <div className="palette-selection-grid-v2">
+              {APP_THEMES.map((t) => (
+                <PaletteCard 
+                  key={t.id} 
+                  theme={t} 
+                  active={activeColorId === t.id} 
+                  onSelect={handlePaletteSelect}
+                />
               ))}
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { APP_THEMES } from "../../constants/themePalettes";
 
 const ThemeContext = createContext();
 
@@ -8,27 +9,34 @@ export function ThemeProvider({ children }) {
     return saved || "light";
   });
 
-  const [color, setColor] = useState("green");
+  const [colorId, setColorId] = useState(() => {
+    const saved = localStorage.getItem("theme-color");
+    return saved || "emerald";
+  });
 
   useEffect(() => {
     const body = document.body;
+    const root = document.documentElement;
 
     // Manage Dark/Light Mode
     body.classList.remove("light-mode", "dark-mode");
-    if (mode === "dark") {
-      body.classList.add("dark-mode");
-    } else {
-      body.classList.add("light-mode");
-    }
+    body.classList.add(`${mode}-mode`);
 
-    // Manage Theme Color via Classes
-    const colorClasses = ["theme-green"];
-    body.classList.remove(...colorClasses);
-    body.classList.add(`theme-${color}`);
+    // Manage Theme Semantic Palette
+    const theme = APP_THEMES.find((t) => t.id === colorId) || APP_THEMES[0];
+    const [primary, success, info, warning, error] = theme.colors;
+
+    const setVar = (name, val) => root.style.setProperty(name, val);
+    
+    setVar("--primary", primary);
+    setVar("--success", success);
+    setVar("--info", info);
+    setVar("--warning", warning);
+    setVar("--error", error);
 
     localStorage.setItem("theme-mode", mode);
-    localStorage.setItem("theme-color", color);
-  }, [mode, color]);
+    localStorage.setItem("theme-color", colorId);
+  }, [mode, colorId]);
 
   const toggleMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -38,13 +46,13 @@ export function ThemeProvider({ children }) {
     setMode(newMode);
   };
 
-  const setThemeColor = (newColor) => {
-    setColor(newColor);
+  const setThemeColor = (newId) => {
+    setColorId(newId);
   };
 
   const value = {
     mode,
-    color,
+    color: colorId,
     theme: mode,
     setTheme,
     toggleMode,

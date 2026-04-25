@@ -28,8 +28,13 @@ export function useRequestsPage() {
   const { mutate: rejectRequest } = useRejectRequest();
 
   const requests = useMemo(() => {
-    return data?.requests?.length > 0 ? data.requests : MOCK_REQUESTS;
-  }, [data]);
+    // Only show mock data if there's no real data AND no filters are active
+    const hasData = data?.requests && data.requests.length > 0;
+    const hasFilters = search || status;
+    
+    if (!hasData && !hasFilters) return MOCK_REQUESTS;
+    return data?.requests || [];
+  }, [data, search, status]);
 
   const pagination = data?.pagination || {
     page: 1,

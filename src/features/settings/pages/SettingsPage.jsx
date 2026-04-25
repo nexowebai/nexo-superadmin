@@ -81,6 +81,8 @@ export default function SettingsPage() {
                   key="appearance"
                   theme={appTheme}
                   setTheme={setAppTheme}
+                  settings={settings}
+                  setSettingValue={setSettingValue}
                 />
               )}
 

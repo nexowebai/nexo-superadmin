@@ -30,6 +30,8 @@ export default function RequestsPage() {
       title: "Organization Requests",
       action: null,
     });
+
+    return () => setHeaderProps({ title: "", action: null });
   }, [setHeaderProps]);
 
   return (

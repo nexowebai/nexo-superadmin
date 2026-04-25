@@ -55,7 +55,7 @@ export function SearchEmptyState({
             variant="outline"
             onClick={onReset}
             icon={isFilter ? RotateCcw : RefreshCw}
-            className={`font-bold rounded-xl h-12 px-8 border-2 ${isFilter ? 'text-[var(--warning)] border-[var(--warning)] hover:bg-[var(--warning-soft)]' : 'text-[var(--info)] border-[var(--info)] hover:bg-[var(--info-soft)]'}`}
+            className={`font-bold rounded-xl h-12 px-8 border-2 ${isFilter ? 'text-[var(--warning)] border-[var(--warning)] hover:bg-[var(--warning-soft)]' : 'text-[var(--primary)] border-[var(--primary)] hover:bg-[var(--primary-soft)]'}`}
           >
             {isFilter ? "Reset Filters" : "Clear Search"}
           </Button>

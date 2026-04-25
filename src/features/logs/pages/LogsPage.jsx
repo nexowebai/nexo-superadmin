@@ -10,6 +10,8 @@ import LogDetailModal from "../components/LogDetailModal";
 
 import "./LogsPage.css";
 
+import { DateRangePicker } from "@components/ui";
+
 function LogsPage() {
   const { setHeaderProps } = useLayout();
   const {
@@ -26,6 +28,8 @@ function LogsPage() {
     setLevel,
     logType,
     setLogType,
+    dateRange,
+    setDateRange,
     selectedLog,
     setSelectedLog,
     refetch,
@@ -34,25 +38,42 @@ function LogsPage() {
 
   useEffect(() => {
     setHeaderProps({
-      title: "System Logs & Audit",
+      title: "Audit Logs",
       action: null,
     });
+
+    return () => setHeaderProps({ title: "", action: null });
   }, [setHeaderProps]);
 
   return (
     <PageContainer className="logs-v2 pb-12">
-      {/* 1. Operational Telemetry */}
-      <StatsGrid className="mb-8">
+      {/* 1. Operational Toolbar - Simplified Language & Larger Typography */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Activity Overview</h2>
+          <p className="text-base text-slate-600 font-medium mt-1">Monitor recent system activity and audit logs.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <DateRangePicker
+            value={dateRange}
+            onChange={setDateRange}
+            className="w-[300px]"
+          />
+        </div>
+      </div>
+
+      {/* 2. Operational Telemetry */}
+      <StatsGrid className="mb-10">
         {isLoading && stats.length === 0
           ? Array.from({ length: 4 }).map((_, i) => (
-              <StatsCard key={`sk-${i}`} loading={true} />
-            ))
+            <StatsCard key={`sk-${i}`} loading={true} />
+          ))
           : stats.map((stat, i) => (
-              <StatsCard key={i} {...stat} loading={isLoading} />
-            ))}
+            <StatsCard key={i} {...stat} loading={false} />
+          ))}
       </StatsGrid>
 
-      {/* 2. Transactional Audit Layer */}
+      {/* 3. Transactional Audit Layer */}
       <LogsTable
         data={logs}
         loading={isFetching}
@@ -72,7 +93,7 @@ function LogsPage() {
         onViewDetail={setSelectedLog}
       />
 
-      {/* 3. Audit Inspector */}
+      {/* 4. Audit Inspector */}
       <LogDetailModal
         log={selectedLog}
         isOpen={!!selectedLog}

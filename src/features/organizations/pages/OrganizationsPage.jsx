@@ -62,6 +62,8 @@ export default function OrganizationsPage() {
         </div>
       ),
     });
+
+    return () => setHeaderProps({ title: "", action: null });
   }, [setHeaderProps, navigate]);
 
   const handleReset = () => {
