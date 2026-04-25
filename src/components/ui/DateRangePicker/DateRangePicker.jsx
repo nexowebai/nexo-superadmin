@@ -1,219 +1,207 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
-import {
-  format,
-  addMonths,
-  subMonths,
-  startOfMonth,
-  endOfMonth,
-  isBefore,
-  isValid,
-} from "date-fns";
-import {
-  Calendar as CalendarIcon,
-  ChevronLeft,
-  ChevronRight,
-  X,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { Calendar as CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { format, addMonths, subMonths, isSameDay } from "date-fns";
 import { cn } from "@lib/cn";
-import Button from "../Button";
+import { Button } from "@components/ui";
 import { PRESETS, CalendarGrid } from "./components/DateRangeComponents";
 import "./DateRangePicker.css";
 
-function DateRangePicker({
-  onChange,
+export default function DateRangePicker({
   initialStartDate,
   initialEndDate,
+  onChange,
   className,
-  align = "start",
+  align = "left",
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [viewMode, setViewMode] = useState("preset");
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
+  const [tempStartDate, setTempStartDate] = useState(initialStartDate);
+  const [tempEndDate, setTempEndDate] = useState(initialEndDate);
+  const [monthDate, setMonthDate] = useState(initialStartDate || new Date());
   const [hoverDate, setHoverDate] = useState(null);
-  const [viewDate, setViewDate] = useState(startOfMonth(new Date()));
-  const [coords, setCoords] = useState({ top: 0, left: 0 });
+
   const containerRef = useRef(null);
-  const triggerRef = useRef(null);
 
+  // Close on click outside
   useEffect(() => {
-    if (initialStartDate) setStartDate(initialStartDate);
-    if (initialEndDate) setEndDate(initialEndDate);
-  }, [initialStartDate, initialEndDate]);
-
-  const updatePosition = useCallback(() => {
-    if (isOpen && triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom,
-        left: align === "end" ? rect.right - 700 : rect.left,
-      });
-    }
-  }, [isOpen, align]);
-
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target) &&
-        !e.target.closest(".drp-popover")
-      )
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
         setIsOpen(false);
+      }
     };
     if (isOpen) {
-      updatePosition();
-      window.addEventListener("scroll", updatePosition, true);
-      document.addEventListener("mousedown", handleClick);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      window.removeEventListener("scroll", updatePosition, true);
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen, updatePosition]);
+  }, [isOpen]);
+
+  useEffect(() => {
+    setStartDate(initialStartDate);
+    setEndDate(initialEndDate);
+    setTempStartDate(initialStartDate);
+    setTempEndDate(initialEndDate);
+  }, [initialStartDate, initialEndDate]);
 
   const handleDateClick = (date) => {
-    if (!startDate || (startDate && endDate)) {
-      setStartDate(date);
-      setEndDate(null);
-    } else if (isBefore(date, startDate)) {
-      setEndDate(startDate);
-      setStartDate(date);
-    } else setEndDate(date);
+    if (!tempStartDate || (tempStartDate && tempEndDate)) {
+      setTempStartDate(date);
+      setTempEndDate(null);
+    } else if (tempStartDate && !tempEndDate) {
+      if (isSameDay(date, tempStartDate)) {
+          setTempStartDate(null);
+          return;
+      }
+      if (date < tempStartDate) {
+        setTempEndDate(tempStartDate);
+        setTempStartDate(date);
+      } else {
+        setTempEndDate(date);
+      }
+    }
   };
 
   const handleApply = () => {
-    onChange?.({ startDate, endDate });
+    setStartDate(tempStartDate);
+    setEndDate(tempEndDate);
+    onChange({ startDate: tempStartDate, endDate: tempEndDate });
     setIsOpen(false);
   };
-  const handleClear = () => {
-    setStartDate(null);
-    setEndDate(null);
-    onChange?.({ startDate: null, endDate: null });
+
+  const handleCancel = () => {
+    setTempStartDate(startDate);
+    setTempEndDate(endDate);
+    setIsOpen(false);
+    setViewMode("preset");
   };
 
-  const popoverContent = (
-    <motion.div
-      className={cn(
-        "drp-popover",
-        align === "end" ? "align-end" : "align-start",
-      )}
-      style={{ position: "fixed", top: coords.top, left: coords.left }}
-      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-    >
-      <div className="drp-content">
-        <div className="drp-sidebar">
-          {PRESETS.map((p, i) => (
-            <button
-              key={i}
-              className="drp-preset-btn"
-              onClick={() => {
-                const [s, e] = p.getValue();
-                setStartDate(s);
-                setEndDate(e);
-                setViewDate(startOfMonth(e));
-              }}
-              type="button"
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
-        <div className="drp-main">
-          <div className="drp-header">
-            <button
-              onClick={() => setViewDate(subMonths(viewDate, 1))}
-              type="button"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <div className="drp-header-spacer" />
-            <button
-              onClick={() => setViewDate(addMonths(viewDate, 1))}
-              type="button"
-            >
-              <ChevronRight size={20} />
-            </button>
+  const handlePreset = (preset) => {
+    const [s, e] = preset.getValue();
+    setTempStartDate(s);
+    setTempEndDate(e);
+    setMonthDate(s);
+  };
+
+  return (
+    <div className={cn("drp-container", className)} ref={containerRef}>
+      <button
+        type="button"
+        className={cn("drp-trigger", isOpen && "active")}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <CalendarIcon size={16} className="drp-icon" />
+        <span className="drp-value">
+          {startDate ? (
+            <>
+              {format(startDate, "MMM d, yyyy")}
+              {endDate && ` - ${format(endDate, "MMM d, yyyy")}`}
+            </>
+          ) : (
+            "Select Date Range"
+          )}
+        </span>
+        {startDate && (
+          <div className="drp-clear-btn" onClick={(e) => {
+              e.stopPropagation();
+              setStartDate(null);
+              setEndDate(null);
+              setTempStartDate(null);
+              setTempEndDate(null);
+              onChange({ startDate: null, endDate: null });
+          }}>
+            <X size={12} />
           </div>
-          <div className="drp-calendars">
-            <CalendarGrid
-              monthDate={viewDate}
-              startDate={startDate}
-              endDate={endDate}
-              hoverDate={hoverDate}
-              onDateClick={handleDateClick}
-              onDateHover={setHoverDate}
-            />
-            <CalendarGrid
-              monthDate={addMonths(viewDate, 1)}
-              startDate={startDate}
-              endDate={endDate}
-              hoverDate={hoverDate}
-              onDateClick={handleDateClick}
-              onDateHover={setHoverDate}
-            />
-          </div>
-          <div className="drp-footer">
-            <div className="drp-footer-info">
-              {startDate && format(startDate, "MMM d, yyyy")}{" "}
-              {startDate && endDate && " - "}{" "}
-              {endDate && format(endDate, "MMM d, yyyy")}
-            </div>
-            <div className="drp-actions">
-              <Button
-                variant="ghost"
-                onClick={() => setIsOpen(false)}
-                size="sm"
+        )}
+      </button>
+
+      {isOpen && (
+        <div
+          className={cn(
+            "drp-popover", 
+            viewMode === 'custom' ? "is-custom" : "is-preset",
+            align === 'end' ? "align-end" : "align-start"
+          )}
+        >
+          <div className="drp-content">
+            <div className="drp-sidebar">
+              <div className="drp-sidebar-header">Timeframes</div>
+              {PRESETS.map((p) => (
+                <button
+                  key={p.label}
+                  className="drp-preset-btn"
+                  onClick={() => {
+                      handlePreset(p);
+                      setViewMode("preset");
+                  }}
+                >
+                  {p.label}
+                </button>
+              ))}
+              <button 
+                className={cn("drp-preset-btn", viewMode === 'custom' && "active")}
+                onClick={() => setViewMode("custom")}
               >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleApply}
-                size="sm"
-                disabled={!startDate || !endDate}
+                Custom Range
+              </button>
+            </div>
+
+            <div className="drp-main">
+              <div className="drp-header">
+                <button className="drp-nav-btn" onClick={() => setMonthDate(subMonths(monthDate, 1))}>
+                  <ChevronLeft size={18} />
+                </button>
+                <div className="drp-current-month">
+                  {viewMode === 'custom' 
+                    ? `${format(monthDate, "MMM yyyy")} - ${format(addMonths(monthDate, 1), "MMM yyyy")}`
+                    : format(monthDate, "MMMM yyyy")
+                  }
+                </div>
+                <button className="drp-nav-btn" onClick={() => setMonthDate(addMonths(monthDate, 1))}>
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              <div className="drp-calendars-wrapper">
+                <CalendarGrid
+                  monthDate={monthDate}
+                  startDate={tempStartDate}
+                  endDate={tempEndDate}
+                  hoverDate={hoverDate}
+                  onDateClick={handleDateClick}
+                  onDateHover={setHoverDate}
+                />
+                {viewMode === 'custom' && (
+                  <CalendarGrid
+                    monthDate={addMonths(monthDate, 1)}
+                    startDate={tempStartDate}
+                    endDate={tempEndDate}
+                    hoverDate={hoverDate}
+                    onDateClick={handleDateClick}
+                    onDateHover={setHoverDate}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="drp-footer">
+            <div className="drp-actions-grid">
+              <Button variant="soft" onClick={handleCancel} className="flex-1">Cancel</Button>
+              <Button 
+                variant="primary" 
+                onClick={handleApply} 
+                disabled={!tempStartDate || !tempEndDate}
+                className="flex-1 shadow-none"
               >
                 Apply
               </Button>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
-  );
-
-  return (
-    <div className={cn("drp-container", className)} ref={containerRef}>
-      <button
-        ref={triggerRef}
-        className={cn("drp-trigger", isOpen && "active")}
-        onClick={() => setIsOpen(!isOpen)}
-        type="button"
-      >
-        <CalendarIcon size={18} className="drp-icon" />
-        <span className="drp-value">
-          {startDate && endDate
-            ? `${format(startDate, "MMM d")} - ${format(endDate, "MMM d")}`
-            : "Select Range"}
-        </span>
-        {startDate && (
-          <div
-            className="drp-clear-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleClear();
-            }}
-          >
-            <X size={14} />
-          </div>
-        )}
-      </button>
-      <AnimatePresence>
-        {isOpen && createPortal(popoverContent, document.body)}
-      </AnimatePresence>
+      )}
     </div>
   );
 }
-
-export default DateRangePicker;

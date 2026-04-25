@@ -238,13 +238,13 @@ button {
 }
 
 [data-sonner-toast][data-type="success"] {
-  background: #f0fdf4 !important;
-  border-color: #dcfce7 !important;
-  color: #166534 !important;
+  background: var(--success-soft) !important;
+  border-color: var(--success) !important;
+  color: var(--success) !important;
 }
 
 [data-sonner-toast][data-type="error"] {
-  background: #fef2f2 !important;
-  border-color: #fee2e2 !important;
-  color: #991b1b !important;
+  background: var(--error-soft) !important;
+  border-color: var(--error) !important;
+  color: var(--error) !important;
 }

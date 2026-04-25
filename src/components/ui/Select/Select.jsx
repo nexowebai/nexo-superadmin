@@ -33,11 +33,18 @@ function Select({
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
+  // Normalize value for comparison
+  const normalizedValue = value ?? (multiple ? [] : "");
+
   const isSelected = (val) =>
-    multiple ? Array.isArray(value) && value.includes(val) : value === val;
+    multiple 
+      ? Array.isArray(normalizedValue) && normalizedValue.includes(val) 
+      : normalizedValue === val;
+
   const selectedOptions = multiple
-    ? options.filter((opt) => Array.isArray(value) && value.includes(opt.value))
-    : options.find((opt) => opt.value === value);
+    ? options.filter((opt) => Array.isArray(normalizedValue) && normalizedValue.includes(opt.value))
+    : options.find((opt) => opt.value === normalizedValue);
+
   const filteredOptions =
     searchable && search
       ? options.filter((opt) =>
@@ -78,7 +85,7 @@ function Select({
 
   const handleSelect = (option) => {
     if (multiple) {
-      const current = Array.isArray(value) ? value : [];
+      const current = Array.isArray(normalizedValue) ? normalizedValue : [];
       onChange?.(
         current.includes(option.value)
           ? current.filter((v) => v !== option.value)
@@ -96,10 +103,12 @@ function Select({
     const sels = multiple
       ? selectedOptions || []
       : [selectedOptions].filter(Boolean);
-    if (!sels.length)
+      
+    if (sels.length === 0)
       return (
-        <span className="ds-select__value--placeholder">{placeholder}</span>
+        <span className="ds-select__value--placeholder text-muted opacity-60">{placeholder}</span>
       );
+
     if (multiple)
       return (
         <div className="ds-select__chips">
@@ -113,7 +122,8 @@ function Select({
           )}
         </div>
       );
-    return <span className="ds-select__value">{sels[0].label}</span>;
+
+    return <span className="ds-select__value font-bold text-primary">{sels[0].label}</span>;
   };
 
   return (
@@ -133,13 +143,13 @@ function Select({
         error={error}
         multiple={multiple}
         Icon={Icon}
-        value={value}
+        value={normalizedValue}
         renderValue={renderValue}
         placeholder={placeholder}
         clearable={clearable}
         onClear={(e) => {
           e.stopPropagation();
-          onChange?.(multiple ? [] : null);
+          onChange?.(multiple ? [] : "");
         }}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       />

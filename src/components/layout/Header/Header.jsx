@@ -22,27 +22,25 @@ function Header({ onMenuClick }) {
         <h1 className="ds-header__title">{title}</h1>
 
         {showRefresh !== false && (
-          <div
+          <button
             className="ds-header__refresh"
             onClick={() => window.location.reload()}
-            role="button"
-            tabIndex={0}
             aria-label="Refresh page"
           >
-            <RefreshCw size={16} />
-          </div>
+            <RefreshCw size={14} />
+          </button>
         )}
       </div>
 
       <div className="ds-header__right">
         <Button
-          variant="outline"
-          size="xl"
+          variant="soft"
+          size="md"
           leftIcon={ArrowLeft}
           onClick={() => navigate(-1)}
           className="ds-header__back-btn"
         >
-          Back
+          <span className="hidden sm:inline ml-1">Back</span>
         </Button>
 
         <div className="ds-header__action">{action}</div>

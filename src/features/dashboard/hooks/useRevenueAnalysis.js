@@ -2,11 +2,15 @@ import { useMemo, useState } from "react";
 import { MOCK_CHART_DATA } from "../constants/dashboardData";
 
 export function useRevenueAnalysis() {
-  const [selectedDate, setSelectedDate] = useState("2026-03-01");
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    endDate: new Date()
+  });
 
   const chartData = useMemo(() => {
+    // In a real app, we would filter based on dateRange
     return MOCK_CHART_DATA;
-  }, [selectedDate]);
+  }, [dateRange]);
 
   const stats = useMemo(
     () => ({
@@ -19,8 +23,8 @@ export function useRevenueAnalysis() {
   );
 
   return {
-    selectedDate,
-    setSelectedDate,
+    dateRange,
+    setDateRange,
     chartData,
     stats,
   };

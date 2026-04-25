@@ -1,7 +1,42 @@
 .ds-skeleton {
-  background-color: var(--bg-elevated);
-  animation: ds-pulse 1.8s ease-in-out infinite;
+  background-color: var(--skeleton-bg);
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius-sm);
+}
+
+.ds-skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: ds-shimmer 2s infinite;
+}
+
+body.dark-mode .ds-skeleton::after {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(255, 255, 255, 0.03) 20%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent
+  );
+}
+
+@keyframes ds-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Variants */
@@ -59,13 +94,6 @@
   gap: var(--space-2);
 }
 
-/* Skeleton Text */
-.ds-skeleton-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
 /* Skeleton Card */
 .ds-skeleton-card {
   background: var(--card-bg);
@@ -114,7 +142,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  background: var(--bg-elevated);
+  background: var(--bg-table-header);
   border-bottom: 1px solid var(--border-base);
 }
 
@@ -149,11 +177,12 @@
 .ds-skeleton-chart__bar {
   flex: 1;
   max-width: 40px;
+  background-color: var(--skeleton-bg);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ds-skeleton {
+  .ds-skeleton::after {
     animation: none;
   }
 }

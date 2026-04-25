@@ -59,7 +59,6 @@ export function CalendarGrid({
 
   return (
     <div className="drp-calendar">
-      <div className="drp-month-title">{format(monthDate, "MMMM yyyy")}</div>
       <div className="drp-weekdays">
         {weekDays.map((d) => (
           <div key={d} className="drp-weekday">

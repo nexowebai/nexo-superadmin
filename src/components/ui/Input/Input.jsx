@@ -1,4 +1,5 @@
 import { forwardRef, useId } from "react";
+import { X } from "lucide-react";
 import { cn } from "@lib/cn";
 import "./Input.css";
 
@@ -19,6 +20,9 @@ const Input = forwardRef(
       wrapperClassName,
       disabled,
       id: propId,
+      clearable = false,
+      onClear,
+      value,
       ...props
     },
     ref,
@@ -46,7 +50,7 @@ const Input = forwardRef(
             "ds-input-container",
             `ds-input-container--${size}`,
             Icon && `ds-input-container--icon-left`,
-            RightIcon && `ds-input-container--icon-right`,
+            (RightIcon || (clearable && value)) && `ds-input-container--icon-right`,
             error && "ds-input-container--error",
             disabled && "ds-input-container--disabled",
           )}
@@ -62,12 +66,22 @@ const Input = forwardRef(
             id={inputId}
             className={cn("ds-input", `ds-input--${variant}`, className)}
             disabled={disabled}
+            value={value}
             aria-invalid={!!error}
             aria-describedby={error || hint ? `${inputId}-message` : undefined}
             {...props}
           />
 
-          {RightIcon && (
+          {(clearable && value && !disabled) ? (
+             <button
+                type="button"
+                className="ds-input-icon ds-input-icon--right ds-input-icon--clickable"
+                onClick={onClear}
+                tabIndex={-1}
+             >
+               <X size={16} />
+             </button>
+          ) : RightIcon && (
             <button
               type="button"
               className="ds-input-icon ds-input-icon--right ds-input-icon--clickable"

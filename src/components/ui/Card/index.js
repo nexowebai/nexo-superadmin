@@ -13,3 +13,4 @@ export {
   StatsCardSkeleton,
   StatsGrid,
 } from "./StatsCard";
+export { OrganizationCard } from "./OrganizationCard";

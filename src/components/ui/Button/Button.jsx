@@ -23,8 +23,22 @@ const Button = forwardRef(
     ref,
   ) => {
     const isDisabled = disabled || loading;
-    const LIcon = LeftIcon || (iconPosition === "left" ? Icon : null);
-    const RIcon = RightIcon || (iconPosition === "right" ? Icon : null);
+
+    let LIcon = null;
+    let RIcon = null;
+
+    if (LeftIcon) {
+      LIcon = LeftIcon;
+    } else if (RightIcon) {
+      if (typeof RightIcon === 'function' || (typeof RightIcon === 'object' && RightIcon !== null)) {
+        RIcon = RightIcon;
+      } else if (RightIcon === true && Icon) {
+        RIcon = Icon;
+      }
+    } else if (Icon) {
+      if (iconPosition === "left") LIcon = Icon;
+      else RIcon = Icon;
+    }
 
     return (
       <button

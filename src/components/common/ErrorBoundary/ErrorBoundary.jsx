@@ -10,10 +10,11 @@ import {
   Copy,
   Check,
 } from "lucide-react";
+import { Button } from "@components/ui";
 
 /**
  * Premium Error Fallback UI
- * Designed for institutional quality and modern aesthetics.
+ * Redesigned for Nexo Modern Theme
  */
 export const ErrorFallback = ({ error, resetErrorBoundary }) => {
   const [copied, setCopied] = useState(false);
@@ -34,11 +35,11 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#f8fafc] p-6 font-['Open_Sans']">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[var(--bg-base)] p-6 font-sans text-[var(--text-primary)]">
       {/* Decorative Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#10b981]/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[#10b981]/10 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[var(--primary-soft)] rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[var(--primary-soft)] rounded-full blur-3xl opacity-70" />
       </div>
 
       <motion.div
@@ -46,22 +47,22 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
         animate={{ opacity: 1, y: 0 }}
         className="relative w-full max-w-xl"
       >
-        <div className="bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100 overflow-hidden">
+        <div className="bg-[var(--bg-surface)] rounded-[32px] shadow-[var(--shadow-xl)] border border-[var(--border-base)] overflow-hidden">
           {/* Header Section */}
           <div className="p-8 pb-0 flex flex-col items-center text-center">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", damping: 12, stiffness: 200 }}
-              className="w-20 h-20 bg-emerald-50 rounded-3xl flex items-center justify-center mb-6"
+              className="w-20 h-20 bg-[var(--primary-soft)] rounded-3xl flex items-center justify-center mb-6"
             >
-              <ShieldAlert className="w-10 h-10 text-[#10b981]" />
+              <ShieldAlert className="w-10 h-10 text-[var(--primary)]" />
             </motion.div>
 
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">
+            <h1 className="text-2xl font-black text-[var(--text-primary)] mb-2 uppercase tracking-tight">
               System Encountered an Issue
             </h1>
-            <p className="text-slate-500 max-w-md">
+            <p className="text-[var(--text-secondary)] font-bold text-sm max-w-md">
               We've encountered an unexpected error. Our team has been notified
               and we're working to resolve it.
             </p>
@@ -69,18 +70,18 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
 
           {/* Error Details Section */}
           <div className="p-8">
-            <div className="bg-slate-50 rounded-2xl p-4 mb-8 border border-slate-100 relative group">
+            <div className="bg-[var(--bg-elevated)] rounded-2xl p-4 mb-8 border border-[var(--border-base)] relative group">
               <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2 text-slate-400">
+                <div className="flex items-center gap-2 text-[var(--text-muted)]">
                   <AlertCircle size={14} />
-                  <span className="text-[10px] uppercase tracking-wider font-bold">
+                  <span className="text-[10px] uppercase tracking-wider font-black">
                     Technical Details
                   </span>
                 </div>
-
-                <button
+                
+                <button 
                   onClick={copyToClipboard}
-                  className="p-1.5 rounded-lg hover:bg-white transition-all text-slate-400 hover:text-[#10b981] border border-transparent hover:border-slate-100"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-surface)] transition-all text-[var(--text-muted)] hover:text-[var(--primary)] border border-transparent hover:border-[var(--border-base)]"
                   title="Copy error message"
                 >
                   <AnimatePresence mode="wait">
@@ -91,7 +92,7 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.5, opacity: 0 }}
                       >
-                        <Check size={14} className="text-emerald-500" />
+                        <Check size={14} className="text-[var(--success)]" />
                       </motion.div>
                     ) : (
                       <motion.div
@@ -106,47 +107,50 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
                   </AnimatePresence>
                 </button>
               </div>
-              <code className="text-xs text-slate-600 break-all leading-relaxed font-mono block pr-8">
+              <code className="text-xs text-[var(--text-secondary)] break-all leading-relaxed font-mono block pr-8 font-bold">
                 {error?.message || "Internal Application Error"}
               </code>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Button
+                  variant="primary"
+                  size="lg"
                   onClick={resetErrorBoundary}
-                  className="flex items-center justify-center gap-2 bg-[#10b981] hover:bg-[#059669] text-white py-4 px-6 rounded-2xl font-semibold transition-all active:scale-[0.98]"
+                  className="rounded-2xl h-14"
+                  icon={RefreshCw}
                 >
-                  <RefreshCw size={18} />
-                  <span>Try Again</span>
-                </button>
-                <button
+                  Try Again
+                </Button>
+                <Button
+                  variant="soft"
+                  size="lg"
                   onClick={handleGoHome}
-                  className="flex items-center justify-center gap-2 border-2 border-[#10b981] text-[#10b981] hover:bg-emerald-50/50 py-4 px-6 rounded-2xl font-semibold transition-all active:scale-[0.98]"
+                  className="rounded-2xl h-14 border-2"
+                  icon={Home}
                 >
-                  <Home size={18} />
-                  <span>Dashboard</span>
-                </button>
+                  Dashboard
+                </Button>
               </div>
-
-              <button
+              
+              <Button
+                variant="outline"
+                size="lg"
                 onClick={handleGoBack}
-                className="flex items-center justify-center gap-2 border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 py-4 px-6 rounded-2xl font-semibold transition-all active:scale-[0.98]"
+                className="rounded-2xl h-14 border-2 text-secondary"
+                icon={ArrowLeft}
               >
-                <ArrowLeft size={18} />
-                <span>Go Back to Previous Page</span>
-              </button>
+                Go Back to Previous Page
+              </Button>
             </div>
           </div>
 
           {/* Footer */}
-          <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-            <span>
-              Reference ID:{" "}
-              {Math.random().toString(36).substr(2, 9).toUpperCase()}
-            </span>
-            <button className="flex items-center gap-1 hover:text-slate-600 transition-colors">
+          <div className="px-8 py-6 bg-[var(--bg-subtle)] border-t border-[var(--border-base)] flex items-center justify-between text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">
+            <span>Ref: {Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+            <button className="flex items-center gap-1 hover:text-[var(--text-secondary)] transition-colors">
               Contact Support <ChevronRight size={12} />
             </button>
           </div>

@@ -6,32 +6,36 @@ import {
   Zap,
   Globe,
   Database,
+  BarChart3,
+  Activity,
+  Server,
+  Key
 } from "lucide-react";
 
 export const STATS_CONFIG = [
   {
     key: "total_organizations",
     icon: Building2,
-    color: "var(--primary)",
+    iconColor: "primary",
     title: "Organizations",
   },
   {
-    key: "active_users",
-    icon: Users,
-    color: "var(--info)",
-    title: "Total Users",
+    key: "active_licenses",
+    icon: Key,
+    iconColor: "info",
+    title: "Active Licenses",
   },
   {
-    key: "total_projects",
-    icon: FolderKanban,
-    color: "var(--secondary)",
-    title: "Active Projects",
+    key: "avg_latency",
+    icon: Activity,
+    iconColor: "warning",
+    title: "Avg Latency",
   },
   {
     key: "system_health",
-    icon: ShieldCheck,
-    color: "var(--success)",
-    title: "Active Uptime",
+    icon: Server,
+    iconColor: "success",
+    title: "System Uptime",
     isPercent: true,
   },
 ];
