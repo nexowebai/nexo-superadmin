@@ -5,9 +5,28 @@ import { cn } from "@lib/cn";
 import {
   SelectTrigger,
   SelectOption,
-  dropdownVariants,
 } from "./components/SelectComponents";
 import "./Select.css";
+
+const getVariants = (isUp) => ({
+  hidden: {
+    opacity: 0,
+    y: isUp ? 15 : -15,
+    scale: 0.98,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", duration: 0.35, bounce: 0 },
+  },
+  exit: {
+    opacity: 0,
+    y: isUp ? 10 : -10,
+    scale: 0.98,
+    transition: { duration: 0.15 },
+  },
+});
 
 function Select({
   options = [],
@@ -29,21 +48,17 @@ function Select({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0, isUp: false, maxHeight: 300 });
   const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Normalize value for comparison
   const normalizedValue = value ?? (multiple ? [] : "");
 
   const isSelected = (val) =>
     multiple 
       ? Array.isArray(normalizedValue) && normalizedValue.includes(val) 
       : normalizedValue === val;
-
-  const selectedOptions = multiple
-    ? options.filter((opt) => Array.isArray(normalizedValue) && normalizedValue.includes(opt.value))
-    : options.find((opt) => opt.value === normalizedValue);
 
   const filteredOptions =
     searchable && search
@@ -53,33 +68,42 @@ function Select({
       : options;
 
   const updatePosition = useCallback(() => {
-    if (isOpen && containerRef.current) {
+    if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      const shouldOpenUp =
-        window.innerHeight - rect.bottom < 240 && rect.top > 240;
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      
+      const shouldOpenUp = spaceBelow < 380 && spaceAbove > spaceBelow;
+      
       setCoords({
-        top: shouldOpenUp ? rect.top - 6 : rect.bottom + 6,
+        top: shouldOpenUp ? rect.top - 10 : rect.bottom + 10,
         left: rect.left,
         width: rect.width,
         isUp: shouldOpenUp,
+        maxHeight: Math.min(400, shouldOpenUp ? spaceAbove - 20 : spaceBelow - 20)
       });
     }
-  }, [isOpen]);
+  }, []);
 
   useEffect(() => {
-    const handleClick = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target))
-        setIsOpen(false);
+    const handleEvents = (e) => {
+      if (!isOpen) return;
+      const isInside = containerRef.current?.contains(e.target) || dropdownRef.current?.contains(e.target);
+      if (!isInside) setIsOpen(false);
     };
+
     if (isOpen) {
       updatePosition();
+      document.addEventListener("mousedown", handleEvents, true);
       window.addEventListener("scroll", updatePosition, true);
-      document.addEventListener("mousedown", handleClick);
-      if (searchable) setTimeout(() => inputRef.current?.focus(), 50);
+      window.addEventListener("resize", updatePosition);
+      if (searchable) setTimeout(() => inputRef.current?.focus(), 100);
     }
     return () => {
+      document.removeEventListener("mousedown", handleEvents, true);
       window.removeEventListener("scroll", updatePosition, true);
-      document.removeEventListener("mousedown", handleClick);
+      window.removeEventListener("resize", updatePosition);
     };
   }, [isOpen, updatePosition, searchable]);
 
@@ -101,39 +125,28 @@ function Select({
   const renderValue = () => {
     if (externalRenderValue) return externalRenderValue();
     const sels = multiple
-      ? selectedOptions || []
-      : [selectedOptions].filter(Boolean);
+      ? options.filter((o) => Array.isArray(normalizedValue) && normalizedValue.includes(o.value))
+      : [options.find((o) => o.value === normalizedValue)].filter(Boolean);
       
     if (sels.length === 0)
-      return (
-        <span className="ds-select__value--placeholder text-muted opacity-60">{placeholder}</span>
-      );
+      return <span className="ds-select__value--placeholder">{placeholder}</span>;
 
     if (multiple)
       return (
         <div className="ds-select__chips">
-          {sels.slice(0, 4).map((o) => (
-            <span key={o.value} className="ds-select__chip">
-              {o.label}
-            </span>
+          {sels.slice(0, 2).map((o) => (
+            <span key={o.value} className="ds-select__chip">{o.label}</span>
           ))}
-          {sels.length > 4 && (
-            <span className="ds-select__more">+{sels.length - 4} more</span>
-          )}
+          {sels.length > 2 && <span className="ds-select__more">+{sels.length - 2}</span>}
         </div>
       );
 
-    return <span className="ds-select__value font-bold text-primary">{sels[0].label}</span>;
+    return <span className="ds-select__value">{sels[0].label}</span>;
   };
 
   return (
     <div
-      className={cn(
-        "ds-select",
-        `ds-select--${size}`,
-        fullWidth && "ds-select--full",
-        className,
-      )}
+      className={cn("ds-select", fullWidth && "ds-select--full", className)}
       ref={containerRef}
     >
       {label && <label className="ds-select__label">{label}</label>}
@@ -147,43 +160,56 @@ function Select({
         renderValue={renderValue}
         placeholder={placeholder}
         clearable={clearable}
+        size={size}
         onClear={(e) => {
           e.stopPropagation();
           onChange?.(multiple ? [] : "");
         }}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!disabled) setIsOpen(!isOpen);
+        }}
       />
       {isOpen &&
         createPortal(
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             <motion.div
-              className="ds-select__dropdown ds-select-portal"
+              key="select-dropdown"
+              ref={dropdownRef}
+              className={cn("ds-select-portal-menu", coords.isUp && "ds-select-portal-menu--up")}
               style={{
                 position: "fixed",
                 top: coords.top,
                 left: coords.left,
                 width: coords.width,
-                zIndex: 30000,
+                zIndex: 2000000,
                 transform: coords.isUp ? "translateY(-100%)" : "none",
                 transformOrigin: coords.isUp ? "bottom" : "top",
+                maxHeight: coords.maxHeight,
+                pointerEvents: "auto"
               }}
-              variants={dropdownVariants}
+              variants={getVariants(coords.isUp)}
               initial="hidden"
               animate="visible"
               exit="exit"
+              onClick={(e) => e.stopPropagation()}
             >
               {searchable && (
-                <div className="ds-select__search">
+                <div className="ds-select-portal-search">
                   <input
                     ref={inputRef}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search..."
-                    className="ds-select__search-input"
+                    placeholder="Search options..."
+                    className="ds-select-portal-search-input"
+                    onClick={(e) => e.stopPropagation()}
                   />
                 </div>
               )}
-              <div className="ds-select__options">
+              <div 
+                className="ds-select-portal-options"
+                style={{ maxHeight: coords.maxHeight - (searchable ? 60 : 20) }}
+              >
                 {filteredOptions.length ? (
                   filteredOptions.map((o) => (
                     <SelectOption
@@ -196,7 +222,7 @@ function Select({
                     />
                   ))
                 ) : (
-                  <div className="ds-select__empty">No options found</div>
+                  <div className="ds-select-portal-empty">No options found</div>
                 )}
               </div>
             </motion.div>

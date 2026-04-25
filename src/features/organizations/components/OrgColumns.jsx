@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Building2, Users, FolderKanban, Calendar } from "lucide-react";
+import { Users, Calendar, Mail } from "lucide-react";
 import { TableActions } from "@components/common";
 import { formatDate } from "@utils/format";
 import { StatusDropdown } from "./StatusDropdown";
@@ -16,43 +16,34 @@ export const useOrganizationColumns = ({
       {
         key: "org_code",
         label: "ORG ID",
-        width: 110,
+        width: 100,
         copyable: true,
         sortable: true,
       },
       {
         key: "name",
-        label: "Organization Details",
-        minWidth: 320,
+        label: "Organization Name",
+        minWidth: 200,
         sortable: true,
-        render: (_, org) => {
-          const logo = org ? org.logo : null;
-          const name = org ? org.name : "";
-          const orgCode = org ? org.org_code || org.id : "";
-          const email = org
-            ? org.email || "no-email@nexo.com"
-            : "no-email@nexo.com";
-
-          return (
-            <div className="org-cell">
-              <div className="org-cell__logo">
-                {logo ? (
-                  <img src={logo} alt="" />
-                ) : (
-                  <Building2 size={18} strokeWidth={2.5} />
-                )}
-              </div>
-              <div className="org-cell__info">
-                <span className="org-cell__name">{name}</span>
-                <span className="org-cell__meta">
-                  <span className="org-cell__id">#{orgCode}</span>
-                  <span className="org-cell__dot" />
-                  <span className="org-cell__email">{email}</span>
-                </span>
-              </div>
-            </div>
-          );
-        },
+        render: (val) => (
+          <div className="flex items-center">
+             <span className="text-sm font-black text-primary tracking-tight">
+               {val}
+             </span>
+          </div>
+        ),
+      },
+      {
+        key: "email",
+        label: "Email Address",
+        minWidth: 200,
+        sortable: true,
+        render: (val) => (
+          <div className="flex items-center gap-2 text-secondary font-medium">
+            <Mail size={14} className="opacity-40" />
+            <span className="truncate">{val || "no-email@nexo.com"}</span>
+          </div>
+        )
       },
       {
         key: "subscription_tier",
@@ -93,18 +84,6 @@ export const useOrganizationColumns = ({
         ),
       },
       {
-        key: "projects_count",
-        label: "Projects",
-        width: 100,
-        sortable: true,
-        render: (val) => (
-          <div className="stat-pill">
-            <FolderKanban size={12} />
-            <span>{val || 0}</span>
-          </div>
-        ),
-      },
-      {
         key: "created_at",
         label: "Joined",
         width: 130,
@@ -119,8 +98,9 @@ export const useOrganizationColumns = ({
       {
         key: "actions",
         label: "Actions",
-        width: 240,
+        width: 220, // Increased width for 4 actions
         align: "right",
+        sticky: "right",
         render: (_, row) => (
           <TableActions
             onView={() => navigate("/organizations/" + row.id)}

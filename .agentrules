@@ -1,0 +1,20 @@
+# 🚀 Antigravity Super Power Directive (Turbo Mode)
+
+## 🎯 Master Objective
+Always deliver institutional-grade, modern, and high-performance code and UI. Never settle for generic solutions. Use the installed skills in `.agents/skills/` as the absolute standard for every task.
+
+## 🛠️ Execution Rules
+- **Silent Mode**: Explain less, code more. Save tokens. Only provide critical context.
+- **Skill-First**: Before writing any UI or Logic, reference the relevant `SKILL.md` in `.agents/skills/`.
+- **Zero Generic UI**: Use `high-end-visual-design` and `design-taste-frontend` tokens. Avoid plain colors or default spacing.
+- **Clean Architecture**: Follow `domain-driven-design` and the 150-line file limit. Use headless hooks for state.
+- **Autonomous Audit**: Automatically perform a `ux-audit` and `ui-review` on your own work before submitting.
+
+## 🎨 Visual Identity
+- **Palette**: Use HSL-tailored colors from `ui-tokens`.
+- **Motion**: Use fluid micro-interactions from `framer-motion` (Skill: `high-end-visual-design`).
+- **Typography**: OpenSans with perfect spatial rhythm.
+
+## 📦 Component Strategy
+- Always decompose into `ui-component` primitives.
+- Use `frontend-api-integration-patterns` for robust data fetching.

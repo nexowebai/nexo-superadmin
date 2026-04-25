@@ -117,7 +117,14 @@ function DataTable({
   const handleRowClick = useCallback(
     (row, e) => {
       const target = e.target;
-      if (target.closest(".dt-actions") || target.closest("button")) return;
+
+      // Check for ds-select__trigger or other interactive elements to prevent row click
+      if (
+        target.closest(".dt-actions") || 
+        target.closest("button") || 
+        target.closest(".ds-select__trigger")
+      ) return;
+      
       onRowClick?.(row);
     },
     [onRowClick],

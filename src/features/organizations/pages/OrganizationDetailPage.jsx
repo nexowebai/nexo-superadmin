@@ -40,7 +40,7 @@ function OrganizationDetailPage() {
     }
   }, [setHeaderProps, org]);
 
-  if (loading) return <OrgSkeleton />;
+  if (loading || !org) return <OrgSkeleton />;
 
   return (
     <PageContainer>
