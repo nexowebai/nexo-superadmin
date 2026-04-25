@@ -56,14 +56,14 @@ export default function DisableOrgModal({
               its users. They will not be able to log in until the organization
               is re-enabled.
             </p>
-            <ul className="space-y-2 text-xs text-muted">
-              <li className="flex items-center gap-2">
-                <div className="w-1 h-1 rounded-full bg-error" />
-                All active sessions will be terminated
+            <ul className="space-y-3 pt-1">
+              <li className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+                <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: "var(--error)", boxShadow: "0 0 6px var(--error)" }} />
+                All active user sessions will be terminated immediately.
               </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1 h-1 rounded-full bg-error" />
-                Scheduled tasks will be paused
+              <li className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+                <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: "var(--error)", boxShadow: "0 0 6px var(--error)" }} />
+                Automated background processes and tasks will be paused.
               </li>
             </ul>
           </div>

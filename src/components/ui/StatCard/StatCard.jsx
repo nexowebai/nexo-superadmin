@@ -41,7 +41,6 @@ function StatCard({
 
   return (
     <motion.div
-      whileHover={{ y: -4 }}
       className={cn("stat-card", onClick && "stat-card--clickable", className)}
       onClick={onClick}
     >

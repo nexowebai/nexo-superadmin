@@ -2,7 +2,6 @@ import api from "@api";
 
 const BASE = "/super-admin";
 
-// Realistic Mock Data for development
 const MOCK_ORGS = [
   {
     id: 1,
@@ -12,9 +11,23 @@ const MOCK_ORGS = [
     subscription_tier: "Enterprise",
     status: "active",
     users_count: 124,
+    max_users: 500,
+    projects_count: 45,
+    max_projects: 100,
     created_at: "2024-01-15T10:00:00Z",
     logo: null,
-    business_type: "Tech & Innovation"
+    business_type: "Tech & Innovation",
+    mrr: "4,500.00",
+    billing_cycle: "Monthly",
+    churn_risk: "Low",
+    tax_id: "TX-9920-X",
+    region: "North America",
+    admin: {
+      full_name: "Sarah Jenkins",
+      email: "sarah.j@nexoglobal.com",
+      phone_number: "+1 (555) 012-3456",
+      is_active: true
+    }
   },
   {
     id: 2,
@@ -24,9 +37,23 @@ const MOCK_ORGS = [
     subscription_tier: "Professional",
     status: "active",
     users_count: 86,
+    max_users: 200,
+    projects_count: 12,
+    max_projects: 50,
     created_at: "2024-02-01T12:00:00Z",
     logo: null,
-    business_type: "Defense & Robotics"
+    business_type: "Defense & Robotics",
+    mrr: "2,200.00",
+    billing_cycle: "Yearly",
+    churn_risk: "Low",
+    tax_id: "TX-8831-Y",
+    region: "Europe",
+    admin: {
+      full_name: "Pepper Potts",
+      email: "pepper@stark.com",
+      phone_number: "+1 (555) 987-6543",
+      is_active: true
+    }
   },
   {
     id: 3,
@@ -36,9 +63,23 @@ const MOCK_ORGS = [
     subscription_tier: "Basic",
     status: "active",
     users_count: 24,
+    max_users: 50,
+    projects_count: 5,
+    max_projects: 10,
     created_at: "2024-02-10T09:00:00Z",
     logo: null,
-    business_type: "Global Conglomerate"
+    business_type: "Global Conglomerate",
+    mrr: "800.00",
+    billing_cycle: "Monthly",
+    churn_risk: "Medium",
+    tax_id: "TX-1102-Z",
+    region: "North America",
+    admin: {
+      full_name: "Lucius Fox",
+      email: "lucius@wayne.org",
+      phone_number: "+1 (555) 444-5555",
+      is_active: true
+    }
   },
   {
     id: 4,
@@ -46,22 +87,32 @@ const MOCK_ORGS = [
     name: "Cyberdyne Systems",
     email: "skynet@cyberdyne.com",
     subscription_tier: "Professional",
-    status: "warning",
-    users_count: 210,
+    status: "disabled",
+    users_count: 0,
+    max_users: 300,
+    projects_count: 0,
+    max_projects: 75,
     created_at: "2024-02-15T14:00:00Z",
     logo: null,
-    business_type: "Artificial Intelligence"
+    business_type: "Artificial Intelligence",
+    mrr: "0.00",
+    billing_cycle: "Monthly",
+    churn_risk: "High",
+    tax_id: "TX-0001-A",
+    region: "Asia Pacific",
+    disabled_reason: "Violation of safety protocols",
+    admin: {
+      full_name: "Miles Dyson",
+      email: "miles@cyberdyne.com",
+      phone_number: "+1 (555) 212-0000",
+      is_active: false
+    }
   }
 ];
 
 export const orgService = {
   getAll: async (params = {}) => {
     const { search, status, subscription_tier } = params;
-
-    // TODO: Switch to real API when backend is ready
-    // return api.get(`${BASE}/organizations`, { params });
-
-    // Mock filtering logic for development
     let filtered = [...MOCK_ORGS];
 
     if (search) {
@@ -95,7 +146,6 @@ export const orgService = {
   },
 
   getById: async (id) => {
-    // Mock detail for development
     const org = MOCK_ORGS.find(o => o.id === Number(id));
     return { data: { organization: org } };
   },

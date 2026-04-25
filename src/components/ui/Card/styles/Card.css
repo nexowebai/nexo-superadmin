@@ -34,7 +34,7 @@
 
 .ds-card--nx {
   border-width: 1.5px;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
 

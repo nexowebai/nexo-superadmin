@@ -1,109 +1,122 @@
-import { useEffect } from "react";
-import { PageContainer } from "@components/layout/DashboardLayout";
-import { ConfirmModal } from "@components/ui";
-import { useOrganizationDetail } from "../hooks/useOrganizationDetail";
+import React from "react";
+import { Button } from "@components/ui";
+import { PageContainer } from "@components/layout";
+import { RefreshCcw } from "lucide-react";
+
+// Feature Components
 import OrgHero from "../components/OrgHero";
-import OrgStats from "../components/OrgStats";
 import OrgInfo from "../components/OrgInfo";
 import OrgSidebar from "../components/OrgSidebar";
-import OrgSkeleton from "../components/OrgSkeleton";
+import OrgCharts from "../components/OrgCharts";
+import OrgStatsOverview from "../components/OrgStatsOverview";
+import OrgDetailSkeleton from "../components/skeletons/OrgDetailSkeleton";
+
+// Modals
 import {
   DisableOrgModal,
   ResetPasswordModal,
   SendNotificationModal,
   ManageCouponsModal,
   ManagePlanModal,
+  AuditLogModal,
 } from "../components/OrgModals";
-import { useLayout } from "@context";
-import "../styles/organizations.css";
 
-function OrganizationDetailPage() {
-  const { setHeaderProps } = useLayout();
+import useOrgDetail from "../hooks/useOrgDetail.jsx";
+
+export default function OrganizationDetailPage() {
   const {
     org,
-    loading,
+    isLoading,
+    isError,
+    refetch,
     modals,
     openModal,
     closeModal,
-    handleEnable,
-    handleDelete,
-    refetch,
-    navigate,
-  } = useOrganizationDetail();
+    navigate
+  } = useOrgDetail();
 
-  useEffect(() => {
-    if (org) {
-      setHeaderProps({
-        title: org.name,
-        action: null,
-      });
-    }
-  }, [setHeaderProps, org]);
+  // Loading State
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <OrgDetailSkeleton />
+      </PageContainer>
+    );
+  }
 
-  if (loading || !org) return <OrgSkeleton />;
+  // Error State
+  if (isError || !org) {
+    return (
+      <PageContainer>
+        <div className="min-h-[400px] flex flex-col items-center justify-center p-12 bg-surface border border-base rounded-xl text-center">
+          <RefreshCcw size={32} className="text-red-500 animate-spin-slow mb-6" />
+          <h2 className="text-xl font-black text-primary mb-2 uppercase tracking-tighter">Synchronize Failed</h2>
+          <Button variant="primary" onClick={() => refetch()} className="mt-4 px-8 font-black uppercase tracking-widest text-xs">Retry Initialize</Button>
+        </div>
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>
-      <div className="org-detail">
+      <div className="space-y-6 pb-20">
+        {/* Core Identity */}
         <OrgHero
           org={org}
-          onEnable={handleEnable}
-          onDisable={() => openModal("disable")}
           onNotify={() => openModal("notify")}
           onManagePlan={() => openModal("plan")}
           onManageCoupons={() => openModal("coupons")}
         />
 
-        <OrgStats org={org} />
+        {/* Operational Intelligence */}
+        <OrgStatsOverview org={org} />
 
-        <div className="org-content-grid">
-          <OrgInfo org={org} onResetPassword={() => openModal("reset")} />
-
-          <OrgSidebar
-            org={org}
-            onResetPassword={() => openModal("reset")}
-            onDelete={() => openModal("delete")}
-          />
+        {/* Informational Layer */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <OrgInfo
+              org={org}
+              onResetPassword={() => openModal("reset")}
+            />
+          </div>
+          <div className="lg:col-span-1">
+            <OrgSidebar org={org} />
+          </div>
         </div>
+
+        {/* Analytical Intelligence */}
+        <OrgCharts
+          org={org}
+          onAuditLog={() => openModal("audit")}
+          onDelete={() => openModal("disable")}
+        />
       </div>
+
+      {/* Actionable Modals */}
+      <DisableOrgModal
+        isOpen={modals.disable}
+        onClose={() => closeModal("disable")}
+        orgName={org.name}
+        orgId={org.id}
+        onSuccess={() => navigate("/organizations")}
+      />
 
       <ResetPasswordModal
         isOpen={modals.reset}
         onClose={() => closeModal("reset")}
-        orgId={org.id}
-        onSuccess={() => refetch()}
-      />
-
-      <DisableOrgModal
-        isOpen={modals.disable}
-        onClose={() => closeModal("disable")}
-        orgId={org.id}
-        orgName={org.name}
-        onSuccess={() => refetch()}
-      />
-
-      <ConfirmModal
-        isOpen={modals.delete}
-        onClose={() => closeModal("delete")}
-        onConfirm={handleDelete}
-        title="Delete Organization"
-        description={`Are you sure you want to delete "${org.name}"? This action cannot be undone.`}
-        confirmText="Delete"
-        variant="delete"
+        adminEmail={org.admin?.email}
       />
 
       <SendNotificationModal
         isOpen={modals.notify}
         onClose={() => closeModal("notify")}
         orgName={org.name}
-        orgId={org.id}
       />
 
       <ManageCouponsModal
         isOpen={modals.coupons}
         onClose={() => closeModal("coupons")}
         orgName={org.name}
-        orgId={org.id}
       />
 
       <ManagePlanModal
@@ -114,8 +127,12 @@ function OrganizationDetailPage() {
         currentPlan={org.subscription_tier}
         onSuccess={() => refetch()}
       />
+
+      <AuditLogModal
+        isOpen={modals.audit}
+        onClose={() => closeModal("audit")}
+        orgName={org.name}
+      />
     </PageContainer>
   );
 }
-
-export default OrganizationDetailPage;

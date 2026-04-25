@@ -3,3 +3,4 @@ export { default as ManagePlanModal } from "./modals/ManagePlanModal";
 export { default as ResetPasswordModal } from "./modals/ResetPasswordModal";
 export { default as SendNotificationModal } from "./modals/SendNotificationModal";
 export { default as ManageCouponsModal } from "./modals/ManageCouponsModal";
+export { default as AuditLogModal } from "./modals/AuditLogModal";

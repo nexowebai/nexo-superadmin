@@ -12,6 +12,7 @@ const StatsCard = memo(function StatsCard({
   color = "var(--primary)",
   loading = false,
   variant = "nx",
+  description = "",
   className = "",
 }) {
   if (loading) return <StatsCardSkeleton variant={variant} />;
@@ -40,7 +41,7 @@ const StatsCard = memo(function StatsCard({
 
       <div className="stats-card__value">{value}</div>
 
-      {trend !== undefined && (
+      {trend !== undefined ? (
         <div
           className={`stats-card__trend ${trend >= 0 ? "is-up" : "is-down"}`}
         >
@@ -50,7 +51,13 @@ const StatsCard = memo(function StatsCard({
           </div>
           <span className="stats-card__trend-label">vs last month</span>
         </div>
-      )}
+      ) : description ? (
+        <div className="stats-card__trend">
+          <span className="stats-card__trend-label font-bold text-slate-400 uppercase tracking-widest text-[9px]">
+            {description}
+          </span>
+        </div>
+      ) : null}
     </Card>
   );
 });

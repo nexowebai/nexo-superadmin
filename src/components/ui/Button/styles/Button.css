@@ -128,6 +128,42 @@
   border-color: var(--error);
 }
 
+.ds-button--info {
+  background: var(--info-soft);
+  color: var(--info);
+  border-color: var(--info-soft);
+}
+
+.ds-button--info:hover:not(:disabled) {
+  background: var(--info);
+  color: white;
+  border-color: var(--info);
+}
+
+.ds-button--success {
+  background: var(--success-soft);
+  color: var(--success);
+  border-color: var(--success-soft);
+}
+
+.ds-button--success:hover:not(:disabled) {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.ds-button--warning {
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-color: var(--warning-soft);
+}
+
+.ds-button--warning:hover:not(:disabled) {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+
 .ds-button--full { width: 100%; }
 
 .ds-button--disabled,

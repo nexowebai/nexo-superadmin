@@ -20,8 +20,8 @@ export function useOrganizationDetail() {
   });
 
   const { data: org, isLoading: loading, refetch } = useOrganization(id);
-  const { mutate: enableOrg } = useEnableOrganization();
-  const { mutate: deleteOrg } = useDeleteOrganization();
+  const { mutateAsync: enableOrg } = useEnableOrganization();
+  const { mutateAsync: deleteOrg } = useDeleteOrganization();
 
   const openModal = useCallback((type) => {
     setModals((prev) => ({ ...prev, [type]: true }));
@@ -31,42 +31,30 @@ export function useOrganizationDetail() {
     setModals((prev) => ({ ...prev, [type]: false }));
   }, []);
 
-  const handleEnable = useCallback(() => {
-    notify.promise(
-      new Promise((resolve, reject) => {
-        enableOrg(id, {
-          onSuccess: () => {
-            refetch();
-            resolve();
-          },
-          onError: reject,
-        });
-      }),
-      {
+  const handleEnable = useCallback(async () => {
+    try {
+      await notify.promise(enableOrg(id), {
         loading: "Enabling organization...",
         success: "Organization enabled successfully",
         error: "Failed to enable organization",
-      },
-    );
+      });
+      refetch();
+    } catch (error) {
+      // Handled by notify.promise
+    }
   }, [id, enableOrg, refetch]);
 
-  const handleDelete = useCallback(() => {
-    notify.promise(
-      new Promise((resolve, reject) => {
-        deleteOrg(id, {
-          onSuccess: () => {
-            navigate("/organizations");
-            resolve();
-          },
-          onError: reject,
-        });
-      }),
-      {
+  const handleDelete = useCallback(async () => {
+    try {
+      await notify.promise(deleteOrg(id), {
         loading: "Deleting organization...",
         success: "Organization deleted successfully",
         error: "Failed to delete organization",
-      },
-    );
+      });
+      navigate("/organizations");
+    } catch (error) {
+      // Handled by notify.promise
+    }
   }, [id, deleteOrg, navigate]);
 
   return {

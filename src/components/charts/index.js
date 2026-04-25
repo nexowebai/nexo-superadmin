@@ -1,9 +1,8 @@
-import BaseBarChart from "./BaseBarChart";
-import BaseLineChart from "./BaseLineChart";
-import ChartToggle from "./ChartToggle";
+export { default as CircularProgress } from "./CircularProgress";
+export { default as PieChart } from "./PieChart";
+export { default as BarChart } from "./BarChart";
 
-export {
-    BaseBarChart,
-    BaseLineChart,
-    ChartToggle,
-}
+// Dashboard & Legacy Compatibility Exports
+export { default as BaseBarChart } from "./BaseBarChart";
+export { default as BaseLineChart } from "./BaseLineChart";
+export { default as ChartToggle } from "./ChartToggle";
