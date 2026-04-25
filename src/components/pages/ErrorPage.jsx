@@ -7,7 +7,7 @@ import { ErrorFallback } from "@components/common/ErrorBoundary/ErrorBoundary";
  */
 export default function ErrorPage() {
   const error = useRouteError();
-  
+
   // Handle reset for router errors
   const handleReset = () => {
     window.location.href = "/dashboard";
@@ -15,10 +15,7 @@ export default function ErrorPage() {
 
   return (
     <div className="h-screen w-full bg-[#f8fafc]">
-      <ErrorFallback 
-        error={error} 
-        resetErrorBoundary={handleReset} 
-      />
+      <ErrorFallback error={error} resetErrorBoundary={handleReset} />
     </div>
   );
 }

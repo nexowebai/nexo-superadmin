@@ -33,7 +33,10 @@ apiClient.interceptors.response.use(
     const response = error.response;
     const errorData = response ? response.data : null;
     const errorObj = errorData ? errorData.error : null;
-    const errorMessage = (errorObj ? errorObj.message : null) || (errorData ? errorData.message : null) || "";
+    const errorMessage =
+      (errorObj ? errorObj.message : null) ||
+      (errorData ? errorData.message : null) ||
+      "";
 
     if (
       errorMessage.toLowerCase().indexOf("invalid token") !== -1 ||
@@ -46,7 +49,10 @@ apiClient.interceptors.response.use(
       const isLoginRequest = configUrl.indexOf("/login") !== -1;
       const token = sessionService.getAccessToken();
 
-      if (token && (token.indexOf("mock") !== -1 || token.indexOf("sb_") === 0)) {
+      if (
+        token &&
+        (token.indexOf("mock") !== -1 || token.indexOf("sb_") === 0)
+      ) {
         console.warn("Suppressing 401 for mock/preview token");
         return Promise.reject(errorData || error);
       }

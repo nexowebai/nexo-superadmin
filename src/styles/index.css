@@ -40,32 +40,32 @@ body.dark-mode {
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('../assets/fonts/OpenSans-Regular.ttf') format('truetype');
+  font-family: "Open Sans";
+  src: url("../assets/fonts/OpenSans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('../assets/fonts/OpenSans-Medium.ttf') format('truetype');
+  font-family: "Open Sans";
+  src: url("../assets/fonts/OpenSans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('../assets/fonts/OpenSans-SemiBold.ttf') format('truetype');
+  font-family: "Open Sans";
+  src: url("../assets/fonts/OpenSans-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('../assets/fonts/OpenSans-Bold.ttf') format('truetype');
+  font-family: "Open Sans";
+  src: url("../assets/fonts/OpenSans-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -176,7 +176,6 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -186,13 +185,11 @@ button {
   }
 }
 
-
 /* Sonner Position Refinement */
 [data-sonner-toaster][data-position="top-right"] {
   top: 50% !important;
   transform: translateY(-50%) !important;
 }
-
 
 /* Sonner Modern Toast Styling */
 [data-sonner-toast] {

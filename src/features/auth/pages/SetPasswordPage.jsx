@@ -72,7 +72,10 @@ function SetPasswordPage() {
   if (!token) {
     return (
       <div className="ds-auth-form">
-        <AuthAlert type="error" message="This setup link is invalid. Contact your administrator." />
+        <AuthAlert
+          type="error"
+          message="This setup link is invalid. Contact your administrator."
+        />
       </div>
     );
   }
@@ -128,11 +131,11 @@ function SetPasswordPage() {
       </div>
 
       {error && (
-        <AuthAlert 
+        <AuthAlert
           type="error"
-          message={error} 
-          onDismiss={() => setError("")} 
-          className="mb-6" 
+          message={error}
+          onDismiss={() => setError("")}
+          className="mb-6"
         />
       )}
 

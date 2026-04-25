@@ -27,7 +27,7 @@ export default function App() {
               <SessionListener />
               <GlobalLoader />
               <AppToaster />
-              
+
               {/* Application Routing */}
               <AppRoutes />
             </LayoutProvider>

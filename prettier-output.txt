@@ -1,0 +1,21 @@
+
+> nexo-frontend@1.0.0 format
+> prettier --write --list-different "src/**/*.{js,jsx,css,md,json}"
+
+src/App.jsx
+src/components/common/ErrorBoundary/ErrorBoundary.jsx
+src/components/pages/ErrorPage.jsx
+src/core/api/client.js
+src/core/components/AppToaster.jsx
+src/core/components/GlobalLoader.jsx
+src/core/components/SessionListener.jsx
+src/features/auth/components/AuthAlert.jsx
+src/features/auth/pages/LoginPage.jsx
+src/features/auth/pages/ResetPasswordPage.jsx
+src/features/auth/pages/SetPasswordPage.jsx
+src/features/organizations/components/OrgColumns.jsx
+src/features/organizations/hooks/useOrganizationsPage.js
+src/hooks/index.js
+src/hooks/useMutationAction.js
+src/styles/index.css
+src/styles/tokens.css

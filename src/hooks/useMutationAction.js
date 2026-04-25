@@ -45,9 +45,9 @@ export function useMutationAction(mutation, options) {
             },
           });
         }),
-        messages
+        messages,
       );
     },
-    [mutation, safeOptions]
+    [mutation, safeOptions],
   );
 }

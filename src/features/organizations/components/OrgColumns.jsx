@@ -28,8 +28,10 @@ export const useOrganizationColumns = ({
         render: (_, org) => {
           const logo = org ? org.logo : null;
           const name = org ? org.name : "";
-          const orgCode = org ? (org.org_code || org.id) : "";
-          const email = org ? (org.email || "no-email@nexo.com") : "no-email@nexo.com";
+          const orgCode = org ? org.org_code || org.id : "";
+          const email = org
+            ? org.email || "no-email@nexo.com"
+            : "no-email@nexo.com";
 
           return (
             <div className="org-cell">
@@ -45,9 +47,7 @@ export const useOrganizationColumns = ({
                 <span className="org-cell__meta">
                   <span className="org-cell__id">#{orgCode}</span>
                   <span className="org-cell__dot" />
-                  <span className="org-cell__email">
-                    {email}
-                  </span>
+                  <span className="org-cell__email">{email}</span>
                 </span>
               </div>
             </div>
@@ -62,9 +62,7 @@ export const useOrganizationColumns = ({
         render: (val) => {
           const lowerVal = val ? val.toLowerCase() : "";
           return (
-            <span
-              className={"tier-badge-pro tier-badge-pro--" + lowerVal}
-            >
+            <span className={"tier-badge-pro tier-badge-pro--" + lowerVal}>
               {val}
             </span>
           );

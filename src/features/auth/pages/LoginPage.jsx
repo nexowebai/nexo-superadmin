@@ -83,11 +83,11 @@ function LoginPage() {
       </div>
 
       {error && (
-        <AuthAlert 
+        <AuthAlert
           type="error"
-          message={error} 
-          onDismiss={clearAuthError} 
-          className="mb-6" 
+          message={error}
+          onDismiss={clearAuthError}
+          className="mb-6"
         />
       )}
 

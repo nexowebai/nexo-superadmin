@@ -142,7 +142,10 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
 
           {/* Footer */}
           <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-            <span>Reference ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+            <span>
+              Reference ID:{" "}
+              {Math.random().toString(36).substr(2, 9).toUpperCase()}
+            </span>
             <button className="flex items-center gap-1 hover:text-slate-600 transition-colors">
               Contact Support <ChevronRight size={12} />
             </button>

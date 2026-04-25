@@ -10,9 +10,10 @@ export function SessionListener() {
       logout();
       window.location.href = "/login?session=expired";
     };
-    
+
     window.addEventListener("session-expired", handleSessionExpired);
-    return () => window.removeEventListener("session-expired", handleSessionExpired);
+    return () =>
+      window.removeEventListener("session-expired", handleSessionExpired);
   }, [logout]);
 
   return null;

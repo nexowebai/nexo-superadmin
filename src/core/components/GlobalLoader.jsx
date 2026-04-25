@@ -3,7 +3,7 @@ import { useAuth } from "@context";
 export function GlobalLoader() {
   const { loading } = useAuth();
   const isAuthPage = window.location.pathname.match(
-    /^\/(login|forgot-password|reset-password|set-password|login)/
+    /^\/(login|forgot-password|reset-password|set-password|login)/,
   );
 
   if (!loading || isAuthPage) return null;

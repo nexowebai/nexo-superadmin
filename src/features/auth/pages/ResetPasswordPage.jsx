@@ -60,7 +60,10 @@ function ResetPasswordPage() {
   if (!token) {
     return (
       <div className="ds-auth-form">
-        <AuthAlert type="error" message="This reset link is invalid or has expired." />
+        <AuthAlert
+          type="error"
+          message="This reset link is invalid or has expired."
+        />
 
         <div style={{ textAlign: "center", marginTop: "24px" }}>
           <Link to="/forgot-password" className="ds-auth-form__back-link">
@@ -115,11 +118,11 @@ function ResetPasswordPage() {
       </div>
 
       {error && (
-        <AuthAlert 
+        <AuthAlert
           type="error"
-          message={error} 
-          onDismiss={() => setError("")} 
-          className="mb-6" 
+          message={error}
+          onDismiss={() => setError("")}
+          className="mb-6"
         />
       )}
 

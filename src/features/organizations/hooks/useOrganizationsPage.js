@@ -87,7 +87,7 @@ export function useOrganizationsPage() {
       else if (type === "enable") enableOrg(id);
       else if (type === "update") updateOrg({ id: id.id, data: id.data });
     },
-    [deleteOrg, enableOrg, updateOrg]
+    [deleteOrg, enableOrg, updateOrg],
   );
 
   return {
