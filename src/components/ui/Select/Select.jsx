@@ -2,10 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@lib/cn";
-import {
-  SelectTrigger,
-  SelectOption,
-} from "./components/SelectComponents";
+import { SelectTrigger, SelectOption } from "./components/SelectComponents";
 import "./Select.css";
 
 const getVariants = (isUp) => ({
@@ -48,7 +45,13 @@ function Select({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0, isUp: false, maxHeight: 300 });
+  const [coords, setCoords] = useState({
+    top: 0,
+    left: 0,
+    width: 0,
+    isUp: false,
+    maxHeight: 300,
+  });
   const containerRef = useRef(null);
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
@@ -56,8 +59,8 @@ function Select({
   const normalizedValue = value ?? (multiple ? [] : "");
 
   const isSelected = (val) =>
-    multiple 
-      ? Array.isArray(normalizedValue) && normalizedValue.includes(val) 
+    multiple
+      ? Array.isArray(normalizedValue) && normalizedValue.includes(val)
       : normalizedValue === val;
 
   const filteredOptions =
@@ -73,15 +76,18 @@ function Select({
       const viewportHeight = window.innerHeight;
       const spaceBelow = viewportHeight - rect.bottom;
       const spaceAbove = rect.top;
-      
+
       const shouldOpenUp = spaceBelow < 380 && spaceAbove > spaceBelow;
-      
+
       setCoords({
         top: shouldOpenUp ? rect.top - 10 : rect.bottom + 10,
         left: rect.left,
         width: rect.width,
         isUp: shouldOpenUp,
-        maxHeight: Math.min(400, shouldOpenUp ? spaceAbove - 20 : spaceBelow - 20)
+        maxHeight: Math.min(
+          400,
+          shouldOpenUp ? spaceAbove - 20 : spaceBelow - 20,
+        ),
       });
     }
   }, []);
@@ -89,7 +95,9 @@ function Select({
   useEffect(() => {
     const handleEvents = (e) => {
       if (!isOpen) return;
-      const isInside = containerRef.current?.contains(e.target) || dropdownRef.current?.contains(e.target);
+      const isInside =
+        containerRef.current?.contains(e.target) ||
+        dropdownRef.current?.contains(e.target);
       if (!isInside) setIsOpen(false);
     };
 
@@ -131,19 +139,28 @@ function Select({
   const renderValue = () => {
     if (externalRenderValue) return externalRenderValue();
     const sels = multiple
-      ? options.filter((o) => Array.isArray(normalizedValue) && normalizedValue.includes(o.value))
+      ? options.filter(
+          (o) =>
+            Array.isArray(normalizedValue) && normalizedValue.includes(o.value),
+        )
       : [options.find((o) => o.value === normalizedValue)].filter(Boolean);
-      
+
     if (sels.length === 0)
-      return <span className="ds-select__value--placeholder">{placeholder}</span>;
+      return (
+        <span className="ds-select__value--placeholder">{placeholder}</span>
+      );
 
     if (multiple)
       return (
         <div className="ds-select__chips">
           {sels.slice(0, 2).map((o) => (
-            <span key={o.value} className="ds-select__chip">{o.label}</span>
+            <span key={o.value} className="ds-select__chip">
+              {o.label}
+            </span>
           ))}
-          {sels.length > 2 && <span className="ds-select__more">+{sels.length - 2}</span>}
+          {sels.length > 2 && (
+            <span className="ds-select__more">+{sels.length - 2}</span>
+          )}
         </div>
       );
 
@@ -181,7 +198,10 @@ function Select({
           <motion.div
             key="select-dropdown"
             ref={dropdownRef}
-            className={cn("ds-select-portal-menu", coords.isUp && "ds-select-portal-menu--up")}
+            className={cn(
+              "ds-select-portal-menu",
+              coords.isUp && "ds-select-portal-menu--up",
+            )}
             style={{
               position: "absolute",
               top: "calc(100% + 8px)",
@@ -190,7 +210,7 @@ function Select({
               zIndex: 1000,
               maxHeight: 300,
               pointerEvents: "auto",
-              transformOrigin: "top"
+              transformOrigin: "top",
             }}
             variants={getVariants(false)}
             initial="hidden"
@@ -210,7 +230,7 @@ function Select({
                 />
               </div>
             )}
-            <div 
+            <div
               className="ds-select-portal-options"
               style={{ maxHeight: 240 }}
             >

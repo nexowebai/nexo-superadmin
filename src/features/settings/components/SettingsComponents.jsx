@@ -72,9 +72,7 @@ export const ThemeChoice = ({ mode, current, onSelect, label }) => (
     </div>
     <div className="theme-choice-footer-v2">
       <span className="theme-choice-name">{label}</span>
-      {current === mode && (
-        <div className="selected-dot animate-in zoom-in" />
-      )}
+      {current === mode && <div className="selected-dot animate-in zoom-in" />}
     </div>
   </button>
 );
@@ -87,13 +85,13 @@ export const PaletteCard = ({ theme, active, onSelect }) => (
   >
     <div className="palette-preview-v2">
       {theme.colors.map((c, i) => (
-        <div 
-          key={i} 
-          className="palette-swatch" 
-          style={{ 
+        <div
+          key={i}
+          className="palette-swatch"
+          style={{
             backgroundColor: c,
-            zIndex: theme.colors.length - i
-          }} 
+            zIndex: theme.colors.length - i,
+          }}
         />
       ))}
     </div>

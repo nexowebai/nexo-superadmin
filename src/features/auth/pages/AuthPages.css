@@ -245,7 +245,9 @@
 }
 
 @keyframes authSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .ds-auth-transition__title {

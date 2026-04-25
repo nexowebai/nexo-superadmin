@@ -27,7 +27,11 @@ export default function FinancialPerformance({ loading }) {
   ];
 
   return (
-    <Card variant="nx" padding="none" className="overflow-visible flex flex-col h-full">
+    <Card
+      variant="nx"
+      padding="none"
+      className="overflow-visible flex flex-col h-full"
+    >
       {/* Header Section */}
       <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-base bg-subtle/30">
         <div className="flex items-center gap-4">
@@ -100,11 +104,15 @@ export default function FinancialPerformance({ loading }) {
         <div className="hidden lg:flex items-center gap-6">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-sm bg-[var(--primary)] shadow-sm" />
-            <span className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">Revenue Stream</span>
+            <span className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">
+              Revenue Stream
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-sm bg-[var(--info)] shadow-sm" />
-            <span className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">Burn Rate</span>
+            <span className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">
+              Burn Rate
+            </span>
           </div>
         </div>
       </div>

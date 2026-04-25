@@ -92,7 +92,9 @@ export function NotificationCard({ notification, onRead, onDelete }) {
             <button
               className="notif-btn-pro notif-btn-read-pro h-8 px-4"
               onClick={() => onRead(notification.id)}
-            > Mark Read
+            >
+              {" "}
+              Mark Read
             </button>
           )}
           <button

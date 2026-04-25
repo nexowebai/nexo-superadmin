@@ -22,7 +22,9 @@ const ChartToggle = ({ value, onChange }) => {
         onClick={() => onChange("line")}
         className={cn(
           "relative z-10 flex-1 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors duration-300",
-          value === "line" ? "text-[var(--primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          value === "line"
+            ? "text-[var(--primary)]"
+            : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]",
         )}
       >
         <LineIcon size={14} />
@@ -33,7 +35,9 @@ const ChartToggle = ({ value, onChange }) => {
         onClick={() => onChange("bar")}
         className={cn(
           "relative z-10 flex-1 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors duration-300",
-          value === "bar" ? "text-[var(--primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          value === "bar"
+            ? "text-[var(--primary)]"
+            : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]",
         )}
       >
         <BarIcon size={14} />

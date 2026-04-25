@@ -29,17 +29,27 @@ const InfoItem = ({ icon: Icon, label, value, copyable }) => {
       }`}
       style={{ borderBottom: "1px solid var(--border-base)" }}
     >
-      <div className="w-9 h-9 flex items-center justify-center shrink-0 rounded bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800" style={{ color: "var(--primary)" }}>
+      <div
+        className="w-9 h-9 flex items-center justify-center shrink-0 rounded bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800"
+        style={{ color: "var(--primary)" }}
+      >
         <Icon size={16} strokeWidth={2} />
       </div>
       <div className="flex flex-col min-w-0">
         <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
           {label}
         </span>
-        <span className="text-sm font-medium truncate flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+        <span
+          className="text-sm font-medium truncate flex items-center gap-2"
+          style={{ color: "var(--text-primary)" }}
+        >
           {value || "—"}
           {copyable && value && (
-            <Copy size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--primary)" }} />
+            <Copy
+              size={12}
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ color: "var(--primary)" }}
+            />
           )}
         </span>
       </div>
@@ -60,12 +70,38 @@ export default function OrgInfo({ org, onResetPassword }) {
         </CardHeader>
         <CardContent className="p-0">
           <div className="grid grid-cols-1 md:grid-cols-2">
-            <InfoItem icon={Mail} label="Contact Email" value={org.email} copyable />
-            <InfoItem icon={Globe} label="Portal Website" value={org.website || "https://nexo-partner.com"} />
-            <InfoItem icon={FileText} label="Registration ID" value={org.tax_id} copyable />
-            <InfoItem icon={MapPin} label="Geographic Region" value={org.region} />
-            <InfoItem icon={CreditCard} label="Billing Model" value={org.billing_cycle} />
-            <InfoItem icon={Clock} label="Account Active Since" value={formatDate(org.created_at)} />
+            <InfoItem
+              icon={Mail}
+              label="Contact Email"
+              value={org.email}
+              copyable
+            />
+            <InfoItem
+              icon={Globe}
+              label="Portal Website"
+              value={org.website || "https://nexo-partner.com"}
+            />
+            <InfoItem
+              icon={FileText}
+              label="Registration ID"
+              value={org.tax_id}
+              copyable
+            />
+            <InfoItem
+              icon={MapPin}
+              label="Geographic Region"
+              value={org.region}
+            />
+            <InfoItem
+              icon={CreditCard}
+              label="Billing Model"
+              value={org.billing_cycle}
+            />
+            <InfoItem
+              icon={Clock}
+              label="Account Active Since"
+              value={formatDate(org.created_at)}
+            />
           </div>
         </CardContent>
       </Card>
@@ -75,23 +111,41 @@ export default function OrgInfo({ org, onResetPassword }) {
           <CardContent className="p-4">
             <div className="flex items-center justify-between gap-6">
               <div className="flex items-center gap-4 flex-1 min-w-0">
-                <div 
+                <div
                   className="w-12 h-12 flex items-center justify-center text-lg font-black text-white shrink-0"
-                  style={{ background: "var(--primary)", borderRadius: "var(--radius-md)" }}
+                  style={{
+                    background: "var(--primary)",
+                    borderRadius: "var(--radius-md)",
+                  }}
                 >
                   {org.admin.full_name?.charAt(0) || "A"}
                 </div>
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <h4 className="text-sm font-black truncate" style={{ color: "var(--text-primary)" }}>
+                    <h4
+                      className="text-sm font-black truncate"
+                      style={{ color: "var(--text-primary)" }}
+                    >
                       {org.admin.full_name}
                     </h4>
-                    <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-slate-100 dark:bg-slate-800 text-slate-500 rounded">Owner</span>
+                    <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-slate-100 dark:bg-slate-800 text-slate-500 rounded">
+                      Owner
+                    </span>
                   </div>
-                  <p className="text-xs font-medium opacity-60 truncate" style={{ color: "var(--text-secondary)" }}>{org.admin.email}</p>
+                  <p
+                    className="text-xs font-medium opacity-60 truncate"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    {org.admin.email}
+                  </p>
                 </div>
               </div>
-              <Button size="sm" variant="secondary" icon={Key} onClick={onResetPassword}>
+              <Button
+                size="sm"
+                variant="secondary"
+                icon={Key}
+                onClick={onResetPassword}
+              >
                 Reset Access
               </Button>
             </div>

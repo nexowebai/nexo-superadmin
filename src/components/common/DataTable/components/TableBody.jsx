@@ -32,8 +32,16 @@ export const TableBody = ({
               >
                 {col.id === "actions" ? (
                   <div className="dt-actions">
-                    <Skeleton width="80px" height="32px" borderRadius="var(--radius-sm)" />
-                    <Skeleton width="80px" height="32px" borderRadius="var(--radius-sm)" />
+                    <Skeleton
+                      width="80px"
+                      height="32px"
+                      borderRadius="var(--radius-sm)"
+                    />
+                    <Skeleton
+                      width="80px"
+                      height="32px"
+                      borderRadius="var(--radius-sm)"
+                    />
                   </div>
                 ) : (
                   <Skeleton width="80%" height="18px" />

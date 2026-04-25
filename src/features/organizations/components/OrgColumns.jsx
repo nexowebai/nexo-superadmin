@@ -27,9 +27,9 @@ export const useOrganizationColumns = ({
         sortable: true,
         render: (val) => (
           <div className="flex items-center">
-             <span className="text-sm font-black text-primary tracking-tight">
-               {val}
-             </span>
+            <span className="text-sm font-black text-primary tracking-tight">
+              {val}
+            </span>
           </div>
         ),
       },
@@ -43,7 +43,7 @@ export const useOrganizationColumns = ({
             <Mail size={14} className="opacity-40" />
             <span className="truncate">{val || "no-email@nexo.com"}</span>
           </div>
-        )
+        ),
       },
       {
         key: "subscription_tier",

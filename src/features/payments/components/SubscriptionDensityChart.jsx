@@ -88,9 +88,9 @@ export function SubscriptionDensityChart({ usageView, setUsageView }) {
               radius={[4, 4, 0, 0]}
               barSize={28}
             >
-              <LabelList 
-                dataKey={usageView === "usage" ? "baseLimit" : "extraCost"} 
-                position="top" 
+              <LabelList
+                dataKey={usageView === "usage" ? "baseLimit" : "extraCost"}
+                position="top"
                 fill="var(--text-muted)"
                 fontSize={10}
                 fontWeight={700}
@@ -104,9 +104,9 @@ export function SubscriptionDensityChart({ usageView, setUsageView }) {
               radius={[4, 4, 0, 0]}
               barSize={28}
             >
-              <LabelList 
-                dataKey={usageView === "usage" ? "avgUsage" : "extraCost"} 
-                position="top" 
+              <LabelList
+                dataKey={usageView === "usage" ? "avgUsage" : "extraCost"}
+                position="top"
                 fill="var(--primary)"
                 fontSize={10}
                 fontWeight={900}

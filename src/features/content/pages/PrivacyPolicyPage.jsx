@@ -60,7 +60,8 @@ export default function PrivacyPolicyPage() {
         {/* Information Alert */}
         <div className="policy-info-bar mb-10">
           <Alert variant="info" title="Global Document Control">
-            This document is the official Privacy Policy shared across all Nexo platform interfaces and user applications.
+            This document is the official Privacy Policy shared across all Nexo
+            platform interfaces and user applications.
           </Alert>
         </div>
 
@@ -73,7 +74,7 @@ export default function PrivacyPolicyPage() {
             applyColor={applyColor}
             lastSaved={lastSaved}
           />
-          
+
           <div className="editor-content-area min-h-[900px] transition-all">
             {viewMode === "edit" ? (
               <div className="h-full p-12 md:p-20">

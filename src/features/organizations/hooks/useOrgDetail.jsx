@@ -35,8 +35,14 @@ export const useOrgDetail = () => {
     staleTime: 30000,
   });
 
-  const openModal = useCallback((type) => setModals((prev) => ({ ...prev, [type]: true })), []);
-  const closeModal = useCallback((type) => setModals((prev) => ({ ...prev, [type]: false })), []);
+  const openModal = useCallback(
+    (type) => setModals((prev) => ({ ...prev, [type]: true })),
+    [],
+  );
+  const closeModal = useCallback(
+    (type) => setModals((prev) => ({ ...prev, [type]: false })),
+    [],
+  );
 
   useEffect(() => {
     setHeaderProps({
@@ -52,7 +58,7 @@ export const useOrgDetail = () => {
         >
           Edit Organization
         </Button>
-      )
+      ),
     });
 
     return () => setHeaderProps({ title: "", action: null });
@@ -67,7 +73,7 @@ export const useOrgDetail = () => {
     openModal,
     closeModal,
     navigate,
-    id
+    id,
   };
 };
 

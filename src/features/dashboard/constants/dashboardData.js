@@ -9,7 +9,7 @@ import {
   BarChart3,
   Activity,
   Server,
-  Key
+  Key,
 } from "lucide-react";
 
 export const STATS_CONFIG = [

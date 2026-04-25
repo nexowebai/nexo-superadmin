@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  Plus, Search, LayoutGrid, List, Download, Filter 
-} from "lucide-react";
+import { Plus, Search, LayoutGrid, List, Download, Filter } from "lucide-react";
 import { useLayout } from "@context";
 import { PageContainer } from "@components/layout/DashboardLayout";
-import { 
-  Button, Input, Select, OrganizationCard, SearchEmptyState 
+import {
+  Button,
+  Input,
+  Select,
+  OrganizationCard,
+  SearchEmptyState,
 } from "@components/ui";
 import DateRangePicker from "@components/ui/DateRangePicker/DateRangePicker";
 import { cn } from "@lib/cn";
@@ -26,8 +28,10 @@ const VIEW_MODE_KEY = "nexo_org_view_mode";
 export default function OrganizationsPage() {
   const navigate = useNavigate();
   const { setHeaderProps } = useLayout();
-  const [viewMode, setViewMode] = useState(() => localStorage.getItem(VIEW_MODE_KEY) || "table");
-  
+  const [viewMode, setViewMode] = useState(
+    () => localStorage.getItem(VIEW_MODE_KEY) || "table",
+  );
+
   const {
     loading,
     organizations,
@@ -55,8 +59,14 @@ export default function OrganizationsPage() {
       title: "Organization Hub",
       action: (
         <div className="flex items-center gap-3">
-          <Button variant="soft" icon={Download}>Export</Button>
-          <Button variant="primary" icon={Plus} onClick={() => navigate("/organizations/create")}>
+          <Button variant="soft" icon={Download}>
+            Export
+          </Button>
+          <Button
+            variant="primary"
+            icon={Plus}
+            onClick={() => navigate("/organizations/create")}
+          >
             Add Organization
           </Button>
         </div>
@@ -74,9 +84,13 @@ export default function OrganizationsPage() {
   };
 
   const showEmpty = !loading && organizations.length === 0;
-  
+
   // Determine if empty state is due to search or filter
-  const emptyType = search ? "search" : (tier || status || dateRange.startDate ? "filter" : "search");
+  const emptyType = search
+    ? "search"
+    : tier || status || dateRange.startDate
+      ? "filter"
+      : "search";
 
   return (
     <PageContainer className="pb-12">
@@ -103,7 +117,7 @@ export default function OrganizationsPage() {
             icon={Filter}
           />
 
-          <DateRangePicker 
+          <DateRangePicker
             initialStartDate={dateRange.startDate}
             initialEndDate={dateRange.endDate}
             onChange={setDateRange}
@@ -116,15 +130,23 @@ export default function OrganizationsPage() {
           <div className="flex p-1 bg-subtle rounded-xl border border-base shadow-sm h-11 items-center">
             <button
               onClick={() => setViewMode("cards")}
-              className={cn("flex items-center justify-center w-10 h-9 rounded-lg transition-all",
-                viewMode === "cards" ? "bg-surface text-primary shadow-sm border border-base" : "text-secondary hover:text-primary")}
+              className={cn(
+                "flex items-center justify-center w-10 h-9 rounded-lg transition-all",
+                viewMode === "cards"
+                  ? "bg-surface text-primary shadow-sm border border-base"
+                  : "text-secondary hover:text-primary",
+              )}
             >
               <LayoutGrid size={18} />
             </button>
             <button
               onClick={() => setViewMode("table")}
-              className={cn("flex items-center justify-center w-10 h-9 rounded-lg transition-all",
-                viewMode === "table" ? "bg-surface text-primary shadow-sm border border-base" : "text-secondary hover:text-primary")}
+              className={cn(
+                "flex items-center justify-center w-10 h-9 rounded-lg transition-all",
+                viewMode === "table"
+                  ? "bg-surface text-primary shadow-sm border border-base"
+                  : "text-secondary hover:text-primary",
+              )}
             >
               <List size={18} />
             </button>
@@ -133,22 +155,29 @@ export default function OrganizationsPage() {
       </div>
 
       {showEmpty ? (
-        <SearchEmptyState onReset={handleReset} searchTerm={search} type={emptyType} />
+        <SearchEmptyState
+          onReset={handleReset}
+          searchTerm={search}
+          type={emptyType}
+        />
       ) : viewMode === "cards" ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
-          {loading ? (
-            Array(6).fill(0).map((_, i) => (
-              <div key={i} className="h-48 bg-subtle animate-pulse rounded-2xl border border-base" />
-            ))
-          ) : (
-            organizations.map((org) => (
-              <OrganizationCard 
-                key={org.id} 
-                organization={org} 
-                onClick={() => navigate(`/organizations/${org.id}`)}
-              />
-            ))
-          )}
+          {loading
+            ? Array(6)
+                .fill(0)
+                .map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-48 bg-subtle animate-pulse rounded-2xl border border-base"
+                  />
+                ))
+            : organizations.map((org) => (
+                <OrganizationCard
+                  key={org.id}
+                  organization={org}
+                  onClick={() => navigate(`/organizations/${org.id}`)}
+                />
+              ))}
         </div>
       ) : (
         <OrganizationsTable

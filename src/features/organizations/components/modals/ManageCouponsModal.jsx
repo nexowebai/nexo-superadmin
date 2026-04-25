@@ -31,7 +31,8 @@ export function ManageCouponsModal({ isOpen, onClose, orgName }) {
           <div className="ds-modal-header__content">
             <ModalTitle>Coupon Management</ModalTitle>
             <ModalDescription className="text-xs font-bold text-slate-400 uppercase tracking-tight">
-              Configure and assign discounts for <span className="font-bold text-primary">{orgName}</span>
+              Configure and assign discounts for{" "}
+              <span className="font-bold text-primary">{orgName}</span>
             </ModalDescription>
           </div>
         </ModalHeader>
@@ -41,7 +42,12 @@ export function ManageCouponsModal({ isOpen, onClose, orgName }) {
             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
               Active Assignments
             </h4>
-            <Button variant="primary" size="sm" icon={Plus} className="h-9 px-4 font-black uppercase tracking-widest text-[10px]">
+            <Button
+              variant="primary"
+              size="sm"
+              icon={Plus}
+              className="h-9 px-4 font-black uppercase tracking-widest text-[10px]"
+            >
               Assign New
             </Button>
           </div>
@@ -78,7 +84,9 @@ export function ManageCouponsModal({ isOpen, onClose, orgName }) {
                       <td className="p-4 font-medium text-secondary">
                         {c.discount}
                       </td>
-                      <td className="p-4 text-muted font-medium tabular-nums">{c.expiry}</td>
+                      <td className="p-4 text-muted font-medium tabular-nums">
+                        {c.expiry}
+                      </td>
                       <td className="p-4 text-right">
                         <Button
                           variant="ghost"

@@ -149,7 +149,7 @@ export function PaymentTable({
               setPlan("");
             }}
             searchTerm={search}
-            type={search ? "search" : (status || plan ? "filter" : "search")}
+            type={search ? "search" : status || plan ? "filter" : "search"}
           />
         ) : null
       }

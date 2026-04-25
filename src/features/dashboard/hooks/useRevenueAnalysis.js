@@ -4,7 +4,7 @@ import { MOCK_CHART_DATA } from "../constants/dashboardData";
 export function useRevenueAnalysis() {
   const [dateRange, setDateRange] = useState({
     startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-    endDate: new Date()
+    endDate: new Date(),
   });
 
   const chartData = useMemo(() => {

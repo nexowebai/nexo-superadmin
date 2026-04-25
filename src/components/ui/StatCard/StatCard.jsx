@@ -63,7 +63,11 @@ function StatCard({
 
       <div className="stat-card__visual">
         {/* Subtle decorative wave for the premium feel */}
-        <svg viewBox="0 0 100 30" preserveAspectRatio="none" className="stat-card__sparkline">
+        <svg
+          viewBox="0 0 100 30"
+          preserveAspectRatio="none"
+          className="stat-card__sparkline"
+        >
           <motion.path
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.15 }}

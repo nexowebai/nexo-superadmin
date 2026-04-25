@@ -38,7 +38,9 @@ const NotificationItem = ({ title, subtitle, status, type }) => {
       </div>
 
       <div className="flex-1 min-width-0 overflow-hidden">
-        <h4 className={`text-[13px] font-black truncate mb-1 uppercase tracking-tight ${status === 'unread' ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'}`}>
+        <h4
+          className={`text-[13px] font-black truncate mb-1 uppercase tracking-tight ${status === "unread" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)]"}`}
+        >
           {title}
         </h4>
         <p className="text-[11px] font-bold text-[var(--text-muted)] truncate opacity-70">
@@ -47,7 +49,9 @@ const NotificationItem = ({ title, subtitle, status, type }) => {
       </div>
 
       <div className="flex items-center gap-4 shrink-0 ml-auto">
-        {status === "unread" && <div className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_10px_var(--primary-soft)] shrink-0" />}
+        {status === "unread" && (
+          <div className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_10px_var(--primary-soft)] shrink-0" />
+        )}
         <button className="opacity-0 group-hover:opacity-100 p-2 rounded-lg text-[var(--text-dimmed)] hover:text-white hover:bg-[var(--error)] transition-all shrink-0">
           <Trash2 size={16} />
         </button>

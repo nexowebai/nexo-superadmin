@@ -11,9 +11,12 @@ export function useSettingsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "general";
 
-  const setActiveTab = useCallback((tab) => {
-    setSearchParams({ tab }, { replace: true });
-  }, [setSearchParams]);
+  const setActiveTab = useCallback(
+    (tab) => {
+      setSearchParams({ tab }, { replace: true });
+    },
+    [setSearchParams],
+  );
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
   const initialDataRef = useRef(null);
 

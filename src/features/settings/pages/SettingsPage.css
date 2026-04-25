@@ -236,8 +236,12 @@ body.dark-mode .telemetry-switch-card {
   border-right: 1px solid var(--border-base);
 }
 
-.light-mode-preview .preview-sidebar { background: #f1f5f9; }
-.dark-mode-preview .preview-sidebar { background: #1e293b; }
+.light-mode-preview .preview-sidebar {
+  background: #f1f5f9;
+}
+.dark-mode-preview .preview-sidebar {
+  background: #1e293b;
+}
 
 .preview-content {
   flex: 1;
@@ -253,8 +257,12 @@ body.dark-mode .telemetry-switch-card {
   border-radius: 4px;
 }
 
-.light-mode-preview .preview-header { background: #e2e8f0; }
-.dark-mode-preview .preview-header { background: #334155; }
+.light-mode-preview .preview-header {
+  background: #e2e8f0;
+}
+.dark-mode-preview .preview-header {
+  background: #334155;
+}
 
 .preview-blocks {
   display: flex;
@@ -268,8 +276,12 @@ body.dark-mode .telemetry-switch-card {
   border-radius: 3px;
 }
 
-.light-mode-preview .preview-block { background: #f1f5f9; }
-.dark-mode-preview .preview-block { background: #1e293b; }
+.light-mode-preview .preview-block {
+  background: #f1f5f9;
+}
+.dark-mode-preview .preview-block {
+  background: #1e293b;
+}
 
 .theme-choice-btn-nx:hover .theme-choice-preview-modern {
   transform: translateY(-2px);

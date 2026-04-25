@@ -11,7 +11,10 @@ export const renderPolicyContent = (raw) => {
     // Heading 1: # Header
     if (line.startsWith("# ")) {
       return (
-        <h1 key={i} className="text-4xl font-black mb-8 text-[var(--text-primary)] border-b border-base pb-6">
+        <h1
+          key={i}
+          className="text-4xl font-black mb-8 text-[var(--text-primary)] border-b border-base pb-6"
+        >
           {line.replace("# ", "")}
         </h1>
       );
@@ -20,7 +23,10 @@ export const renderPolicyContent = (raw) => {
     // Heading 2: ## Header
     if (line.startsWith("## ")) {
       return (
-        <h2 key={i} className="text-2xl font-extrabold mt-10 mb-5 text-[var(--text-primary)]">
+        <h2
+          key={i}
+          className="text-2xl font-extrabold mt-10 mb-5 text-[var(--text-primary)]"
+        >
           {line.replace("## ", "")}
         </h2>
       );

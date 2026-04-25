@@ -5,7 +5,10 @@ const SkeletonPulse = ({ className }) => (
     initial={{ opacity: 0.4 }}
     animate={{ opacity: 0.8 }}
     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-    style={{ backgroundColor: "var(--skeleton-bg)", borderRadius: "var(--radius-md)" }}
+    style={{
+      backgroundColor: "var(--skeleton-bg)",
+      borderRadius: "var(--radius-md)",
+    }}
     className={className}
   />
 );
@@ -14,12 +17,12 @@ export default function OrgSkeleton() {
   return (
     <div className="space-y-6">
       {/* Hero Skeleton */}
-      <div 
+      <div
         className="p-6 flex flex-col md:flex-row gap-6 items-center"
-        style={{ 
+        style={{
           backgroundColor: "var(--bg-surface)",
           border: "1px solid var(--border-base)",
-          borderRadius: "var(--radius-md)"
+          borderRadius: "var(--radius-md)",
         }}
       >
         <SkeletonPulse className="w-20 h-20 shrink-0" />
@@ -39,13 +42,13 @@ export default function OrgSkeleton() {
       {/* Stats Grid Skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className="p-4 h-32"
-            style={{ 
+            style={{
               backgroundColor: "var(--bg-surface)",
               border: "1px solid var(--border-base)",
-              borderRadius: "var(--radius-md)"
+              borderRadius: "var(--radius-md)",
             }}
           >
             <SkeletonPulse className="h-4 w-20 mb-4" />
@@ -57,12 +60,12 @@ export default function OrgSkeleton() {
       {/* Main Content Grid Skeleton */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div 
+          <div
             className="p-6 space-y-6"
-            style={{ 
+            style={{
               backgroundColor: "var(--bg-surface)",
               border: "1px solid var(--border-base)",
-              borderRadius: "var(--radius-md)"
+              borderRadius: "var(--radius-md)",
             }}
           >
             <SkeletonPulse className="h-6 w-32" />
@@ -72,24 +75,32 @@ export default function OrgSkeleton() {
               ))}
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             {[1, 2].map((i) => (
-                <div key={i} className="p-6 h-64" style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border-base)", borderRadius: "var(--radius-md)" }}>
-                   <SkeletonPulse className="h-6 w-32 mb-8" />
-                   <SkeletonPulse className="h-32 w-full" />
-                </div>
-             ))}
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="p-6 h-64"
+                style={{
+                  backgroundColor: "var(--bg-surface)",
+                  border: "1px solid var(--border-base)",
+                  borderRadius: "var(--radius-md)",
+                }}
+              >
+                <SkeletonPulse className="h-6 w-32 mb-8" />
+                <SkeletonPulse className="h-32 w-full" />
+              </div>
+            ))}
           </div>
         </div>
-        
+
         <div className="space-y-6">
-          <div 
+          <div
             className="p-6 space-y-4"
-            style={{ 
+            style={{
               backgroundColor: "var(--bg-surface)",
               border: "1px solid var(--border-base)",
-              borderRadius: "var(--radius-md)"
+              borderRadius: "var(--radius-md)",
             }}
           >
             <SkeletonPulse className="h-6 w-24" />

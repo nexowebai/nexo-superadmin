@@ -203,11 +203,17 @@
 }
 
 .status-trigger--success .status-trigger__dot,
-.status-option--success .status-option__dot { background: var(--success); }
+.status-option--success .status-option__dot {
+  background: var(--success);
+}
 .status-trigger--warning .status-trigger__dot,
-.status-option--warning .status-option__dot { background: var(--warning); }
+.status-option--warning .status-option__dot {
+  background: var(--warning);
+}
 .status-trigger--danger .status-trigger__dot,
-.status-option--danger .status-option__dot { background: var(--error); }
+.status-option--danger .status-option__dot {
+  background: var(--error);
+}
 
 .status-option {
   display: flex;

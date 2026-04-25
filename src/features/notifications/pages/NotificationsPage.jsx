@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
-import {
-  Bell,
-  AlertCircle,
-  Shield,
-  CheckCheck,
-  Trash2,
-} from "lucide-react";
+import { Bell, AlertCircle, Shield, CheckCheck, Trash2 } from "lucide-react";
 
 import { PageContainer } from "@components/layout/DashboardLayout";
 import { Button, Tabs, ConfirmModal, SearchEmptyState } from "@components/ui";
@@ -15,7 +9,10 @@ import { useLayout } from "@context";
 
 import { useNotificationsPage } from "../hooks/useNotificationsPage";
 import { TAB_OPTIONS } from "../constants/notificationData";
-import { NotificationCard, NotificationSkeleton } from "../components/NotificationCard";
+import {
+  NotificationCard,
+  NotificationSkeleton,
+} from "../components/NotificationCard";
 
 import "./NotificationsPage.css";
 
@@ -48,18 +45,29 @@ function NotificationsPage() {
         <Button
           variant="secondary"
           icon={hasUnread ? CheckCheck : Trash2}
-          onClick={hasUnread ? handleMarkAllRead : () => setShowClearConfirm(true)}
+          onClick={
+            hasUnread ? handleMarkAllRead : () => setShowClearConfirm(true)
+          }
           className="h-11 px-6 rounded-md font-bold uppercase tracking-wider text-[11px] shadow-sm"
         >
-          {hasUnread 
-            ? "Mark all read" 
-            : (isUnreadFilter ? "Clear unread" : "Clear notifications")}
+          {hasUnread
+            ? "Mark all read"
+            : isUnreadFilter
+              ? "Clear unread"
+              : "Clear notifications"}
         </Button>
       ) : null,
     });
 
     return () => setHeaderProps({ title: "", action: null });
-  }, [setHeaderProps, unreadCount, notifications.length, handleMarkAllRead, setShowClearConfirm, filter]);
+  }, [
+    setHeaderProps,
+    unreadCount,
+    notifications.length,
+    handleMarkAllRead,
+    setShowClearConfirm,
+    filter,
+  ]);
 
   return (
     <PageContainer className="notifications-v2 pb-12">
@@ -107,7 +115,7 @@ function NotificationsPage() {
             ))}
           </div>
         ) : notifications.length === 0 ? (
-          <SearchEmptyState 
+          <SearchEmptyState
             searchTerm={search}
             type={search ? "search" : "filter"}
             onReset={() => {
@@ -135,13 +143,19 @@ function NotificationsPage() {
         isOpen={showClearConfirm}
         onClose={() => setShowClearConfirm(false)}
         onConfirm={handleDeleteAll}
-        title={filter === "unread" ? "Clear Unread Alerts?" : "Clear All Notifications?"}
+        title={
+          filter === "unread"
+            ? "Clear Unread Alerts?"
+            : "Clear All Notifications?"
+        }
         description={
           filter === "unread"
             ? "Are you sure you want to delete only your unread notifications? This will not affect read alerts."
             : "Are you sure you want to permanently delete all notifications from your archive? This action cannot be undone."
         }
-        confirmText={filter === "unread" ? "Yes, Clear Unread" : "Yes, Clear All"}
+        confirmText={
+          filter === "unread" ? "Yes, Clear Unread" : "Yes, Clear All"
+        }
         variant="delete"
       />
     </PageContainer>

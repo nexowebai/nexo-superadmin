@@ -50,7 +50,8 @@ const Input = forwardRef(
             "ds-input-container",
             `ds-input-container--${size}`,
             Icon && `ds-input-container--icon-left`,
-            (RightIcon || (clearable && value)) && `ds-input-container--icon-right`,
+            (RightIcon || (clearable && value)) &&
+              `ds-input-container--icon-right`,
             error && "ds-input-container--error",
             disabled && "ds-input-container--disabled",
           )}
@@ -72,24 +73,26 @@ const Input = forwardRef(
             {...props}
           />
 
-          {(clearable && value && !disabled) ? (
-             <button
-                type="button"
-                className="ds-input-icon ds-input-icon--right ds-input-icon--clickable"
-                onClick={onClear}
-                tabIndex={-1}
-             >
-               <X size={16} />
-             </button>
-          ) : RightIcon && (
+          {clearable && value && !disabled ? (
             <button
               type="button"
               className="ds-input-icon ds-input-icon--right ds-input-icon--clickable"
-              onClick={onRightIconClick}
+              onClick={onClear}
               tabIndex={-1}
             >
-              <RightIcon size={18} />
+              <X size={16} />
             </button>
+          ) : (
+            RightIcon && (
+              <button
+                type="button"
+                className="ds-input-icon ds-input-icon--right ds-input-icon--clickable"
+                onClick={onRightIconClick}
+                tabIndex={-1}
+              >
+                <RightIcon size={18} />
+              </button>
+            )
           )}
         </div>
 

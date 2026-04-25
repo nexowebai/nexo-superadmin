@@ -30,7 +30,10 @@ const Button = forwardRef(
     if (LeftIcon) {
       LIcon = LeftIcon;
     } else if (RightIcon) {
-      if (typeof RightIcon === 'function' || (typeof RightIcon === 'object' && RightIcon !== null)) {
+      if (
+        typeof RightIcon === "function" ||
+        (typeof RightIcon === "object" && RightIcon !== null)
+      ) {
         RIcon = RightIcon;
       } else if (RightIcon === true && Icon) {
         RIcon = Icon;
