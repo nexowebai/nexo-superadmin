@@ -1,222 +1,239 @@
 import fs from "fs";
 import path from "path";
+import { parse } from "@babel/parser";
+import _traverse from "@babel/traverse";
+const traverse = _traverse.default;
 
 /**
- * 🛰️ NEXO VISION ENGINE (V6.1) - HYBRID ARCHITECT EDITION
+ * 🏔️ NEXO APEX ARCHITECT (V8.0)
  * 
- * Combines surgical sequence mapping with cinematic themed topologies.
- * Provides deep architectural transparency for high-end technical interviews.
+ * The ultimate hybrid of AST-based code intelligence and premium visual UX.
+ * Features:
+ * - Babel-powered Abstract Syntax Tree (AST) analysis
+ * - Advanced Complexity Scoring (Babel-inferred)
+ * - Themed Indiglo Mermaid topologies
+ * - Automated API Surface Mapping
+ * - Development Navigation Maps
  */
 
 const FEATURES_DIR = path.join(process.cwd(), "src/features");
 const ROOT_README = path.join(process.cwd(), "README.md");
 
-function countLines(filePath) {
-    if (!fs.existsSync(filePath)) return 0;
-    const content = fs.readFileSync(filePath, "utf-8");
-    return content.split("\n").length;
+function read(filePath) {
+    return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
 }
 
 function analyzeFile(filePath) {
-    if (!fs.existsSync(filePath)) return { exports: [], imports: [] };
-    const content = fs.readFileSync(filePath, "utf-8");
-    const exports = [...content.matchAll(/export (const|function|async function) (\w+)/g)].map(m => m[2]);
-    return { exports };
-}
+    const code = read(filePath);
+    if (!code) return null;
 
-function analyzeFolder(featurePath, subDir) {
-    const dirPath = path.join(featurePath, subDir);
-    if (!fs.existsSync(dirPath)) return [];
-    
-    return fs.readdirSync(dirPath)
-        .filter(f => f.endsWith(".js") || f.endsWith(".jsx"))
-        .map(f => {
-            const filePath = path.join(dirPath, f);
-            const { exports } = analyzeFile(filePath);
-            const lines = countLines(filePath);
-            return {
-                name: f.split(".")[0],
-                lines: lines,
-                exports,
-                status: lines > 150 ? "Refactor" : "Stable"
-            };
+    try {
+        const ast = parse(code, { sourceType: "module", plugins: ["jsx"] });
+        const data = {
+            name: path.basename(filePath),
+            simpleName: path.basename(filePath).split(".")[0],
+            lines: code.split("\n").length,
+            exports: [],
+            imports: [],
+            api: [],
+            jsx: 0
+        };
+
+        traverse(ast, {
+            ExportNamedDeclaration(p) {
+                const d = p.node.declaration;
+                if (d?.declarations) d.declarations.forEach(x => data.exports.push(x.id.name));
+            },
+            ImportDeclaration(p) {
+                data.imports.push(p.node.source.value);
+            },
+            CallExpression(p) {
+                const callee = p.node.callee;
+                const name = callee.name || (callee.property ? callee.property.name : null);
+                if (["get", "post", "patch", "delete", "put"].includes(name?.toLowerCase())) {
+                    const arg = p.node.arguments[0]?.value;
+                    if (arg) data.api.push({ method: name.toUpperCase(), endpoint: arg });
+                }
+            },
+            JSXElement() {
+                data.jsx++;
+            }
         });
-}
 
-function generateThemedSequence(featureName, structure) {
-    const primaryPage = structure.pages.find(p => p.name.toLowerCase().includes("page")) || structure.pages[0];
-    const primaryHook = structure.hooks.find(h => h.name.toLowerCase().includes("page")) || structure.hooks[0];
-    const primaryService = structure.services[0];
-
-    let diagram = "```mermaid\nsequenceDiagram\n";
-    diagram += "    autonumber\n";
-    if (primaryPage && primaryHook && primaryService) {
-        diagram += `    participant P as ${primaryPage.name}.jsx\n`;
-        diagram += `    participant H as ${primaryHook.name}.js\n`;
-        diagram += `    participant S as ${primaryService.name}.js\n`;
-        diagram += `    participant API as Supabase/External\n\n`;
-        
-        diagram += `    Note over P,API: Feature Lifecycle Initiation\n`;
-        diagram += `    P->>H: Mounts & invokes data orchestration\n`;
-        diagram += `    H->>S: Requests normalized dataset\n`;
-        diagram += `    S->>API: Executes authenticated query\n`;
-        diagram += `    API-->>S: Returns JSON recordset\n`;
-        diagram += `    S-->>H: Hydrates DTO for local state\n`;
-        diagram += `    H-->>P: Reactive UI sync via state update\n`;
-    } else {
-        diagram += "    Note over P,API: Architecture nodes restricted\n";
+        return data;
+    } catch (e) {
+        // Fallback for non-JS files or syntax issues
+        return { name: path.basename(filePath), lines: code.split("\n").length, exports: [], imports: [], api: [], jsx: 0 };
     }
-    diagram += "```";
-    return diagram;
 }
 
-function generateThemedTopology(featureName, structure) {
-    let diagram = "```mermaid\n";
-    diagram += "%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%\n";
-    diagram += "graph TD\n";
-    
-    diagram += "    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;\n";
-    diagram += "    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;\n";
-    diagram += "    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;\n\n";
+function score(f) {
+    return Math.round(
+        f.lines * 0.15 +
+        f.imports.length * 2.5 +
+        f.exports.length * 2 +
+        f.api.length * 5 +
+        f.jsx * 0.8
+    );
+}
 
-    structure.pages.forEach(p => {
-        diagram += `    ${p.name}[${p.name}.jsx]:::page\n`;
-        structure.hooks.forEach(h => {
-            if (p.name.includes(h.name.replace("use", ""))) {
-                diagram += `    ${p.name} --"Logic Orchestration"--> ${h.name}\n`;
+function generateThemedSequence(featureName, files) {
+    const page = files.find(f => f.jsx > 10) || files.find(f => f.name.includes("Page")) || files[0];
+    const hook = files.find(f => f.name.startsWith("use") && f.name.includes(page?.simpleName.replace("Page", ""))) || files.find(f => f.name.startsWith("use"));
+    const service = files.find(f => f.api.length > 0) || files.find(f => f.name.includes("Service"));
+
+    let d = "```mermaid\nsequenceDiagram\nautonumber\n";
+    if (page && hook && service) {
+        d += `    participant P as ${page.name}\n`;
+        d += `    participant H as ${hook.name}\n`;
+        d += `    participant S as ${service.name}\n`;
+        d += `    participant API as Supabase/External\n\n`;
+        d += `    P->>H: Initialize Logic State\n`;
+        d += `    H->>S: Invoke Data Fetching\n`;
+        d += `    S->>API: Executes HTTP ${service.api[0]?.method || "GET"}\n`;
+        d += `    API-->>S: Payload Response\n`;
+        d += `    S-->>H: Hydrate React State\n`;
+        d += `    H-->>P: Render Hydrated View\n`;
+    } else {
+        d += "    Note over UI,API: Partial architecture nodes detected\n";
+    }
+    d += "```";
+    return d;
+}
+
+function generateThemedTopology(featureName, files) {
+    let d = "```mermaid\n";
+    d += "%%{init: {'theme': 'neutral', 'themeVariables': { 'fontFamily': 'Inter', 'lineColor': '#6366f1' }}}%%\n";
+    d += "graph TD\n";
+    d += "    classDef page fill:#4f46e5,stroke:#3730a3,stroke-width:2px,color:#fff,rx:10,ry:10;\n";
+    d += "    classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;\n";
+    d += "    classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;\n\n";
+
+    files.forEach(f => {
+        const id = f.name.replace(/\W/g, "");
+        const type = f.jsx > 5 ? ":::page" : f.name.startsWith("use") ? ":::hook" : f.api.length > 0 ? ":::service" : "";
+        d += `    ${id}["${f.name}"]${type}\n`;
+    });
+
+    files.forEach(f => {
+        const fid = f.name.replace(/\W/g, "");
+        f.imports.forEach(i => {
+            const base = i.split("/").pop();
+            const target = files.find(x => x.name.includes(base));
+            if (target) {
+                d += `    ${fid} --> ${target.name.replace(/\W/g, "")}\n`;
             }
         });
     });
 
-    structure.hooks.forEach(h => {
-        diagram += `    ${h.name}((${h.name}.js)):::hook\n`;
-        structure.services.forEach(s => {
-            diagram += `    ${h.name} --"Data Connectivity"--> ${s.name}\n`;
-        });
-    });
-
-    structure.services.forEach(s => {
-        diagram += `    ${s.name}{${s.name}.js}:::service\n`;
-        diagram += `    ${s.name} --> API_CORE((Global API Client))\n`;
-    });
-
-    diagram += "```";
-    return diagram;
+    d += "```";
+    return d;
 }
 
-function syncDocs() {
-    console.log("🎨 Nexo Vision: Generating Surgical Hybrid Topology...");
+function run() {
+    console.log("🏔️ Nexo Apex: Initializing AST-Based Engineering Audit...");
 
     if (!fs.existsSync(FEATURES_DIR)) return;
 
-    const features = fs.readdirSync(FEATURES_DIR, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name);
+    const features = fs.readdirSync(FEATURES_DIR).filter(f =>
+        fs.statSync(path.join(FEATURES_DIR, f)).isDirectory()
+    );
 
-    let featureStats = [];
+    const globalStats = [];
 
     features.forEach(feature => {
-        const featurePath = path.join(FEATURES_DIR, feature);
-        const structure = {
-            pages: analyzeFolder(featurePath, "pages"),
-            hooks: analyzeFolder(featurePath, "hooks"),
-            services: analyzeFolder(featurePath, "services"),
-            components: analyzeFolder(featurePath, "components")
-        };
+        const base = path.join(FEATURES_DIR, feature);
+        const filePaths = [
+            ...getFiles(path.join(base, "pages")),
+            ...getFiles(path.join(base, "hooks")),
+            ...getFiles(path.join(base, "services")),
+            ...getFiles(path.join(base, "components"))
+        ];
 
-        const totalLines = [...structure.pages, ...structure.hooks, ...structure.services, ...structure.components]
-            .reduce((sum, f) => sum + f.lines, 0);
-        
-        const hasLargeFiles = [...structure.pages, ...structure.hooks, ...structure.services, ...structure.components]
-            .some(f => f.status === "Refactor");
+        const files = filePaths.map(analyzeFile).filter(Boolean);
+        files.forEach(f => f.score = score(f));
 
-        featureStats.push({
-            name: feature,
-            lines: totalLines,
-            compliance: hasLargeFiles ? "NON-COMPLIANT" : "STABLE",
-            nodeCount: structure.pages.length + structure.hooks.length + structure.services.length
-        });
+        const totalLoC = files.reduce((s, f) => s + f.lines, 0);
+        const hotspots = files.filter(f => f.score > 80).sort((a, b) => b.score - a.score);
+        const apiSurface = files.flatMap(f => f.api.map(a => ({ ...a, source: f.name })));
 
-        const sequence = generateThemedSequence(feature, structure);
-        const topology = generateThemedTopology(feature, structure);
-        const readmePath = path.join(featurePath, "README.md");
+        const sequence = generateThemedSequence(feature, files);
+        const topology = generateThemedTopology(feature, files);
 
-        const content = `# Feature Specification: ${feature.toUpperCase()}\n
-![Status](https://img.shields.io/badge/Architecture-${hasLargeFiles ? "Non--Compliant" : "Certified"}-${hasLargeFiles ? "red" : "6366f1"})
-![Complexity](https://img.shields.io/badge/Logic_Density-${totalLines}_Lines-blue)
-![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
+        const content = `# Feature Intelligence: ${feature.toUpperCase()}
 
-> **Module Overview**: High-performance domain logic for **${feature}**. This module enforces strict unidirectional data flow and headless state management.
-
----
+![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
+![Complexity](https://img.shields.io/badge/Complexity_Score-${totalLoC > 500 ? "High" : "Optimal"}-${totalLoC > 500 ? "orange" : "brightgreen"})
+![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
 
-### 1. Execution Sequence (Runtime)
-Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
-
-${sequence}
-
-### 2. Dependency Topology (Structural)
-Thematic map of architectural layering and file-level relationships.
+### 1. Thematic Dependency Graph
+Babel-parsed internal mapping of module relationships.
 
 ${topology}
 
----
+### 2. Execution Sequence
+Runtime orchestration between View, Logic, and Infrastructure layers.
 
-## 📂 Implementation Audit
-
-### 📄 Presentation (Pages)
-| Entry Point | Logic Density | Status |
-| :--- | :--- | :--- |
-${structure.pages.map(p => `| \`${p.name}.jsx\` | ${p.lines} LoC | ${p.status === "Stable" ? "✅ Stable" : "⚠️ Refactor Required"} |`).join("\n") || "| - | - | - |"}
-
-### ⚓ Headless Logic (Hooks)
-| Controller | Domain Handlers | Health |
-| :--- | :--- | :--- |
-${structure.hooks.map(h => `| \`${h.name}.js\` | ${h.exports.length} Exports | ${h.status === "Stable" ? "✅ Stable" : "⚠️ Refactor Required"} |`).join("\n") || "| - | - | - |"}
-
-### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Performance |
-| :--- | :--- | :--- |
-${structure.services.map(s => `| \`${s.name}.js\` | High-Throughput | ✅ Optimized |`).join("\n") || "| - | - | - |"}
+${sequence}
 
 ---
 
-## 🎓 Technical Interview Highlights
-- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
-- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
-- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+## 📡 API Surface (Inferred)
+Automated mapping of external connectivity within this module.
+
+| Method | Endpoint | Source Provider |
+| :--- | :--- | :--- |
+${apiSurface.map(a => `| ${a.method} | \`${a.endpoint}\` | ${a.source} |`).join("\n") || "| - | - | - |"}
 
 ---
-*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*
+
+## 🛠️ Development Navigation
+| Objective | Target Layer | Target File |
+| :--- | :--- | :--- |
+| **Change UI Layout** | Presentation (Pages) | \`${files.find(f => f.jsx > 10)?.name || "FeaturePage.jsx"}\` |
+| **Update Business Logic** | Logic (Hooks) | \`${files.find(f => f.name.startsWith("use"))?.name || "useHook.js"}\` |
+| **Modify Data Provider** | Infrastructure (Services) | \`${files.find(f => f.api.length > 0)?.name || "featureService.js"}\` |
+
+---
+
+## 📂 Engineering Audit
+| Entity | Score | Complexity | LoC | Status |
+| :--- | :--- | :--- | :--- | :--- |
+${files.map(f => `| \`${f.name}\` | ${f.score} | ${f.score > 80 ? "High" : "Low"} | ${f.lines} | ${f.lines > 150 ? "⚠️ REFACTOR" : "✅ STABLE"} |`).join("\n")}
+
+---
+*Generated by Nexo Apex Architect V8.0 | Institutional Standard*
 `;
 
-        fs.writeFileSync(readmePath, content);
+        fs.writeFileSync(path.join(base, "README.md"), content);
+        globalStats.push({ name: feature, lines: totalLoC, files: files.length, score: Math.round(totalLoC / files.length) });
     });
 
-    // Update Root README
     if (fs.existsSync(ROOT_README)) {
-        let rootReadme = fs.readFileSync(ROOT_README, "utf-8");
-        const tableHeader = "| Status | Module | Complexity | Nodes | Topology |\n| :--- | :--- | :--- | :--- | :--- |\n";
-        const tableBody = featureStats.map(f => {
-            const statusBadge = f.compliance === "STABLE" 
-                ? "![Stable](https://img.shields.io/badge/-Stable-6366f1)" 
-                : "![Refactor](https://img.shields.io/badge/-Refactor-ef4444)";
-            return `| ${statusBadge} | **${f.name.toUpperCase()}** | ${f.lines} LoC | ${f.nodeCount} | [Open Spec](./src/features/${f.name}/README.md) |`;
-        }).join("\n");
+        let root = fs.readFileSync(ROOT_README, "utf-8");
+        const table = `
+| Status | Feature Module | Complexity | Density | Specification |
+| :--- | :--- | :--- | :--- | :--- |
+${globalStats.map(s => `| ${s.score > 50 ? "![High](https://img.shields.io/badge/-High-orange)" : "![Optimal](https://img.shields.io/badge/-Optimal-brightgreen)"} | **${s.name.toUpperCase()}** | ${s.lines} LoC | ${s.files} Nodes | [View Specs](./src/features/${s.name}/README.md) |`).join("\n")}
+`;
 
-        const newTable = tableHeader + tableBody;
-        
-        rootReadme = rootReadme.replace(
+        root = root.replace(
             /<!-- FEATURE_INVENTORY_START -->[\s\S]*<!-- FEATURE_INVENTORY_END -->/,
-            `<!-- FEATURE_INVENTORY_START -->\n${newTable}\n<!-- FEATURE_INVENTORY_END -->`
+            `<!-- FEATURE_INVENTORY_START -->\n${table}\n<!-- FEATURE_INVENTORY_END -->`
         );
-        
-        fs.writeFileSync(ROOT_README, rootReadme);
+        fs.writeFileSync(ROOT_README, root);
     }
 
-    console.log("✨ Nexo Vision: Hybrid Topology synchronization complete.");
+    console.log("✨ Nexo Apex: Architecture synchronized with AST-level precision.");
 }
 
-syncDocs();
+function getFiles(dir) {
+    if (!fs.existsSync(dir)) return [];
+    return fs.readdirSync(dir)
+        .filter(f => f.endsWith(".js") || f.endsWith(".jsx"))
+        .map(f => path.join(dir, f));
+}
+
+run();

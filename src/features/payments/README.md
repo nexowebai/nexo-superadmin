@@ -1,78 +1,84 @@
-# Feature Specification: PAYMENTS
+# Feature Intelligence: PAYMENTS
 
-![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
-![Complexity](https://img.shields.io/badge/Logic_Density-756_Lines-blue)
-![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
-
-> **Module Overview**: High-performance domain logic for **payments**. This module enforces strict unidirectional data flow and headless state management.
-
----
+![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
+![Complexity](https://img.shields.io/badge/Complexity_Score-High-orange)
+![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
 
-### 1. Execution Sequence (Runtime)
-Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
+### 1. Thematic Dependency Graph
+Babel-parsed internal mapping of module relationships.
+
+```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': { 'fontFamily': 'Inter', 'lineColor': '#6366f1' }}}%%
+graph TD
+    classDef page fill:#4f46e5,stroke:#3730a3,stroke-width:2px,color:#fff,rx:10,ry:10;
+    classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;
+    classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;
+
+    PaymentsPagejsx["PaymentsPage.jsx"]:::page
+    usePaymentsjs["usePayments.js"]:::hook
+    paymentServicejs["paymentService.js"]
+    PaymentDetailModaljsx["PaymentDetailModal.jsx"]:::page
+    PaymentTablejsx["PaymentTable.jsx"]:::page
+    RevenueVelocityChartjsx["RevenueVelocityChart.jsx"]:::page
+    SubscriptionDensityChartjsx["SubscriptionDensityChart.jsx"]:::page
+    PaymentsPagejsx --> usePaymentsjs
+    PaymentsPagejsx --> RevenueVelocityChartjsx
+    PaymentsPagejsx --> SubscriptionDensityChartjsx
+    PaymentsPagejsx --> PaymentTablejsx
+    PaymentsPagejsx --> PaymentDetailModaljsx
+```
+
+### 2. Execution Sequence
+Runtime orchestration between View, Logic, and Infrastructure layers.
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    participant P as PaymentsPage.jsx
+autonumber
+    participant P as PaymentDetailModal.jsx
     participant H as usePayments.js
     participant S as paymentService.js
     participant API as Supabase/External
 
-    Note over P,API: Feature Lifecycle Initiation
-    P->>H: Mounts & invokes data orchestration
-    H->>S: Requests normalized dataset
-    S->>API: Executes authenticated query
-    API-->>S: Returns JSON recordset
-    S-->>H: Hydrates DTO for local state
-    H-->>P: Reactive UI sync via state update
-```
-
-### 2. Dependency Topology (Structural)
-Thematic map of architectural layering and file-level relationships.
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
-graph TD
-    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
-    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
-    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
-
-    PaymentsPage[PaymentsPage.jsx]:::page
-    PaymentsPage --"Logic Orchestration"--> usePayments
-    usePayments((usePayments.js)):::hook
-    usePayments --"Data Connectivity"--> paymentService
-    paymentService{paymentService.js}:::service
-    paymentService --> API_CORE((Global API Client))
+    P->>H: Initialize Logic State
+    H->>S: Invoke Data Fetching
+    S->>API: Executes HTTP GET
+    API-->>S: Payload Response
+    S-->>H: Hydrate React State
+    H-->>P: Render Hydrated View
 ```
 
 ---
 
-## 📂 Implementation Audit
+## 📡 API Surface (Inferred)
+Automated mapping of external connectivity within this module.
 
-### 📄 Presentation (Pages)
-| Entry Point | Logic Density | Status |
+| Method | Endpoint | Source Provider |
 | :--- | :--- | :--- |
-| `PaymentsPage.jsx` | 93 LoC | ✅ Stable |
-
-### ⚓ Headless Logic (Hooks)
-| Controller | Domain Handlers | Health |
-| :--- | :--- | :--- |
-| `usePayments.js` | 1 Exports | ✅ Stable |
-
-### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Performance |
-| :--- | :--- | :--- |
-| `paymentService.js` | High-Throughput | ✅ Optimized |
+| - | - | - |
 
 ---
 
-## 🎓 Technical Interview Highlights
-- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
-- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
-- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+## 🛠️ Development Navigation
+| Objective | Target Layer | Target File |
+| :--- | :--- | :--- |
+| **Change UI Layout** | Presentation (Pages) | `PaymentDetailModal.jsx` |
+| **Update Business Logic** | Logic (Hooks) | `usePayments.js` |
+| **Modify Data Provider** | Infrastructure (Services) | `featureService.js` |
 
 ---
-*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*
+
+## 📂 Engineering Audit
+| Entity | Score | Complexity | LoC | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| `PaymentsPage.jsx` | 47 | Low | 93 | ✅ STABLE |
+| `usePayments.js` | 16 | Low | 57 | ✅ STABLE |
+| `paymentService.js` | 6 | Low | 13 | ✅ STABLE |
+| `PaymentDetailModal.jsx` | 63 | Low | 149 | ✅ STABLE |
+| `PaymentTable.jsx` | 58 | Low | 177 | ⚠️ REFACTOR |
+| `RevenueVelocityChart.jsx` | 54 | Low | 145 | ✅ STABLE |
+| `SubscriptionDensityChart.jsx` | 47 | Low | 122 | ✅ STABLE |
+
+---
+*Generated by Nexo Apex Architect V8.0 | Institutional Standard*

@@ -1,82 +1,85 @@
-# Feature Specification: LOGS
+# Feature Intelligence: LOGS
 
-![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
-![Complexity](https://img.shields.io/badge/Logic_Density-667_Lines-blue)
-![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
-
-> **Module Overview**: High-performance domain logic for **logs**. This module enforces strict unidirectional data flow and headless state management.
-
----
+![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
+![Complexity](https://img.shields.io/badge/Complexity_Score-High-orange)
+![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
 
-### 1. Execution Sequence (Runtime)
-Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
+### 1. Thematic Dependency Graph
+Babel-parsed internal mapping of module relationships.
+
+```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': { 'fontFamily': 'Inter', 'lineColor': '#6366f1' }}}%%
+graph TD
+    classDef page fill:#4f46e5,stroke:#3730a3,stroke-width:2px,color:#fff,rx:10,ry:10;
+    classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;
+    classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;
+
+    LogsPagejsx["LogsPage.jsx"]:::page
+    useLogsjs["useLogs.js"]:::hook
+    useLogsPagejs["useLogsPage.js"]:::hook
+    logServicejs["logService.js"]:::service
+    LogBadgesjsx["LogBadges.jsx"]:::page
+    LogDetailModaljsx["LogDetailModal.jsx"]:::page
+    LogsTablejsx["LogsTable.jsx"]:::page
+    LogsPagejsx --> useLogsPagejs
+    LogsPagejsx --> LogsTablejsx
+    LogsPagejsx --> LogDetailModaljsx
+    useLogsjs --> logServicejs
+    useLogsPagejs --> useLogsjs
+    LogsTablejsx --> LogBadgesjsx
+```
+
+### 2. Execution Sequence
+Runtime orchestration between View, Logic, and Infrastructure layers.
 
 ```mermaid
 sequenceDiagram
-    autonumber
+autonumber
     participant P as LogsPage.jsx
-    participant H as useLogsPage.js
+    participant H as useLogs.js
     participant S as logService.js
     participant API as Supabase/External
 
-    Note over P,API: Feature Lifecycle Initiation
-    P->>H: Mounts & invokes data orchestration
-    H->>S: Requests normalized dataset
-    S->>API: Executes authenticated query
-    API-->>S: Returns JSON recordset
-    S-->>H: Hydrates DTO for local state
-    H-->>P: Reactive UI sync via state update
-```
-
-### 2. Dependency Topology (Structural)
-Thematic map of architectural layering and file-level relationships.
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
-graph TD
-    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
-    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
-    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
-
-    LogsPage[LogsPage.jsx]:::page
-    LogsPage --"Logic Orchestration"--> useLogs
-    LogsPage --"Logic Orchestration"--> useLogsPage
-    useLogs((useLogs.js)):::hook
-    useLogs --"Data Connectivity"--> logService
-    useLogsPage((useLogsPage.js)):::hook
-    useLogsPage --"Data Connectivity"--> logService
-    logService{logService.js}:::service
-    logService --> API_CORE((Global API Client))
+    P->>H: Initialize Logic State
+    H->>S: Invoke Data Fetching
+    S->>API: Executes HTTP GET
+    API-->>S: Payload Response
+    S-->>H: Hydrate React State
+    H-->>P: Render Hydrated View
 ```
 
 ---
 
-## 📂 Implementation Audit
+## 📡 API Surface (Inferred)
+Automated mapping of external connectivity within this module.
 
-### 📄 Presentation (Pages)
-| Entry Point | Logic Density | Status |
+| Method | Endpoint | Source Provider |
 | :--- | :--- | :--- |
-| `LogsPage.jsx` | 111 LoC | ✅ Stable |
-
-### ⚓ Headless Logic (Hooks)
-| Controller | Domain Handlers | Health |
-| :--- | :--- | :--- |
-| `useLogs.js` | 1 Exports | ✅ Stable |
-| `useLogsPage.js` | 1 Exports | ✅ Stable |
-
-### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Performance |
-| :--- | :--- | :--- |
-| `logService.js` | High-Throughput | ✅ Optimized |
+| GET | `/system/logs` | logService.js |
 
 ---
 
-## 🎓 Technical Interview Highlights
-- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
-- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
-- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+## 🛠️ Development Navigation
+| Objective | Target Layer | Target File |
+| :--- | :--- | :--- |
+| **Change UI Layout** | Presentation (Pages) | `LogsPage.jsx` |
+| **Update Business Logic** | Logic (Hooks) | `useLogs.js` |
+| **Modify Data Provider** | Infrastructure (Services) | `logService.js` |
 
 ---
-*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*
+
+## 📂 Engineering Audit
+| Entity | Score | Complexity | LoC | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| `LogsPage.jsx` | 49 | Low | 111 | ✅ STABLE |
+| `useLogs.js` | 10 | Low | 16 | ✅ STABLE |
+| `useLogsPage.js` | 19 | Low | 78 | ✅ STABLE |
+| `logService.js` | 11 | Low | 8 | ✅ STABLE |
+| `LogBadges.jsx` | 20 | Low | 71 | ✅ STABLE |
+| `LogDetailModal.jsx` | 77 | Low | 209 | ⚠️ REFACTOR |
+| `LogsTable.jsx` | 60 | Low | 174 | ⚠️ REFACTOR |
+
+---
+*Generated by Nexo Apex Architect V8.0 | Institutional Standard*

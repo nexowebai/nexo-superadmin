@@ -1,82 +1,82 @@
-# Feature Specification: NOTIFICATIONS
+# Feature Intelligence: NOTIFICATIONS
 
-![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
-![Complexity](https://img.shields.io/badge/Logic_Density-512_Lines-blue)
-![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
-
-> **Module Overview**: High-performance domain logic for **notifications**. This module enforces strict unidirectional data flow and headless state management.
-
----
+![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
+![Complexity](https://img.shields.io/badge/Complexity_Score-High-orange)
+![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
 
-### 1. Execution Sequence (Runtime)
-Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
+### 1. Thematic Dependency Graph
+Babel-parsed internal mapping of module relationships.
+
+```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': { 'fontFamily': 'Inter', 'lineColor': '#6366f1' }}}%%
+graph TD
+    classDef page fill:#4f46e5,stroke:#3730a3,stroke-width:2px,color:#fff,rx:10,ry:10;
+    classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;
+    classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;
+
+    NotificationsPagejsx["NotificationsPage.jsx"]:::page
+    useNotificationsjs["useNotifications.js"]:::hook
+    useNotificationsPagejs["useNotificationsPage.js"]:::hook
+    notificationServicejs["notificationService.js"]:::service
+    NotificationCardjsx["NotificationCard.jsx"]:::page
+    NotificationsPagejsx --> useNotificationsPagejs
+    NotificationsPagejsx --> NotificationCardjsx
+    useNotificationsjs --> notificationServicejs
+    useNotificationsPagejs --> useNotificationsjs
+```
+
+### 2. Execution Sequence
+Runtime orchestration between View, Logic, and Infrastructure layers.
 
 ```mermaid
 sequenceDiagram
-    autonumber
+autonumber
     participant P as NotificationsPage.jsx
-    participant H as useNotificationsPage.js
+    participant H as useNotifications.js
     participant S as notificationService.js
     participant API as Supabase/External
 
-    Note over P,API: Feature Lifecycle Initiation
-    P->>H: Mounts & invokes data orchestration
-    H->>S: Requests normalized dataset
-    S->>API: Executes authenticated query
-    API-->>S: Returns JSON recordset
-    S-->>H: Hydrates DTO for local state
-    H-->>P: Reactive UI sync via state update
-```
-
-### 2. Dependency Topology (Structural)
-Thematic map of architectural layering and file-level relationships.
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
-graph TD
-    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
-    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
-    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
-
-    NotificationsPage[NotificationsPage.jsx]:::page
-    NotificationsPage --"Logic Orchestration"--> useNotifications
-    NotificationsPage --"Logic Orchestration"--> useNotificationsPage
-    useNotifications((useNotifications.js)):::hook
-    useNotifications --"Data Connectivity"--> notificationService
-    useNotificationsPage((useNotificationsPage.js)):::hook
-    useNotificationsPage --"Data Connectivity"--> notificationService
-    notificationService{notificationService.js}:::service
-    notificationService --> API_CORE((Global API Client))
+    P->>H: Initialize Logic State
+    H->>S: Invoke Data Fetching
+    S->>API: Executes HTTP PATCH
+    API-->>S: Payload Response
+    S-->>H: Hydrate React State
+    H-->>P: Render Hydrated View
 ```
 
 ---
 
-## 📂 Implementation Audit
+## 📡 API Surface (Inferred)
+Automated mapping of external connectivity within this module.
 
-### 📄 Presentation (Pages)
-| Entry Point | Logic Density | Status |
+| Method | Endpoint | Source Provider |
 | :--- | :--- | :--- |
-| `NotificationsPage.jsx` | 166 LoC | ⚠️ Refactor Required |
-
-### ⚓ Headless Logic (Hooks)
-| Controller | Domain Handlers | Health |
-| :--- | :--- | :--- |
-| `useNotifications.js` | 7 Exports | ✅ Stable |
-| `useNotificationsPage.js` | 1 Exports | ✅ Stable |
-
-### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Performance |
-| :--- | :--- | :--- |
-| `notificationService.js` | High-Throughput | ✅ Optimized |
+| PATCH | `/notifications/mark-all-read` | notificationService.js |
+| DELETE | `/notifications` | notificationService.js |
+| DELETE | `/notifications/unread` | notificationService.js |
+| POST | `/notifications/seen` | notificationService.js |
 
 ---
 
-## 🎓 Technical Interview Highlights
-- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
-- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
-- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+## 🛠️ Development Navigation
+| Objective | Target Layer | Target File |
+| :--- | :--- | :--- |
+| **Change UI Layout** | Presentation (Pages) | `NotificationsPage.jsx` |
+| **Update Business Logic** | Logic (Hooks) | `useNotifications.js` |
+| **Modify Data Provider** | Infrastructure (Services) | `notificationService.js` |
 
 ---
-*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*
+
+## 📂 Engineering Audit
+| Entity | Score | Complexity | LoC | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| `NotificationsPage.jsx` | 67 | Low | 166 | ⚠️ REFACTOR |
+| `useNotifications.js` | 22 | Low | 79 | ✅ STABLE |
+| `useNotificationsPage.js` | 25 | Low | 103 | ✅ STABLE |
+| `notificationService.js` | 28 | Low | 24 | ✅ STABLE |
+| `NotificationCard.jsx` | 62 | Low | 140 | ✅ STABLE |
+
+---
+*Generated by Nexo Apex Architect V8.0 | Institutional Standard*

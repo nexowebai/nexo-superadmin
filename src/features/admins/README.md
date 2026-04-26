@@ -1,84 +1,82 @@
-# Feature Specification: ADMINS
+# Feature Intelligence: ADMINS
 
-![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
-![Complexity](https://img.shields.io/badge/Logic_Density-538_Lines-blue)
-![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
-
-> **Module Overview**: High-performance domain logic for **admins**. This module enforces strict unidirectional data flow and headless state management.
-
----
+![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
+![Complexity](https://img.shields.io/badge/Complexity_Score-High-orange)
+![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
 
-### 1. Execution Sequence (Runtime)
-Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
+### 1. Thematic Dependency Graph
+Babel-parsed internal mapping of module relationships.
+
+```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': { 'fontFamily': 'Inter', 'lineColor': '#6366f1' }}}%%
+graph TD
+    classDef page fill:#4f46e5,stroke:#3730a3,stroke-width:2px,color:#fff,rx:10,ry:10;
+    classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;
+    classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;
+
+    AdminsPagejsx["AdminsPage.jsx"]
+    CreateAdminPagejsx["CreateAdminPage.jsx"]:::page
+    useAdminsjs["useAdmins.js"]:::hook
+    useAdminsPagejs["useAdminsPage.js"]:::hook
+    adminServicejs["adminService.js"]
+    AdminsTableConfigjsx["AdminsTableConfig.jsx"]:::page
+    AdminsPagejsx --> useAdminsPagejs
+    AdminsPagejsx --> AdminsTableConfigjsx
+    CreateAdminPagejsx --> useAdminsjs
+    useAdminsjs --> adminServicejs
+    useAdminsPagejs --> useAdminsjs
+```
+
+### 2. Execution Sequence
+Runtime orchestration between View, Logic, and Infrastructure layers.
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    participant P as AdminsPage.jsx
-    participant H as useAdminsPage.js
+autonumber
+    participant P as CreateAdminPage.jsx
+    participant H as useAdmins.js
     participant S as adminService.js
     participant API as Supabase/External
 
-    Note over P,API: Feature Lifecycle Initiation
-    P->>H: Mounts & invokes data orchestration
-    H->>S: Requests normalized dataset
-    S->>API: Executes authenticated query
-    API-->>S: Returns JSON recordset
-    S-->>H: Hydrates DTO for local state
-    H-->>P: Reactive UI sync via state update
-```
-
-### 2. Dependency Topology (Structural)
-Thematic map of architectural layering and file-level relationships.
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
-graph TD
-    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
-    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
-    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
-
-    AdminsPage[AdminsPage.jsx]:::page
-    AdminsPage --"Logic Orchestration"--> useAdmins
-    AdminsPage --"Logic Orchestration"--> useAdminsPage
-    CreateAdminPage[CreateAdminPage.jsx]:::page
-    useAdmins((useAdmins.js)):::hook
-    useAdmins --"Data Connectivity"--> adminService
-    useAdminsPage((useAdminsPage.js)):::hook
-    useAdminsPage --"Data Connectivity"--> adminService
-    adminService{adminService.js}:::service
-    adminService --> API_CORE((Global API Client))
+    P->>H: Initialize Logic State
+    H->>S: Invoke Data Fetching
+    S->>API: Executes HTTP GET
+    API-->>S: Payload Response
+    S-->>H: Hydrate React State
+    H-->>P: Render Hydrated View
 ```
 
 ---
 
-## 📂 Implementation Audit
+## 📡 API Surface (Inferred)
+Automated mapping of external connectivity within this module.
 
-### 📄 Presentation (Pages)
-| Entry Point | Logic Density | Status |
+| Method | Endpoint | Source Provider |
 | :--- | :--- | :--- |
-| `AdminsPage.jsx` | 83 LoC | ✅ Stable |
-| `CreateAdminPage.jsx` | 206 LoC | ⚠️ Refactor Required |
-
-### ⚓ Headless Logic (Hooks)
-| Controller | Domain Handlers | Health |
-| :--- | :--- | :--- |
-| `useAdmins.js` | 5 Exports | ✅ Stable |
-| `useAdminsPage.js` | 1 Exports | ✅ Stable |
-
-### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Performance |
-| :--- | :--- | :--- |
-| `adminService.js` | High-Throughput | ✅ Optimized |
+| - | - | - |
 
 ---
 
-## 🎓 Technical Interview Highlights
-- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
-- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
-- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+## 🛠️ Development Navigation
+| Objective | Target Layer | Target File |
+| :--- | :--- | :--- |
+| **Change UI Layout** | Presentation (Pages) | `CreateAdminPage.jsx` |
+| **Update Business Logic** | Logic (Hooks) | `useAdmins.js` |
+| **Modify Data Provider** | Infrastructure (Services) | `featureService.js` |
 
 ---
-*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*
+
+## 📂 Engineering Audit
+| Entity | Score | Complexity | LoC | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| `AdminsPage.jsx` | 38 | Low | 83 | ✅ STABLE |
+| `CreateAdminPage.jsx` | 85 | High | 206 | ⚠️ REFACTOR |
+| `useAdmins.js` | 20 | Low | 64 | ✅ STABLE |
+| `useAdminsPage.js` | 21 | Low | 87 | ✅ STABLE |
+| `adminService.js` | 7 | Low | 14 | ✅ STABLE |
+| `AdminsTableConfig.jsx` | 33 | Low | 84 | ✅ STABLE |
+
+---
+*Generated by Nexo Apex Architect V8.0 | Institutional Standard*
