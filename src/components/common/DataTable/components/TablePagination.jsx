@@ -4,7 +4,8 @@ import {
   ChevronRight,
   ChevronsRight,
 } from "lucide-react";
-import { Select } from "@components/ui";
+import { TableSelect } from "./TableSelect";
+
 import { cn } from "@lib/cn";
 
 export const TablePagination = ({
@@ -20,7 +21,7 @@ export const TablePagination = ({
       <div className="dt-pagination__left">
         <div className="dt-rows-per-page">
           <span className="dt-rows-per-page__label">Rows:</span>
-          <Select
+          <TableSelect
             options={[
               { value: 10, label: "10" },
               { value: 20, label: "20" },
@@ -28,7 +29,6 @@ export const TablePagination = ({
             ]}
             value={pagination.limit}
             onChange={handleRowsChange}
-            fullWidth={false}
           />
         </div>
         <div className="dt-pagination__info">

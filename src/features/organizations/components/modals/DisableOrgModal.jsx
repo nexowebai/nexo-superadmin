@@ -57,12 +57,12 @@ export default function DisableOrgModal({
               is re-enabled.
             </p>
             <ul className="space-y-3 pt-1">
-              <li className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: "var(--error)", boxShadow: "0 0 6px var(--error)" }} />
+              <li className="flex items-center gap-3 text-sm text-secondary">
+                <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-error shadow-[0_0_6px_var(--error)]" />
                 All active user sessions will be terminated immediately.
               </li>
-              <li className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: "var(--error)", boxShadow: "0 0 6px var(--error)" }} />
+              <li className="flex items-center gap-3 text-sm text-secondary">
+                <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-error shadow-[0_0_6px_var(--error)]" />
                 Automated background processes and tasks will be paused.
               </li>
             </ul>
@@ -75,8 +75,7 @@ export default function DisableOrgModal({
               variant="secondary"
               type="button"
               onClick={onClose}
-              className="flex-1"
-              style={{ height: "3rem" }}
+              className="flex-1 h-12"
               disabled={loading}
             >
               Cancel
@@ -84,8 +83,7 @@ export default function DisableOrgModal({
             <Button
               variant="danger"
               type="submit"
-              className="flex-1"
-              style={{ height: "3rem" }}
+              className="flex-1 h-12"
               loading={loading}
             >
               Disable Organization

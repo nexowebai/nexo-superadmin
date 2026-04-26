@@ -1,3 +1,4 @@
+// Application Route Configuration - Touched for HMR
 import { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
@@ -18,10 +19,10 @@ import SetPasswordPage from "@features/auth/pages/SetPasswordPage";
 import ErrorPage from "@components/pages/ErrorPage";
 
 const SuperAdminDashboardPage = lazy(
-  () => import("@features/dashboard/pages/DashboardPage"),
+  () => import("../features/dashboard/pages/DashboardPage.jsx"),
 );
 const OrganizationsPage = lazy(
-  () => import("@features/organizations/pages/OrganizationsPage"),
+  () => import("../features/organizations/pages/OrganizationsPage.jsx"),
 );
 const OrganizationDetailPage = lazy(
   () => import("@features/organizations/pages/OrganizationDetailPage"),
@@ -150,19 +151,13 @@ const router = createBrowserRouter(
             },
             {
               path: "notifications",
-              element: (
-                <Suspense fallback={<PageLoader />}>
-                  <NotificationsPage />
-                </Suspense>
-              ),
+              element: <NotificationsPage />,
             },
             {
               path: "organizations",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <OrganizationsPage />
-                  </Suspense>
+                  <OrganizationsPage />
                 </ProtectedRoute>
               ),
             },
@@ -170,9 +165,7 @@ const router = createBrowserRouter(
               path: "organizations/create",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <CreateOrganizationPage />
-                  </Suspense>
+                  <CreateOrganizationPage />
                 </ProtectedRoute>
               ),
             },
@@ -180,9 +173,7 @@ const router = createBrowserRouter(
               path: "organizations/:id",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <OrganizationDetailPage />
-                  </Suspense>
+                  <OrganizationDetailPage />
                 </ProtectedRoute>
               ),
             },
@@ -190,9 +181,7 @@ const router = createBrowserRouter(
               path: "organizations/:id/edit",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <CreateOrganizationPage />
-                  </Suspense>
+                  <CreateOrganizationPage />
                 </ProtectedRoute>
               ),
             },
@@ -200,9 +189,7 @@ const router = createBrowserRouter(
               path: "admins",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <AdminsPage />
-                  </Suspense>
+                  <AdminsPage />
                 </ProtectedRoute>
               ),
             },
@@ -210,9 +197,7 @@ const router = createBrowserRouter(
               path: "admins/create",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <CreateAdminPage />
-                  </Suspense>
+                  <CreateAdminPage />
                 </ProtectedRoute>
               ),
             },
@@ -220,9 +205,7 @@ const router = createBrowserRouter(
               path: "requests",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <RequestsPage />
-                  </Suspense>
+                  <RequestsPage />
                 </ProtectedRoute>
               ),
             },
@@ -230,9 +213,7 @@ const router = createBrowserRouter(
               path: "payments",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <PaymentsPage />
-                  </Suspense>
+                  <PaymentsPage />
                 </ProtectedRoute>
               ),
             },
@@ -240,27 +221,19 @@ const router = createBrowserRouter(
               path: "logs",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <LogsPage />
-                  </Suspense>
+                  <LogsPage />
                 </ProtectedRoute>
               ),
             },
             {
               path: "profile",
-              element: (
-                <Suspense fallback={<PageLoader />}>
-                  <ProfilePage />
-                </Suspense>
-              ),
+              element: <ProfilePage />,
             },
             {
               path: "billing",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <BillingSystemPage />
-                  </Suspense>
+                  <BillingSystemPage />
                 </ProtectedRoute>
               ),
             },
@@ -268,19 +241,13 @@ const router = createBrowserRouter(
               path: "policy",
               element: (
                 <ProtectedRoute allowedRoles={["super-admin"]}>
-                  <Suspense fallback={<PageLoader />}>
-                    <PrivacyPolicyPage />
-                  </Suspense>
+                  <PrivacyPolicyPage />
                 </ProtectedRoute>
               ),
             },
             {
               path: "user-settings",
-              element: (
-                <Suspense fallback={<PageLoader />}>
-                  <ProfilePage />
-                </Suspense>
-              ),
+              element: <ProfilePage />,
             },
             {
               path: "settings",

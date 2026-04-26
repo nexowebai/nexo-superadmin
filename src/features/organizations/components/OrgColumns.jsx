@@ -27,9 +27,9 @@ export const useOrganizationColumns = ({
         sortable: true,
         render: (val) => (
           <div className="flex items-center">
-             <span className="text-sm font-black text-primary tracking-tight">
-               {val}
-             </span>
+            <span className="text-sm font-black text-primary tracking-tight">
+              {val}
+            </span>
           </div>
         ),
       },
@@ -98,7 +98,7 @@ export const useOrganizationColumns = ({
       {
         key: "actions",
         label: "Actions",
-        width: 220, // Increased width for 4 actions
+        width: 180,
         align: "right",
         sticky: "right",
         render: (_, row) => (

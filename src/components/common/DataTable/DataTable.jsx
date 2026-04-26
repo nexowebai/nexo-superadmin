@@ -5,14 +5,14 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import { Copy, Check } from "lucide-react";
-import TableToolbar from "./TableToolbar";
+import TableToolbar from "./components/TableToolbar";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 import { useCopyToClipboard } from "@hooks/useCopyToClipboard";
-import { CellTooltip } from "./CellTooltip";
+import { CellTooltip } from "./components/CellTooltip";
 import { TableHead } from "./components/TableHead";
 import { TableBody } from "./components/TableBody";
 import { TablePagination } from "./components/TablePagination";
-import "./DataTable.css";
+import "./styles/index.css";
 
 function DataTable({
   columns: userColumns,

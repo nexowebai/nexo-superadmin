@@ -119,7 +119,7 @@ function MetricBox({ icon: Icon, label, value, trend }) {
         <span className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">{label}</span>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-base font-black text-[var(--text-primary)]">{value}</span>
+        <span className=" font-black text-[var(--text-primary)]">{value}</span>
         <span className="text-[10px] font-bold text-[var(--success)] uppercase">{trend}</span>
       </div>
     </div>

@@ -9,7 +9,7 @@ import {
 import AppRoutes from "@/routes";
 import { AppToaster } from "@core/components/AppToaster";
 import { SessionListener } from "@core/components/SessionListener";
-import { GlobalLoader } from "@core/components/GlobalLoader";
+
 import "@styles/index.css";
 
 /**
@@ -25,7 +25,7 @@ export default function App() {
             <LayoutProvider>
               {/* Global Listeners & Utilities */}
               <SessionListener />
-              <GlobalLoader />
+
               <AppToaster />
 
               {/* Application Routing */}

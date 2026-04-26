@@ -1,6 +1,6 @@
-import { Eye, Edit2, Trash2, Power, PowerOff } from "lucide-react";
+import { Eye, Edit, Trash2, Power, PowerOff } from "lucide-react";
 import { cn } from "@lib/cn";
-import "./DataTable.css";
+import "../styles/index.css";
 
 /**
  * Reusable Table Action Buttons Component
@@ -79,7 +79,7 @@ export function TableActions({
           title={viewTitle}
           aria-label={viewTitle}
         >
-          <Eye size={15} />
+          <Eye size={18} strokeWidth={1.8} />
         </button>
       )}
       {showEdit && onEdit && (
@@ -93,13 +93,16 @@ export function TableActions({
           title={editTitle}
           aria-label={editTitle}
         >
-          <Edit2 size={15} />
+          <Edit size={18} strokeWidth={1.8} />
         </button>
       )}
       {showPower && onTogglePower && (
         <button
           type="button"
-          className="dt-action-btn dt-action-power"
+          className={cn(
+            "dt-action-btn",
+            isPowered ? "dt-action-power--active" : "dt-action-power--inactive"
+          )}
           onClick={(e) => {
             e.stopPropagation();
             onTogglePower();
@@ -107,7 +110,7 @@ export function TableActions({
           title={actualPowerTitle}
           aria-label={actualPowerTitle}
         >
-          {isPowered ? <PowerOff size={15} /> : <Power size={15} />}
+          {isPowered ? <PowerOff size={18} strokeWidth={1.8} /> : <Power size={18} strokeWidth={1.8} />}
         </button>
       )}
       {showDelete && onDelete && (
@@ -121,7 +124,7 @@ export function TableActions({
           title={deleteTitle}
           aria-label={deleteTitle}
         >
-          <Trash2 size={15} />
+          <Trash2 size={18} strokeWidth={1.8} />
         </button>
       )}
     </div>

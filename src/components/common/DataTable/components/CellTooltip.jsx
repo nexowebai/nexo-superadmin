@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@lib/cn";
-import "./DataTable.css";
+import "../styles/index.css";
 
 /**
  * A modern, optimized tooltip component that only appears

@@ -6,24 +6,32 @@ import { cn } from "@lib/cn";
 import "./Modal.css";
 
 const overlayVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.16 } },
-  exit: { opacity: 0, transition: { duration: 0.14 } },
+  initial: { opacity: 0, backdropFilter: "blur(0px)" },
+  animate: { opacity: 1, backdropFilter: "blur(4px)", transition: { duration: 0.3, ease: "easeOut" } },
+  exit: { opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.25, ease: "easeIn" } },
 };
 
 const modalVariants = {
-  initial: { opacity: 0, y: 14, scale: 0.985 },
+  initial: { opacity: 0, y: 20, scale: 0.95 },
   animate: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] },
+    transition: { 
+      duration: 0.4, 
+      ease: [0.16, 1, 0.3, 1], // Custom spring-like easing
+      opacity: { duration: 0.25 }
+    },
   },
   exit: {
     opacity: 0,
-    y: 10,
-    scale: 0.99,
-    transition: { duration: 0.16, ease: [0.22, 1, 0.36, 1] },
+    y: 15,
+    scale: 0.97,
+    transition: { 
+      duration: 0.3, 
+      ease: [0.16, 1, 0.3, 1],
+      opacity: { duration: 0.2 }
+    },
   },
 };
 

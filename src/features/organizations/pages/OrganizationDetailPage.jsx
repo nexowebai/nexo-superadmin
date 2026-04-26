@@ -20,6 +20,7 @@ import {
   ManagePlanModal,
   AuditLogModal,
 } from "../components/OrgModals";
+import { ConfirmModal } from "@components/ui";
 
 import useOrgDetail from "../hooks/useOrgDetail.jsx";
 
@@ -32,6 +33,8 @@ export default function OrganizationDetailPage() {
     modals,
     openModal,
     closeModal,
+    handleEnable,
+    handleDisableSuccess,
     navigate
   } = useOrgDetail();
 
@@ -63,6 +66,8 @@ export default function OrganizationDetailPage() {
         {/* Core Identity */}
         <OrgHero
           org={org}
+          onEnable={() => openModal("confirm")}
+          onDisable={() => openModal("disable")}
           onNotify={() => openModal("notify")}
           onManagePlan={() => openModal("plan")}
           onManageCoupons={() => openModal("coupons")}
@@ -98,7 +103,17 @@ export default function OrganizationDetailPage() {
         onClose={() => closeModal("disable")}
         orgName={org.name}
         orgId={org.id}
-        onSuccess={() => navigate("/organizations")}
+        onSuccess={handleDisableSuccess}
+      />
+
+      <ConfirmModal
+        isOpen={modals.confirm}
+        onClose={() => closeModal("confirm")}
+        onConfirm={handleEnable}
+        title="Enable Organization"
+        description={`Are you sure you want to re-enable ${org.name}? This will restore access for all users immediately.`}
+        variant="success"
+        confirmText="Enable Access"
       />
 
       <ResetPasswordModal

@@ -18,6 +18,7 @@ export const useOrgDetail = () => {
     coupons: false,
     plan: false,
     audit: false,
+    confirm: false,
   });
 
   const {
@@ -37,6 +38,23 @@ export const useOrgDetail = () => {
 
   const openModal = useCallback((type) => setModals((prev) => ({ ...prev, [type]: true })), []);
   const closeModal = useCallback((type) => setModals((prev) => ({ ...prev, [type]: false })), []);
+
+  const handleEnable = useCallback(async () => {
+    try {
+      await orgService.update(id, { status: "active" });
+      refetch();
+      closeModal("confirm");
+      notify.success("Organization re-enabled successfully");
+    } catch (error) {
+      notify.error("Failed to enable organization");
+    }
+  }, [id, refetch, closeModal]);
+
+  const handleDisableSuccess = useCallback(() => {
+    refetch();
+    closeModal("disable");
+    notify.success("Organization access suspended");
+  }, [refetch, closeModal]);
 
   useEffect(() => {
     setHeaderProps({
@@ -66,6 +84,8 @@ export const useOrgDetail = () => {
     modals,
     openModal,
     closeModal,
+    handleEnable,
+    handleDisableSuccess,
     navigate,
     id
   };

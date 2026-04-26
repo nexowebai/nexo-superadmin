@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react"; // Touched for HMR
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@lib/cn";
 import { useAuth } from "@context/AuthContext";
@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar";
 import Header from "../Header";
 import "./DashboardLayout.css";
 import { NotificationDrawer } from "@components/common";
+import { PageLoader } from "@components/ui";
 
 function DashboardLayout() {
   const location = useLocation();
@@ -53,7 +54,9 @@ function DashboardLayout() {
         />
 
         <main className="ds-dashboard__content">
-          <Outlet />
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
         </main>
       </div>
 
