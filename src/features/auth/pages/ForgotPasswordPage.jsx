@@ -1,44 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Mail, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { Button, Input, SEO } from "@components/ui";
 import { AuthAlert } from "../components/AuthAlert";
-import { authService } from "../services/authService";
-import "./AuthPages.css";
+import { useForgotPasswordPage } from "../hooks/useForgotPasswordPage";
+import "../styles/AuthPages.css";
 
 function ForgotPasswordPage() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [email, setEmail] = useState("");
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data) => {
-    if (loading) return;
-    setLoading(true);
-    setError("");
-
-    authService
-      .forgotPassword(data.email)
-      .then(() => {
-        setEmail(data.email);
-        setSuccess(true);
-      })
-      .catch((err) => {
-        setError(
-          err.message || "Failed to send reset email. Please try again.",
-        );
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    errors,
+    loading,
+    error,
+    success,
+    email,
+    onSubmit,
+    clearError,
+    resetSuccess
+  } = useForgotPasswordPage();
 
   if (success) {
     return (
@@ -59,7 +38,7 @@ function ForgotPasswordPage() {
           <Button
             variant="secondary"
             size="lg"
-            onClick={() => setSuccess(false)}
+            onClick={resetSuccess}
             fullWidth
           >
             Try another email
@@ -91,9 +70,12 @@ function ForgotPasswordPage() {
       </div>
 
       {error && (
-        <Alert variant="error" dismissible onDismiss={() => setError("")}>
-          {error}
-        </Alert>
+        <AuthAlert
+          type="error"
+          message={error}
+          onDismiss={clearError}
+          className="mb-6"
+        />
       )}
 
       <form className="ds-auth-form__form" onSubmit={handleSubmit(onSubmit)}>

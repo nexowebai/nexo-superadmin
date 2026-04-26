@@ -15,16 +15,16 @@ export function AuthVisual() {
     >
       <defs>
         <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
+          <stop offset="0%" stopColor="var(--bg-elevated)" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="var(--bg-surface)" stopOpacity="0.1" />
         </linearGradient>
         <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#22c55e" />
-          <stop offset="100%" stopColor="#16a34a" />
+          <stop offset="0%" stopColor="var(--primary)" />
+          <stop offset="100%" stopColor="var(--primary-hover)" />
         </linearGradient>
         <linearGradient id="chartGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-          <stop offset="0%" stopColor="rgba(34, 197, 94, 0.1)" />
-          <stop offset="100%" stopColor="rgba(34, 197, 94, 0.4)" />
+          <stop offset="0%" stopColor="var(--primary-soft)" />
+          <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.6" />
         </linearGradient>
         <filter id="glow">
           <feGaussianBlur stdDeviation="3" result="blur" />

@@ -1,48 +1,23 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { cn } from "@lib/cn";
+import { Link } from "react-router-dom";
 import { Button, Input, Checkbox, SEO } from "@components/ui";
 import { AuthAlert } from "../components/AuthAlert";
-import { useAuth } from "@context/AuthContext";
-import "./AuthPages.css";
+import { useLoginPage } from "../hooks/useLoginPage";
+import "../styles/AuthPages.css";
 
 function LoginPage() {
-  const navigate = useNavigate();
-  const { login, loading, error, clearAuthError } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-  });
-
-  const onSubmit = (data) => {
-    if (loading) return;
-
-    clearAuthError();
-    login(data)
-      .then((result) => {
-        if (result) {
-          setSuccessMessage(`Welcome back! Redirecting...`);
-          setTimeout(() => {
-            navigate("/dashboard", { replace: true });
-          }, 800);
-        }
-      })
-      .catch((err) => {
-        console.error("Login failed:", err);
-      });
-  };
+    errors,
+    loading,
+    error,
+    successMessage,
+    showPassword,
+    togglePasswordVisibility,
+    onSubmit,
+    clearError
+  } = useLoginPage();
 
   return (
     <div className="ds-auth-form">
@@ -50,30 +25,6 @@ function LoginPage() {
         title="Login"
         description="Sign in to your Nexo account to manage your projects and team smarter."
       />
-
-      {/* Full Page Success Transition */}
-      {(successMessage || (loading && !error)) && (
-        <div
-          className={cn(
-            "ds-auth-transition",
-            successMessage && "ds-auth-transition--success",
-          )}
-        >
-          <div className="ds-auth-transition__content">
-            <div className="ds-auth-transition__spinner" />
-            <h2 className="ds-auth-transition__title">
-              {successMessage
-                ? "Security verified."
-                : "Securing your workspace..."}
-            </h2>
-            <p className="ds-auth-transition__subtitle">
-              {successMessage
-                ? "Welcome back, Super Admin."
-                : "Verifying credentials with Nexo Core."}
-            </p>
-          </div>
-        </div>
-      )}
 
       <div className="ds-auth-form__header">
         <h1 className="ds-auth-form__title">Welcome Back</h1>
@@ -86,7 +37,15 @@ function LoginPage() {
         <AuthAlert
           type="error"
           message={error}
-          onDismiss={clearAuthError}
+          onDismiss={clearError}
+          className="mb-6"
+        />
+      )}
+
+      {successMessage && (
+        <AuthAlert
+          type="success"
+          message={successMessage}
           className="mb-6"
         />
       )}
@@ -126,7 +85,7 @@ function LoginPage() {
             type={showPassword ? "text" : "password"}
             fullWidth
             rightIcon={showPassword ? EyeOff : Eye}
-            onRightIconClick={() => setShowPassword(!showPassword)}
+            onRightIconClick={togglePasswordVisibility}
           />
         </div>
 

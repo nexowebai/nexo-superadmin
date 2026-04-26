@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import sessionService from "@session";
-import { authService } from "@features/auth/services/authService";
 
 const AuthContext = createContext(null);
 
@@ -10,69 +9,33 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     sessionService.isTokenValid(),
   );
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const login = useCallback((credentials) => {
-    setLoading(true);
-    setError(null);
+  const login = useCallback((loginData) => {
+    const accessToken = loginData?.access_token;
+    const userData = loginData?.user;
+    const expiresIn = loginData?.expires_in;
 
-    return authService
-      .login(credentials)
-      .then((response) => {
-        const loginData = response?.data || response;
-        const accessToken = loginData?.access_token;
-        const userData = loginData?.user;
-        const expiresIn = loginData?.expires_in;
+    if (!accessToken || !userData) {
+      console.error("Invalid login data provided to context");
+      return;
+    }
 
-        if (!accessToken || !userData) {
-          throw new Error("Invalid response from server");
-        }
+    sessionService.setAuthData({
+      access_token: accessToken,
+      expires_in: expiresIn,
+      user: userData,
+    });
 
-        sessionService.setAuthData({
-          access_token: accessToken,
-          expires_in: expiresIn,
-          user: userData,
-        });
-
-        setUser(userData);
-        setToken(accessToken);
-        setIsAuthenticated(true);
-        setLoading(false);
-        return userData;
-      })
-      .catch((err) => {
-        const message =
-          err?.response?.data?.message || err?.message || "Login failed";
-        setError(message);
-        setLoading(false);
-        throw err;
-      });
+    setUser(userData);
+    setToken(accessToken);
+    setIsAuthenticated(true);
   }, []);
 
   const logout = useCallback(() => {
-    setLoading(true);
-    return authService
-      .logout()
-      .then(() => {
-        sessionService.clearAuthData();
-        setUser(null);
-        setToken(null);
-        setIsAuthenticated(false);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.warn("Logout API error:", err);
-        sessionService.clearAuthData();
-        setUser(null);
-        setToken(null);
-        setIsAuthenticated(false);
-        setLoading(false);
-      });
-  }, []);
-
-  const clearAuthError = useCallback(() => {
-    setError(null);
+    sessionService.clearAuthData();
+    setUser(null);
+    setToken(null);
+    setIsAuthenticated(false);
   }, []);
 
   const updateUser = useCallback(
@@ -95,12 +58,9 @@ export function AuthProvider({ children }) {
         user,
         token,
         isAuthenticated,
-        loading,
-        error,
         login,
         logout,
         updateUser,
-        clearAuthError,
       }}
     >
       {children}

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Lock,
   Eye,
@@ -8,54 +7,29 @@ import {
   CheckCircle,
   ArrowLeft,
 } from "lucide-react";
-import { useForm } from "react-hook-form";
 import { Button, Input, SEO } from "@components/ui";
 import { AuthAlert } from "../components/AuthAlert";
-import { authService } from "../services/authService";
-import "./AuthPages.css";
+import { useResetPasswordPage } from "../hooks/useResetPasswordPage";
+import "../styles/AuthPages.css";
 
 function ResetPasswordPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const {
+    token,
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  const password = watch("password");
-
-  const onSubmit = (data) => {
-    if (loading) return;
-    if (!token) {
-      setError("Invalid reset link. Please request a new one.");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    authService
-      .resetPassword({ token, password: data.password })
-      .then(() => {
-        setSuccess(true);
-      })
-      .catch((err) => {
-        setError(err.message || "Reset failed. The link may have expired.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    errors,
+    loading,
+    error,
+    success,
+    showPassword,
+    showConfirmPassword,
+    password,
+    onSubmit,
+    togglePassword,
+    toggleConfirmPassword,
+    clearError
+  } = useResetPasswordPage();
 
   if (!token) {
     return (
@@ -121,7 +95,7 @@ function ResetPasswordPage() {
         <AuthAlert
           type="error"
           message={error}
-          onDismiss={() => setError("")}
+          onDismiss={clearError}
           className="mb-6"
         />
       )}
@@ -135,7 +109,7 @@ function ResetPasswordPage() {
             error={errors.password?.message}
             icon={Lock}
             rightIcon={showPassword ? EyeOff : Eye}
-            onRightIconClick={() => setShowPassword(!showPassword)}
+            onRightIconClick={togglePassword}
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -159,9 +133,7 @@ function ResetPasswordPage() {
             error={errors.confirmPassword?.message}
             icon={Lock}
             rightIcon={showConfirmPassword ? EyeOff : Eye}
-            onRightIconClick={() =>
-              setShowConfirmPassword(!showConfirmPassword)
-            }
+            onRightIconClick={toggleConfirmPassword}
             {...register("confirmPassword", {
               required: "Please confirm your password",
               validate: (value) =>

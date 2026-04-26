@@ -15,34 +15,36 @@ export const MainDashboardCard = () => (
       fill="url(#cardGrad)"
     />
     <rect
-      x="20"
-      y="40"
-      width="220"
-      height="180"
-      rx="20"
-      stroke="rgba(255,255,255,0.3)"
-      strokeWidth="1"
+      x={20}
+      y={40}
+      width={220}
+      height={180}
+      rx={20}
+      stroke="var(--border-base)"
+      strokeWidth="1.5"
       fill="none"
     />
     <rect
-      x="40"
-      y="65"
-      width="100"
-      height="12"
-      rx="6"
-      fill="rgba(255,255,255,0.6)"
+      x={40}
+      y={65}
+      width={100}
+      height={12}
+      rx={6}
+      fill="var(--text-muted)"
+      fillOpacity="0.4"
     />
     <rect
-      x="40"
-      y="85"
-      width="60"
-      height="8"
-      rx="4"
-      fill="rgba(255,255,255,0.3)"
+      x={40}
+      y={85}
+      width={60}
+      height={8}
+      rx={4}
+      fill="var(--text-muted)"
+      fillOpacity="0.2"
     />
     <motion.path
       d="M50 180 L85 155 L120 165 L155 130 L190 145 L220 110"
-      stroke="#22c55e"
+      stroke="var(--primary)"
       strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -56,7 +58,7 @@ export const MainDashboardCard = () => (
       cx="220"
       cy="110"
       r="6"
-      fill="#22c55e"
+      fill="var(--primary)"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ duration: 0.3, delay: 1.8 }}
@@ -71,27 +73,27 @@ export const StatsCard = () => (
     transition={{ duration: 0.6, delay: 0.25 }}
   >
     <rect
-      x="260"
-      y="20"
-      width="220"
-      height="140"
-      rx="20"
+      x={260}
+      y={20}
+      width={220}
+      height={140}
+      rx={20}
       fill="url(#cardGrad)"
     />
     <rect
-      x="260"
-      y="20"
-      width="220"
-      height="140"
-      rx="20"
-      stroke="rgba(255,255,255,0.3)"
-      strokeWidth="1"
+      x={260}
+      y={20}
+      width={220}
+      height={140}
+      rx={20}
+      stroke="var(--border-base)"
+      strokeWidth="1.5"
       fill="none"
     />
     <motion.circle
-      cx="330"
-      cy="75"
-      r="28"
+      cx={330}
+      cy={75}
+      r={28}
       fill="url(#accentGrad)"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
@@ -109,36 +111,38 @@ export const StatsCard = () => (
       transition={{ duration: 0.3, delay: 1 }}
     />
     <rect
-      x="370"
-      y="60"
-      width="90"
-      height="12"
-      rx="6"
-      fill="rgba(255,255,255,0.5)"
+      x={370}
+      y={60}
+      width={90}
+      height={12}
+      rx={6}
+      fill="var(--text-muted)"
+      fillOpacity="0.4"
     />
     <rect
-      x="370"
-      y="80"
-      width="60"
-      height="8"
-      rx="4"
-      fill="rgba(255,255,255,0.25)"
+      x={370}
+      y={80}
+      width={60}
+      height={8}
+      rx={4}
+      fill="var(--text-muted)"
+      fillOpacity="0.2"
     />
     <rect
-      x="285"
-      y="120"
-      width="170"
-      height="8"
-      rx="4"
-      fill="rgba(255,255,255,0.15)"
+      x={285}
+      y={120}
+      width={170}
+      height={8}
+      rx={4}
+      fill="var(--border-base)"
     />
     <motion.rect
-      x="285"
-      y="120"
-      width="0"
-      height="8"
-      rx="4"
-      fill="#22c55e"
+      x={285}
+      y={120}
+      height={8}
+      rx={4}
+      fill="var(--primary)"
+      initial={{ width: 0 }}
       animate={{ width: 120 }}
       transition={{ duration: 1, delay: 0.8 }}
     />

@@ -1,7 +1,14 @@
 import { forwardRef } from "react";
-import { Loader2 } from "lucide-react";
 import { cn } from "@lib/cn";
 import "./styles/Button.css";
+
+const ButtonLoader = () => (
+  <div className="ds-button__dots">
+    <span className="ds-button__dot" />
+    <span className="ds-button__dot" />
+    <span className="ds-button__dot" />
+  </div>
+);
 
 const Button = forwardRef(
   (
@@ -54,20 +61,25 @@ const Button = forwardRef(
           `ds-button--${size}`,
           fullWidth && "ds-button--full",
           isDisabled && "ds-button--disabled",
+          loading && "ds-button--loading",
           className,
         )}
         {...props}
       >
-        {loading && <Loader2 className="ds-button__loader" />}
+        {loading ? (
+          <ButtonLoader />
+        ) : (
+          <>
+            {LIcon && (
+              <LIcon className="ds-button__icon ds-button__icon--left" />
+            )}
 
-        {!loading && LIcon && (
-          <LIcon className="ds-button__icon ds-button__icon--left" />
-        )}
+            <span className="ds-button__label">{children}</span>
 
-        <span className="ds-button__label">{children}</span>
-
-        {!loading && RIcon && (
-          <RIcon className="ds-button__icon ds-button__icon--right" />
+            {RIcon && (
+              <RIcon className="ds-button__icon ds-button__icon--right" />
+            )}
+          </>
         )}
       </button>
     );

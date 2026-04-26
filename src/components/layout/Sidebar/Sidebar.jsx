@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { ConfirmModal } from "@components/ui/Modal";
 import { cn } from "@lib/cn";
-import { rotate } from "@lib/motion";
 import nexoFull from "@assets/logo/nexo-full.png";
 import nexo from "@assets/logo/nexo.png";
 import { ROLE_LABELS } from "@constants/roles";

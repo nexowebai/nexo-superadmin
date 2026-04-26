@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Button, Input, SEO } from "@components/ui";
 import { AuthAlert } from "../components/AuthAlert";
 import { authService } from "../services/authService";
-import "./AuthPages.css";
+import "../styles/AuthPages.css";
 
 function SetPasswordPage() {
   const navigate = useNavigate();

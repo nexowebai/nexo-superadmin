@@ -20,8 +20,8 @@ export const BarChartCard = () => (
       width="220"
       height="160"
       rx="20"
-      stroke="rgba(255,255,255,0.3)"
-      strokeWidth="1"
+      stroke="var(--border-base)"
+      strokeWidth="1.5"
       fill="none"
     />
     <rect
@@ -30,7 +30,8 @@ export const BarChartCard = () => (
       width="80"
       height="10"
       rx="5"
-      fill="rgba(255,255,255,0.5)"
+      fill="var(--text-muted)"
+      fillOpacity="0.4"
     />
     {[
       { x: 295, h: 40, y: 240, d: 0.9 },
@@ -42,11 +43,10 @@ export const BarChartCard = () => (
       <motion.rect
         key={i}
         x={bar.x}
-        y={280}
-        width="24"
-        height="0"
-        rx="4"
+        width={24}
+        rx={4}
         fill="url(#chartGrad)"
+        initial={{ height: 0, y: 280 }}
         animate={{ height: bar.h, y: bar.y }}
         transition={{ duration: 0.5, delay: bar.d }}
       />
@@ -74,15 +74,16 @@ export const TeamAvatarsCard = () => (
       width="220"
       height="100"
       rx="20"
-      stroke="rgba(255,255,255,0.3)"
-      strokeWidth="1"
+      stroke="var(--border-base)"
+      strokeWidth="1.5"
       fill="none"
     />
     <motion.circle
       cx="65"
       cy="290"
       r="22"
-      fill="#22c55e"
+      fill="var(--primary)"
+      initial={{ scale: 1 }}
       animate={{ scale: [1, 1.05, 1] }}
       transition={{ duration: 2, repeat: Infinity, delay: 0 }}
     />
@@ -90,7 +91,8 @@ export const TeamAvatarsCard = () => (
       cx="105"
       cy="290"
       r="22"
-      fill="#16a34a"
+      fill="var(--info)"
+      initial={{ scale: 1 }}
       animate={{ scale: [1, 1.05, 1] }}
       transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
     />
@@ -98,7 +100,8 @@ export const TeamAvatarsCard = () => (
       cx="145"
       cy="290"
       r="22"
-      fill="#15803d"
+      fill="var(--primary-hover)"
+      initial={{ scale: 1 }}
       animate={{ scale: [1, 1.05, 1] }}
       transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
     />
@@ -108,13 +111,13 @@ export const TeamAvatarsCard = () => (
       width="45"
       height="34"
       rx="12"
-      fill="rgba(255,255,255,0.2)"
+      fill="var(--bg-elevated)"
     />
     <text
       x="197"
       y="296"
       textAnchor="middle"
-      fill="white"
+      fill="var(--text-primary)"
       fontSize="14"
       fontWeight="700"
     >
@@ -129,7 +132,9 @@ export const FloatingBackgroundElements = () => (
       cx="15"
       cy="150"
       r="6"
-      fill="rgba(255,255,255,0.3)"
+      fill="var(--text-muted)"
+      fillOpacity="0.2"
+      initial={{ y: 0 }}
       animate={{ y: [0, -10, 0] }}
       transition={{ duration: 3, repeat: Infinity }}
     />
@@ -137,7 +142,9 @@ export const FloatingBackgroundElements = () => (
       cx="490"
       cy="100"
       r="4"
-      fill="rgba(255,255,255,0.25)"
+      fill="var(--text-muted)"
+      fillOpacity="0.15"
+      initial={{ y: 0 }}
       animate={{ y: [0, 8, 0] }}
       transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
     />
@@ -145,7 +152,9 @@ export const FloatingBackgroundElements = () => (
       cx="250"
       cy="365"
       r="5"
-      fill="rgba(255,255,255,0.2)"
+      fill="var(--text-muted)"
+      fillOpacity="0.1"
+      initial={{ y: 0 }}
       animate={{ y: [0, -6, 0] }}
       transition={{ duration: 2, repeat: Infinity, delay: 1 }}
     />
