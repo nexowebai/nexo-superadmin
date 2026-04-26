@@ -34,7 +34,7 @@ export const OrganizationCard = ({ organization, onClick }) => {
     <Card
       onClick={onClick}
       padding="none"
-      className="relative group flex flex-col h-full bg-[var(--bg-surface))] border border-[var(--border-base)] hover:border-[var(--primary)] hover:shadow-none transition-all overflow-hidden rounded-2xl cursor-pointer"
+      className="relative group flex flex-col h-full bg-[var(--bg-surface)] border border-[var(--border-base)] hover:border-[var(--primary)] hover:shadow-none transition-all overflow-hidden rounded-2xl cursor-pointer"
     >
       {/* Status Badge - Absolute Top Right */}
       <div

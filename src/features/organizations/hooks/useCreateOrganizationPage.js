@@ -19,8 +19,9 @@ export function useCreateOrganizationPage(id) {
     logo: "",
     subscription_tier: "professional",
     plan_type: "yearly",
-    max_users: 50,
+    max_users: 100,
     max_projects: 25,
+    plan_starts_at: new Date().toISOString().split("T")[0],
     plan_expires_at: "",
     admin_email: "",
     admin_first_name: "",
@@ -35,6 +36,39 @@ export function useCreateOrganizationPage(id) {
   const { mutateAsync: updateOrg, isPending: updating } =
     useUpdateOrganization();
 
+  // Auto-select max users based on tier
+  useEffect(() => {
+    const tierLimits = {
+      basic: 25,
+      professional: 100,
+      enterprise: 500
+    };
+    setFormData(prev => ({
+      ...prev,
+      max_users: tierLimits[prev.subscription_tier] || prev.max_users
+    }));
+  }, [formData.subscription_tier]);
+
+  // Auto-calculate expiry date
+  useEffect(() => {
+    if (!formData.plan_starts_at) return;
+    
+    const start = new Date(formData.plan_starts_at);
+    if (isNaN(start.getTime())) return;
+
+    const end = new Date(start);
+    if (formData.plan_type === "yearly") {
+      end.setFullYear(end.getFullYear() + 1);
+    } else {
+      end.setMonth(end.getMonth() + 1);
+    }
+    
+    setFormData(prev => ({
+      ...prev,
+      plan_expires_at: end.toISOString().split("T")[0]
+    }));
+  }, [formData.plan_starts_at, formData.plan_type]);
+
   useEffect(() => {
     if (isEdit && orgData) {
       const initialValues = {
@@ -42,10 +76,13 @@ export function useCreateOrganizationPage(id) {
         org_code: orgData.org_code || "",
         email: orgData.email || "",
         logo: orgData.logo || "",
-        subscription_tier: orgData.subscription_tier || "professional",
-        plan_type: orgData.plan_type || "yearly",
-        max_users: orgData.max_users || 50,
+        subscription_tier: orgData.subscription_tier?.toLowerCase() || "professional",
+        plan_type: orgData.plan_type?.toLowerCase() || "yearly",
+        max_users: orgData.max_users || 100,
         max_projects: orgData.max_projects || 25,
+        plan_starts_at: orgData.plan_starts_at
+          ? orgData.plan_starts_at.split("T")[0]
+          : new Date().toISOString().split("T")[0],
         plan_expires_at: orgData.plan_expires_at
           ? orgData.plan_expires_at.split("T")[0]
           : "",

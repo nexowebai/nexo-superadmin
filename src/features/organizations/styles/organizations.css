@@ -61,11 +61,9 @@
   width: 90px;
   height: 90px;
   border-radius: var(--radius-xl);
-  background: linear-gradient(
-    135deg,
-    var(--brand-500) 0%,
-    var(--brand-700) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--brand-500) 0%,
+      var(--brand-700) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -479,11 +477,9 @@
 }
 
 .org-usage-bar__fill--green {
-  background: linear-gradient(
-    90deg,
-    var(--primary) 0%,
-    var(--primary-hover) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--primary) 0%,
+      var(--primary-hover) 100%);
 }
 
 .org-usage-bar__fill--teal {
@@ -533,11 +529,9 @@
   width: 56px;
   height: 56px;
   border-radius: var(--radius-full);
-  background: linear-gradient(
-    135deg,
-    var(--brand-500) 0%,
-    var(--brand-600) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--brand-500) 0%,
+      var(--brand-600) 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -702,25 +696,92 @@
 }
 
 .form-field label {
+  font-family: 'Open Sans', var(--font-sans);
   font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .form-field input,
 .form-field textarea,
 .form-field select {
-  height: 3rem;
-  padding: 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border: 1.5px solid var(--border-base);
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   color: var(--text-primary);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 400;
   outline: none;
   transition: all var(--transition-normal);
   width: 100%;
+}
+
+/* Logo Upload System */
+.logo-upload-container {
+  width: 100%;
+  height: 120px;
+}
+
+.logo-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface-lowest);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.logo-upload-placeholder:hover {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.logo-preview-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-base);
+  overflow: hidden;
+  background: var(--bg-surface-lowest);
+}
+
+.logo-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+.logo-remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--error);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.logo-remove-btn:hover {
+  transform: scale(1.1);
+  background: var(--error-hover);
 }
 
 .form-field input:focus,
@@ -732,7 +793,7 @@
 
 .form-field textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
 }
 
 /* =========================================
@@ -916,34 +977,71 @@
 .create-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 .form-section {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-  box-shadow: var(--ds-shadow-sm);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  margin-bottom: var(--space-10);
+}
+
+.form-section:hover {
+  box-shadow: none;
+  border-color: transparent;
 }
 
 .form-section-header {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
-  background: var(--bg-surface-lowest);
-  border-bottom: 1px solid var(--border-base);
-  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) var(--space-5);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-3) var(--space-6);
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--primary-soft) 15%,
+      color-mix(in srgb, var(--primary), transparent 97%) 50%,
+      transparent 100%);
+  border-left: none;
+  border-bottom: none;
+  margin-bottom: var(--space-8);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.form-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--primary) 15%,
+      transparent 100%);
+  opacity: 0.2;
 }
 
 body.dark-mode .form-section-header {
-  background: var(--bg-elevated);
+  background: linear-gradient(90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--primary), transparent 85%) 15%,
+      color-mix(in srgb, var(--primary), transparent 95%) 50%,
+      transparent 100%);
 }
 
 .form-section-header svg {
   color: var(--primary);
+  background: transparent;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
 }
 
 .form-section-header h3 {
@@ -952,13 +1050,14 @@ body.dark-mode .form-section-header {
   color: var(--text-primary);
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .form-grid {
+  padding: 0 var(--space-6);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-5);
+  gap: var(--space-8) var(--space-12);
 }
 
 @media (max-width: 768px) {
@@ -1002,6 +1101,7 @@ body.dark-mode .form-section-header {
    PRINT STYLES
    ========================================= */
 @media print {
+
   .org-hero__actions,
   .org-actions,
   .org-admin button {

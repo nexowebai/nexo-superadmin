@@ -33,18 +33,21 @@ export function DatePickerDropdown({
   handleNextMonth,
   handleSelectDate,
   isDisabledDate,
+  placement = "bottom",
 }) {
   const start = startOfMonth(viewDate);
   const end = endOfMonth(viewDate);
   const days = eachDayOfInterval({ start, end });
   const paddingDays = Array(start.getDay()).fill(null);
 
+  const topOffset = placement === "top" ? -8 : 8;
+
   return (
     <div
       className="ds-datepicker__dropdown ds-datepicker-portal"
       style={{
         position: "fixed",
-        top: `${coords.top + 8}px`,
+        top: `${coords.top + topOffset}px`,
         left: `${coords.left}px`,
         zIndex: 9999,
       }}

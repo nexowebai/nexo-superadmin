@@ -94,31 +94,25 @@ export function RequestDetailsModal({
                   onClose();
                   onReject(request);
                 }}
-                fullWidth
-                style={{ height: "3rem" }}
               >
-                Reject
+                Reject Request
               </Button>
               <Button
-                variant="success"
+                variant="primary"
                 onClick={() => {
                   onApprove(request);
                   onClose();
                 }}
-                fullWidth
-                style={{ height: "3rem" }}
               >
-                Approve
+                Approve Request
               </Button>
             </>
           ) : (
             <Button
-              variant="ghost"
+              variant="secondary"
               onClick={onClose}
-              fullWidth
-              style={{ height: "3rem" }}
             >
-              Close
+              Close Details
             </Button>
           )}
         </div>
@@ -181,19 +175,15 @@ export function RejectRequestModal({ isOpen, onClose, request, onConfirm }) {
         <ModalFooter>
           <div className="modal-form-footer">
             <Button
-              variant="ghost"
+              variant="secondary"
               onClick={onClose}
               type="button"
-              fullWidth
-              style={{ height: "3rem" }}
             >
               Cancel
             </Button>
             <Button
               variant="danger"
               type="submit"
-              fullWidth
-              style={{ height: "3rem" }}
             >
               Decline Access
             </Button>

@@ -30,8 +30,12 @@ const InfoItem = ({ icon: Icon, label, value, copyable }) => {
       style={{ borderBottom: "1px solid var(--border-base)" }}
     >
       <div
-        className="w-9 h-9 flex items-center justify-center shrink-0 rounded bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800"
-        style={{ color: "var(--primary)" }}
+        className="w-9 h-9 flex items-center justify-center shrink-0 rounded border"
+        style={{ 
+          backgroundColor: "var(--primary-soft)",
+          borderColor: "color-mix(in srgb, var(--primary), transparent 85%)",
+          color: "var(--primary)" 
+        }}
       >
         <Icon size={16} strokeWidth={2} />
       </div>
@@ -128,7 +132,13 @@ export default function OrgInfo({ org, onResetPassword }) {
                     >
                       {org.admin.full_name}
                     </h4>
-                    <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-slate-100 dark:bg-slate-800 text-slate-500 rounded">
+                    <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest rounded"
+                      style={{
+                        backgroundColor: "var(--bg-elevated)",
+                        color: "var(--text-muted)",
+                        border: "1px solid var(--border-base)"
+                      }}
+                    >
                       Owner
                     </span>
                   </div>

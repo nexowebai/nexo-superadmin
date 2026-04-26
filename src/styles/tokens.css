@@ -7,11 +7,11 @@
   --bg-table-header: #f8fafc;
   --bg-app: #f8fafc;
 
-  /* Typography Colors */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-dimmed: #94a3b8;
+  /* Typography Colors - Softened for eye comfort */
+  --text-primary: #1e293b;   /* Slate 800 instead of black */
+  --text-secondary: #475569; /* Slate 600 */
+  --text-muted: #64748b;    /* Slate 500 */
+  --text-dimmed: #94a3b8;   /* Slate 400 */
 
   /* Semantic System (Dynamically injected via ThemeContext) */
   --primary-hover: color-mix(in srgb, var(--primary), black 10%);
@@ -106,11 +106,11 @@ body.dark-mode {
   --bg-table-header: var(--bg-elevated);
   --bg-app: var(--bg-base);
 
-  /* Typography Refinement */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-dimmed: #475569;
+  /* Typography Refinement - Softer tones for dark mode */
+  --text-primary: #cbd5e1;   /* Slate 300 instead of pure white */
+  --text-secondary: #94a3b8; /* Slate 400 */
+  --text-muted: #64748b;    /* Slate 500 */
+  --text-dimmed: #475569;   /* Slate 600 */
 
   /* Brand Primary (Vibrant but eye-friendly) - Injected via Context */
   --primary-hover: color-mix(in srgb, var(--primary), white 10%);

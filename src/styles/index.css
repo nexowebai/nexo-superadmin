@@ -115,6 +115,7 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -134,24 +135,56 @@ button {
 [data-sonner-toast] {
   background: var(--bg-surface) !important;
   border: 1px solid var(--border-base) !important;
-  border-radius: var(--radius-md) !important;
-  padding: 16px !important;
-  box-shadow: var(--shadow-lg) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 14px 18px !important;
+  box-shadow: var(--shadow-xl) !important;
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: 14px !important;
   color: var(--text-primary) !important;
-  font-weight: 500 !important;
-  min-width: 320px !important;
-  animation: toast-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  min-width: 360px !important;
+  animation: toast-enter 0.4s var(--ease-out) !important;
 }
 
 [data-sonner-toast][data-type="success"] {
-  border-left: 4px solid var(--success) !important;
+  background: #f0fdf4 !important;
+  border-color: #dcfce7 !important;
+  color: #07bc0c !important;
+  /* Toastify Success */
 }
 
 [data-sonner-toast][data-type="error"] {
-  border-left: 4px solid var(--error) !important;
+  background: #fef2f2 !important;
+  border-color: #fee2e2 !important;
+  color: #e74c3c !important;
+  /* Toastify Error */
+}
+
+[data-sonner-toast][data-type="info"] {
+  background: #f0f9ff !important;
+  border-color: #e0f2fe !important;
+  color: #3498db !important;
+  /* Toastify Info */
+}
+
+body.dark-mode [data-sonner-toast][data-type="success"] {
+  background: #f0fdf4 !important;
+  border-color: #dcfce7 !important;
+  color: #07bc0c !important;
+}
+
+body.dark-mode [data-sonner-toast][data-type="error"] {
+  background: #fef2f2 !important;
+  border-color: #fee2e2 !important;
+  color: #e74c3c !important;
+}
+
+body.dark-mode [data-sonner-toast][data-type="info"] {
+  background: #f0f9ff !important;
+  border-color: #e0f2fe !important;
+  color: #3498db !important;
 }
 
 [data-sonner-toast] [data-close-button] {
@@ -186,6 +219,7 @@ button {
     transform: scale(0.9) translateX(20px);
     opacity: 0;
   }
+
   100% {
     transform: scale(1) translateX(0);
     opacity: 1;

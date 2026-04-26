@@ -11,7 +11,9 @@ const UsageBar = ({ label, current, max, color }) => {
           {current} / {max}
         </span>
       </div>
-      <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+      <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800/30 rounded-full overflow-hidden"
+        style={{ backgroundColor: "color-mix(in srgb, var(--border-base), transparent 50%)" }}
+      >
         <div
           className="h-full rounded-full transition-all duration-1000"
           style={{ width: `${percent}%`, backgroundColor: color }}
@@ -47,10 +49,17 @@ export default function OrgSidebar({ org }) {
           />
 
           <div className="pt-2">
-            <div className="p-4 rounded bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100/50 dark:border-blue-800/30">
+            <div className="p-4 rounded border"
+              style={{
+                backgroundColor: "var(--info-soft)",
+                borderColor: "color-mix(in srgb, var(--info), transparent 85%)"
+              }}
+            >
               <div className="flex items-center gap-2 mb-1.5">
-                <Zap size={12} className="text-blue-500" />
-                <span className="text-xs font-bold uppercase text-blue-600 dark:text-blue-400 tracking-wider">
+                <Zap size={12} className="text-blue-500" style={{ color: "var(--info)" }} />
+                <span className="text-xs font-bold uppercase tracking-wider"
+                  style={{ color: "var(--info)" }}
+                >
                   Renewal Intelligence
                 </span>
               </div>

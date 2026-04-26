@@ -13,11 +13,23 @@
   position: relative;
   background: var(--bg-surface);
   border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
   max-height: calc(100vh - 2rem);
   overflow: hidden;
   z-index: 1001;
+  font-family: var(--font-sans);
+}
+
+.ds-modal * {
+  font-family: var(--font-sans) !important;
+  font-weight: 400; /* Regular weight by default */
+}
+
+.ds-modal__title,
+.ds-modal h2,
+.ds-modal h3 {
+  font-weight: 700 !important;
 }
 
 /* Sizes */
@@ -314,10 +326,11 @@
 
 /* Modal footer pattern */
 .modal-form-footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-  padding: var(--space-5) var(--space-6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
   border-top: 1px solid var(--border-base);
   background: var(--bg-surface);
 }

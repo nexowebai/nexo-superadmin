@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { subMonths, addMonths, format } from "date-fns";
 
-export function useDatePicker({ value, onChange, minDate, maxDate }) {
+export function useDatePicker({ value, onChange, minDate, maxDate, placement = "bottom" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(
     value ? new Date(value) : new Date(),
@@ -13,9 +13,12 @@ export function useDatePicker({ value, onChange, minDate, maxDate }) {
   const updatePosition = useCallback(() => {
     if (isOpen && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      setCoords({ top: rect.bottom, left: rect.left, width: rect.width });
+      const top = placement === "top" 
+        ? rect.top - 360 // Approximate height of calendar
+        : rect.bottom;
+      setCoords({ top, left: rect.left, width: rect.width });
     }
-  }, [isOpen]);
+  }, [isOpen, placement]);
 
   useEffect(() => {
     if (isOpen) {

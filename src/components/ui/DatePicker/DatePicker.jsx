@@ -19,6 +19,7 @@ function DatePicker({
   icon: Icon = Calendar,
   id: propId,
   className,
+  placement = "bottom",
 }) {
   const generatedId = useId();
   const pickerId = propId || generatedId;
@@ -33,7 +34,7 @@ function DatePicker({
     handleNextMonth,
     handleSelectDate,
     isDisabledDate,
-  } = useDatePicker({ value, onChange, minDate, maxDate });
+  } = useDatePicker({ value, onChange, minDate, maxDate, placement });
 
   const selectedDate = value ? new Date(value) : null;
 
@@ -77,6 +78,7 @@ function DatePicker({
             handleNextMonth={handleNextMonth}
             handleSelectDate={handleSelectDate}
             isDisabledDate={isDisabledDate}
+            placement={placement}
           />,
           document.body,
         )}

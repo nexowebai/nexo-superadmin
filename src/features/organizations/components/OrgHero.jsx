@@ -50,8 +50,8 @@ export default function OrgHero({
       <div
         className="w-24 h-24 shrink-0 flex items-center justify-center overflow-hidden"
         style={{
-          backgroundColor: "var(--bg-elevated)",
-          border: "1px solid var(--border-base)",
+          backgroundColor: "var(--primary-soft)",
+          border: "1px solid color-mix(in srgb, var(--primary), transparent 80%)",
           borderRadius: "var(--radius-md)",
           color: "var(--primary)",
         }}
@@ -79,7 +79,13 @@ export default function OrgHero({
             <StatusBadge status={org.status} size="md" />
             <Badge
               variant="soft"
-              style={{ borderRadius: "var(--radius-md)", fontWeight: "bold" }}
+              style={{ 
+                borderRadius: "var(--radius-md)", 
+                fontWeight: "bold",
+                backgroundColor: "var(--primary-soft)",
+                color: "var(--primary)",
+                border: "1px solid color-mix(in srgb, var(--primary), transparent 85%)"
+              }}
             >
               {org.subscription_tier}
             </Badge>
