@@ -9,6 +9,9 @@
     "lint": "eslint src/**/*.{js,jsx}",
     "lint:fix": "eslint src/**/*.{js,jsx} --fix",
     "preview": "vite preview",
+    "docs:sync": "node scripts/sync-feature-docs.js",
+    "perf:audit": "node scripts/bundle-size-audit.js",
+    "release:log": "node scripts/auto-changelog.js",
     "analyze": "vite build --sourcemap && npx source-map-explorer dist/**/*.js"
   },
   "dependencies": {

@@ -4,12 +4,12 @@ on:
   push:
     branches: [ "main", "master", "develop" ]
     paths:
-      - 'src/features/**/docs/*.md'
+      - 'src/features/**'
       - 'scripts/sync-feature-docs.js'
   pull_request:
     branches: [ "main", "master", "develop" ]
     paths:
-      - 'src/features/**/docs/*.md'
+      - 'src/features/**'
 
 jobs:
   sync-docs:
@@ -33,17 +33,19 @@ jobs:
         run: npm install # Standard install to ensure script runtime dependencies if any
 
       - name: 🔄 Automation / Orchestrate Feature Doc Sync
-        run: node scripts/sync-feature-docs.js
+        run: npm run docs:sync
 
-      - name: 🏛️ Dashboard / Generate Documentation Audit
-        run: node scripts/sync-report.js
-        env:
-          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
+      - name: ⚡ Performance / Production Bundle Audit
+        run: npm run perf:audit
 
-      - name: 📤 Resolution / Commit Synchronized Intelligence
+      - name: 📜 Release / Synchronize Changelog
+        if: github.event_name == 'push'
+        run: npm run release:log
+
+      - name: 📤 Resolution / Commit Engineering Intelligence
         if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "docs: 📚 Sync feature READMEs with documentation charts"
-          file_pattern: 'src/features/**/README.md'
+          commit_message: "engineering: 🛰️ Synchronize docs, performance metrics, and changelog"
+          file_pattern: 'src/features/**/README.md README.md CHANGELOG.md'
           branch: ${{ github.head_ref || github.ref }}

@@ -34,20 +34,20 @@ The Nexo Super-Admin is a mission-critical infrastructure dashboard designed for
 The following table summarizes the health and architectural compliance of the system's core modules.
 
 <!-- FEATURE_INVENTORY_START -->
-| Status | Feature Module | Complexity | Lifecycle | Architecture |
+| Status | Feature Module | Logic Density | Nodes | Specs |
 | :--- | :--- | :--- | :--- | :--- |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **ADMINS** | 538 LoC | [View Details](./src/features/admins/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **AUTH** | 1130 LoC | [View Details](./src/features/auth/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **BILLING** | 377 LoC | [View Details](./src/features/billing/README.md) | Certified |
-| ![Stable](https://img.shields.io/badge/-Stable-brightgreen) | **CONTENT** | 283 LoC | [View Details](./src/features/content/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **DASHBOARD** | 787 LoC | [View Details](./src/features/dashboard/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **LOGS** | 667 LoC | [View Details](./src/features/logs/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **NOTIFICATIONS** | 512 LoC | [View Details](./src/features/notifications/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **ORGANIZATIONS** | 2452 LoC | [View Details](./src/features/organizations/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **PAYMENTS** | 756 LoC | [View Details](./src/features/payments/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **REQUESTS** | 646 LoC | [View Details](./src/features/requests/README.md) | Certified |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **SETTINGS** | 870 LoC | [View Details](./src/features/settings/README.md) | Certified |
-| ![Stable](https://img.shields.io/badge/-Stable-brightgreen) | **USERS** | 13 LoC | [View Details](./src/features/users/README.md) | Certified |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **ADMINS** | 538 LoC | 5 | [Detailed Specs](./src/features/admins/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **AUTH** | 1130 LoC | 11 | [Detailed Specs](./src/features/auth/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **BILLING** | 377 LoC | 2 | [Detailed Specs](./src/features/billing/README.md) |
+| ![Stable](https://img.shields.io/badge/-Stable-brightgreen) | **CONTENT** | 283 LoC | 2 | [Detailed Specs](./src/features/content/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **DASHBOARD** | 787 LoC | 4 | [Detailed Specs](./src/features/dashboard/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **LOGS** | 667 LoC | 4 | [Detailed Specs](./src/features/logs/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **NOTIFICATIONS** | 512 LoC | 4 | [Detailed Specs](./src/features/notifications/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **ORGANIZATIONS** | 2452 LoC | 10 | [Detailed Specs](./src/features/organizations/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **PAYMENTS** | 756 LoC | 3 | [Detailed Specs](./src/features/payments/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **REQUESTS** | 646 LoC | 5 | [Detailed Specs](./src/features/requests/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **SETTINGS** | 870 LoC | 6 | [Detailed Specs](./src/features/settings/README.md) |
+| ![Stable](https://img.shields.io/badge/-Stable-brightgreen) | **USERS** | 13 LoC | 1 | [Detailed Specs](./src/features/users/README.md) |
 <!-- FEATURE_INVENTORY_END -->
 
 ---

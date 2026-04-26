@@ -1,71 +1,89 @@
-# Feature Specification: ORGANIZATIONS
+# Technical Specification: ORGANIZATIONS
 
-![Stability](https://img.shields.io/badge/Architecture-Refactor_Required-red)
-![Coverage](https://img.shields.io/badge/Complexity-High-orange)
-![Standard](https://img.shields.io/badge/Pattern-Clean_Architecture-lightgrey)
+![Architecture](https://img.shields.io/badge/Pattern-Clean_Architecture-blue)
+![Quality](https://img.shields.io/badge/Audit-Needs_Refactor-red)
+![Complexity](https://img.shields.io/badge/Logic_Nodes-10-blueviolet)
 
-## Technical Architecture
+## 🏛️ Domain Architecture
 
-### Component Interaction Flow
-This sequence diagram illustrates the lifecycle of a user interaction within this module.
+### Execution Sequence
+How the view orchestrates logic through the headless hook layer.
 
 ```mermaid
 sequenceDiagram
-    participant UI as Page Component
-    participant Hook as Headless Hook
-    participant Service as Service Layer
-    participant API as External API
+    participant P as CreateOrganizationPage.jsx
+    participant H as useCreateOrganizationPage.js
+    participant S as orgService.js
+    participant API as Supabase/API
 
-    UI->>Hook: Invokes interaction handler
-    Hook->>Hook: Manages local state / validation
-    Hook->>Service: Requests data orchestration
-    Service->>API: Executes HTTP request
-    API-->>Service: Returns raw data response
-    Service-->>Hook: Returns normalized DTO
-    Hook-->>UI: Updates view state
+    P->>H: Initialize hook & states
+    H->>S: Fetch domain datasets
+    S->>API: Execute query command
+    API-->>S: Return recordset
+    S-->>H: Normalize for view model
+    H-->>P: Reactive update to UI
 ```
 
-### Data Dependency Graph
-High-level overview of the module's internal layering and dependency direction.
+### Dependency Topology
+A visual map of file-level relationships within the organizations module.
 
 ```mermaid
-graph LR
-    subgraph ORGANIZATIONS_MODULE
-        direction TB
-        PAGES[View Layer] --> HOOKS[Logic Layer]
-        HOOKS --> SERVICES[Connectivity Layer]
-        SERVICES --> API_CORE[API Client]
-    end
+graph TD
+    classDef page fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef hook fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef service fill:#bfb,stroke:#333,stroke-width:2px;
+
+    CreateOrganizationPage[CreateOrganizationPage.jsx]:::page
+    CreateOrganizationPage --> useCreateOrganizationPage
+    OrganizationDetailPage[OrganizationDetailPage.jsx]:::page
+    OrganizationDetailPage --> useOrganizationDetail
+    OrganizationsPage[OrganizationsPage.jsx]:::page
+    OrganizationsPage --> useOrganizations
+    OrganizationsPage --> useOrganizationsPage
+    useCreateOrganizationPage(useCreateOrganizationPage.js):::hook
+    useCreateOrganizationPage --> orgService
+    useOrganizationDetail(useOrganizationDetail.js):::hook
+    useOrganizationDetail --> orgService
+    useOrganizations(useOrganizations.js):::hook
+    useOrganizations --> orgService
+    useOrganizationsPage(useOrganizationsPage.js):::hook
+    useOrganizationsPage --> orgService
+    useOrganizationsTable(useOrganizationsTable.js):::hook
+    useOrganizationsTable --> orgService
+    useOrgDetail(useOrgDetail.js):::hook
+    useOrgDetail --> orgService
+    orgService{orgService.js}:::service
+    orgService --> API_Client((Global API Client))
 ```
 
-## Implementation Details
+## 📂 Implementation Audit
 
-### View Layer (Pages)
-| Entry Point | Lines of Code | Technical Status |
+### 📄 Presentation (Pages)
+| Entity | Logic Link | Complexity |
 | :--- | :--- | :--- |
-| CreateOrganizationPage | 270 | Refactor |
-| OrganizationDetailPage | 162 | Refactor |
-| OrganizationsPage | 202 | Refactor |
+| `CreateOrganizationPage.jsx` | Direct | 270 LoC |
+| `OrganizationDetailPage.jsx` | Direct | 162 LoC |
+| `OrganizationsPage.jsx` | Direct | 202 LoC |
 
-### Logic Layer (Hooks)
-| Controller Hook | Lines of Code | Technical Status |
+### ⚓ Headless Logic (Hooks)
+| Controller | Domain Exports | Status |
 | :--- | :--- | :--- |
-| useCreateOrganizationPage | 163 | Refactor |
-| useOrganizationDetail | 72 | Stable |
-| useOrganizations | 121 | Stable |
-| useOrganizationsPage | 88 | Stable |
-| useOrganizationsTable | 82 | Stable |
-| useOrgDetail | 101 | Stable |
+| `useCreateOrganizationPage.js` | 1 handlers | Refactor |
+| `useOrganizationDetail.js` | 1 handlers | Stable |
+| `useOrganizations.js` | 9 handlers | Stable |
+| `useOrganizationsPage.js` | 1 handlers | Stable |
+| `useOrganizationsTable.js` | 1 handlers | Stable |
+| `useOrgDetail.js` | 1 handlers | Stable |
 
-### Infrastructure Layer (Services)
-| Service Provider | Lines of Code | Technical Status |
+### ⚡ Infrastructure (Services)
+| Provider | Connectivity | Exports |
 | :--- | :--- | :--- |
-| orgService | 171 | Refactor |
+| `orgService.js` | Global API | 1 methods |
 
-## Engineering Guidelines
-- **Logic Encapsulation**: 100% of state orchestration must be contained within the Logic Layer hooks.
-- **Service Parity**: All external communication must pass through the Service Provider to ensure API abstraction.
-- **File Integrity**: Files exceeding the 150-line threshold are automatically flagged as "Refactor Required".
+## 🎓 Technical Interview Highlights
+- **Layered Decoupling**: The View Layer (3 nodes) has zero knowledge of API protocols, interacting only through `useCreateOrganizationPage`.
+- **Service Abstraction**: `orgService` encapsulates all Supabase/REST logic, allowing for provider-agnostic business logic.
+- **State Management**: Uses TanStack Query for server state and local useState/useReducer for UI-only transient states.
 
 ---
-*Generated by Nexo-Doc-Engine v4.0 | Engineering Excellence Standard*
+*Verified by Nexo Engineering Standards v5.0 | 2026*
