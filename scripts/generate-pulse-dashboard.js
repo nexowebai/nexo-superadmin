@@ -48,11 +48,11 @@ function analyzeFile(filePath) {
         return data;
     } catch {
         const lines = code.split("\n").length;
-        return { 
-            name: path.basename(filePath), 
-            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"), 
-            lines, 
-            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low") 
+        return {
+            name: path.basename(filePath),
+            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"),
+            lines,
+            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low")
         };
     }
 }
@@ -66,7 +66,7 @@ function run() {
     }
 
     const features = fs.readdirSync(FEATURES_DIR).filter(f => fs.statSync(path.join(FEATURES_DIR, f)).isDirectory());
-    
+
     const moduleData = features.map(f => {
         const base = path.join(FEATURES_DIR, f);
         const files = [];
@@ -150,9 +150,8 @@ function run() {
             width: 260px; height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: fixed; left: 0; top: 0; z-index: 100;
         }
-        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center; padding: 12px 0; }
-        .brand img { max-width: 180px; }
-        [data-theme="dark"] .brand img { filter: invert(1) brightness(2); }
+        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center;}
+        .brand img { max-width: 160px; }
 
         .nav { padding: 0 12px; flex: 1; }
         .nav-item {
