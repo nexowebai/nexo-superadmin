@@ -1,2 +1,3 @@
 npm run docs:sync
+node scripts/generate-pulse-dashboard.js
 git add .

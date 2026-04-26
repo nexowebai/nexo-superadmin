@@ -6,6 +6,9 @@
 
 > **Architectural Mission**: To build a mission-critical, self-documenting dashboard ecosystem. We enforce strict logic isolation and a unidirectional data flow to ensure long-term maintainability and zero technical debt.
 
+### ⚡ [Open Nexo Pulse Dashboard](./docs/pulse/index.html)
+*High-fidelity visual health audit of the entire codebase.*
+
 ---
 
 ## 🏛️ System Architecture Topology
