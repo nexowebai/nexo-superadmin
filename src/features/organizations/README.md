@@ -42,6 +42,8 @@ graph TD
     OrganizationsPage --> useOrganizationsPage
     useCreateOrganizationPage(useCreateOrganizationPage.js):::hook
     useCreateOrganizationPage --> orgService
+    useOrgDetail(useOrgDetail.js):::hook
+    useOrgDetail --> orgService
     useOrganizationDetail(useOrganizationDetail.js):::hook
     useOrganizationDetail --> orgService
     useOrganizations(useOrganizations.js):::hook
@@ -50,8 +52,6 @@ graph TD
     useOrganizationsPage --> orgService
     useOrganizationsTable(useOrganizationsTable.js):::hook
     useOrganizationsTable --> orgService
-    useOrgDetail(useOrgDetail.js):::hook
-    useOrgDetail --> orgService
     orgService{orgService.js}:::service
     orgService --> API_Client((Global API Client))
 ```
@@ -69,11 +69,11 @@ graph TD
 | Controller | Domain Exports | Status |
 | :--- | :--- | :--- |
 | `useCreateOrganizationPage.js` | 1 handlers | Refactor |
+| `useOrgDetail.js` | 1 handlers | Stable |
 | `useOrganizationDetail.js` | 1 handlers | Stable |
 | `useOrganizations.js` | 9 handlers | Stable |
 | `useOrganizationsPage.js` | 1 handlers | Stable |
 | `useOrganizationsTable.js` | 1 handlers | Stable |
-| `useOrgDetail.js` | 1 handlers | Stable |
 
 ### ⚡ Infrastructure (Services)
 | Provider | Connectivity | Exports |

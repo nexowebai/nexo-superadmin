@@ -35,12 +35,12 @@ graph TD
 
     ForgotPasswordPage[ForgotPasswordPage.jsx]:::page
     ForgotPasswordPage --> useForgotPasswordPage
-    index[index.jsx]:::page
     LoginPage[LoginPage.jsx]:::page
     LoginPage --> useLoginPage
     ResetPasswordPage[ResetPasswordPage.jsx]:::page
     ResetPasswordPage --> useResetPasswordPage
     SetPasswordPage[SetPasswordPage.jsx]:::page
+    index[index.jsx]:::page
     useAuthMutations(useAuthMutations.js):::hook
     useAuthMutations --> authService
     useForgotPasswordPage(useForgotPasswordPage.js):::hook
@@ -61,10 +61,10 @@ graph TD
 | Entity | Logic Link | Complexity |
 | :--- | :--- | :--- |
 | `ForgotPasswordPage.jsx` | Direct | 125 LoC |
-| `index.jsx` | Isolated | 5 LoC |
 | `LoginPage.jsx` | Direct | 130 LoC |
 | `ResetPasswordPage.jsx` | Direct | 171 LoC |
 | `SetPasswordPage.jsx` | Isolated | 262 LoC |
+| `index.jsx` | Isolated | 5 LoC |
 
 ### ⚓ Headless Logic (Hooks)
 | Controller | Domain Exports | Status |
