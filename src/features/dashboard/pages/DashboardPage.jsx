@@ -45,11 +45,11 @@ function DashboardPage() {
           <StatsGrid columns={4}>
             {loading && metrics.length === 0
               ? Array.from({ length: 4 }).map((_, i) => (
-                <StatsCard key={`sk-${i}`} loading={true} />
-              ))
+                  <StatsCard key={`sk-${i}`} loading={true} />
+                ))
               : metrics.map(({ key, ...metricData }) => (
-                <StatsCard key={key} {...metricData} loading={loading} />
-              ))}
+                  <StatsCard key={key} {...metricData} loading={loading} />
+                ))}
           </StatsGrid>
         </section>
 

@@ -43,7 +43,7 @@ export const useOrganizationColumns = ({
             <Mail size={14} className="opacity-40" />
             <span className="truncate">{val || "no-email@nexo.com"}</span>
           </div>
-        )
+        ),
       },
       {
         key: "subscription_tier",

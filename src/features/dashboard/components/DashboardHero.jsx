@@ -40,7 +40,9 @@ const DashboardHero = () => {
             </div>
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-elevated)] text-[var(--text-muted)] text-[10px] font-bold uppercase tracking-wider">
               <Calendar size={12} />
-              <span>{formattedDate} • {formattedTime}</span>
+              <span>
+                {formattedDate} • {formattedTime}
+              </span>
             </div>
           </div>
           <h1 className="text-3xl font-black text-[var(--text-primary)] tracking-tight">
@@ -52,8 +54,8 @@ const DashboardHero = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <DateRangePicker 
-            align="end" 
+          <DateRangePicker
+            align="end"
             onChange={(range) => console.log("Date Range Changed:", range)}
             className="min-w-[240px]"
           />

@@ -48,10 +48,10 @@ export function AppearanceTab({ theme, setTheme, settings, setSettingValue }) {
             <Label text="Theme Accent Color" />
             <div className="palette-selection-grid-v2">
               {APP_THEMES.map((t) => (
-                <PaletteCard 
-                  key={t.id} 
-                  theme={t} 
-                  active={activeColorId === t.id} 
+                <PaletteCard
+                  key={t.id}
+                  theme={t}
+                  active={activeColorId === t.id}
                   onSelect={handlePaletteSelect}
                 />
               ))}

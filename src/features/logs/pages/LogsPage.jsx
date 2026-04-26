@@ -50,8 +50,12 @@ function LogsPage() {
       {/* 1. Operational Toolbar - Simplified Language & Larger Typography */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Activity Overview</h2>
-          <p className="text-base text-slate-600 font-medium mt-1">Monitor recent system activity and audit logs.</p>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Activity Overview
+          </h2>
+          <p className="text-base text-slate-600 font-medium mt-1">
+            Monitor recent system activity and audit logs.
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <DateRangePicker
@@ -66,11 +70,11 @@ function LogsPage() {
       <StatsGrid className="mb-10">
         {isLoading && stats.length === 0
           ? Array.from({ length: 4 }).map((_, i) => (
-            <StatsCard key={`sk-${i}`} loading={true} />
-          ))
+              <StatsCard key={`sk-${i}`} loading={true} />
+            ))
           : stats.map((stat, i) => (
-            <StatsCard key={i} {...stat} loading={false} />
-          ))}
+              <StatsCard key={i} {...stat} loading={false} />
+            ))}
       </StatsGrid>
 
       {/* 3. Transactional Audit Layer */}

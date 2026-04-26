@@ -78,8 +78,8 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
                     Technical Details
                   </span>
                 </div>
-                
-                <button 
+
+                <button
                   onClick={copyToClipboard}
                   className="p-1.5 rounded-lg hover:bg-[var(--bg-surface)] transition-all text-[var(--text-muted)] hover:text-[var(--primary)] border border-transparent hover:border-[var(--border-base)]"
                   title="Copy error message"
@@ -134,7 +134,7 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
                   Dashboard
                 </Button>
               </div>
-              
+
               <Button
                 variant="outline"
                 size="lg"
@@ -149,7 +149,9 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
 
           {/* Footer */}
           <div className="px-8 py-6 bg-[var(--bg-subtle)] border-t border-[var(--border-base)] flex items-center justify-between text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">
-            <span>Ref: {Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+            <span>
+              Ref: {Math.random().toString(36).substr(2, 9).toUpperCase()}
+            </span>
             <button className="flex items-center gap-1 hover:text-[var(--text-secondary)] transition-colors">
               Contact Support <ChevronRight size={12} />
             </button>

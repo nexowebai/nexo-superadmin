@@ -146,7 +146,7 @@ export function LogsTable({
               setLogType("");
             }}
             searchTerm={search}
-            type={search ? "search" : (level || logType ? "filter" : "search")}
+            type={search ? "search" : level || logType ? "filter" : "search"}
           />
         ) : null
       }

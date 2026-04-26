@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar as CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { format, addMonths, subMonths, isSameDay } from "date-fns";
 import { cn } from "@lib/cn";
 import { Button } from "@components/ui";
@@ -27,7 +32,10 @@ export default function DateRangePicker({
   // Close on click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     };
@@ -52,8 +60,8 @@ export default function DateRangePicker({
       setTempEndDate(null);
     } else if (tempStartDate && !tempEndDate) {
       if (isSameDay(date, tempStartDate)) {
-          setTempStartDate(null);
-          return;
+        setTempStartDate(null);
+        return;
       }
       if (date < tempStartDate) {
         setTempEndDate(tempStartDate);
@@ -104,14 +112,17 @@ export default function DateRangePicker({
           )}
         </span>
         {startDate && (
-          <div className="drp-clear-btn" onClick={(e) => {
+          <div
+            className="drp-clear-btn"
+            onClick={(e) => {
               e.stopPropagation();
               setStartDate(null);
               setEndDate(null);
               setTempStartDate(null);
               setTempEndDate(null);
               onChange({ startDate: null, endDate: null });
-          }}>
+            }}
+          >
             <X size={12} />
           </div>
         )}
@@ -120,9 +131,9 @@ export default function DateRangePicker({
       {isOpen && (
         <div
           className={cn(
-            "drp-popover", 
-            viewMode === 'custom' ? "is-custom" : "is-preset",
-            align === 'end' ? "align-end" : "align-start"
+            "drp-popover",
+            viewMode === "custom" ? "is-custom" : "is-preset",
+            align === "end" ? "align-end" : "align-start",
           )}
         >
           <div className="drp-content">
@@ -133,15 +144,18 @@ export default function DateRangePicker({
                   key={p.label}
                   className="drp-preset-btn"
                   onClick={() => {
-                      handlePreset(p);
-                      setViewMode("preset");
+                    handlePreset(p);
+                    setViewMode("preset");
                   }}
                 >
                   {p.label}
                 </button>
               ))}
-              <button 
-                className={cn("drp-preset-btn", viewMode === 'custom' && "active")}
+              <button
+                className={cn(
+                  "drp-preset-btn",
+                  viewMode === "custom" && "active",
+                )}
                 onClick={() => setViewMode("custom")}
               >
                 Custom Range
@@ -150,16 +164,21 @@ export default function DateRangePicker({
 
             <div className="drp-main">
               <div className="drp-header">
-                <button className="drp-nav-btn" onClick={() => setMonthDate(subMonths(monthDate, 1))}>
+                <button
+                  className="drp-nav-btn"
+                  onClick={() => setMonthDate(subMonths(monthDate, 1))}
+                >
                   <ChevronLeft size={18} />
                 </button>
                 <div className="drp-current-month">
-                  {viewMode === 'custom' 
+                  {viewMode === "custom"
                     ? `${format(monthDate, "MMM yyyy")} - ${format(addMonths(monthDate, 1), "MMM yyyy")}`
-                    : format(monthDate, "MMMM yyyy")
-                  }
+                    : format(monthDate, "MMMM yyyy")}
                 </div>
-                <button className="drp-nav-btn" onClick={() => setMonthDate(addMonths(monthDate, 1))}>
+                <button
+                  className="drp-nav-btn"
+                  onClick={() => setMonthDate(addMonths(monthDate, 1))}
+                >
                   <ChevronRight size={18} />
                 </button>
               </div>
@@ -173,7 +192,7 @@ export default function DateRangePicker({
                   onDateClick={handleDateClick}
                   onDateHover={setHoverDate}
                 />
-                {viewMode === 'custom' && (
+                {viewMode === "custom" && (
                   <CalendarGrid
                     monthDate={addMonths(monthDate, 1)}
                     startDate={tempStartDate}
@@ -189,10 +208,12 @@ export default function DateRangePicker({
 
           <div className="drp-footer">
             <div className="drp-actions-grid">
-              <Button variant="soft" onClick={handleCancel} className="flex-1">Cancel</Button>
-              <Button 
-                variant="primary" 
-                onClick={handleApply} 
+              <Button variant="soft" onClick={handleCancel} className="flex-1">
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={handleApply}
                 disabled={!tempStartDate || !tempEndDate}
                 className="flex-1 shadow-none"
               >

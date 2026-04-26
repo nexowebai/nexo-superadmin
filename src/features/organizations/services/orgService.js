@@ -26,8 +26,8 @@ const MOCK_ORGS = [
       full_name: "Sarah Jenkins",
       email: "sarah.j@nexoglobal.com",
       phone_number: "+1 (555) 012-3456",
-      is_active: true
-    }
+      is_active: true,
+    },
   },
   {
     id: 2,
@@ -52,8 +52,8 @@ const MOCK_ORGS = [
       full_name: "Pepper Potts",
       email: "pepper@stark.com",
       phone_number: "+1 (555) 987-6543",
-      is_active: true
-    }
+      is_active: true,
+    },
   },
   {
     id: 3,
@@ -78,8 +78,8 @@ const MOCK_ORGS = [
       full_name: "Lucius Fox",
       email: "lucius@wayne.org",
       phone_number: "+1 (555) 444-5555",
-      is_active: true
-    }
+      is_active: true,
+    },
   },
   {
     id: 4,
@@ -105,9 +105,9 @@ const MOCK_ORGS = [
       full_name: "Miles Dyson",
       email: "miles@cyberdyne.com",
       phone_number: "+1 (555) 212-0000",
-      is_active: false
-    }
-  }
+      is_active: false,
+    },
+  },
 ];
 
 export const orgService = {
@@ -117,19 +117,24 @@ export const orgService = {
 
     if (search) {
       const q = search.toLowerCase();
-      filtered = filtered.filter(org => 
-        org.name.toLowerCase().includes(q) || 
-        org.org_code.toLowerCase().includes(q) ||
-        org.email.toLowerCase().includes(q)
+      filtered = filtered.filter(
+        (org) =>
+          org.name.toLowerCase().includes(q) ||
+          org.org_code.toLowerCase().includes(q) ||
+          org.email.toLowerCase().includes(q),
       );
     }
 
     if (status) {
-      filtered = filtered.filter(org => org.status === status);
+      filtered = filtered.filter((org) => org.status === status);
     }
 
     if (subscription_tier) {
-      filtered = filtered.filter(org => org.subscription_tier.toLowerCase() === subscription_tier.toLowerCase());
+      filtered = filtered.filter(
+        (org) =>
+          org.subscription_tier.toLowerCase() ===
+          subscription_tier.toLowerCase(),
+      );
     }
 
     return {
@@ -139,24 +144,27 @@ export const orgService = {
           total: filtered.length,
           page: params.page || 1,
           limit: params.limit || 10,
-          pages: Math.ceil(filtered.length / (params.limit || 10))
-        }
-      }
+          pages: Math.ceil(filtered.length / (params.limit || 10)),
+        },
+      },
     };
   },
 
   getById: async (id) => {
-    const org = MOCK_ORGS.find(o => o.id === Number(id));
+    const org = MOCK_ORGS.find((o) => o.id === Number(id));
     return { data: { organization: org } };
   },
   create: (data) => api.post(`${BASE}/organizations`, data),
   update: (id, data) => api.put(`${BASE}/organizations/${id}`, data),
   delete: (id) => api.delete(`${BASE}/organizations/${id}`),
   enable: (id) => api.patch(`${BASE}/organizations/${id}/enable`),
-  disable: (id, reason) => api.patch(`${BASE}/organizations/${id}/disable`, { reason }),
+  disable: (id, reason) =>
+    api.patch(`${BASE}/organizations/${id}/disable`, { reason }),
   updatePlan: (id, data) => api.patch(`${BASE}/organizations/${id}/plan`, data),
-  resetAdminPassword: (id, password) => 
-    api.post(`${BASE}/organizations/${id}/reset-admin-password`, { new_password: password }),
+  resetAdminPassword: (id, password) =>
+    api.post(`${BASE}/organizations/${id}/reset-admin-password`, {
+      new_password: password,
+    }),
 };
 
 export default orgService;

@@ -11,7 +11,7 @@ const MOCK_ORGS = [
     status: "active",
     plan: "enterprise",
     user_count: 1240,
-    joined_date: "Jan 2024"
+    joined_date: "Jan 2024",
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const MOCK_ORGS = [
     status: "active",
     plan: "enterprise",
     user_count: 850,
-    joined_date: "Feb 2024"
+    joined_date: "Feb 2024",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const MOCK_ORGS = [
     status: "inactive",
     plan: "pro",
     user_count: 420,
-    joined_date: "Mar 2024"
+    joined_date: "Mar 2024",
   },
   {
     id: 4,
@@ -38,15 +38,19 @@ const MOCK_ORGS = [
     status: "active",
     plan: "enterprise",
     user_count: 610,
-    joined_date: "Apr 2024"
-  }
+    joined_date: "Apr 2024",
+  },
 ];
 
 export default function OrganizationGrid() {
   const navigate = useNavigate();
 
   return (
-    <Card variant="nx" padding="none" className="flex flex-col h-full overflow-visible">
+    <Card
+      variant="nx"
+      padding="none"
+      className="flex flex-col h-full overflow-visible"
+    >
       {/* Header Section */}
       <div className="p-6 flex items-center justify-between border-b border-base bg-subtle/30">
         <div className="flex items-center gap-4">
@@ -54,7 +58,9 @@ export default function OrganizationGrid() {
             <Building2 size={24} strokeWidth={2.5} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-[var(--text-primary)] tracking-tight">Active Partners</h2>
+            <h2 className="text-xl font-black text-[var(--text-primary)] tracking-tight">
+              Active Partners
+            </h2>
             <p className="text-[10px] font-black text-secondary uppercase tracking-widest opacity-70">
               Manage ecosystem entities
             </p>

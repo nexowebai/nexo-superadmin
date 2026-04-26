@@ -52,9 +52,20 @@ export default function OrganizationDetailPage() {
     return (
       <PageContainer>
         <div className="min-h-[400px] flex flex-col items-center justify-center p-12 bg-surface border border-base rounded-xl text-center">
-          <RefreshCcw size={32} className="text-red-500 animate-spin-slow mb-6" />
-          <h2 className="text-xl font-black text-primary mb-2 uppercase tracking-tighter">Synchronize Failed</h2>
-          <Button variant="primary" onClick={() => refetch()} className="mt-4 px-8 font-black uppercase tracking-widest text-xs">Retry Initialize</Button>
+          <RefreshCcw
+            size={32}
+            className="text-red-500 animate-spin-slow mb-6"
+          />
+          <h2 className="text-xl font-black text-primary mb-2 uppercase tracking-tighter">
+            Synchronize Failed
+          </h2>
+          <Button
+            variant="primary"
+            onClick={() => refetch()}
+            className="mt-4 px-8 font-black uppercase tracking-widest text-xs"
+          >
+            Retry Initialize
+          </Button>
         </div>
       </PageContainer>
     );
@@ -79,10 +90,7 @@ export default function OrganizationDetailPage() {
         {/* Informational Layer */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <OrgInfo
-              org={org}
-              onResetPassword={() => openModal("reset")}
-            />
+            <OrgInfo org={org} onResetPassword={() => openModal("reset")} />
           </div>
           <div className="lg:col-span-1">
             <OrgSidebar org={org} />

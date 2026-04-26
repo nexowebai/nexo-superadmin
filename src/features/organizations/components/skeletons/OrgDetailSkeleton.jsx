@@ -18,7 +18,9 @@ export const OrgDetailSkeleton = () => (
 
     {/* Stats Skeleton */}
     <StatsGrid columns={4} className="mb-6">
-      {[1, 2, 3, 4].map(i => <StatsCard key={i} loading variant="nx" />)}
+      {[1, 2, 3, 4].map((i) => (
+        <StatsCard key={i} loading variant="nx" />
+      ))}
     </StatsGrid>
 
     {/* Info & Sidebar Row Skeleton */}

@@ -41,14 +41,14 @@
   border: 1px solid var(--border-base);
   border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: var(--text-sm);
   line-height: 1.5;
   transition: all var(--transition-fast) var(--ease-out);
 }
 
 .search-input-nexo .ds-input {
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
   font-weight: 400 !important;
   border-radius: var(--radius-xl);
   background: var(--bg-surface);

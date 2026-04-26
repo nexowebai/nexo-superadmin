@@ -15,7 +15,7 @@ export const usePrivacyPolicy = () => {
 
     const { selectionStart: start, selectionEnd: end, value: text } = textarea;
     const finalSuffix = suffix || prefix;
-    
+
     const newText =
       text.substring(0, start) +
       prefix +
@@ -32,9 +32,12 @@ export const usePrivacyPolicy = () => {
     }, 0);
   }, []);
 
-  const applyColor = useCallback((color) => {
-    insertFormatting(`<span style="color: ${color}">`, "</span>");
-  }, [insertFormatting]);
+  const applyColor = useCallback(
+    (color) => {
+      insertFormatting(`<span style="color: ${color}">`, "</span>");
+    },
+    [insertFormatting],
+  );
 
   const handlePublish = useCallback(() => {
     setIsSaving(true);

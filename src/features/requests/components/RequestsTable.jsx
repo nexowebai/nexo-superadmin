@@ -36,7 +36,7 @@ export default function RequestsTable({
   });
 
   const showEmpty = !loading && data.length === 0;
-  const emptyType = search ? "search" : (status ? "filter" : "search");
+  const emptyType = search ? "search" : status ? "filter" : "search";
 
   const handleReset = () => {
     setSearch("");
@@ -60,13 +60,15 @@ export default function RequestsTable({
         search={search}
         onSearchChange={setSearch}
         onRefresh={refetch}
-        renderEmpty={showEmpty ? (
-          <SearchEmptyState
-            onReset={handleReset}
-            searchTerm={search}
-            type={emptyType}
-          />
-        ) : null}
+        renderEmpty={
+          showEmpty ? (
+            <SearchEmptyState
+              onReset={handleReset}
+              searchTerm={search}
+              type={emptyType}
+            />
+          ) : null
+        }
         filters={
           <Select
             options={STATUS_OPTIONS}

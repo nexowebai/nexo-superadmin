@@ -27,7 +27,7 @@ export function ThemeProvider({ children }) {
     const [primary, success, info, warning, error] = theme.colors;
 
     const setVar = (name, val) => root.style.setProperty(name, val);
-    
+
     setVar("--primary", primary);
     setVar("--success", success);
     setVar("--info", info);

@@ -121,11 +121,12 @@ function DataTable({
 
       // Check for ds-select__trigger or other interactive elements to prevent row click
       if (
-        target.closest(".dt-actions") || 
-        target.closest("button") || 
+        target.closest(".dt-actions") ||
+        target.closest("button") ||
         target.closest(".ds-select__trigger")
-      ) return;
-      
+      )
+        return;
+
       onRowClick?.(row);
     },
     [onRowClick],
@@ -163,9 +164,7 @@ function DataTable({
       )}
 
       {renderEmpty && data.length === 0 && !loading ? (
-        <div className="dt-empty-surface">
-          {renderEmpty}
-        </div>
+        <div className="dt-empty-surface">{renderEmpty}</div>
       ) : (
         <div className="dt-container">
           <div className="dt-wrapper" ref={tableRef}>
