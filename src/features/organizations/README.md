@@ -20,13 +20,14 @@ graph TD
     OrganizationDetailPagejsx["OrganizationDetailPage.jsx"]:::page
     OrganizationsPagejsx["OrganizationsPage.jsx"]:::page
     useCreateOrganizationPagejs["useCreateOrganizationPage.js"]:::hook
-    useOrgDetailjsx["useOrgDetail.jsx"]:::hook
     useOrganizationDetailjs["useOrganizationDetail.js"]:::hook
     useOrganizationsjs["useOrganizations.js"]:::hook
     useOrganizationsPagejs["useOrganizationsPage.js"]:::hook
     useOrganizationsTablejs["useOrganizationsTable.js"]:::hook
+    useOrgDetailjsx["useOrgDetail.jsx"]:::hook
     orgServicejs["orgService.js"]
     FormSkeletonjsx["FormSkeleton.jsx"]:::page
+    OrganizationsTablejsx["OrganizationsTable.jsx"]:::page
     OrgChartsjsx["OrgCharts.jsx"]:::page
     OrgColumnsjsx["OrgColumns.jsx"]:::page
     OrgHerojsx["OrgHero.jsx"]:::page
@@ -36,7 +37,6 @@ graph TD
     OrgSkeletonjsx["OrgSkeleton.jsx"]:::page
     OrgStatsjsx["OrgStats.jsx"]
     OrgStatsOverviewjsx["OrgStatsOverview.jsx"]
-    OrganizationsTablejsx["OrganizationsTable.jsx"]:::page
     StatusDropdownjsx["StatusDropdown.jsx"]
     CreateOrganizationPagejsx --> useCreateOrganizationPagejs
     CreateOrganizationPagejsx --> FormSkeletonjsx
@@ -50,14 +50,14 @@ graph TD
     OrganizationsPagejsx --> useOrganizationsTablejs
     OrganizationsPagejsx --> useOrganizationsPagejs
     useCreateOrganizationPagejs --> useOrganizationsjs
-    useOrgDetailjsx --> orgServicejs
     useOrganizationDetailjs --> useOrganizationsjs
     useOrganizationsjs --> orgServicejs
     useOrganizationsPagejs --> useOrganizationsjs
     useOrganizationsTablejs --> OrgColumnsjsx
-    OrgColumnsjsx --> StatusDropdownjsx
+    useOrgDetailjsx --> orgServicejs
     OrganizationsTablejsx --> OrgModalsjsx
     OrganizationsTablejsx --> useOrganizationsTablejs
+    OrgColumnsjsx --> StatusDropdownjsx
 ```
 
 ### 2. Execution Sequence
@@ -106,13 +106,14 @@ Automated mapping of external connectivity within this module.
 | `OrganizationDetailPage.jsx` | 76 | Low | 162 | ⚠️ REFACTOR |
 | `OrganizationsPage.jsx` | 72 | Low | 202 | ⚠️ REFACTOR |
 | `useCreateOrganizationPage.js` | 34 | Low | 163 | ⚠️ REFACTOR |
-| `useOrgDetail.jsx` | 35 | Low | 101 | ✅ STABLE |
 | `useOrganizationDetail.js` | 21 | Low | 72 | ✅ STABLE |
 | `useOrganizations.js` | 28 | Low | 121 | ✅ STABLE |
 | `useOrganizationsPage.js` | 21 | Low | 88 | ✅ STABLE |
 | `useOrganizationsTable.js` | 22 | Low | 82 | ✅ STABLE |
+| `useOrgDetail.jsx` | 35 | Low | 101 | ✅ STABLE |
 | `orgService.js` | 30 | Low | 171 | ⚠️ REFACTOR |
 | `FormSkeleton.jsx` | 16 | Low | 31 | ✅ STABLE |
+| `OrganizationsTable.jsx` | 37 | Low | 101 | ✅ STABLE |
 | `OrgCharts.jsx` | 43 | Low | 96 | ✅ STABLE |
 | `OrgColumns.jsx` | 46 | Low | 134 | ✅ STABLE |
 | `OrgHero.jsx` | 56 | Low | 152 | ⚠️ REFACTOR |
@@ -122,7 +123,6 @@ Automated mapping of external connectivity within this module.
 | `OrgSkeleton.jsx` | 45 | Low | 118 | ✅ STABLE |
 | `OrgStats.jsx` | 15 | Low | 42 | ✅ STABLE |
 | `OrgStatsOverview.jsx` | 23 | Low | 62 | ✅ STABLE |
-| `OrganizationsTable.jsx` | 37 | Low | 101 | ✅ STABLE |
 | `StatusDropdown.jsx` | 11 | Low | 24 | ✅ STABLE |
 
 ---
