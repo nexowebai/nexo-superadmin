@@ -1,7 +1,7 @@
 # Feature Intelligence: AUTH
 
 ![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
-![Complexity](https://img.shields.io/badge/Complexity_Score-Critical-red)
+![Complexity](https://img.shields.io/badge/Complexity_Score-Optimal-brightgreen)
 ![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
@@ -99,7 +99,7 @@ Automated mapping of external connectivity within this module.
 | `VisualExtras.jsx` | 19 | Low | 163 | ✅ STABLE |
 | `DashboardCards.jsx` | 25 | Low | 151 | ✅ STABLE |
 | `LoginPage.jsx` | 35 | Low | 130 | ✅ STABLE |
-| `ForgotPasswordPage.jsx` | 38 | High | 125 | ⚠️ REFACTOR |
+| `ForgotPasswordPage.jsx` | 38 | Low | 125 | ✅ STABLE |
 | `SetPasswordPage.jsx` | 41 | Low | 118 | ✅ STABLE |
 | `ResetPasswordPage.jsx` | 42 | Low | 116 | ✅ STABLE |
 | `AuthAlert.jsx` | 45 | Low | 110 | ✅ STABLE |

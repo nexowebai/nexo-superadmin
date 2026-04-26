@@ -41,17 +41,17 @@ The following registry is synchronized on every local commit. It provides a real
 
 | Status | Feature Module | Complexity | Density | Specification |
 | :--- | :--- | :--- | :--- | :--- |
-| ![High](https://img.shields.io/badge/-High-orange) | **ADMINS** | 557 LoC | 7 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/admins/README.md) |
-| ![Critical](https://img.shields.io/badge/-Critical-red) | **AUTH** | 1410 LoC | 18 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/auth/README.md) |
-| ![Critical](https://img.shields.io/badge/-Critical-red) | **BILLING** | 604 LoC | 5 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/billing/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **ADMINS** | 557 LoC | 7 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/admins/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **AUTH** | 1410 LoC | 18 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/auth/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **BILLING** | 604 LoC | 5 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/billing/README.md) |
 | ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **CONTENT** | 283 LoC | 3 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/content/README.md) |
-| ![Critical](https://img.shields.io/badge/-Critical-red) | **DASHBOARD** | 750 LoC | 10 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/dashboard/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **LOGS** | 557 LoC | 9 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/logs/README.md) |
-| ![Critical](https://img.shields.io/badge/-Critical-red) | **NOTIFICATIONS** | 475 LoC | 5 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/notifications/README.md) |
-| ![Critical](https://img.shields.io/badge/-Critical-red) | **ORGANIZATIONS** | 2362 LoC | 32 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/organizations/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **PAYMENTS** | 709 LoC | 8 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/payments/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **DASHBOARD** | 750 LoC | 10 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/dashboard/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **LOGS** | 557 LoC | 9 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/logs/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **NOTIFICATIONS** | 475 LoC | 5 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/notifications/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **ORGANIZATIONS** | 2362 LoC | 32 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/organizations/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **PAYMENTS** | 709 LoC | 8 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/payments/README.md) |
 | ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **REQUESTS** | 576 LoC | 10 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/requests/README.md) |
-| ![Critical](https://img.shields.io/badge/-Critical-red) | **SETTINGS** | 743 LoC | 13 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/settings/README.md) |
+| ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **SETTINGS** | 743 LoC | 13 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/settings/README.md) |
 | ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **USERS** | 13 LoC | 1 Nodes | [View Specs](https://nexowebai.github.io/nexo-superadmin/src/features/users/README.md) |
 
 <!-- FEATURE_INVENTORY_END -->

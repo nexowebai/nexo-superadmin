@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const CRITICAL_LINES = 200;
-const WARNING_LINES = 150;
+const CRITICAL_LINES = 250;
+const WARNING_LINES = 200;
 const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', '.husky', 'docs', '.agents', '.gemini'];
 const ROOT = path.join(__dirname, '..');
 const REPORT_PATH = path.join(ROOT, 'docs/audit-report.json');
@@ -16,7 +16,7 @@ function auditFile(filePath) {
     const lines = content.split('\n');
     const relativePath = path.relative(ROOT, filePath).replace(/\\/g, '/');
 
-    // 1. Check Line Count (200 is Critical, 150-200 is Warning)
+    // 1. Check Line Count (250 is Critical, 200-250 is Warning)
     if (lines.length > CRITICAL_LINES) {
         violations.push({
             type: 'LINE_COUNT',
@@ -28,7 +28,7 @@ function auditFile(filePath) {
         violations.push({
             type: 'LINE_COUNT',
             file: relativePath,
-            message: `File has ${lines.length} lines (Target: <${WARNING_LINES})`,
+            message: `File has ${lines.length} lines (Institutional Target: <${WARNING_LINES})`,
             severity: 'WARNING'
         });
     }

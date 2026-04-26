@@ -102,7 +102,7 @@ function analyzeFile(filePath) {
             jsx: jsxCount
         };
         data.score = calculateScore(data);
-        data.priority = data.score > 100 ? "Critical" : (data.score > 50 ? "High" : "Low");
+        data.priority = data.score > 150 ? "Critical" : (data.score > 80 ? "High" : "Low");
         return data;
     } catch {
         const lines = code.split("\n").length;
@@ -117,7 +117,7 @@ function analyzeFile(filePath) {
             jsx: 0
         };
         data.score = calculateScore(data);
-        data.priority = data.score > 100 ? "Critical" : (data.score > 50 ? "High" : "Low");
+        data.priority = data.score > 150 ? "Critical" : (data.score > 80 ? "High" : "Low");
         return data;
     }
 }

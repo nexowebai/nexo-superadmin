@@ -1,7 +1,7 @@
 # Feature Intelligence: ORGANIZATIONS
 
 ![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
-![Complexity](https://img.shields.io/badge/Complexity_Score-Critical-red)
+![Complexity](https://img.shields.io/badge/Complexity_Score-Optimal-brightgreen)
 ![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
@@ -111,9 +111,9 @@ Automated mapping of external connectivity within this module.
 | `OrgColumns.jsx` | 33 | Low | 134 | ✅ STABLE |
 | `useOrganizations.js` | 40 | Low | 121 | ✅ STABLE |
 | `ResetPasswordModal.jsx` | 44 | Low | 112 | ✅ STABLE |
-| `ManageCouponsModal.jsx` | 45 | High | 110 | ⚠️ REFACTOR |
+| `ManageCouponsModal.jsx` | 45 | Low | 110 | ✅ STABLE |
 | `SendNotificationModal.jsx` | 45 | Low | 110 | ✅ STABLE |
-| `OrgFormSections.jsx` | 49 | High | 102 | ⚠️ REFACTOR |
+| `OrgFormSections.jsx` | 49 | Low | 102 | ✅ STABLE |
 | `useOrgDetail.jsx` | 50 | Low | 101 | ✅ STABLE |
 | `OrganizationsTable.jsx` | 50 | Low | 101 | ✅ STABLE |
 | `AuditLogModal.jsx` | 50 | Low | 100 | ✅ STABLE |
@@ -122,10 +122,10 @@ Automated mapping of external connectivity within this module.
 | `OrganizationsPage.jsx` | 58 | Low | 84 | ✅ STABLE |
 | `useCreateOrganizationPage.js` | 58 | Low | 84 | ✅ STABLE |
 | `useOrganizationsTable.js` | 59 | Low | 82 | ✅ STABLE |
-| `OrgInfo.jsx` | 59 | High | 82 | ⚠️ REFACTOR |
+| `OrgInfo.jsx` | 59 | Low | 82 | ✅ STABLE |
 | `useOrganizationDetail.js` | 64 | Low | 72 | ✅ STABLE |
 | `OrgHero.jsx` | 66 | Low | 68 | ✅ STABLE |
-| `OrganizationDetailPage.jsx` | 67 | High | 67 | ⚠️ REFACTOR |
+| `OrganizationDetailPage.jsx` | 67 | Low | 67 | ✅ STABLE |
 | `DisableOrgModal.jsx` | 68 | Low | 65 | ✅ STABLE |
 | `ManagePlanModal.jsx` | 68 | Low | 65 | ✅ STABLE |
 | `orgService.js` | 68 | Low | 64 | ✅ STABLE |

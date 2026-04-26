@@ -1,7 +1,7 @@
 # Feature Intelligence: ADMINS
 
 ![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
-![Complexity](https://img.shields.io/badge/Complexity_Score-High-orange)
+![Complexity](https://img.shields.io/badge/Complexity_Score-Optimal-brightgreen)
 ![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
@@ -63,7 +63,7 @@ Automated mapping of external connectivity within this module.
 ## 📂 Engineering Audit
 | Entity | Score | Complexity | LoC | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| `CreateAdminPage.jsx` | 32 | High | 137 | ⚠️ REFACTOR |
+| `CreateAdminPage.jsx` | 32 | Low | 137 | ✅ STABLE |
 | `useCreateAdminForm.js` | 56 | Low | 88 | ✅ STABLE |
 | `useAdminsPage.js` | 57 | Low | 87 | ✅ STABLE |
 | `AdminsTableConfig.jsx` | 58 | Low | 84 | ✅ STABLE |
