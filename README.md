@@ -6,12 +6,12 @@
 
 > **Architectural Mission**: To build a mission-critical, self-documenting dashboard ecosystem. We enforce strict logic isolation and a unidirectional data flow to ensure long-term maintainability and zero technical debt.
 
-### ⚡ [Open Nexo Pulse Dashboard](./docs/index.html)
+### [Open Nexo Pulse Dashboard](./docs/index.html)
 *High-fidelity visual health audit of the entire codebase.*
 
 ---
 
-## 🏛️ System Architecture Topology
+## System Architecture Topology
 The diagram below visualizes the core technical foundations of the Nexo ecosystem, illustrating how our primary libraries interact with our domain-driven feature layers.
 
 ```mermaid
@@ -34,7 +34,7 @@ graph TD
 
 ---
 
-## 📂 Feature Module Registry
+##  Feature Module Registry
 The following registry is synchronized on every local commit. It provides a real-time health audit of all business domains.
 
 <!-- FEATURE_INVENTORY_START -->
@@ -58,10 +58,10 @@ The following registry is synchronized on every local commit. It provides a real
 
 ---
 
-## 🚀 Technical Standards & Guidelines
+## Technical Standards & Guidelines
 
-### 1. The 150-Line Hard Limit
-No single file in the `src/` directory should exceed **150 lines**. 
+### 1. The 200-Line Hard Limit
+No single file in the `src/` directory should exceed **200 lines**. 
 - **Goal**: Forces modularity and prevents "God Components".
 - **Enforcement**: Automatically audited during documentation sync.
 
