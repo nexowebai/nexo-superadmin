@@ -101,7 +101,7 @@ export function TableActions({
           type="button"
           className={cn(
             "dt-action-btn",
-            isPowered ? "dt-action-power--active" : "dt-action-power--inactive"
+            isPowered ? "dt-action-power--active" : "dt-action-power--inactive",
           )}
           onClick={(e) => {
             e.stopPropagation();
@@ -110,7 +110,11 @@ export function TableActions({
           title={actualPowerTitle}
           aria-label={actualPowerTitle}
         >
-          {isPowered ? <PowerOff size={18} strokeWidth={1.8} /> : <Power size={18} strokeWidth={1.8} />}
+          {isPowered ? (
+            <PowerOff size={18} strokeWidth={1.8} />
+          ) : (
+            <Power size={18} strokeWidth={1.8} />
+          )}
         </button>
       )}
       {showDelete && onDelete && (

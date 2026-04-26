@@ -7,8 +7,16 @@ import "./Modal.css";
 
 const overlayVariants = {
   initial: { opacity: 0, backdropFilter: "blur(0px)" },
-  animate: { opacity: 1, backdropFilter: "blur(4px)", transition: { duration: 0.3, ease: "easeOut" } },
-  exit: { opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.25, ease: "easeIn" } },
+  animate: {
+    opacity: 1,
+    backdropFilter: "blur(4px)",
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    backdropFilter: "blur(0px)",
+    transition: { duration: 0.25, ease: "easeIn" },
+  },
 };
 
 const modalVariants = {
@@ -17,20 +25,20 @@ const modalVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { 
-      duration: 0.4, 
+    transition: {
+      duration: 0.4,
       ease: [0.16, 1, 0.3, 1], // Custom spring-like easing
-      opacity: { duration: 0.25 }
+      opacity: { duration: 0.25 },
     },
   },
   exit: {
     opacity: 0,
     y: 15,
     scale: 0.97,
-    transition: { 
-      duration: 0.3, 
+    transition: {
+      duration: 0.3,
       ease: [0.16, 1, 0.3, 1],
-      opacity: { duration: 0.2 }
+      opacity: { duration: 0.2 },
     },
   },
 };
