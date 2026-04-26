@@ -51,11 +51,11 @@ graph LR
 | Controller Hook | Lines of Code | Technical Status |
 | :--- | :--- | :--- |
 | useCreateOrganizationPage | 163 | Refactor |
+| useOrgDetail | 101 | Stable |
 | useOrganizationDetail | 72 | Stable |
 | useOrganizations | 121 | Stable |
 | useOrganizationsPage | 88 | Stable |
 | useOrganizationsTable | 82 | Stable |
-| useOrgDetail | 101 | Stable |
 
 ### Infrastructure Layer (Services)
 | Service Provider | Lines of Code | Technical Status |

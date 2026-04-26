@@ -44,10 +44,10 @@ graph LR
 | Entry Point | Lines of Code | Technical Status |
 | :--- | :--- | :--- |
 | ForgotPasswordPage | 125 | Stable |
-| index | 5 | Stable |
 | LoginPage | 130 | Stable |
 | ResetPasswordPage | 171 | Refactor |
 | SetPasswordPage | 262 | Refactor |
+| index | 5 | Stable |
 
 ### Logic Layer (Hooks)
 | Controller Hook | Lines of Code | Technical Status |
