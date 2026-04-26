@@ -5,13 +5,28 @@ import _traverse from "@babel/traverse";
 const traverse = _traverse.default;
 
 /**
- * 🏔️ NEXO COMMAND ARCHITECT (V21.0) - THE FEEDBACK PRECISION EDITION
+ * 🏔️ NEXO COMMAND ARCHITECT (V22.0) - THE PORTABLE ASSET EDITION
  */
 
 const ROOT = process.cwd();
 const FEATURES_DIR = path.join(ROOT, "src/features");
 const OUTPUT_DIR = path.join(ROOT, "docs");
 const OUTPUT_FILE = path.join(OUTPUT_DIR, "index.html");
+
+const LOGO_PATH = path.join(ROOT, "src/assets/logo/nexo-full.png");
+const FAVICON_PATH = path.join(ROOT, "dist/favicon.png");
+
+// Helper to convert images to Base64 for true portability
+function getBase64(filePath) {
+    if (fs.existsSync(filePath)) {
+        const buffer = fs.readFileSync(filePath);
+        return `data:image/png;base64,${buffer.toString("base64")}`;
+    }
+    return "";
+}
+
+const LOGO_BASE64 = getBase64(LOGO_PATH);
+const FAVICON_BASE64 = getBase64(FAVICON_PATH);
 
 const FILE_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5; flex-shrink: 0;"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>`;
 const COPY_ICON = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>`;
@@ -33,11 +48,11 @@ function analyzeFile(filePath) {
         return data;
     } catch {
         const lines = code.split("\n").length;
-        return {
-            name: path.basename(filePath),
-            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"),
-            lines,
-            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low")
+        return { 
+            name: path.basename(filePath), 
+            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"), 
+            lines, 
+            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low") 
         };
     }
 }
@@ -51,7 +66,7 @@ function run() {
     }
 
     const features = fs.readdirSync(FEATURES_DIR).filter(f => fs.statSync(path.join(FEATURES_DIR, f)).isDirectory());
-
+    
     const moduleData = features.map(f => {
         const base = path.join(FEATURES_DIR, f);
         const files = [];
@@ -90,6 +105,7 @@ function run() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexo Command Architect | Engineering Portal</title>
+    <link rel="icon" type="image/png" href="${FAVICON_BASE64}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -134,8 +150,9 @@ function run() {
             width: 260px; height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: fixed; left: 0; top: 0; z-index: 100;
         }
-        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center; }
-        .brand img { max-width: 165px; }
+        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center; padding: 12px 0; }
+        .brand img { max-width: 180px; }
+        [data-theme="dark"] .brand img { filter: invert(1) brightness(2); }
 
         .nav { padding: 0 12px; flex: 1; }
         .nav-item {
@@ -243,7 +260,7 @@ function run() {
 </head>
 <body data-theme="light">
     <div class="sidebar">
-        <div class="brand"><img src="../src/assets/logo/nexo-full.png" alt="Nexo Logo"></div>
+        <div class="brand"><img src="${LOGO_BASE64}" alt="Nexo Logo"></div>
         <div class="nav">
             <div id="nav-dashboard" class="nav-item active" onclick="showTab('dashboard')">Dashboard</div>
             <div id="nav-audit" class="nav-item" onclick="showTab('audit')">Technical Audit</div>
@@ -260,7 +277,7 @@ function run() {
     </div>
 
     <header>
-        <div class="h-info"><h2>Command Architect</h2><p>V21.0 Feedback Precision</p></div>
+        <div class="h-info"><h2>Command Architect</h2><p>V22.0 Portable Assets</p></div>
         <div class="header-actions">
             <div class="theme-toggle" onclick="toggleTheme()"><svg id="theme-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg></div>
             <div style="text-align: right; line-height: 1.2;"><div style="font-weight: 800; font-size: 13px;">Architect</div><div style="font-size: 10px; color: var(--text-muted);">Production</div></div>
@@ -389,6 +406,6 @@ function run() {
     `;
 
     fs.writeFileSync(OUTPUT_FILE, html);
-    console.log(`✨ Nexo Command Architect V21.0 synchronized at ${OUTPUT_FILE}`);
+    console.log(`✨ Nexo Command Architect V22.0 synchronized at ${OUTPUT_FILE}`);
 }
 run();
