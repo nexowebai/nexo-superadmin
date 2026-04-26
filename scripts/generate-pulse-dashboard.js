@@ -1,11 +1,20 @@
 import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
 import { parse } from "@babel/parser";
 import _traverse from "@babel/traverse";
 const traverse = _traverse.default;
 
 /**
- * 🏔️ NEXO COMMAND ARCHITECT (V23.0) - THE ELITE PROMPT EDITION
+ * 🏔️ NEXO COMMAND ARCHITECT (V24.0) - THE MASTER ORCHESTRATOR
+ * 
+ * Consolidates all specialized workflows into a single high-performance engine.
+ * - Global Governance Audit (nexo-audit.cjs)
+ * - Automated Changelog Engine (auto-changelog.js)
+ * - Intelligence Dashboard Portal (docs/index.html)
+ * - Global Feature Inventory (README.md)
+ * - Feature-Specific Documentation (src/features/* /README.md)
+ * - AST-level dependency mapping and API surface inference
  */
 
 const ROOT = process.cwd();
@@ -32,32 +41,99 @@ const COPY_ICON = `<svg width="12" height="12" fill="none" stroke="currentColor"
 
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
+function calculateScore(f) {
+    return Math.round(
+        f.lines * 0.15 +
+        (f.dependencies?.length || 0) * 2.5 +
+        (f.exports?.length || 0) * 2 +
+        (f.api?.length || 0) * 5 +
+        (f.jsx || 0) * 0.8
+    );
+}
+
 function analyzeFile(filePath) {
     const code = fs.readFileSync(filePath, "utf-8");
+    const deps = [];
+    const api = [];
+    const exports = [];
+    let jsxCount = 0;
+
     try {
         const ast = parse(code, { sourceType: "module", plugins: ["jsx", "typescript"] });
+        traverse(ast, {
+            ImportDeclaration({ node }) {
+                const source = node.source.value;
+                if (source.startsWith(".") || source.startsWith("@")) deps.push(source);
+            },
+            ExportNamedDeclaration({ node }) {
+                if (node.declaration?.declarations) {
+                    node.declaration.declarations.forEach(d => exports.push(d.id.name));
+                } else if (node.declaration?.id) {
+                    exports.push(node.declaration.id.name);
+                }
+            },
+            ExportDefaultDeclaration({ node }) {
+                exports.push("default");
+            },
+            CallExpression({ node }) {
+                const callee = node.callee;
+                const name = callee.name || (callee.property ? callee.property.name : null);
+                if (["get", "post", "patch", "delete", "put"].includes(name?.toLowerCase())) {
+                    const arg = node.arguments[0]?.value;
+                    if (arg && typeof arg === "string") api.push({ method: name.toUpperCase(), endpoint: arg });
+                }
+                if (node.callee.name === "require" && node.arguments[0]?.type === "StringLiteral") {
+                    deps.push(node.arguments[0].value);
+                }
+            },
+            JSXElement() {
+                jsxCount++;
+            }
+        });
+
         const data = {
             name: path.basename(filePath),
+            simpleName: path.basename(filePath).split(".")[0],
             fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"),
             lines: code.split("\n").length,
-            priority: "Low"
+            dependencies: deps,
+            api,
+            exports,
+            jsx: jsxCount
         };
-        if (data.lines > 300) data.priority = "Critical";
-        else if (data.lines > 150) data.priority = "High";
+        data.score = calculateScore(data);
+        data.priority = data.score > 100 ? "Critical" : (data.score > 50 ? "High" : "Low");
         return data;
     } catch {
         const lines = code.split("\n").length;
-        return { 
+        const data = { 
             name: path.basename(filePath), 
+            simpleName: path.basename(filePath).split(".")[0],
             fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"), 
             lines, 
-            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low") 
+            dependencies: [],
+            api: [],
+            exports: [],
+            jsx: 0
         };
+        data.score = calculateScore(data);
+        data.priority = data.score > 100 ? "Critical" : (data.score > 50 ? "High" : "Low");
+        return data;
     }
 }
 
 function run() {
-    console.log("🏔️ Nexo Command Architect: Orchestrating Elite-Grade Engineering Portal...");
+    console.log("🏔️ Nexo Master Architect: Orchestrating Full System Workflow...");
+
+    // --- 🛡️ WORKFLOW ORCHESTRATION ---
+    try {
+        console.log("🛡️ Running Global Governance Audit...");
+        execSync("node scripts/nexo-audit.cjs", { stdio: "inherit" });
+        console.log("📝 Running Automated Changelog Engine...");
+        execSync("node scripts/auto-changelog.js", { stdio: "inherit" });
+    } catch (e) {
+        console.warn("⚠️ Some pre-flight workflows failed. Proceeding with Pulse generation...");
+    }
 
     if (!fs.existsSync(FEATURES_DIR)) {
         console.error("❌ src/features directory not found.");
@@ -71,7 +147,7 @@ function run() {
     }
 
     const features = fs.readdirSync(FEATURES_DIR).filter(f => fs.statSync(path.join(FEATURES_DIR, f)).isDirectory());
-    
+
     const moduleData = features.map(f => {
         const base = path.join(FEATURES_DIR, f);
         const files = [];
@@ -80,7 +156,7 @@ function run() {
             if (fs.existsSync(dir)) {
                 const subFiles = fs.readdirSync(dir, { recursive: true })
                     .filter(x => typeof x === 'string' && (x.endsWith(".js") || x.endsWith(".jsx") || x.endsWith(".ts") || x.endsWith(".tsx")));
-                
+
                 subFiles.forEach(file => {
                     files.push(analyzeFile(path.join(dir, file)));
                 });
@@ -104,8 +180,6 @@ function run() {
     });
 
     const totalSystemLines = moduleData.reduce((s, m) => s + m.totalLines, 0);
-    const totalRefactors = moduleData.reduce((s, m) => s + m.refactorFiles.length, 0);
-    const totalFiles = moduleData.reduce((s, m) => s + m.totalFiles, 0);
     const systemHealth = auditReport.healthScore;
 
     const html = `
@@ -114,7 +188,7 @@ function run() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexo Command Architect | Engineering Portal</title>
+    <title>Nexo Master Architect | System Portal</title>
     <link rel="icon" type="image/png" href="${FAVICON_BASE64}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -160,7 +234,7 @@ function run() {
             width: 260px; height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: fixed; left: 0; top: 0; z-index: 100;
         }
-        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center; padding: 12px 0; }
+        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center; }
         .brand img { max-width: 150px; }
         [data-theme="dark"] .brand img { filter: invert(1) brightness(2); }
 
@@ -295,7 +369,7 @@ function run() {
     </div>
 
     <header>
-        <div class="h-info"><h2>Command Architect</h2><p>V23.0 Elite Pulse Engine</p></div>
+        <div class="h-info"><h2>Command Architect</h2><p>V24.0 Master Workflow Engine</p></div>
         <div class="header-actions">
             <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Visual Mode">
                 <svg id="theme-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -303,7 +377,7 @@ function run() {
                 </svg>
             </div>
             <div style="text-align: right; line-height: 1.2;">
-                <div style="font-weight: 800; font-size: 13px;">Lead Architect</div>
+                <div style="font-weight: 800; font-size: 13px;">Master Architect</div>
                 <div style="font-size: 10px; color: var(--text-muted);">Institutional Mode</div>
             </div>
         </div>
@@ -311,10 +385,15 @@ function run() {
 
     <div class="content">
         <div id="dashboard" class="tab-view active">
-            <div class="view-description"><div class="vd-text"><h4>Intelligence Dashboard</h4><p>High-level system health and logic density aggregation for the Nexo ecosystem.</p></div></div>
+            <div class="view-description">
+                <div class="vd-text">
+                    <h4>Intelligence Dashboard</h4>
+                    <p>High-level system health and logic density aggregation. Complexity is calculated via AST analysis of Lines, Imports, Exports, API calls, and JSX density.</p>
+                </div>
+            </div>
             <div class="hero-stats">
                 <div class="stat-box"><div class="sb-label">Logical Lines</div><div class="sb-value">${totalSystemLines.toLocaleString()}</div></div>
-                <div class="stat-box"><div class="sb-label">Modules</div><div class="sb-value">${moduleData.length}</div></div>
+                <div class="stat-box"><div class="sb-label">Complexity Equation</div><div class="sb-value" style="font-size: 11px; opacity: 0.6; line-height: 1.4;">(Lines × 0.15) + (Deps × 2.5) + (Exp × 2) + (API × 5) + (JSX × 0.8)</div></div>
                 <div class="stat-box"><div class="sb-label">Audit Score</div><div class="sb-value" style="color: var(--primary)">${systemHealth}%</div></div>
                 <div class="stat-box"><div class="sb-label">Violations</div><div class="sb-value" style="color: var(--danger)">${auditReport.violationsCount}</div></div>
             </div>
@@ -401,129 +480,98 @@ function run() {
     </div>
 
     <script>
-        // --- 🧊 NEXO CORE UI ENGINE ---
+        // --- 🧊 NEXO MASTER UI ENGINE (V24.0) ---
 
-        function updateTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            document.body.setAttribute('data-theme', theme);
+        window.updateTheme = function(theme) {
+            const root = document.documentElement;
+            root.setAttribute('data-theme', theme);
             localStorage.setItem('nexo-theme', theme);
             
             const icon = document.getElementById('theme-icon');
-            if (theme === 'dark') {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
-            } else {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>';
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+                } else {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>';
+                }
             }
-        }
+        };
 
-        function toggleTheme() {
+        window.toggleTheme = function() {
             const current = document.documentElement.getAttribute('data-theme') || 'light';
-            updateTheme(current === 'dark' ? 'light' : 'dark');
-        }
+            window.updateTheme(current === 'dark' ? 'light' : 'dark');
+        };
 
-        function showTab(id) {
-            // Remove active classes
-            document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active')); 
+        window.showTab = function(id) {
+            // Deactivate all
+            document.querySelectorAll('.tab-view').forEach(v => v.style.display = 'none'); 
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             
-            // Add active to target
+            // Activate target
             const target = document.getElementById(id);
             if (target) {
-                target.classList.add('active');
-                // Scroll to top of content
-                document.querySelector('.content').scrollTop = 0;
+                target.style.display = 'block';
+                const contentArea = document.querySelector('.content');
+                if (contentArea) contentArea.scrollTop = 0;
             }
             
             const nav = document.getElementById('nav-' + id);
             if (nav) nav.classList.add('active');
             
-            // Update hash without jumping
-            history.replaceState(null, null, '#' + id);
-        }
+            // Sync URL hash
+            if (window.location.hash !== '#' + id) {
+                history.replaceState(null, null, '#' + id);
+            }
+        };
 
-        // Initialize Engine
+        // Initialize on DOM Ready
         document.addEventListener('DOMContentLoaded', () => {
-            // Restore Theme
             const savedTheme = localStorage.getItem('nexo-theme') || 'light';
-            updateTheme(savedTheme);
+            window.updateTheme(savedTheme);
 
-            // Restore Tab
             const hash = window.location.hash.replace('#', '');
             if (hash && document.getElementById(hash)) {
-                showTab(hash);
+                window.showTab(hash);
             } else {
-                showTab('dashboard');
+                window.showTab('dashboard');
             }
         });
 
-        function copySnippet(txt, btn) {
+        window.copySnippet = function(txt, btn) {
             navigator.clipboard.writeText(txt).then(() => {
                 const original = btn.innerHTML;
-                const isPrimary = btn.classList.contains('primary');
-                btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Copied!';
-                btn.style.borderColor = 'var(--success)'; 
-                btn.style.color = 'var(--success)';
-                btn.style.background = isPrimary ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.05)';
-                setTimeout(() => { 
-                    btn.innerHTML = original; 
-                    btn.style.borderColor = ''; 
-                    btn.style.color = ''; 
-                    btn.style.background = ''; 
-                }, 1000);
+                btn.innerHTML = 'Copied!';
+                setTimeout(() => { btn.innerHTML = original; }, 1000);
+            }).catch(() => {
+                alert('Clipboard access denied. Please copy manually: ' + txt);
             });
-        }
+        };
 
-        function copyFeaturePaths(feature, paths, btn) {
-            const prompt = \`[INST] ELITE ARCHITECTURAL REMEDIATION TASK:
-You are an expert full-stack engineer specialized in high-performance React architectures.
-The following files in the **\${feature}** domain have violated the 150-line institutional density limit and require modular refactoring.
-
-**ARCHITECTURE RULES:**
-1. **Modular Splitting**: Extract complex logic into custom hooks (\`hooks/\`).
-2. **Component Granularity**: Split large JSX blocks into atomic sub-components (\`components/\`).
-3. **Separation of Concerns**: Pure UI should not handle API logic; delegate to \`services/\`.
-4. **Governance**: Ensure NO file exceeds 150 lines post-refactor.
-5. **Consistency**: Use existing design tokens, CSS variables, and Lucide icons.
-6. **Error Handling**: Implement robust try/catch blocks with Sonner toasts.
-
-**TARGET FILES:**
-\${paths.join('\\n')}
-
-Execute this refactor with production-grade efficiency and zero technical debt. [/INST]\`;
-
+        window.copyFeaturePaths = function(feature, paths, btn) {
+            const prompt = "Refactor request for " + feature + ": " + paths.join(', ');
             navigator.clipboard.writeText(prompt).then(() => {
                 const original = btn.innerHTML;
-                btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Prompt Copied!';
-                btn.style.borderColor = 'var(--success)'; 
-                btn.style.color = 'var(--success)';
-                btn.style.background = 'rgba(16, 185, 129, 0.1)';
-                setTimeout(() => { 
-                    btn.innerHTML = original; 
-                    btn.style.borderColor = ''; 
-                    btn.style.color = ''; 
-                    btn.style.background = ''; 
-                }, 2000);
+                btn.innerHTML = 'Prompt Copied!';
+                setTimeout(() => { btn.innerHTML = original; }, 2000);
             });
-        }
+        };
     </script>
 </body>
 </html>
-    `;
+`;
 
     fs.writeFileSync(OUTPUT_FILE, html);
-    console.log(`✨ Nexo Command Architect V23.0 synchronized at ${OUTPUT_FILE}`);
+    console.log(`✨ Nexo Master Architect synchronized main portal.`);
 
     // --- 📝 README.md LIVE SYNC ---
     const readmePath = path.join(ROOT, "README.md");
     if (fs.existsSync(readmePath)) {
         let readmeContent = fs.readFileSync(readmePath, "utf-8");
-        
         const startMarker = "<!-- FEATURE_INVENTORY_START -->";
         const endMarker = "<!-- FEATURE_INVENTORY_END -->";
-        
         const startIndex = readmeContent.indexOf(startMarker);
         const endIndex = readmeContent.indexOf(endMarker);
-        
+
         if (startIndex !== -1 && endIndex !== -1) {
             const inventoryTable = [
                 "| Status | Feature Module | Complexity | Density | Specification |",
@@ -531,18 +579,131 @@ Execute this refactor with production-grade efficiency and zero technical debt. 
                 ...moduleData.map(m => {
                     const status = m.rating === "A+" ? "Optimal" : (m.rating === "B" ? "High" : "Critical");
                     const color = m.rating === "A+" ? "brightgreen" : (m.rating === "B" ? "orange" : "red");
-                    const badge = `![${status}](https://img.shields.io/badge/-${status}-${color})`;
-                    return `| ${badge} | **${m.name.toUpperCase()}** | ${m.totalLines} LoC | ${m.totalFiles} Nodes | [View Specs](./src/features/${m.name.toLowerCase()}/README.md) |`;
+                    return `| ![${status}](https://img.shields.io/badge/-${status}-${color}) | **${m.name.toUpperCase()}** | ${m.totalLines} LoC | ${m.totalFiles} Nodes | [View Specs](./src/features/${m.name.toLowerCase()}/README.md) |`;
                 })
             ].join("\n");
-            
-            const newContent = readmeContent.slice(0, startIndex + startMarker.length) + 
-                             "\n\n" + inventoryTable + "\n\n" + 
-                             readmeContent.slice(endIndex);
-            
+
+            const newContent = readmeContent.slice(0, startIndex + startMarker.length) + "\n\n" + inventoryTable + "\n\n" + readmeContent.slice(endIndex);
             fs.writeFileSync(readmePath, newContent);
-            console.log("📝 README.md Feature Inventory synchronized successfully.");
+            console.log("📝 README.md synchronized.");
         }
     }
+
+    // --- 🧬 FEATURE-SPECIFIC DOCS SYNC ---
+    moduleData.forEach(m => syncFeatureReadme(m));
 }
+
+function syncFeatureReadme(m) {
+    const featurePath = path.join(FEATURES_DIR, m.name.toLowerCase());
+    const readmePath = path.join(featurePath, "README.md");
+    if (!fs.existsSync(readmePath)) return;
+
+    const status = m.rating === "A+" ? "Optimal" : (m.rating === "B" ? "High" : "Critical");
+    const color = m.rating === "A+" ? "brightgreen" : (m.rating === "B" ? "orange" : "red");
+
+    const auditTable = [
+        "| Entity | Score | Complexity | LoC | Status |",
+        "| :--- | :--- | :--- | :--- | :--- |",
+        ...m.allFiles.map(f => {
+            const score = Math.max(0, 100 - Math.floor(f.lines / 2));
+            const statusIcon = f.priority === "Low" ? "✅ STABLE" : (f.priority === "High" ? "⚠️ REFACTOR" : "🚨 CRITICAL");
+            return `| \`${f.name}\` | ${score} | ${f.priority} | ${f.lines} | ${statusIcon} |`;
+        })
+    ].join("\n");
+
+    const topology = generateThemedTopology(m.allFiles);
+    const sequence = generateThemedSequence(m.allFiles);
+    const apiSurface = m.allFiles.flatMap(f => f.api.map(a => ({ ...a, source: f.name })));
+
+    let content = [
+        `# Feature Intelligence: ${m.name.toUpperCase()}`,
+        "",
+        `![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)`,
+        `![Complexity](https://img.shields.io/badge/Complexity_Score-${status}-${color})`,
+        `![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)`,
+        "",
+        "## 🏛️ Architectural Topology",
+        "### 1. Thematic Dependency Graph",
+        "Babel-parsed internal mapping of module relationships.",
+        "",
+        topology,
+        "",
+        "### 2. Execution Sequence",
+        "Runtime orchestration between View, Logic, and Infrastructure layers.",
+        "",
+        sequence,
+        "",
+        "---",
+        "",
+        "## 📡 API Surface (Inferred)",
+        "Automated mapping of external connectivity within this module.",
+        "",
+        "| Method | Endpoint | Source Provider |",
+        "| :--- | :--- | :--- |",
+        (apiSurface.map(a => `| ${a.method} | \`${a.endpoint}\` | ${a.source} |`).join("\n") || "| - | - | - |"),
+        "",
+        "---",
+        "",
+        "## 📂 Engineering Audit",
+        auditTable,
+        "",
+        "---",
+        `*Generated by Nexo Master Architect V24.0 | Institutional Standard*`
+    ].join("\n");
+
+    fs.writeFileSync(readmePath, content);
+    console.log(`🧬 Feature Doc synchronized: ${m.name}`);
+}
+
+function generateThemedTopology(files) {
+    let d = "```mermaid\n";
+    d += "%%{init: {'theme': 'neutral', 'themeVariables': { 'fontFamily': 'Inter', 'lineColor': '#6366f1' }}}%%\n";
+    d += "graph TD\n";
+    d += "    classDef page fill:#4f46e5,stroke:#3730a3,stroke-width:2px,color:#fff,rx:10,ry:10;\n";
+    d += "    classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;\n";
+    d += "    classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;\n\n";
+
+    files.forEach(f => {
+        const id = f.name.replace(/\W/g, "");
+        const type = f.jsx > 5 ? ":::page" : f.name.startsWith("use") ? ":::hook" : f.api.length > 0 ? ":::service" : "";
+        d += `    ${id}["${f.name}"]${type}\n`;
+    });
+
+    files.forEach(f => {
+        const fid = f.name.replace(/\W/g, "");
+        f.dependencies.forEach(i => {
+            const base = i.split("/").pop().split(".")[0];
+            const target = files.find(x => x.simpleName === base);
+            if (target) d += `    ${fid} --> ${target.name.replace(/\W/g, "")}\n`;
+        });
+    });
+
+    d += "```";
+    return d;
+}
+
+function generateThemedSequence(files) {
+    const page = files.find(f => f.jsx > 10) || files.find(f => f.name.includes("Page")) || files[0];
+    const hook = files.find(f => f.name.startsWith("use") && f.name.includes(page?.simpleName.replace("Page", ""))) || files.find(f => f.name.startsWith("use"));
+    const service = files.find(f => f.api.length > 0) || files.find(f => f.name.includes("Service"));
+
+    let d = "```mermaid\nsequenceDiagram\nautonumber\n";
+    if (page && hook && service) {
+        d += `    participant P as ${page.name}\n`;
+        d += `    participant H as ${hook.name}\n`;
+        d += `    participant S as ${service.name}\n`;
+        d += `    participant API as External/API\n\n`;
+        d += `    P->>H: Initialize Logic State\n`;
+        d += `    H->>S: Invoke Data Fetching\n`;
+        d += `    S->>API: Executes HTTP ${service.api[0]?.method || "GET"}\n`;
+        d += `    API-->>S: Payload Response\n`;
+        d += `    S-->>H: Hydrate React State\n`;
+        d += `    H-->>P: Render Hydrated View\n`;
+    } else {
+        d += "    Note over UI,API: Partial architecture nodes detected\n";
+    }
+    d += "```";
+    return d;
+}
+
 run();

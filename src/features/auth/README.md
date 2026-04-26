@@ -1,11 +1,10 @@
 # Feature Intelligence: AUTH
 
 ![Audit](https://img.shields.io/badge/Architecture-Institutional-6366f1)
-![Complexity](https://img.shields.io/badge/Complexity_Score-High-orange)
+![Complexity](https://img.shields.io/badge/Complexity_Score-Critical-red)
 ![AST](https://img.shields.io/badge/Scanner-Babel_AST-blue)
 
 ## 🏛️ Architectural Topology
-
 ### 1. Thematic Dependency Graph
 Babel-parsed internal mapping of module relationships.
 
@@ -16,44 +15,43 @@ graph TD
     classDef hook fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#0f172a,rx:20,ry:20;
     classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;
 
-    ForgotPasswordPagejsx["ForgotPasswordPage.jsx"]:::page
+    VisualExtrasjsx["VisualExtras.jsx"]:::page
+    DashboardCardsjsx["DashboardCards.jsx"]:::page
     LoginPagejsx["LoginPage.jsx"]:::page
-    ResetPasswordPagejsx["ResetPasswordPage.jsx"]:::page
+    ForgotPasswordPagejsx["ForgotPasswordPage.jsx"]:::page
     SetPasswordPagejsx["SetPasswordPage.jsx"]:::page
-    indexjs["index.js"]
-    useAuthMutationsjs["useAuthMutations.js"]:::hook
-    useForgotPasswordPagejs["useForgotPasswordPage.js"]:::hook
-    useLoginPagejs["useLoginPage.js"]:::hook
-    useProfilejs["useProfile.js"]:::hook
-    useResetPasswordPagejs["useResetPasswordPage.js"]:::hook
-    useSetPasswordPagejs["useSetPasswordPage.js"]:::hook
-    authServicejs["authService.js"]:::service
+    ResetPasswordPagejsx["ResetPasswordPage.jsx"]:::page
     AuthAlertjsx["AuthAlert.jsx"]:::page
-    AuthSuccessStatejsx["AuthSuccessState.jsx"]:::page
+    useSetPasswordPagejs["useSetPasswordPage.js"]:::hook
+    useAuthMutationsjs["useAuthMutations.js"]:::hook
+    useLoginPagejs["useLoginPage.js"]:::hook
+    useResetPasswordPagejs["useResetPasswordPage.js"]:::hook
+    useProfilejs["useProfile.js"]:::hook
     AuthVisualjsx["AuthVisual.jsx"]:::page
     PasswordRequirementsjsx["PasswordRequirements.jsx"]:::page
-    ForgotPasswordPagejsx --> PasswordRequirementsjsx
-    ForgotPasswordPagejsx --> AuthAlertjsx
-    ForgotPasswordPagejsx --> useForgotPasswordPagejs
-    LoginPagejsx --> PasswordRequirementsjsx
+    useForgotPasswordPagejs["useForgotPasswordPage.js"]:::hook
+    AuthSuccessStatejsx["AuthSuccessState.jsx"]:::page
+    authServicejs["authService.js"]:::service
+    indexjs["index.js"]
     LoginPagejsx --> AuthAlertjsx
     LoginPagejsx --> useLoginPagejs
-    ResetPasswordPagejsx --> PasswordRequirementsjsx
-    ResetPasswordPagejsx --> AuthAlertjsx
-    ResetPasswordPagejsx --> AuthSuccessStatejsx
-    ResetPasswordPagejsx --> useResetPasswordPagejs
-    SetPasswordPagejsx --> PasswordRequirementsjsx
+    ForgotPasswordPagejsx --> AuthAlertjsx
+    ForgotPasswordPagejsx --> useForgotPasswordPagejs
     SetPasswordPagejsx --> AuthAlertjsx
     SetPasswordPagejsx --> AuthSuccessStatejsx
     SetPasswordPagejsx --> PasswordRequirementsjsx
     SetPasswordPagejsx --> useSetPasswordPagejs
-    useAuthMutationsjs --> authServicejs
-    useForgotPasswordPagejs --> useAuthMutationsjs
-    useLoginPagejs --> useAuthMutationsjs
-    useProfilejs --> authServicejs
-    useResetPasswordPagejs --> useAuthMutationsjs
+    ResetPasswordPagejsx --> AuthAlertjsx
+    ResetPasswordPagejsx --> AuthSuccessStatejsx
+    ResetPasswordPagejsx --> useResetPasswordPagejs
     useSetPasswordPagejs --> authServicejs
-    AuthSuccessStatejsx --> PasswordRequirementsjsx
+    useAuthMutationsjs --> authServicejs
+    useLoginPagejs --> useAuthMutationsjs
+    useResetPasswordPagejs --> useAuthMutationsjs
+    useProfilejs --> authServicejs
+    AuthVisualjsx --> DashboardCardsjsx
+    AuthVisualjsx --> VisualExtrasjsx
+    useForgotPasswordPagejs --> useAuthMutationsjs
 ```
 
 ### 2. Execution Sequence
@@ -62,10 +60,10 @@ Runtime orchestration between View, Logic, and Infrastructure layers.
 ```mermaid
 sequenceDiagram
 autonumber
-    participant P as ForgotPasswordPage.jsx
-    participant H as useForgotPasswordPage.js
-    participant S as useResetPasswordPage.js
-    participant API as Supabase/External
+    participant P as VisualExtras.jsx
+    participant H as useSetPasswordPage.js
+    participant S as useSetPasswordPage.js
+    participant API as External/API
 
     P->>H: Initialize Logic State
     H->>S: Invoke Data Fetching
@@ -82,9 +80,9 @@ Automated mapping of external connectivity within this module.
 
 | Method | Endpoint | Source Provider |
 | :--- | :--- | :--- |
-| GET | `token` | useResetPasswordPage.js |
 | GET | `token` | useSetPasswordPage.js |
 | GET | `email` | useSetPasswordPage.js |
+| GET | `token` | useResetPasswordPage.js |
 | POST | `/auth/login` | authService.js |
 | POST | `/auth/logout` | authService.js |
 | POST | `/auth/forgot-password` | authService.js |
@@ -95,34 +93,27 @@ Automated mapping of external connectivity within this module.
 
 ---
 
-## 🛠️ Development Navigation
-| Objective | Target Layer | Target File |
-| :--- | :--- | :--- |
-| **Change UI Layout** | Presentation (Pages) | `ForgotPasswordPage.jsx` |
-| **Update Business Logic** | Logic (Hooks) | `useAuthMutations.js` |
-| **Modify Data Provider** | Infrastructure (Services) | `useResetPasswordPage.js` |
-
----
-
 ## 📂 Engineering Audit
 | Entity | Score | Complexity | LoC | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| `ForgotPasswordPage.jsx` | 55 | Low | 125 | ✅ STABLE |
-| `LoginPage.jsx` | 51 | Low | 130 | ✅ STABLE |
-| `ResetPasswordPage.jsx` | 53 | Low | 116 | ✅ STABLE |
-| `SetPasswordPage.jsx` | 53 | Low | 118 | ✅ STABLE |
-| `index.js` | 1 | Low | 5 | ✅ STABLE |
-| `useAuthMutations.js` | 20 | Low | 66 | ✅ STABLE |
-| `useForgotPasswordPage.js` | 14 | Low | 41 | ✅ STABLE |
-| `useLoginPage.js` | 18 | Low | 55 | ✅ STABLE |
-| `useProfile.js` | 17 | Low | 48 | ✅ STABLE |
-| `useResetPasswordPage.js` | 23 | Low | 55 | ✅ STABLE |
-| `useSetPasswordPage.js` | 34 | Low | 90 | ✅ STABLE |
-| `authService.js` | 42 | Low | 14 | ✅ STABLE |
-| `AuthAlert.jsx` | 37 | Low | 110 | ✅ STABLE |
-| `AuthSuccessState.jsx` | 16 | Low | 29 | ✅ STABLE |
-| `AuthVisual.jsx` | 29 | Low | 48 | ✅ STABLE |
-| `PasswordRequirements.jsx` | 13 | Low | 46 | ✅ STABLE |
+| `VisualExtras.jsx` | 19 | Low | 163 | ✅ STABLE |
+| `DashboardCards.jsx` | 25 | Low | 151 | ✅ STABLE |
+| `LoginPage.jsx` | 35 | Low | 130 | ✅ STABLE |
+| `ForgotPasswordPage.jsx` | 38 | High | 125 | ⚠️ REFACTOR |
+| `SetPasswordPage.jsx` | 41 | Low | 118 | ✅ STABLE |
+| `ResetPasswordPage.jsx` | 42 | Low | 116 | ✅ STABLE |
+| `AuthAlert.jsx` | 45 | Low | 110 | ✅ STABLE |
+| `useSetPasswordPage.js` | 55 | Low | 90 | ✅ STABLE |
+| `useAuthMutations.js` | 67 | Low | 66 | ✅ STABLE |
+| `useLoginPage.js` | 73 | Low | 55 | ✅ STABLE |
+| `useResetPasswordPage.js` | 73 | Low | 55 | ✅ STABLE |
+| `useProfile.js` | 76 | Low | 48 | ✅ STABLE |
+| `AuthVisual.jsx` | 76 | Low | 48 | ✅ STABLE |
+| `PasswordRequirements.jsx` | 77 | Low | 46 | ✅ STABLE |
+| `useForgotPasswordPage.js` | 80 | Low | 41 | ✅ STABLE |
+| `AuthSuccessState.jsx` | 86 | Low | 29 | ✅ STABLE |
+| `authService.js` | 93 | Low | 14 | ✅ STABLE |
+| `index.js` | 98 | Low | 5 | ✅ STABLE |
 
 ---
-*Generated by Nexo Apex Architect V8.0 | Institutional Standard*
+*Generated by Nexo Master Architect V24.0 | Institutional Standard*

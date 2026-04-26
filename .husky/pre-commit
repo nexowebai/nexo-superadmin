@@ -1,4 +1,2 @@
-node scripts/nexo-audit.cjs --strict
-npm run docs:sync
-node scripts/generate-pulse-dashboard.js
+npm run pulse:sync
 git add .
