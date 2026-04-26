@@ -512,5 +512,37 @@ Execute this refactor with production-grade efficiency and zero technical debt. 
 
     fs.writeFileSync(OUTPUT_FILE, html);
     console.log(`✨ Nexo Command Architect V23.0 synchronized at ${OUTPUT_FILE}`);
+
+    // --- 📝 README.md LIVE SYNC ---
+    const readmePath = path.join(ROOT, "README.md");
+    if (fs.existsSync(readmePath)) {
+        let readmeContent = fs.readFileSync(readmePath, "utf-8");
+        
+        const startMarker = "<!-- FEATURE_INVENTORY_START -->";
+        const endMarker = "<!-- FEATURE_INVENTORY_END -->";
+        
+        const startIndex = readmeContent.indexOf(startMarker);
+        const endIndex = readmeContent.indexOf(endMarker);
+        
+        if (startIndex !== -1 && endIndex !== -1) {
+            const inventoryTable = [
+                "| Status | Feature Module | Complexity | Density | Specification |",
+                "| :--- | :--- | :--- | :--- | :--- |",
+                ...moduleData.map(m => {
+                    const status = m.rating === "A+" ? "Optimal" : (m.rating === "B" ? "High" : "Critical");
+                    const color = m.rating === "A+" ? "brightgreen" : (m.rating === "B" ? "orange" : "red");
+                    const badge = `![${status}](https://img.shields.io/badge/-${status}-${color})`;
+                    return `| ${badge} | **${m.name.toUpperCase()}** | ${m.totalLines} LoC | ${m.totalFiles} Nodes | [View Specs](./src/features/${m.name.toLowerCase()}/README.md) |`;
+                })
+            ].join("\n");
+            
+            const newContent = readmeContent.slice(0, startIndex + startMarker.length) + 
+                             "\n\n" + inventoryTable + "\n\n" + 
+                             readmeContent.slice(endIndex);
+            
+            fs.writeFileSync(readmePath, newContent);
+            console.log("📝 README.md Feature Inventory synchronized successfully.");
+        }
+    }
 }
 run();

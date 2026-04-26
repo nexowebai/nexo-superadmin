@@ -17,10 +17,10 @@ graph TD
     classDef service fill:#0f172a,stroke:#000,stroke-width:2px,color:#f1f5f9,rx:5,ry:5;
 
     ForgotPasswordPagejsx["ForgotPasswordPage.jsx"]:::page
+    indexjs["index.js"]
     LoginPagejsx["LoginPage.jsx"]:::page
     ResetPasswordPagejsx["ResetPasswordPage.jsx"]:::page
     SetPasswordPagejsx["SetPasswordPage.jsx"]:::page
-    indexjs["index.js"]
     useAuthMutationsjs["useAuthMutations.js"]:::hook
     useForgotPasswordPagejs["useForgotPasswordPage.js"]:::hook
     useLoginPagejs["useLoginPage.js"]:::hook
@@ -108,10 +108,10 @@ Automated mapping of external connectivity within this module.
 | Entity | Score | Complexity | LoC | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | `ForgotPasswordPage.jsx` | 55 | Low | 125 | ✅ STABLE |
+| `index.js` | 1 | Low | 5 | ✅ STABLE |
 | `LoginPage.jsx` | 51 | Low | 130 | ✅ STABLE |
 | `ResetPasswordPage.jsx` | 53 | Low | 116 | ✅ STABLE |
 | `SetPasswordPage.jsx` | 53 | Low | 118 | ✅ STABLE |
-| `index.js` | 1 | Low | 5 | ✅ STABLE |
 | `useAuthMutations.js` | 20 | Low | 66 | ✅ STABLE |
 | `useForgotPasswordPage.js` | 14 | Low | 41 | ✅ STABLE |
 | `useLoginPage.js` | 18 | Low | 55 | ✅ STABLE |
