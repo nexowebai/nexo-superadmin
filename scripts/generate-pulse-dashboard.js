@@ -411,11 +411,13 @@ function run() {
 
         <div id="audit" class="tab-view">
             <div class="view-description"><div class="vd-text"><h4>Resource Audit</h4><p>Detailed maintenance grading for every node identity across the platform.</p></div></div>
-            ${moduleData.map(m => `
+            ${moduleData.map(m => {
+                const pathsJson = JSON.stringify(m.refactorFiles.map(f => f.fullPath)).replace(/"/g, '&quot;');
+                return `
                 <div class="portal-card" style="margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h4 style="font-weight: 800;">${m.name} Resource Pool</h4>
-                        <button class="action-btn primary" onclick='copyFeaturePaths("${m.name}", ${JSON.stringify(m.refactorFiles.map(f => f.fullPath))}, this)'>Refactor Prompt</button>
+                        <button class="action-btn primary" onclick="window.copyFeaturePaths('${m.name}', ${pathsJson}, this)">Refactor Prompt</button>
                     </div>
                     <table class="portal-table">
                         <thead><tr><th class="col-node">Node Identity</th><th class="col-lines">Volume</th><th class="col-status">Stability</th><th class="col-action"><div style="display: flex; justify-content: flex-end;"><span class="badge" style="background: var(--primary); color: white;">Orchestration</span></div></th></tr></thead>
@@ -425,13 +427,13 @@ function run() {
                                     <td class="col-node" style="font-weight: 700; display: flex; align-items: center; gap: 10px;">${FILE_ICON} ${f.name}</td>
                                     <td class="col-lines" style="font-family: 'JetBrains Mono'; opacity: 0.6;">${f.lines}</td>
                                     <td class="col-status"><span class="badge badge-${f.priority}">${f.priority}</span></td>
-                                    <td class="col-action"><button class="action-btn" onclick="copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button></td>
+                                    <td class="col-action"><button class="action-btn" onclick="window.copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button></td>
                                 </tr>
                             `).join('')}
                         </tbody>
                     </table>
-                </div>
-            `).join('')}
+                </div>`;
+            }).join('')}
         </div>
 
         <div id="violations" class="tab-view">
@@ -455,7 +457,7 @@ function run() {
                                     <h5 style="font-size: 14px; margin-bottom: 4px;">${v.file}</h5>
                                     <p>${v.message}</p>
                                 </div>
-                                <button class="action-btn" style="margin-left: auto;" onclick="copySnippet('${v.file}', this)">${COPY_ICON} Copy Path</button>
+                                <button class="action-btn" style="margin-left: auto;" onclick="window.copySnippet('${v.file}', this)">${COPY_ICON} Copy Path</button>
                             </div>
                         `).join('')}
                     </div>
@@ -471,7 +473,7 @@ function run() {
                         <div class="mc-header"><div style="font-weight:800; display: flex; align-items: center; gap: 8px;">${FILE_ICON} ${f.name}</div><span class="badge badge-${f.priority}">${f.priority}</span></div>
                         <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Current Volume: <strong>${f.lines} Lines</strong></div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <button class="action-btn primary" onclick="copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button>
+                            <button class="action-btn primary" onclick="window.copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button>
                         </div>
                     </div>
                 `).join('')}
@@ -571,7 +573,7 @@ function run() {
         const endMarker = "<!-- FEATURE_INVENTORY_END -->";
         const startIndex = readmeContent.indexOf(startMarker);
         const endIndex = readmeContent.indexOf(endMarker);
-
+        
         if (startIndex !== -1 && endIndex !== -1) {
             const inventoryTable = [
                 "| Status | Feature Module | Complexity | Density | Specification |",
@@ -579,13 +581,14 @@ function run() {
                 ...moduleData.map(m => {
                     const status = m.rating === "A+" ? "Optimal" : (m.rating === "B" ? "High" : "Critical");
                     const color = m.rating === "A+" ? "brightgreen" : (m.rating === "B" ? "orange" : "red");
-                    return `| ![${status}](https://img.shields.io/badge/-${status}-${color}) | **${m.name.toUpperCase()}** | ${m.totalLines} LoC | ${m.totalFiles} Nodes | [View Specs](./src/features/${m.name.toLowerCase()}/README.md) |`;
+                    const liveUrl = `https://nexowebai.github.io/nexo-superadmin/src/features/${m.name.toLowerCase()}/README.md`;
+                    return `| ![${status}](https://img.shields.io/badge/-${status}-${color}) | **${m.name.toUpperCase()}** | ${m.totalLines} LoC | ${m.totalFiles} Nodes | [View Specs](${liveUrl}) |`;
                 })
             ].join("\n");
-
+            
             const newContent = readmeContent.slice(0, startIndex + startMarker.length) + "\n\n" + inventoryTable + "\n\n" + readmeContent.slice(endIndex);
             fs.writeFileSync(readmePath, newContent);
-            console.log("📝 README.md synchronized.");
+            console.log("📝 README.md synchronized with LIVE links.");
         }
     }
 
