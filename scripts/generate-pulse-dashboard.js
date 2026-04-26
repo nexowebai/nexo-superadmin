@@ -18,7 +18,7 @@ const traverse = _traverse.default;
 
 const FEATURES_DIR = path.join(process.cwd(), "src/features");
 const ASSETS_DIR = path.join(process.cwd(), "src/assets");
-const OUTPUT_DIR = path.join(process.cwd(), "docs/pulse");
+const OUTPUT_DIR = path.join(process.cwd(), "docs");
 const OUTPUT_FILE = path.join(OUTPUT_DIR, "index.html");
 
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
