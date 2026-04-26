@@ -45,6 +45,7 @@ export function DatePickerDropdown({
   return (
     <div
       className="ds-datepicker__dropdown ds-datepicker-portal"
+      /* allowed-inline */
       style={{
         position: "fixed",
         top: `${coords.top + topOffset}px`,

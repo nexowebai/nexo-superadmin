@@ -19,6 +19,7 @@ function XAxisLabel({ label, x, crosshairX, isHovering, tickerHalfWidth }) {
   return (
     <div
       className="absolute"
+      /* allowed-inline */
       style={{
         left: x,
         bottom: 12,

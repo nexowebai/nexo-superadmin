@@ -24,7 +24,8 @@
 
 .ds-modal * {
   font-family: var(--font-sans) !important;
-  font-weight: 400; /* Regular weight by default */
+  font-weight: 400;
+  /* Regular weight by default */
 }
 
 .ds-modal__title,
@@ -129,14 +130,15 @@
   border-top: 1px solid var(--border-base);
   background: var(--bg-elevated);
   position: relative;
-  z-index: 1; /* Keep it below dropdowns if they use higher z-index */
+  z-index: 1;
+  /* Keep it below dropdowns if they use higher z-index */
 }
 
 .ds-modal__footer-inner {
   padding: var(--space-4);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: var(--space-3);
 }
 
@@ -212,6 +214,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .ds-modal__close,
   .ds-modal,
   .ds-modal-overlay {
@@ -229,7 +232,8 @@
 }
 
 .form-field-v2 label {
-  font-size: 11px; /* Slightly smaller and cleaner */
+  font-size: 11px;
+  /* Slightly smaller and cleaner */
   font-weight: 700;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -246,7 +250,8 @@
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-size: 14px;
-  font-weight: 400; /* Regular font weight as requested */
+  font-weight: 400;
+  /* Regular font weight as requested */
   outline: none;
   transition:
     border-color var(--transition-fast) ease,

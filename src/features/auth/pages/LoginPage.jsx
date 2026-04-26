@@ -117,7 +117,7 @@ function LoginPage() {
       <div className="ds-auth-form__footer">
         <p className="ds-auth-form__footer-text">
           Don't have an account?{" "}
-          <span style={{ color: "#1f2937", fontWeight: 600 }}>
+          <span className="ds-auth-form__contact-admin">
             Contact your administrator
           </span>
         </p>

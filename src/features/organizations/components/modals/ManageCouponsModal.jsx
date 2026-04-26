@@ -35,9 +35,9 @@ export function ManageCouponsModal({ isOpen, onClose, orgName }) {
   const [coupons, setCoupons] = useState([{ id: "1", code: "WELCOME50", discount: "50%", expiry: "2025-12-31" }]);
   const [confirmRevoke, setConfirmRevoke] = useState({ isOpen: false, coupon: null });
 
-  const handleSwitchView = (v) => { 
-    setIsSwitching(true); 
-    setTimeout(() => { setView(v); setIsSwitching(false); }, 800); 
+  const handleSwitchView = (v) => {
+    setIsSwitching(true);
+    setTimeout(() => { setView(v); setIsSwitching(false); }, 800);
   };
 
   const executeRevoke = () => {
@@ -71,25 +71,25 @@ export function ManageCouponsModal({ isOpen, onClose, orgName }) {
             {isSwitching ? (
               <div className="space-y-4"><CouponSkeleton /><CouponSkeleton /><CouponSkeleton /></div>
             ) : view === "list" ? (
-              <CouponListView 
-                coupons={coupons} 
-                onAssign={() => handleSwitchView("assign")} 
-                onRevoke={(c) => setConfirmRevoke({ isOpen: true, coupon: c })} 
+              <CouponListView
+                coupons={coupons}
+                onAssign={() => handleSwitchView("assign")}
+                onRevoke={(c) => setConfirmRevoke({ isOpen: true, coupon: c })}
               />
             ) : (
-              <CouponAssignView 
-                filter={filter} 
-                setFilter={setFilter} 
-                available={filteredAvailable} 
-                assigned={coupons} 
-                onBack={() => handleSwitchView("list")} 
-                onAdd={handleAddCoupon} 
+              <CouponAssignView
+                filter={filter}
+                setFilter={setFilter}
+                available={filteredAvailable}
+                assigned={coupons}
+                onBack={() => handleSwitchView("list")}
+                onAdd={handleAddCoupon}
               />
             )}
           </ModalBody>
 
           <ModalFooter className="p-0 border-t border-base">
-            <div className="flex justify-end gap-3 w-full p-6 bg-elevated">
+            <div className="flex gap-3 w-full p-6 bg-elevated">
               <Button variant="secondary" onClick={onClose} className="font-semibold text-xs h-11 px-6">Close</Button>
               <Button variant="primary" onClick={onClose} className="font-semibold text-xs h-11 px-8">Finish Configuration</Button>
             </div>

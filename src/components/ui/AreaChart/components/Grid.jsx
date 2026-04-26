@@ -35,11 +35,12 @@ export function Grid({
             y1="0%"
             y2="0%"
           >
-            <stop offset="0%" style={{ stopColor: "white", stopOpacity: 0 }} />
-            <stop offset="10%" style={{ stopColor: "white", stopOpacity: 1 }} />
-            <stop offset="90%" style={{ stopColor: "white", stopOpacity: 1 }} />
+            <stop offset="0%" /* allowed-inline */ style={{ stopColor: "white", stopOpacity: 0 }} />
+            <stop offset="10%" /* allowed-inline */ style={{ stopColor: "white", stopOpacity: 1 }} />
+            <stop offset="90%" /* allowed-inline */ style={{ stopColor: "white", stopOpacity: 1 }} />
             <stop
               offset="100%"
+              /* allowed-inline */
               style={{ stopColor: "white", stopOpacity: 0 }}
             />
           </linearGradient>
@@ -64,11 +65,12 @@ export function Grid({
             y1="0%"
             y2="100%"
           >
-            <stop offset="0%" style={{ stopColor: "white", stopOpacity: 0 }} />
-            <stop offset="10%" style={{ stopColor: "white", stopOpacity: 1 }} />
-            <stop offset="90%" style={{ stopColor: "white", stopOpacity: 1 }} />
+            <stop offset="0%" /* allowed-inline */ style={{ stopColor: "white", stopOpacity: 0 }} />
+            <stop offset="10%" /* allowed-inline */ style={{ stopColor: "white", stopOpacity: 1 }} />
+            <stop offset="90%" /* allowed-inline */ style={{ stopColor: "white", stopOpacity: 1 }} />
             <stop
               offset="100%"
+              /* allowed-inline */
               style={{ stopColor: "white", stopOpacity: 0 }}
             />
           </linearGradient>

@@ -51,7 +51,7 @@ export function ManagePlanModal({ isOpen, onClose, orgName, currentPlan, onSucce
           </div>
         </ModalBody>
         <ModalFooter>
-          <div className="modal-form-footer justify-end">
+          <div className="modal-form-footer">
             <Button variant="secondary" onClick={onClose} type="button" className="px-6 h-11">Cancel</Button>
             <Button variant="primary" type="submit" className="px-8 h-11">Save Configuration</Button>
           </div>

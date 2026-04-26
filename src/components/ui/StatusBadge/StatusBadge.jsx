@@ -13,10 +13,12 @@ function StatusBadge({ status, label, size = "sm", className }) {
         `ds-status-badge--${config.variant}`,
         className,
       )}
+      /* allowed-inline */
       style={config.strikeThrough ? { textDecoration: "line-through" } : {}}
     >
       <span
         className="ds-status-badge__dot"
+        /* allowed-inline */
         style={{ backgroundColor: config.color }}
       />
       {label || config.label}

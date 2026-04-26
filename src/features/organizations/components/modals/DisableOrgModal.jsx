@@ -44,7 +44,7 @@ export default function DisableOrgModal({ isOpen, onClose, orgId, orgName, onSuc
         </ModalBody>
 
         <ModalFooter>
-          <div className="modal-form-footer justify-end">
+          <div className="modal-form-footer">
             <Button variant="secondary" type="button" onClick={onClose} className="px-6 h-11" disabled={loading}>Cancel</Button>
             <Button variant="danger" type="submit" className="px-8 h-11" loading={loading}>Disable Organization</Button>
           </div>

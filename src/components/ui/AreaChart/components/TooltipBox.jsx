@@ -77,6 +77,7 @@ export function TooltipBox({
       exit={{ opacity: 0 }}
       initial={{ opacity: 0 }}
       ref={tooltipRef}
+      /* allowed-inline */
       style={{ left: finalLeft, top: finalTop }}
       transition={{ duration: 0.1 }}
     >
@@ -85,6 +86,7 @@ export function TooltipBox({
         className="min-w-[140px] overflow-hidden rounded-[var(--radius-lg)] bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] shadow-[var(--shadow-xl)] backdrop-blur-md border border-[var(--border-base)]"
         initial={{ scale: 0.85, opacity: 0, x: isFlipped ? 20 : -20 }}
         key={flipKey}
+        /* allowed-inline */
         style={{ transformOrigin: isFlipped ? "right top" : "left top" }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
       >

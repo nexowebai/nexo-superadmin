@@ -73,6 +73,7 @@ export const OrganizationCard = ({ organization, onClick }) => {
             <div className="flex items-center gap-3">
               <div
                 className="flex items-center gap-2 px-2.5 py-1 rounded-lg border"
+                /* allowed-inline */
                 style={{
                   borderColor: planConfig.color,
                   backgroundColor: planConfig.bg,

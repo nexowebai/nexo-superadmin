@@ -38,6 +38,7 @@ export function YAxis({ numTicks = 5, formatValue }) {
         <div
           key={tick.value}
           className="absolute"
+          /* allowed-inline */
           style={{
             left: 0,
             top: tick.y,

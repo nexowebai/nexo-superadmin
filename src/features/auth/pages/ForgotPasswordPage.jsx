@@ -44,7 +44,7 @@ function ForgotPasswordPage() {
             Try another email
           </Button>
 
-          <div style={{ textAlign: "center", marginTop: "16px" }}>
+          <div className="ds-auth-form__center-spacer">
             <Link to="/login" className="ds-auth-form__back-link">
               <ArrowLeft size={16} />
               Back to login
@@ -111,7 +111,7 @@ function ForgotPasswordPage() {
         </div>
       </form>
 
-      <div style={{ textAlign: "center", marginTop: "16px" }}>
+      <div className="ds-auth-form__center-spacer">
         <Link to="/login" className="ds-auth-form__back-link">
           <ArrowLeft size={16} />
           Back to login

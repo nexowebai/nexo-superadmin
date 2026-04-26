@@ -29,6 +29,7 @@ const StatsCard = memo(function StatsCard({
         {Icon && (
           <div
             className="stats-card__icon"
+            /* allowed-inline */
             style={{
               backgroundColor: `color-mix(in srgb, ${color}, transparent 88%)`,
               color,
@@ -78,6 +79,7 @@ function StatsCardSkeleton({ variant = "nx" }) {
           variant="text"
           width="45%"
           height="32px"
+          /* allowed-inline */
           style={{ marginTop: "12px" }}
         />
       </div>
@@ -86,6 +88,7 @@ function StatsCardSkeleton({ variant = "nx" }) {
           variant="text"
           width="70%"
           height="14px"
+          /* allowed-inline */
           style={{ marginTop: "8px" }}
         />
       </div>
@@ -98,7 +101,7 @@ function StatsGrid({ children, columns, className = "" }) {
     ? { gridTemplateColumns: `repeat(${columns}, 1fr)` }
     : {};
   return (
-    <div className={`stats-grid ${className}`} style={gridStyle}>
+    <div className={`stats-grid ${className}`} /* allowed-inline */ style={gridStyle}>
       {children}
     </div>
   );

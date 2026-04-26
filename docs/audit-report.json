@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-26T14:17:06.808Z",
+  "timestamp": "2026-04-26T14:23:53.127Z",
   "totalFiles": 353,
-  "violationsCount": 65,
-  "criticalCount": 23,
+  "violationsCount": 63,
+  "criticalCount": 11,
   "violations": [
     {
       "type": "INLINE_STYLE",
@@ -175,38 +175,38 @@
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/AreaChart/components/Grid.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/AreaChart/components/TooltipBox.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/AreaChart/components/TooltipContent.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/AreaChart/components/TooltipIndicator.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/AreaChart/components/XAxis.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/AreaChart/components/YAxis.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
@@ -217,14 +217,14 @@
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/Card/OrganizationCard.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/Card/StatsCard.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "LINE_COUNT",
@@ -241,8 +241,8 @@
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/DatePicker/components/DatePickerDropdown.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "INLINE_STYLE",
@@ -271,8 +271,8 @@
     {
       "type": "INLINE_STYLE",
       "file": "src/components/ui/StatusBadge/StatusBadge.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
     },
     {
       "type": "LINE_COUNT",
@@ -301,18 +301,6 @@
     {
       "type": "INLINE_STYLE",
       "file": "src/features/auth/components/PasswordRequirements.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
-    },
-    {
-      "type": "INLINE_STYLE",
-      "file": "src/features/auth/pages/ForgotPasswordPage.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
-    },
-    {
-      "type": "INLINE_STYLE",
-      "file": "src/features/auth/pages/LoginPage.jsx",
       "message": "Contains forbidden inline styles.",
       "severity": "CRITICAL"
     },
@@ -395,5 +383,5 @@
       "severity": "CRITICAL"
     }
   ],
-  "healthScore": 54
+  "healthScore": 78
 }

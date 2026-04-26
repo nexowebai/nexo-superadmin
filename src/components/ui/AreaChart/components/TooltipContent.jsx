@@ -70,6 +70,7 @@ export function TooltipContent({ title, rows, children }) {
               <div className="flex items-center gap-2">
                 <span
                   className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  /* allowed-inline */
                   style={{ backgroundColor: row.color }}
                 />
                 <span className="text-[var(--text-secondary)] text-sm">

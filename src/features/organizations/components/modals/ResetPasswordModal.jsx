@@ -85,7 +85,7 @@ export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
           </div>
         </ModalBody>
         <ModalFooter>
-          <div className="modal-form-footer justify-end">
+          <div className="modal-form-footer">
             <Button
               variant="secondary"
               onClick={onClose}

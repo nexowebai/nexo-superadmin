@@ -270,3 +270,13 @@
   color: var(--text-muted);
   font-size: 0.95rem;
 }
+
+.ds-auth-form__contact-admin {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.ds-auth-form__center-spacer {
+  text-align: center;
+  margin-top: 16px;
+}
