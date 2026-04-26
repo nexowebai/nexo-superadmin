@@ -20,21 +20,21 @@ graph TD
     OrganizationDetailPagejsx["OrganizationDetailPage.jsx"]:::page
     OrganizationsPagejsx["OrganizationsPage.jsx"]:::page
     useCreateOrganizationPagejs["useCreateOrganizationPage.js"]:::hook
-    useOrgDetailjsx["useOrgDetail.jsx"]:::hook
     useOrganizationDetailjs["useOrganizationDetail.js"]:::hook
     useOrganizationsjs["useOrganizations.js"]:::hook
     useOrganizationsPagejs["useOrganizationsPage.js"]:::hook
     useOrganizationsTablejs["useOrganizationsTable.js"]:::hook
+    useOrgDetailjsx["useOrgDetail.jsx"]:::hook
     orgServicejs["orgService.js"]
     CreateOrganizationPagejsx --> useCreateOrganizationPagejs
     OrganizationDetailPagejsx --> useOrgDetailjsx
     OrganizationsPagejsx --> useOrganizationsTablejs
     OrganizationsPagejsx --> useOrganizationsPagejs
     useCreateOrganizationPagejs --> useOrganizationsjs
-    useOrgDetailjsx --> orgServicejs
     useOrganizationDetailjs --> useOrganizationsjs
     useOrganizationsjs --> orgServicejs
     useOrganizationsPagejs --> useOrganizationsjs
+    useOrgDetailjsx --> orgServicejs
 ```
 
 ### 2. Execution Sequence
@@ -83,11 +83,11 @@ Automated mapping of external connectivity within this module.
 | `OrganizationDetailPage.jsx` | 55 | Low | 67 | ✅ STABLE |
 | `OrganizationsPage.jsx` | 45 | Low | 84 | ✅ STABLE |
 | `useCreateOrganizationPage.js` | 23 | Low | 84 | ✅ STABLE |
-| `useOrgDetail.jsx` | 35 | Low | 101 | ✅ STABLE |
 | `useOrganizationDetail.js` | 21 | Low | 72 | ✅ STABLE |
 | `useOrganizations.js` | 28 | Low | 121 | ✅ STABLE |
 | `useOrganizationsPage.js` | 21 | Low | 88 | ✅ STABLE |
 | `useOrganizationsTable.js` | 22 | Low | 82 | ✅ STABLE |
+| `useOrgDetail.jsx` | 35 | Low | 101 | ✅ STABLE |
 | `orgService.js` | 17 | Low | 64 | ✅ STABLE |
 
 ---

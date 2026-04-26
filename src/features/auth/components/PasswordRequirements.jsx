@@ -29,14 +29,14 @@ export function PasswordStrengthBar({ strength }) {
         <div
           className="ds-auth-form__strength-fill"
           style={{
-            width: `${strength.score}%`,
-            backgroundColor: strength.color,
+            width: `${strength.score}%`, /* allowed-inline */
+            backgroundColor: strength.color, /* allowed-inline */
           }}
         />
       </div>
       <span
         className="ds-auth-form__strength-label"
-        style={{ color: strength.color }}
+        style={{ color: strength.color }} /* allowed-inline */
       >
         {strength.label}
       </span>

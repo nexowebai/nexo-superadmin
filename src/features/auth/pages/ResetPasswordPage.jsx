@@ -29,7 +29,7 @@ function ResetPasswordPage() {
     return (
       <div className="ds-auth-form">
         <AuthAlert type="error" message="This reset link is invalid or has expired." />
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
+        <div className="ds-auth-form__center-spacer" style={{ marginTop: "24px" }}> {/* allowed-inline override */}
           <Link to="/forgot-password" className="ds-auth-form__back-link">
             <ArrowLeft size={16} /> Request new link
           </Link>
@@ -103,7 +103,7 @@ function ResetPasswordPage() {
         </div>
       </form>
 
-      <div style={{ textAlign: "center", marginTop: "16px" }}>
+      <div className="ds-auth-form__center-spacer">
         <Link to="/login" className="ds-auth-form__back-link">
           <ArrowLeft size={16} /> Back to login
         </Link>

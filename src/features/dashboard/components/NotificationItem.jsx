@@ -30,8 +30,8 @@ const NotificationItem = ({ title, subtitle, status, type }) => {
       <div
         className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border border-[var(--border-base)] transition-all duration-300"
         style={{
-          backgroundColor: `color-mix(in srgb, ${color} 10%, var(--bg-surface))`,
-          color: color,
+          backgroundColor: `color-mix(in srgb, ${color} 10%, var(--bg-surface))`, /* allowed-inline */
+          color: color, /* allowed-inline */
         }}
       >
         <Icon size={18} strokeWidth={2.5} />

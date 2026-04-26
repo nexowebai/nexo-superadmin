@@ -269,14 +269,20 @@ function run() {
         .violation-info h5 { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
         .violation-info p { font-size: 11px; color: var(--text-muted); }
     </style>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('nexo-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 </head>
 <body data-theme="light">
     <div class="sidebar">
         <div class="brand"><img src="${LOGO_BASE64}" alt="Nexo Logo"></div>
         <div class="nav">
-            <div id="nav-dashboard" class="nav-item active" onclick="showTab('dashboard')">Dashboard</div>
-            <div id="nav-audit" class="nav-item" onclick="showTab('audit')">Technical Audit</div>
-            <div id="nav-violations" class="nav-item" onclick="showTab('violations')">Nexo Audit Audit</div>
+            <div id="nav-dashboard" class="nav-item active" onclick="showTab('dashboard')">Dashboard Index</div>
+            <div id="nav-audit" class="nav-item" onclick="showTab('audit')">Resource Audit</div>
+            <div id="nav-violations" class="nav-item" onclick="showTab('violations')">Governance Issues</div>
             <div id="nav-priority" class="nav-item" onclick="showTab('priority')">Refactor Matrix</div>
         </div>
         <div class="stability-section">
@@ -289,16 +295,23 @@ function run() {
     </div>
 
     <header>
-        <div class="h-info"><h2>Command Architect</h2><p>V23.0 Elite Prompts</p></div>
+        <div class="h-info"><h2>Command Architect</h2><p>V23.0 Elite Pulse Engine</p></div>
         <div class="header-actions">
-            <div class="theme-toggle" onclick="toggleTheme()"><svg id="theme-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg></div>
-            <div style="text-align: right; line-height: 1.2;"><div style="font-weight: 800; font-size: 13px;">Architect</div><div style="font-size: 10px; color: var(--text-muted);">Production</div></div>
+            <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Visual Mode">
+                <svg id="theme-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+                </svg>
+            </div>
+            <div style="text-align: right; line-height: 1.2;">
+                <div style="font-weight: 800; font-size: 13px;">Lead Architect</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Institutional Mode</div>
+            </div>
         </div>
     </header>
 
     <div class="content">
         <div id="dashboard" class="tab-view active">
-            <div class="view-description"><div class="vd-text"><h4>Intelligence Dashboard</h4><p>High-level system health and logic density aggregation.</p></div></div>
+            <div class="view-description"><div class="vd-text"><h4>Intelligence Dashboard</h4><p>High-level system health and logic density aggregation for the Nexo ecosystem.</p></div></div>
             <div class="hero-stats">
                 <div class="stat-box"><div class="sb-label">Logical Lines</div><div class="sb-value">${totalSystemLines.toLocaleString()}</div></div>
                 <div class="stat-box"><div class="sb-label">Modules</div><div class="sb-value">${moduleData.length}</div></div>
@@ -318,7 +331,7 @@ function run() {
         </div>
 
         <div id="audit" class="tab-view">
-            <div class="view-description"><div class="vd-text"><h4>Technical Audit</h4><p>Detailed maintenance grading for every node identity.</p></div></div>
+            <div class="view-description"><div class="vd-text"><h4>Resource Audit</h4><p>Detailed maintenance grading for every node identity across the platform.</p></div></div>
             ${moduleData.map(m => `
                 <div class="portal-card" style="margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -343,13 +356,13 @@ function run() {
         </div>
 
         <div id="violations" class="tab-view">
-            <div class="view-description"><div class="vd-text"><h4>Nexo Architect Audit</h4><p>Governance violations detected by the automated audit engine.</p></div></div>
+            <div class="view-description"><div class="vd-text"><h4>Governance Monitor</h4><p>Architectural violations detected by the automated Nexo Audit engine.</p></div></div>
             <div class="portal-card">
                 ${auditReport.violations.length === 0 ? `
-                    <div style="text-align: center; padding: 40px;">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                        <h3 style="margin-top: 16px;">System 100% Compliant</h3>
-                        <p style="color: var(--text-muted);">No architectural violations found.</p>
+                    <div style="text-align: center; padding: 60px;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <h3 style="margin-top: 24px; font-weight: 800;">System 100% Compliant</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">Institutional governance rules are fully satisfied.</p>
                     </div>
                 ` : `
                     <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -359,7 +372,8 @@ function run() {
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${v.severity === 'CRITICAL' ? 'var(--danger)' : 'var(--warning)'}" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                                 </div>
                                 <div class="violation-info">
-                                    <h5>${v.type}: ${v.file}</h5>
+                                    <h5 style="text-transform: uppercase; font-size: 10px; color: ${v.severity === 'CRITICAL' ? 'var(--danger)' : 'var(--warning)'}; margin-bottom: 4px; letter-spacing: 1px;">${v.severity} ${v.type}</h5>
+                                    <h5 style="font-size: 14px; margin-bottom: 4px;">${v.file}</h5>
                                     <p>${v.message}</p>
                                 </div>
                                 <button class="action-btn" style="margin-left: auto;" onclick="copySnippet('${v.file}', this)">${COPY_ICON} Copy Path</button>
@@ -371,12 +385,12 @@ function run() {
         </div>
 
         <div id="priority" class="tab-view">
-            <div class="view-description"><div class="vd-text"><h4>Refactor Matrix</h4><p>Remediation queue for high-volumetric risk nodes.</p></div></div>
+            <div class="view-description"><div class="vd-text"><h4>Refactor Matrix</h4><p>Prioritized remediation queue for high-volumetric risk nodes.</p></div></div>
             <div class="feature-grid">
                 ${moduleData.flatMap(m => m.refactorFiles).map(f => `
                     <div class="matrix-card">
                         <div class="mc-header"><div style="font-weight:800; display: flex; align-items: center; gap: 8px;">${FILE_ICON} ${f.name}</div><span class="badge badge-${f.priority}">${f.priority}</span></div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Violation: <strong>${f.lines} Lines</strong></div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Current Volume: <strong>${f.lines} Lines</strong></div>
                         <div style="display: flex; justify-content: flex-end;">
                             <button class="action-btn primary" onclick="copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button>
                         </div>
@@ -387,34 +401,78 @@ function run() {
     </div>
 
     <script>
-        function toggleTheme() {
-            const body = document.body; const icon = document.getElementById('theme-icon'); const isDark = body.getAttribute('data-theme') === 'dark';
-            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            icon.innerHTML = isDark ? '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>' : '<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+        // --- 🧊 NEXO CORE UI ENGINE ---
+
+        function updateTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('nexo-theme', theme);
+            
+            const icon = document.getElementById('theme-icon');
+            if (theme === 'dark') {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>';
+            }
         }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            updateTheme(current === 'dark' ? 'light' : 'dark');
+        }
+
         function showTab(id) {
+            // Remove active classes
             document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active')); 
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            
+            // Add active to target
             const target = document.getElementById(id);
-            if (target) target.classList.add('active');
+            if (target) {
+                target.classList.add('active');
+                // Scroll to top of content
+                document.querySelector('.content').scrollTop = 0;
+            }
+            
             const nav = document.getElementById('nav-' + id);
             if (nav) nav.classList.add('active');
-            window.location.hash = id;
+            
+            // Update hash without jumping
+            history.replaceState(null, null, '#' + id);
         }
-        window.onload = () => {
+
+        // Initialize Engine
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restore Theme
+            const savedTheme = localStorage.getItem('nexo-theme') || 'light';
+            updateTheme(savedTheme);
+
+            // Restore Tab
             const hash = window.location.hash.replace('#', '');
-            if (hash) showTab(hash);
-        };
+            if (hash && document.getElementById(hash)) {
+                showTab(hash);
+            } else {
+                showTab('dashboard');
+            }
+        });
+
         function copySnippet(txt, btn) {
             navigator.clipboard.writeText(txt).then(() => {
                 const original = btn.innerHTML;
                 const isPrimary = btn.classList.contains('primary');
-                btn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Copied!';
-                btn.style.borderColor = 'var(--success)'; btn.style.color = 'var(--success)';
+                btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Copied!';
+                btn.style.borderColor = 'var(--success)'; 
+                btn.style.color = 'var(--success)';
                 btn.style.background = isPrimary ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.05)';
-                setTimeout(() => { btn.innerHTML = original; btn.style.borderColor = ''; btn.style.color = ''; btn.style.background = ''; }, 1000);
+                setTimeout(() => { 
+                    btn.innerHTML = original; 
+                    btn.style.borderColor = ''; 
+                    btn.style.color = ''; 
+                    btn.style.background = ''; 
+                }, 1000);
             });
         }
+
         function copyFeaturePaths(feature, paths, btn) {
             const prompt = \`[INST] ELITE ARCHITECTURAL REMEDIATION TASK:
 You are an expert full-stack engineer specialized in high-performance React architectures.
@@ -435,10 +493,16 @@ Execute this refactor with production-grade efficiency and zero technical debt. 
 
             navigator.clipboard.writeText(prompt).then(() => {
                 const original = btn.innerHTML;
-                btn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Prompt Copied!';
-                btn.style.borderColor = 'var(--success)'; btn.style.color = 'var(--success)';
+                btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Prompt Copied!';
+                btn.style.borderColor = 'var(--success)'; 
+                btn.style.color = 'var(--success)';
                 btn.style.background = 'rgba(16, 185, 129, 0.1)';
-                setTimeout(() => { btn.innerHTML = original; btn.style.borderColor = ''; btn.style.color = ''; btn.style.background = ''; }, 1000);
+                setTimeout(() => { 
+                    btn.innerHTML = original; 
+                    btn.style.borderColor = ''; 
+                    btn.style.color = ''; 
+                    btn.style.background = ''; 
+                }, 2000);
             });
         }
     </script>
