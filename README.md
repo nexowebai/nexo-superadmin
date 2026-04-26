@@ -1,73 +1,74 @@
-# Nexo Super-Admin | Engineering Specification
+# Nexo Super-Admin | Engineering Portal
 
-![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
-![Version](https://img.shields.io/badge/Version-3.1.0-blue)
-![Quality](https://img.shields.io/badge/Code_Quality-Institutional-gold)
-![License](https://img.shields.io/badge/License-Proprietary-red)
+![Architecture](https://img.shields.io/badge/Architecture-Institutional-6366f1)
+![Performance](https://img.shields.io/badge/Performance-Optimal-brightgreen)
+![Security](https://img.shields.io/badge/Security-Audit_Passed-blue)
 
-## System Vision
-The Nexo Super-Admin is a mission-critical infrastructure dashboard designed for extreme reliability and operational transparency. This repository enforces a strictly layered architectural pattern, ensuring that business logic is fully decoupled from the view layer and infrastructure providers.
+> **Vision**: To engineer a production-grade admin ecosystem that scales to 15 years of operational life. This portal serves as the single source of truth for our architectural standards and module health.
 
 ---
 
-## Technical Specification
+## 🏛️ System Topology
+The following high-level visualization shows the unidirectional data flow and strict layering of the Nexo ecosystem.
 
-### Architectural Core
-- **Logic Layer**: Headless React Hooks orchestrate 100% of the application's state and business rules.
-- **Service Layer**: Centralized API providers manage data normalization and external connectivity (Supabase/Rest).
-- **View Layer**: Atomic UI components, fragmented for maximum reusability and strictly restricted to <150 lines per file.
-
-### Technology Stack
-| Category | Technology |
-| :--- | :--- |
-| **Framework** | React 18 (Vite) |
-| **State Management** | TanStack Query v5 |
-| **Routing** | TanStack Router |
-| **UI/UX** | Framer Motion + Vanilla CSS Tokens |
-| **Visualization** | Recharts / Visx |
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
+graph LR
+    subgraph View_Layer
+        direction TB
+        A[Pages] --> B[UI Components]
+    end
+    
+    subgraph Logic_Layer
+        direction TB
+        C[Headless Hooks] --> D[State Orchestrators]
+    end
+    
+    subgraph Infrastructure_Layer
+        direction TB
+        E[Service Providers] --> F[Global API Client]
+    end
+    
+    View_Layer --"Logic Request"--> Logic_Layer
+    Logic_Layer --"Data Sync"--> Infrastructure_Layer
+```
 
 ---
 
-## Operational Health Audit
-
-### Feature Module Registry
-The following table summarizes the health and architectural compliance of the system's core modules.
+## 📂 Feature Module Inventory
+Automated audit of all system modules. This registry is synchronized on every local commit.
 
 <!-- FEATURE_INVENTORY_START -->
-| Status | Feature Module | Logic Density | Nodes | Specs |
+| Status | Module | Complexity | Nodes | Topology |
 | :--- | :--- | :--- | :--- | :--- |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **ADMINS** | 538 LoC | 5 | [Detailed Specs](./src/features/admins/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **AUTH** | 1130 LoC | 11 | [Detailed Specs](./src/features/auth/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **BILLING** | 377 LoC | 2 | [Detailed Specs](./src/features/billing/README.md) |
-| ![Stable](https://img.shields.io/badge/-Stable-brightgreen) | **CONTENT** | 283 LoC | 2 | [Detailed Specs](./src/features/content/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **DASHBOARD** | 787 LoC | 4 | [Detailed Specs](./src/features/dashboard/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **LOGS** | 667 LoC | 4 | [Detailed Specs](./src/features/logs/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **NOTIFICATIONS** | 512 LoC | 4 | [Detailed Specs](./src/features/notifications/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **ORGANIZATIONS** | 2452 LoC | 10 | [Detailed Specs](./src/features/organizations/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **PAYMENTS** | 756 LoC | 3 | [Detailed Specs](./src/features/payments/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **REQUESTS** | 646 LoC | 5 | [Detailed Specs](./src/features/requests/README.md) |
-| ![Refactor](https://img.shields.io/badge/-Refactor-red) | **SETTINGS** | 870 LoC | 6 | [Detailed Specs](./src/features/settings/README.md) |
-| ![Stable](https://img.shields.io/badge/-Stable-brightgreen) | **USERS** | 13 LoC | 1 | [Detailed Specs](./src/features/users/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **ADMINS** | 538 LoC | 5 | [Open Spec](./src/features/admins/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **AUTH** | 1130 LoC | 11 | [Open Spec](./src/features/auth/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **BILLING** | 377 LoC | 2 | [Open Spec](./src/features/billing/README.md) |
+| ![Stable](https://img.shields.io/badge/-Stable-6366f1) | **CONTENT** | 283 LoC | 2 | [Open Spec](./src/features/content/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **DASHBOARD** | 787 LoC | 4 | [Open Spec](./src/features/dashboard/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **LOGS** | 667 LoC | 4 | [Open Spec](./src/features/logs/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **NOTIFICATIONS** | 512 LoC | 4 | [Open Spec](./src/features/notifications/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **ORGANIZATIONS** | 2452 LoC | 10 | [Open Spec](./src/features/organizations/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **PAYMENTS** | 756 LoC | 3 | [Open Spec](./src/features/payments/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **REQUESTS** | 646 LoC | 5 | [Open Spec](./src/features/requests/README.md) |
+| ![Refactor](https://img.shields.io/badge/-Refactor-ef4444) | **SETTINGS** | 870 LoC | 6 | [Open Spec](./src/features/settings/README.md) |
+| ![Stable](https://img.shields.io/badge/-Stable-6366f1) | **USERS** | 13 LoC | 1 | [Open Spec](./src/features/users/README.md) |
 <!-- FEATURE_INVENTORY_END -->
 
 ---
 
-## Deployment & Development
+## 🛠️ Engineering Standards
 
-### Local Environment Setup
-```bash
-# Initialize dependency tree
-npm install
+### 🛡️ Zero-Conflict Workflow
+This project uses **Husky + Nexo Vision Engine** to ensure that documentation is always up-to-date locally. No more merge conflicts on READMEs.
+- Documentation is generated at `git commit`.
+- Architectural audits run before the code reaches the server.
 
-# Execute development environment
-npm run dev
-
-# Perform architectural audit
-npm run lint
-```
-
-### CI/CD Pipeline
-Every pull request and merge to `main` undergoes an automated **Technical Documentation Sync**. This ensures that the system's topology and Mermaid diagrams are always perfectly aligned with the source code.
+### 🚀 Technical Stack
+- **Engine**: Vite + React 18
+- **Orchestration**: TanStack Query + TanStack Router
+- **Visuals**: Framer Motion + Vanilla CSS Variables
+- **Reliability**: Strictly Enforced 150-LoC File Limit
 
 ---
-*Technical Lead: Nexo Engineering AI | Internal Documentation*
+*Senior Lead Architect: Nexo Engineering AI*

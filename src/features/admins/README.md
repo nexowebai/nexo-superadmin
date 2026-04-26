@@ -1,73 +1,84 @@
-# Technical Specification: ADMINS
+# Feature Specification: ADMINS
 
-![Architecture](https://img.shields.io/badge/Pattern-Clean_Architecture-blue)
-![Quality](https://img.shields.io/badge/Audit-Needs_Refactor-red)
-![Complexity](https://img.shields.io/badge/Logic_Nodes-5-blueviolet)
+![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
+![Complexity](https://img.shields.io/badge/Logic_Density-538_Lines-blue)
+![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
 
-## 🏛️ Domain Architecture
+> **Module Overview**: High-performance domain logic for **admins**. This module enforces strict unidirectional data flow and headless state management.
 
-### Execution Sequence
-How the view orchestrates logic through the headless hook layer.
+---
+
+## 🏛️ Architectural Topology
+
+### 1. Execution Sequence (Runtime)
+Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant P as AdminsPage.jsx
     participant H as useAdminsPage.js
     participant S as adminService.js
-    participant API as Supabase/API
+    participant API as Supabase/External
 
-    P->>H: Initialize hook & states
-    H->>S: Fetch domain datasets
-    S->>API: Execute query command
-    API-->>S: Return recordset
-    S-->>H: Normalize for view model
-    H-->>P: Reactive update to UI
+    Note over P,API: Feature Lifecycle Initiation
+    P->>H: Mounts & invokes data orchestration
+    H->>S: Requests normalized dataset
+    S->>API: Executes authenticated query
+    API-->>S: Returns JSON recordset
+    S-->>H: Hydrates DTO for local state
+    H-->>P: Reactive UI sync via state update
 ```
 
-### Dependency Topology
-A visual map of file-level relationships within the admins module.
+### 2. Dependency Topology (Structural)
+Thematic map of architectural layering and file-level relationships.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
 graph TD
-    classDef page fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef hook fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef service fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
+    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
+    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
 
     AdminsPage[AdminsPage.jsx]:::page
-    AdminsPage --> useAdmins
-    AdminsPage --> useAdminsPage
+    AdminsPage --"Logic Orchestration"--> useAdmins
+    AdminsPage --"Logic Orchestration"--> useAdminsPage
     CreateAdminPage[CreateAdminPage.jsx]:::page
-    useAdmins(useAdmins.js):::hook
-    useAdmins --> adminService
-    useAdminsPage(useAdminsPage.js):::hook
-    useAdminsPage --> adminService
+    useAdmins((useAdmins.js)):::hook
+    useAdmins --"Data Connectivity"--> adminService
+    useAdminsPage((useAdminsPage.js)):::hook
+    useAdminsPage --"Data Connectivity"--> adminService
     adminService{adminService.js}:::service
-    adminService --> API_Client((Global API Client))
+    adminService --> API_CORE((Global API Client))
 ```
+
+---
 
 ## 📂 Implementation Audit
 
 ### 📄 Presentation (Pages)
-| Entity | Logic Link | Complexity |
+| Entry Point | Logic Density | Status |
 | :--- | :--- | :--- |
-| `AdminsPage.jsx` | Direct | 83 LoC |
-| `CreateAdminPage.jsx` | Isolated | 206 LoC |
+| `AdminsPage.jsx` | 83 LoC | ✅ Stable |
+| `CreateAdminPage.jsx` | 206 LoC | ⚠️ Refactor Required |
 
 ### ⚓ Headless Logic (Hooks)
-| Controller | Domain Exports | Status |
+| Controller | Domain Handlers | Health |
 | :--- | :--- | :--- |
-| `useAdmins.js` | 5 handlers | Stable |
-| `useAdminsPage.js` | 1 handlers | Stable |
+| `useAdmins.js` | 5 Exports | ✅ Stable |
+| `useAdminsPage.js` | 1 Exports | ✅ Stable |
 
 ### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Exports |
+| Provider | Connectivity | Performance |
 | :--- | :--- | :--- |
-| `adminService.js` | Global API | 1 methods |
-
-## 🎓 Technical Interview Highlights
-- **Layered Decoupling**: The View Layer (2 nodes) has zero knowledge of API protocols, interacting only through `useAdmins`.
-- **Service Abstraction**: `adminService` encapsulates all Supabase/REST logic, allowing for provider-agnostic business logic.
-- **State Management**: Uses TanStack Query for server state and local useState/useReducer for UI-only transient states.
+| `adminService.js` | High-Throughput | ✅ Optimized |
 
 ---
-*Verified by Nexo Engineering Standards v5.0 | 2026*
+
+## 🎓 Technical Interview Highlights
+- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
+- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
+- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+
+---
+*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*

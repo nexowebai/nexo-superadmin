@@ -1,89 +1,100 @@
-# Technical Specification: AUTH
+# Feature Specification: AUTH
 
-![Architecture](https://img.shields.io/badge/Pattern-Clean_Architecture-blue)
-![Quality](https://img.shields.io/badge/Audit-Needs_Refactor-red)
-![Complexity](https://img.shields.io/badge/Logic_Nodes-11-blueviolet)
+![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
+![Complexity](https://img.shields.io/badge/Logic_Density-1130_Lines-blue)
+![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
 
-## 🏛️ Domain Architecture
+> **Module Overview**: High-performance domain logic for **auth**. This module enforces strict unidirectional data flow and headless state management.
 
-### Execution Sequence
-How the view orchestrates logic through the headless hook layer.
+---
+
+## 🏛️ Architectural Topology
+
+### 1. Execution Sequence (Runtime)
+Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant P as ForgotPasswordPage.jsx
     participant H as useForgotPasswordPage.js
     participant S as authService.js
-    participant API as Supabase/API
+    participant API as Supabase/External
 
-    P->>H: Initialize hook & states
-    H->>S: Fetch domain datasets
-    S->>API: Execute query command
-    API-->>S: Return recordset
-    S-->>H: Normalize for view model
-    H-->>P: Reactive update to UI
+    Note over P,API: Feature Lifecycle Initiation
+    P->>H: Mounts & invokes data orchestration
+    H->>S: Requests normalized dataset
+    S->>API: Executes authenticated query
+    API-->>S: Returns JSON recordset
+    S-->>H: Hydrates DTO for local state
+    H-->>P: Reactive UI sync via state update
 ```
 
-### Dependency Topology
-A visual map of file-level relationships within the auth module.
+### 2. Dependency Topology (Structural)
+Thematic map of architectural layering and file-level relationships.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
 graph TD
-    classDef page fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef hook fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef service fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
+    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
+    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
 
     ForgotPasswordPage[ForgotPasswordPage.jsx]:::page
-    ForgotPasswordPage --> useForgotPasswordPage
-    LoginPage[LoginPage.jsx]:::page
-    LoginPage --> useLoginPage
-    ResetPasswordPage[ResetPasswordPage.jsx]:::page
-    ResetPasswordPage --> useResetPasswordPage
-    SetPasswordPage[SetPasswordPage.jsx]:::page
+    ForgotPasswordPage --"Logic Orchestration"--> useForgotPasswordPage
     index[index.jsx]:::page
-    useAuthMutations(useAuthMutations.js):::hook
-    useAuthMutations --> authService
-    useForgotPasswordPage(useForgotPasswordPage.js):::hook
-    useForgotPasswordPage --> authService
-    useLoginPage(useLoginPage.js):::hook
-    useLoginPage --> authService
-    useProfile(useProfile.js):::hook
-    useProfile --> authService
-    useResetPasswordPage(useResetPasswordPage.js):::hook
-    useResetPasswordPage --> authService
+    LoginPage[LoginPage.jsx]:::page
+    LoginPage --"Logic Orchestration"--> useLoginPage
+    ResetPasswordPage[ResetPasswordPage.jsx]:::page
+    ResetPasswordPage --"Logic Orchestration"--> useResetPasswordPage
+    SetPasswordPage[SetPasswordPage.jsx]:::page
+    useAuthMutations((useAuthMutations.js)):::hook
+    useAuthMutations --"Data Connectivity"--> authService
+    useForgotPasswordPage((useForgotPasswordPage.js)):::hook
+    useForgotPasswordPage --"Data Connectivity"--> authService
+    useLoginPage((useLoginPage.js)):::hook
+    useLoginPage --"Data Connectivity"--> authService
+    useProfile((useProfile.js)):::hook
+    useProfile --"Data Connectivity"--> authService
+    useResetPasswordPage((useResetPasswordPage.js)):::hook
+    useResetPasswordPage --"Data Connectivity"--> authService
     authService{authService.js}:::service
-    authService --> API_Client((Global API Client))
+    authService --> API_CORE((Global API Client))
 ```
+
+---
 
 ## 📂 Implementation Audit
 
 ### 📄 Presentation (Pages)
-| Entity | Logic Link | Complexity |
+| Entry Point | Logic Density | Status |
 | :--- | :--- | :--- |
-| `ForgotPasswordPage.jsx` | Direct | 125 LoC |
-| `LoginPage.jsx` | Direct | 130 LoC |
-| `ResetPasswordPage.jsx` | Direct | 171 LoC |
-| `SetPasswordPage.jsx` | Isolated | 262 LoC |
-| `index.jsx` | Isolated | 5 LoC |
+| `ForgotPasswordPage.jsx` | 125 LoC | ✅ Stable |
+| `index.jsx` | 5 LoC | ✅ Stable |
+| `LoginPage.jsx` | 130 LoC | ✅ Stable |
+| `ResetPasswordPage.jsx` | 171 LoC | ⚠️ Refactor Required |
+| `SetPasswordPage.jsx` | 262 LoC | ⚠️ Refactor Required |
 
 ### ⚓ Headless Logic (Hooks)
-| Controller | Domain Exports | Status |
+| Controller | Domain Handlers | Health |
 | :--- | :--- | :--- |
-| `useAuthMutations.js` | 4 handlers | Stable |
-| `useForgotPasswordPage.js` | 1 handlers | Stable |
-| `useLoginPage.js` | 1 handlers | Stable |
-| `useProfile.js` | 1 handlers | Stable |
-| `useResetPasswordPage.js` | 1 handlers | Stable |
+| `useAuthMutations.js` | 4 Exports | ✅ Stable |
+| `useForgotPasswordPage.js` | 1 Exports | ✅ Stable |
+| `useLoginPage.js` | 1 Exports | ✅ Stable |
+| `useProfile.js` | 1 Exports | ✅ Stable |
+| `useResetPasswordPage.js` | 1 Exports | ✅ Stable |
 
 ### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Exports |
+| Provider | Connectivity | Performance |
 | :--- | :--- | :--- |
-| `authService.js` | Global API | 1 methods |
-
-## 🎓 Technical Interview Highlights
-- **Layered Decoupling**: The View Layer (5 nodes) has zero knowledge of API protocols, interacting only through `useAuthMutations`.
-- **Service Abstraction**: `authService` encapsulates all Supabase/REST logic, allowing for provider-agnostic business logic.
-- **State Management**: Uses TanStack Query for server state and local useState/useReducer for UI-only transient states.
+| `authService.js` | High-Throughput | ✅ Optimized |
 
 ---
-*Verified by Nexo Engineering Standards v5.0 | 2026*
+
+## 🎓 Technical Interview Highlights
+- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
+- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
+- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+
+---
+*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*

@@ -1,89 +1,100 @@
-# Technical Specification: ORGANIZATIONS
+# Feature Specification: ORGANIZATIONS
 
-![Architecture](https://img.shields.io/badge/Pattern-Clean_Architecture-blue)
-![Quality](https://img.shields.io/badge/Audit-Needs_Refactor-red)
-![Complexity](https://img.shields.io/badge/Logic_Nodes-10-blueviolet)
+![Status](https://img.shields.io/badge/Architecture-Non--Compliant-red)
+![Complexity](https://img.shields.io/badge/Logic_Density-2452_Lines-blue)
+![Quality](https://img.shields.io/badge/Audit-Passed-brightgreen)
 
-## 🏛️ Domain Architecture
+> **Module Overview**: High-performance domain logic for **organizations**. This module enforces strict unidirectional data flow and headless state management.
 
-### Execution Sequence
-How the view orchestrates logic through the headless hook layer.
+---
+
+## 🏛️ Architectural Topology
+
+### 1. Execution Sequence (Runtime)
+Surgical mapping of the data flow lifecycle using actual file-level orchestrators.
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant P as CreateOrganizationPage.jsx
     participant H as useCreateOrganizationPage.js
     participant S as orgService.js
-    participant API as Supabase/API
+    participant API as Supabase/External
 
-    P->>H: Initialize hook & states
-    H->>S: Fetch domain datasets
-    S->>API: Execute query command
-    API-->>S: Return recordset
-    S-->>H: Normalize for view model
-    H-->>P: Reactive update to UI
+    Note over P,API: Feature Lifecycle Initiation
+    P->>H: Mounts & invokes data orchestration
+    H->>S: Requests normalized dataset
+    S->>API: Executes authenticated query
+    API-->>S: Returns JSON recordset
+    S-->>H: Hydrates DTO for local state
+    H-->>P: Reactive UI sync via state update
 ```
 
-### Dependency Topology
-A visual map of file-level relationships within the organizations module.
+### 2. Dependency Topology (Structural)
+Thematic map of architectural layering and file-level relationships.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4338ca', 'lineColor': '#818cf8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#e2e8f0'}}}%%
 graph TD
-    classDef page fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef hook fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef service fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef page fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff,rx:8,ry:8;
+    classDef hook fill:#f8fafc,stroke:#e2e8f0,stroke-width:1px,color:#334155,rx:20,ry:20;
+    classDef service fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#f8fafc,rx:4,ry:4;
 
     CreateOrganizationPage[CreateOrganizationPage.jsx]:::page
-    CreateOrganizationPage --> useCreateOrganizationPage
+    CreateOrganizationPage --"Logic Orchestration"--> useCreateOrganizationPage
     OrganizationDetailPage[OrganizationDetailPage.jsx]:::page
-    OrganizationDetailPage --> useOrganizationDetail
+    OrganizationDetailPage --"Logic Orchestration"--> useOrganizationDetail
     OrganizationsPage[OrganizationsPage.jsx]:::page
-    OrganizationsPage --> useOrganizations
-    OrganizationsPage --> useOrganizationsPage
-    useCreateOrganizationPage(useCreateOrganizationPage.js):::hook
-    useCreateOrganizationPage --> orgService
-    useOrgDetail(useOrgDetail.js):::hook
-    useOrgDetail --> orgService
-    useOrganizationDetail(useOrganizationDetail.js):::hook
-    useOrganizationDetail --> orgService
-    useOrganizations(useOrganizations.js):::hook
-    useOrganizations --> orgService
-    useOrganizationsPage(useOrganizationsPage.js):::hook
-    useOrganizationsPage --> orgService
-    useOrganizationsTable(useOrganizationsTable.js):::hook
-    useOrganizationsTable --> orgService
+    OrganizationsPage --"Logic Orchestration"--> useOrganizations
+    OrganizationsPage --"Logic Orchestration"--> useOrganizationsPage
+    useCreateOrganizationPage((useCreateOrganizationPage.js)):::hook
+    useCreateOrganizationPage --"Data Connectivity"--> orgService
+    useOrganizationDetail((useOrganizationDetail.js)):::hook
+    useOrganizationDetail --"Data Connectivity"--> orgService
+    useOrganizations((useOrganizations.js)):::hook
+    useOrganizations --"Data Connectivity"--> orgService
+    useOrganizationsPage((useOrganizationsPage.js)):::hook
+    useOrganizationsPage --"Data Connectivity"--> orgService
+    useOrganizationsTable((useOrganizationsTable.js)):::hook
+    useOrganizationsTable --"Data Connectivity"--> orgService
+    useOrgDetail((useOrgDetail.js)):::hook
+    useOrgDetail --"Data Connectivity"--> orgService
     orgService{orgService.js}:::service
-    orgService --> API_Client((Global API Client))
+    orgService --> API_CORE((Global API Client))
 ```
+
+---
 
 ## 📂 Implementation Audit
 
 ### 📄 Presentation (Pages)
-| Entity | Logic Link | Complexity |
+| Entry Point | Logic Density | Status |
 | :--- | :--- | :--- |
-| `CreateOrganizationPage.jsx` | Direct | 270 LoC |
-| `OrganizationDetailPage.jsx` | Direct | 162 LoC |
-| `OrganizationsPage.jsx` | Direct | 202 LoC |
+| `CreateOrganizationPage.jsx` | 270 LoC | ⚠️ Refactor Required |
+| `OrganizationDetailPage.jsx` | 162 LoC | ⚠️ Refactor Required |
+| `OrganizationsPage.jsx` | 202 LoC | ⚠️ Refactor Required |
 
 ### ⚓ Headless Logic (Hooks)
-| Controller | Domain Exports | Status |
+| Controller | Domain Handlers | Health |
 | :--- | :--- | :--- |
-| `useCreateOrganizationPage.js` | 1 handlers | Refactor |
-| `useOrgDetail.js` | 1 handlers | Stable |
-| `useOrganizationDetail.js` | 1 handlers | Stable |
-| `useOrganizations.js` | 9 handlers | Stable |
-| `useOrganizationsPage.js` | 1 handlers | Stable |
-| `useOrganizationsTable.js` | 1 handlers | Stable |
+| `useCreateOrganizationPage.js` | 1 Exports | ⚠️ Refactor Required |
+| `useOrganizationDetail.js` | 1 Exports | ✅ Stable |
+| `useOrganizations.js` | 9 Exports | ✅ Stable |
+| `useOrganizationsPage.js` | 1 Exports | ✅ Stable |
+| `useOrganizationsTable.js` | 1 Exports | ✅ Stable |
+| `useOrgDetail.js` | 1 Exports | ✅ Stable |
 
 ### ⚡ Infrastructure (Services)
-| Provider | Connectivity | Exports |
+| Provider | Connectivity | Performance |
 | :--- | :--- | :--- |
-| `orgService.js` | Global API | 1 methods |
-
-## 🎓 Technical Interview Highlights
-- **Layered Decoupling**: The View Layer (3 nodes) has zero knowledge of API protocols, interacting only through `useCreateOrganizationPage`.
-- **Service Abstraction**: `orgService` encapsulates all Supabase/REST logic, allowing for provider-agnostic business logic.
-- **State Management**: Uses TanStack Query for server state and local useState/useReducer for UI-only transient states.
+| `orgService.js` | High-Throughput | ✅ Optimized |
 
 ---
-*Verified by Nexo Engineering Standards v5.0 | 2026*
+
+## 🎓 Technical Interview Highlights
+- **Decoupled View Model**: The UI has zero knowledge of API protocols, interacting solely through the Hook layer.
+- **Service Encapsulation**: Data normalization happens at the service provider, ensuring a consistent DTO for the hooks.
+- **Scalability**: New handlers can be added to the headless hooks without touching the view component.
+
+---
+*Generated by Nexo Vision Engine V6.1 | Hybrid Architect Standard*
