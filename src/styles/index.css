@@ -100,8 +100,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
-
 body,
 .ds-card,
 .ds-header,
@@ -184,8 +182,14 @@ button {
 }
 
 @keyframes toast-enter {
-  0% { transform: scale(0.9) translateX(20px); opacity: 0; }
-  100% { transform: scale(1) translateX(0); opacity: 1; }
+  0% {
+    transform: scale(0.9) translateX(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Modal & Form Header Utilities */

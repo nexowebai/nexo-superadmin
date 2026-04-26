@@ -35,7 +35,7 @@ export default function OrganizationDetailPage() {
     closeModal,
     handleEnable,
     handleDisableSuccess,
-    navigate
+    navigate,
   } = useOrgDetail();
 
   // Loading State

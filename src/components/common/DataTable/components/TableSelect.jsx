@@ -13,7 +13,10 @@ export const TableSelect = ({ options, value, onChange, className }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     };
@@ -21,7 +24,8 @@ export const TableSelect = ({ options, value, onChange, className }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selectedOption = options.find((opt) => opt.value === value) || options[0];
+  const selectedOption =
+    options.find((opt) => opt.value === value) || options[0];
 
   return (
     <div className={cn("dt-select-container", className)} ref={containerRef}>
@@ -41,7 +45,7 @@ export const TableSelect = ({ options, value, onChange, className }) => {
               key={option.value}
               className={cn(
                 "dt-select-option",
-                option.value === value && "is-selected"
+                option.value === value && "is-selected",
               )}
               onClick={() => {
                 onChange(option.value);
