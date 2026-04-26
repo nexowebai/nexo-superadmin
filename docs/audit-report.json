@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T14:57:02.567Z",
+  "timestamp": "2026-04-26T14:57:37.327Z",
   "totalFiles": 353,
   "violationsCount": 63,
   "criticalCount": 9,
@@ -35,6 +35,12 @@
       "severity": "WARNING"
     },
     {
+      "type": "LINE_COUNT",
+      "file": "src/components/common/DataTable/DataTable.jsx",
+      "message": "File has 152 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
       "type": "INLINE_STYLE",
       "file": "src/components/common/DataTable/components/CellTooltip.jsx",
       "message": "Bypassed inline style detected. Audit required.",
@@ -56,12 +62,6 @@
       "type": "LINE_COUNT",
       "file": "src/components/common/DataTable/components/TableToolbar.jsx",
       "message": "File has 156 lines (Target: <150)",
-      "severity": "WARNING"
-    },
-    {
-      "type": "LINE_COUNT",
-      "file": "src/components/common/DataTable/DataTable.jsx",
-      "message": "File has 152 lines (Target: <150)",
       "severity": "WARNING"
     },
     {
@@ -210,12 +210,6 @@
     },
     {
       "type": "INLINE_STYLE",
-      "file": "src/components/ui/Card/components/CardSkeleton.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
-    },
-    {
-      "type": "INLINE_STYLE",
       "file": "src/components/ui/Card/OrganizationCard.jsx",
       "message": "Bypassed inline style detected. Audit required.",
       "severity": "WARNING"
@@ -225,6 +219,12 @@
       "file": "src/components/ui/Card/StatsCard.jsx",
       "message": "Bypassed inline style detected. Audit required.",
       "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Card/components/CardSkeleton.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
     },
     {
       "type": "LINE_COUNT",
@@ -245,16 +245,16 @@
       "severity": "WARNING"
     },
     {
-      "type": "INLINE_STYLE",
-      "file": "src/components/ui/Modal/components/SpecialModals.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
-    },
-    {
       "type": "LINE_COUNT",
       "file": "src/components/ui/Modal/Modal.jsx",
       "message": "File has 161 lines (Target: <150)",
       "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Modal/components/SpecialModals.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
     },
     {
       "type": "INLINE_STYLE",
