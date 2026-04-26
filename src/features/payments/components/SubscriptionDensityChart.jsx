@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { Select } from "@components/ui";
 import { PLAN_DISTRIBUTION } from "../constants/paymentData";
+import "../styles/payments.css";
 
 export function SubscriptionDensityChart({ usageView, setUsageView }) {
   return (
@@ -38,7 +39,7 @@ export function SubscriptionDensityChart({ usageView, setUsageView }) {
           className="w-48"
         />
       </div>
-      <div style={{ height: 260, width: "100%" }}>
+      <div className="chart-container-md">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={PLAN_DISTRIBUTION}

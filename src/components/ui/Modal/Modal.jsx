@@ -33,12 +33,12 @@ const modalVariants = {
   },
   exit: {
     opacity: 0,
-    y: 15,
-    scale: 0.97,
+    y: 10,
+    scale: 0.98,
     transition: {
-      duration: 0.3,
-      ease: [0.16, 1, 0.3, 1],
-      opacity: { duration: 0.2 },
+      duration: 0.45,
+      ease: [0.4, 0, 0.2, 1], // More natural cubic-bezier for closing
+      opacity: { duration: 0.35 },
     },
   },
 };

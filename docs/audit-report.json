@@ -1,0 +1,399 @@
+{
+  "timestamp": "2026-04-26T14:17:06.808Z",
+  "totalFiles": 353,
+  "violationsCount": 65,
+  "criticalCount": 23,
+  "violations": [
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/charts/BaseBarChart.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/charts/BaseLineChart.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/charts/PieChart.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/AnimatedFolder/AnimatedFolder.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/AnimatedFolder/components/PreviewCard.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/DataTable/components/CellTooltip.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/DataTable/components/TableBody.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/DataTable/components/TableHead.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/common/DataTable/components/TableToolbar.jsx",
+      "message": "File has 156 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/common/DataTable/DataTable.jsx",
+      "message": "File has 152 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/EntityCard/EntityCard.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/common/ErrorBoundary/ErrorBoundary.jsx",
+      "message": "File has 196 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/common/MultiSelect/MultiSelect.jsx",
+      "message": "File has 156 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/Notification/components/NotificationSkeleton.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/common/ViewToggle/ViewToggle.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/layout/Sidebar/Sidebar.jsx",
+      "message": "File has 167 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/pages/ComingSoonPage.jsx",
+      "message": "File has 191 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/skeletons/DashboardSkeleton.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/skeletons/DetailPageSkeleton.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/skeletons/PageSkeletons.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/AreaChart.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/Area.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/AreaGradients.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/ui/AreaChart/components/ChartInner.jsx",
+      "message": "File has 154 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/ChartInner.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/ui/AreaChart/components/ChartTooltip.jsx",
+      "message": "File has 161 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/ChartTooltip.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/DateTicker.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/Grid.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/TooltipBox.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/TooltipContent.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/TooltipIndicator.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/XAxis.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/AreaChart/components/YAxis.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Card/components/CardSkeleton.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Card/OrganizationCard.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Card/StatsCard.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/ui/ChartCard/components/ChartParts.jsx",
+      "message": "File has 183 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/ui/Chip/Chip.jsx",
+      "message": "File has 156 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/DatePicker/components/DatePickerDropdown.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Modal/components/SpecialModals.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/components/ui/Modal/Modal.jsx",
+      "message": "File has 161 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Select/components/SelectDropdown.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/Skeleton/Skeleton.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/components/ui/StatusBadge/StatusBadge.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/constants/icons.js",
+      "message": "File has 184 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/constants/mock/projects.js",
+      "message": "File has 159 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/features/auth/components/AuthVisual/DashboardCards.jsx",
+      "message": "File has 151 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/features/auth/components/AuthVisual/VisualExtras.jsx",
+      "message": "File has 163 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/auth/components/PasswordRequirements.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/auth/pages/ForgotPasswordPage.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/auth/pages/LoginPage.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/auth/pages/ResetPasswordPage.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/features/billing/components/BillingTables.jsx",
+      "message": "File has 185 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/billing/components/modals/CouponModal.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/features/billing/pages/BillingSystemPage.jsx",
+      "message": "File has 151 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/content/components/PolicyToolbar.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/dashboard/components/NotificationItem.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "LINE_COUNT",
+      "file": "src/features/dashboard/constants/dashboardData.js",
+      "message": "File has 151 lines (Target: <150)",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/logs/components/LogBadges.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/logs/components/LogDetailModal.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/notifications/components/NotificationCard.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/organizations/components/detail/OrgSidebar.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/organizations/components/modals/AuditLogModal.jsx",
+      "message": "Bypassed inline style detected. Audit required.",
+      "severity": "WARNING"
+    },
+    {
+      "type": "INLINE_STYLE",
+      "file": "src/features/settings/components/SettingsComponents.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    }
+  ],
+  "healthScore": 54
+}

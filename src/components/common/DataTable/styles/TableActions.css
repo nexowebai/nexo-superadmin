@@ -158,6 +158,19 @@
   box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
 }
 
+.dt-action-info {
+  background: color-mix(in srgb, var(--info) 8%, var(--bg-surface));
+  color: var(--info);
+  border-color: color-mix(in srgb, var(--info) 20%, var(--border-base));
+}
+
+.dt-action-info:hover {
+  background: var(--info);
+  color: white;
+  border-color: var(--info);
+  box-shadow: 0 4px 12px rgba(var(--info-rgb), 0.3);
+}
+
 .dt-action-disabled {
   opacity: 0.4;
   pointer-events: none;

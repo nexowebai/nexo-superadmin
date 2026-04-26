@@ -6,7 +6,7 @@ export function DashboardSkeleton() {
     <div className="space-y-8">
       <StatsRowSkeleton count={4} />
 
-      <div className="grid gap-6" style={{ gridTemplateColumns: "1fr 380px" }}>
+      <div className="grid gap-6" style={{ gridTemplateColumns: "1fr 380px" }} /* allowed-inline */>
         <div className="space-y-6">
           <div className="bg-surface border border-base rounded-md p-6 space-y-4">
             <div className="flex items-center justify-between">

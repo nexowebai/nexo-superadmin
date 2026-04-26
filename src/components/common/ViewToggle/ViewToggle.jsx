@@ -27,6 +27,7 @@ function ViewToggle({ view = "card", onChange, className }) {
       </button>
       <div
         className="ds-view-toggle__indicator"
+        /* allowed-inline */
         style={{
           transform: view === "card" ? "translateX(0)" : "translateX(100%)",
         }}

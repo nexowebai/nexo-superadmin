@@ -1,4 +1,5 @@
 import { Skeleton } from "@components/ui";
+import "./skeletons.css";
 
 export default function FormSkeleton() {
   return (
@@ -8,7 +9,7 @@ export default function FormSkeleton() {
           <Skeleton width="20px" height="20px" borderRadius="4px" />
           <div>
             <Skeleton width="180px" height="20px" />
-            <Skeleton width="240px" height="14px" style={{ marginTop: 8 }} />
+            <Skeleton width="240px" height="14px" className="skeleton-mt-8" />
           </div>
         </div>
         <div className="form-grid">
@@ -19,7 +20,7 @@ export default function FormSkeleton() {
                 width="100%"
                 height="42px"
                 borderRadius="8px"
-                style={{ marginTop: 6 }}
+                className="skeleton-mt-6"
               />
             </div>
           ))}

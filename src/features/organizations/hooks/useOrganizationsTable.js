@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useOrganizationColumns } from "../components/OrgColumns";
+import { useOrganizationColumns } from "../components/table/OrgColumns";
 import notify from "@utils/notify";
 import { exportToCSV, exportToPDF } from "@utils/exportService";
 

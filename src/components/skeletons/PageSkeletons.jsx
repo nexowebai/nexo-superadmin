@@ -51,7 +51,7 @@ export function StatsRowSkeleton({ count = 4 }) {
   return (
     <div
       className="grid gap-4"
-      style={{ gridTemplateColumns: `repeat(${count}, 1fr)` }}
+      style={{ gridTemplateColumns: `repeat(${count}, 1fr)` }} /* allowed-inline */
     >
       {Array.from({ length: count }).map((_, i) => (
         <div

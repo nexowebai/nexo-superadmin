@@ -98,6 +98,7 @@ export const TableBody = ({
                 cell.column.columnDef.meta?.align &&
                   `dt-td--${cell.column.columnDef.meta.align}`,
               )}
+              /* allowed-inline */
               style={{
                 width: cell.column.getSize(),
                 minWidth: cell.column.getSize(),

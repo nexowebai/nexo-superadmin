@@ -64,7 +64,7 @@ export function DateTicker({ currentIndex, labels, visible }) {
       <div className="relative h-6 overflow-hidden">
         <div className="flex items-center justify-center gap-1">
           <div className="relative h-6 overflow-hidden">
-            <motion.div className="flex flex-col" style={{ y: monthY }}>
+            <motion.div className="flex flex-col" /* allowed-inline */ style={{ y: monthY }}>
               {monthIndices.uniqueMonths.map((month) => (
                 <div
                   className="flex h-6 shrink-0 items-center justify-center"
@@ -78,7 +78,7 @@ export function DateTicker({ currentIndex, labels, visible }) {
             </motion.div>
           </div>
           <div className="relative h-6 overflow-hidden">
-            <motion.div className="flex flex-col" style={{ y: dayY }}>
+            <motion.div className="flex flex-col" /* allowed-inline */ style={{ y: dayY }}>
               {parsedLabels.map((label, index) => (
                 <div
                   className="flex h-6 shrink-0 items-center justify-center"

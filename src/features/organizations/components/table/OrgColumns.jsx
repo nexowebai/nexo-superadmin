@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Users, Calendar, Mail } from "lucide-react";
 import { TableActions } from "@components/common";
 import { formatDate } from "@utils/format";
-import { StatusDropdown } from "./StatusDropdown";
+import { StatusDropdown } from "../form/StatusDropdown";
 
 export const useOrganizationColumns = ({
   navigate,

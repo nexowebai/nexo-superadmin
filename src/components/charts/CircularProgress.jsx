@@ -33,8 +33,7 @@ export default function CircularProgress({ percent, color, label }) {
         </svg>
         <div className="absolute flex flex-col items-center">
           <span
-            className="text-4xl font-black tracking-tighter"
-            style={{ color: "var(--text-primary)" }}
+            className="text-4xl font-black tracking-tighter text-primary"
           >
             {percent}%
           </span>

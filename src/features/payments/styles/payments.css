@@ -1,0 +1,18 @@
+/* 🏔️ NEXO SYSTEM: Payments & Analytics
+   Performance-optimized styles for financial reporting.
+*/
+
+.chart-container-md {
+  height: 260px;
+  width: 100%;
+}
+
+.card-pro {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-pro:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-soft);
+}

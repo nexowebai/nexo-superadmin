@@ -324,6 +324,10 @@
   color: var(--ds-primary);
 }
 
+.coming-soon__back-icon {
+  transform: rotate(180deg);
+}
+
 /* Dark Mode Adjustments */
 [data-theme="dark"] .coming-soon__orb {
   opacity: 0.25;

@@ -1,4 +1,13 @@
-import { Terminal, Shield, XCircle, CheckCircle2 } from "lucide-react";
+import { Terminal, Shield, XCircle, CheckCircle2, Activity, AlertCircle } from "lucide-react";
+
+export const LEVEL_CONFIG = {
+  info: { color: "var(--info)", bg: "var(--info-soft)", icon: Terminal, label: "Information" },
+  success: { color: "var(--success)", bg: "var(--success-soft)", icon: Activity, label: "Success" },
+  warn: { color: "var(--warning)", bg: "var(--warning-soft)", icon: AlertCircle, label: "Warning" },
+  warning: { color: "var(--warning)", bg: "var(--warning-soft)", icon: AlertCircle, label: "Warning" },
+  error: { color: "var(--error)", bg: "var(--error-soft)", icon: Shield, label: "Critical" },
+};
+
 
 export const MOCK_LOGS = [
   {

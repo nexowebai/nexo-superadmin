@@ -86,7 +86,7 @@ export function SendNotificationModal({ isOpen, onClose, orgName }) {
               onClick={onClose}
               type="button"
               fullWidth
-              style={{ height: "3rem" }}
+              className="h-12 font-bold"
             >
               Cancel
             </Button>
@@ -95,7 +95,7 @@ export function SendNotificationModal({ isOpen, onClose, orgName }) {
               type="submit"
               icon={Send}
               fullWidth
-              style={{ height: "3rem" }}
+              className="h-12 font-bold"
             >
               Send Notification
             </Button>

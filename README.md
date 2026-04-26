@@ -41,17 +41,17 @@ The following registry is synchronized on every local commit. It provides a real
 
 | Status | Feature Module | Complexity | Density | Specification |
 | :--- | :--- | :--- | :--- | :--- |
-| ![High](https://img.shields.io/badge/-High-orange) | **ADMINS** | 538 LoC | 6 Nodes | [View Specs](./src/features/admins/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **AUTH** | 1130 LoC | 13 Nodes | [View Specs](./src/features/auth/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **ADMINS** | 557 LoC | 7 Nodes | [View Specs](./src/features/admins/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **AUTH** | 1096 LoC | 16 Nodes | [View Specs](./src/features/auth/README.md) |
 | ![High](https://img.shields.io/badge/-High-orange) | **BILLING** | 377 LoC | 3 Nodes | [View Specs](./src/features/billing/README.md) |
 | ![High](https://img.shields.io/badge/-High-orange) | **CONTENT** | 283 LoC | 3 Nodes | [View Specs](./src/features/content/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **DASHBOARD** | 787 LoC | 10 Nodes | [View Specs](./src/features/dashboard/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **LOGS** | 667 LoC | 7 Nodes | [View Specs](./src/features/logs/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **NOTIFICATIONS** | 512 LoC | 5 Nodes | [View Specs](./src/features/notifications/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **ORGANIZATIONS** | 2452 LoC | 22 Nodes | [View Specs](./src/features/organizations/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **PAYMENTS** | 756 LoC | 7 Nodes | [View Specs](./src/features/payments/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **REQUESTS** | 646 LoC | 8 Nodes | [View Specs](./src/features/requests/README.md) |
-| ![High](https://img.shields.io/badge/-High-orange) | **SETTINGS** | 870 LoC | 12 Nodes | [View Specs](./src/features/settings/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **DASHBOARD** | 750 LoC | 10 Nodes | [View Specs](./src/features/dashboard/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **LOGS** | 557 LoC | 9 Nodes | [View Specs](./src/features/logs/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **NOTIFICATIONS** | 475 LoC | 5 Nodes | [View Specs](./src/features/notifications/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **ORGANIZATIONS** | 822 LoC | 10 Nodes | [View Specs](./src/features/organizations/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **PAYMENTS** | 709 LoC | 8 Nodes | [View Specs](./src/features/payments/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **REQUESTS** | 576 LoC | 10 Nodes | [View Specs](./src/features/requests/README.md) |
+| ![High](https://img.shields.io/badge/-High-orange) | **SETTINGS** | 743 LoC | 13 Nodes | [View Specs](./src/features/settings/README.md) |
 | ![Optimal](https://img.shields.io/badge/-Optimal-brightgreen) | **USERS** | 13 LoC | 1 Nodes | [View Specs](./src/features/users/README.md) |
 
 <!-- FEATURE_INVENTORY_END -->

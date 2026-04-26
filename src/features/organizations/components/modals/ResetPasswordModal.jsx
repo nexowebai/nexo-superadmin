@@ -85,21 +85,19 @@ export function ResetPasswordModal({ isOpen, onClose, orgId, onSuccess }) {
           </div>
         </ModalBody>
         <ModalFooter>
-          <div className="modal-form-footer">
+          <div className="modal-form-footer justify-end">
             <Button
               variant="secondary"
               onClick={onClose}
               type="button"
-              fullWidth
-              style={{ height: "48px" }}
+              className="px-6 h-11"
             >
               Cancel
             </Button>
             <Button
               variant="warning"
               type="submit"
-              fullWidth
-              style={{ height: "48px" }}
+              className="px-8 h-11"
             >
               Set New Password
             </Button>

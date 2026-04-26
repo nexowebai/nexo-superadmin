@@ -29,18 +29,21 @@ const EntityCard = memo(function EntityCard({
     <div
       className={cn("ds-entity-card", className)}
       onClick={handleCardClick}
+      /* allowed-inline */
       style={{ "--card-accent": statusColor }}
     >
       <div className="ds-entity-card__header">
         <div className="ds-entity-card__identity">
           <div
             className="ds-entity-card__avatar"
+            /* allowed-inline */
             style={{ background: avatarColor }}
           >
             {typeof avatar === "string" ? <span>{avatar}</span> : avatar}
             {statusColor && (
               <div
                 className="ds-entity-card__status-dot"
+                /* allowed-inline */
                 style={{ background: statusColor }}
               />
             )}
@@ -107,10 +110,12 @@ const EntityCard = memo(function EntityCard({
         {statusLabel && (
           <div
             className="ds-entity-card__status"
+            /* allowed-inline */
             style={{ color: statusColor }}
           >
             <div
               className="status-indicator-dot"
+              /* allowed-inline */
               style={{ background: statusColor }}
             />
             <span>{statusLabel}</span>

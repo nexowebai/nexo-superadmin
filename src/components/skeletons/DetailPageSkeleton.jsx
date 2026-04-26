@@ -53,7 +53,7 @@ export function DetailPageSkeleton() {
         ))}
       </div>
 
-      <div className="grid gap-6" style={{ gridTemplateColumns: "1fr 340px" }}>
+      <div className="grid gap-6" style={{ gridTemplateColumns: "1fr 340px" }} /* allowed-inline */>
         <div className="bg-surface border border-base rounded-md p-6 space-y-5">
           <Skeleton width="160px" height="20px" />
           {[1, 2, 3, 4, 5].map((i) => (

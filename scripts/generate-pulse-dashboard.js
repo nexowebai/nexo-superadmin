@@ -5,7 +5,7 @@ import _traverse from "@babel/traverse";
 const traverse = _traverse.default;
 
 /**
- * 🏔️ NEXO COMMAND ARCHITECT (V22.0) - THE PORTABLE ASSET EDITION
+ * 🏔️ NEXO COMMAND ARCHITECT (V23.0) - THE ELITE PROMPT EDITION
  */
 
 const ROOT = process.cwd();
@@ -16,7 +16,6 @@ const OUTPUT_FILE = path.join(OUTPUT_DIR, "index.html");
 const LOGO_PATH = path.join(ROOT, "src/assets/logo/nexo-full.png");
 const FAVICON_PATH = path.join(ROOT, "dist/favicon.png");
 
-// Helper to convert images to Base64 for true portability
 function getBase64(filePath) {
     if (fs.existsSync(filePath)) {
         const buffer = fs.readFileSync(filePath);
@@ -36,7 +35,7 @@ if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 function analyzeFile(filePath) {
     const code = fs.readFileSync(filePath, "utf-8");
     try {
-        const ast = parse(code, { sourceType: "module", plugins: ["jsx"] });
+        const ast = parse(code, { sourceType: "module", plugins: ["jsx", "typescript"] });
         const data = {
             name: path.basename(filePath),
             fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"),
@@ -48,11 +47,11 @@ function analyzeFile(filePath) {
         return data;
     } catch {
         const lines = code.split("\n").length;
-        return {
-            name: path.basename(filePath),
-            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"),
-            lines,
-            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low")
+        return { 
+            name: path.basename(filePath), 
+            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"), 
+            lines, 
+            priority: lines > 300 ? "Critical" : (lines > 150 ? "High" : "Low") 
         };
     }
 }
@@ -65,23 +64,33 @@ function run() {
         return;
     }
 
-    const features = fs.readdirSync(FEATURES_DIR).filter(f => fs.statSync(path.join(FEATURES_DIR, f)).isDirectory());
+    const auditReportPath = path.join(ROOT, "docs/audit-report.json");
+    let auditReport = { healthScore: 100, violations: [], totalFiles: 0 };
+    if (fs.existsSync(auditReportPath)) {
+        auditReport = JSON.parse(fs.readFileSync(auditReportPath, "utf-8"));
+    }
 
+    const features = fs.readdirSync(FEATURES_DIR).filter(f => fs.statSync(path.join(FEATURES_DIR, f)).isDirectory());
+    
     const moduleData = features.map(f => {
         const base = path.join(FEATURES_DIR, f);
         const files = [];
         ["pages", "hooks", "services", "components"].forEach(sub => {
             const dir = path.join(base, sub);
             if (fs.existsSync(dir)) {
-                fs.readdirSync(dir).filter(x => x.endsWith(".js") || x.endsWith(".jsx") || x.endsWith(".ts") || x.endsWith(".tsx")).forEach(file => {
+                const subFiles = fs.readdirSync(dir, { recursive: true })
+                    .filter(x => typeof x === 'string' && (x.endsWith(".js") || x.endsWith(".jsx") || x.endsWith(".ts") || x.endsWith(".tsx")));
+                
+                subFiles.forEach(file => {
                     files.push(analyzeFile(path.join(dir, file)));
                 });
             }
         });
 
         const totalLines = files.reduce((s, x) => s + x.lines, 0);
+        const featureViolations = auditReport.violations.filter(v => v.file.includes(`src/features/${f}`));
         const refactorFiles = files.filter(f => f.priority !== "Low");
-        const maintenanceScore = Math.max(0, 100 - (refactorFiles.length * 15));
+        const maintenanceScore = Math.max(0, 100 - (refactorFiles.length * 15) - (featureViolations.length * 5));
 
         return {
             name: f.charAt(0).toUpperCase() + f.slice(1),
@@ -89,14 +98,15 @@ function run() {
             totalLines,
             rating: maintenanceScore >= 90 ? "A+" : (maintenanceScore >= 70 ? "B" : "C"),
             refactorFiles,
-            allFiles: files.sort((a, b) => b.lines - a.lines)
+            allFiles: files.sort((a, b) => b.lines - a.lines),
+            violations: featureViolations
         };
     });
 
     const totalSystemLines = moduleData.reduce((s, m) => s + m.totalLines, 0);
     const totalRefactors = moduleData.reduce((s, m) => s + m.refactorFiles.length, 0);
     const totalFiles = moduleData.reduce((s, m) => s + m.totalFiles, 0);
-    const systemHealth = Math.max(0, Math.min(100, Math.round(100 - (totalRefactors / (totalFiles || 1) * 100))));
+    const systemHealth = auditReport.healthScore;
 
     const html = `
 <!DOCTYPE html>
@@ -150,8 +160,9 @@ function run() {
             width: 260px; height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: fixed; left: 0; top: 0; z-index: 100;
         }
-        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center;}
+        .brand { border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; justify-content: center; padding: 12px 0; }
         .brand img { max-width: 150px; }
+        [data-theme="dark"] .brand img { filter: invert(1) brightness(2); }
 
         .nav { padding: 0 12px; flex: 1; }
         .nav-item {
@@ -232,19 +243,6 @@ function run() {
         .action-btn.primary { background: var(--primary); color: white; border: none; }
         .action-btn.primary:hover { background: #4f46e5; }
 
-        /* Stability Section */
-        .stability-section { padding: 0 12px; margin: 20px 0; }
-        .stability-card {
-            padding: 20px; border-radius: var(--radius-lg);
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1); color: white;
-        }
-        [data-theme="dark"] .stability-card { background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%); }
-        .sc-label { font-size: 9px; font-weight: 800; text-transform: uppercase; opacity: 0.6; margin-bottom: 4px; }
-        .sc-value { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-        .sc-progress { height: 4px; background: rgba(255, 255, 255, 0.15); border-radius: 10px; margin-bottom: 12px; }
-        .sc-bar { height: 100%; background: white; border-radius: 10px; }
-
         .matrix-card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 20px; transition: 0.3s; }
         .matrix-card:hover { transform: translateY(-4px); border-color: var(--primary); }
         .mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -255,6 +253,21 @@ function run() {
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        .stability-section { padding: 20px 12px; margin-top: auto; border-top: 1px solid var(--border); }
+        .stability-card { background: var(--bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border); }
+        .sc-label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .sc-value { font-size: 20px; font-weight: 900; color: var(--primary); }
+        .sc-progress { height: 6px; background: var(--border); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .sc-bar { height: 100%; background: var(--primary); border-radius: 10px; }
+
+        .violation-card { 
+            padding: 12px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px;
+            display: flex; align-items: flex-start; gap: 12px; background: var(--bg);
+        }
+        .violation-icon { flex-shrink: 0; margin-top: 2px; }
+        .violation-info h5 { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+        .violation-info p { font-size: 11px; color: var(--text-muted); }
     </style>
 </head>
 <body data-theme="light">
@@ -263,12 +276,12 @@ function run() {
         <div class="nav">
             <div id="nav-dashboard" class="nav-item active" onclick="showTab('dashboard')">Dashboard</div>
             <div id="nav-audit" class="nav-item" onclick="showTab('audit')">Technical Audit</div>
+            <div id="nav-violations" class="nav-item" onclick="showTab('violations')">Nexo Audit Audit</div>
             <div id="nav-priority" class="nav-item" onclick="showTab('priority')">Refactor Matrix</div>
-            <div id="nav-registry" class="nav-item" onclick="showTab('registry')">Node Registry</div>
         </div>
         <div class="stability-section">
             <div class="stability-card">
-                <div class="sc-label">Stability</div>
+                <div class="sc-label">System Integrity</div>
                 <div class="sc-value">${systemHealth}%</div>
                 <div class="sc-progress"><div class="sc-bar" style="width: ${systemHealth}%"></div></div>
             </div>
@@ -276,7 +289,7 @@ function run() {
     </div>
 
     <header>
-        <div class="h-info"><h2>Command Architect</h2><p>V22.0 Portable Assets</p></div>
+        <div class="h-info"><h2>Command Architect</h2><p>V23.0 Elite Prompts</p></div>
         <div class="header-actions">
             <div class="theme-toggle" onclick="toggleTheme()"><svg id="theme-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg></div>
             <div style="text-align: right; line-height: 1.2;"><div style="font-weight: 800; font-size: 13px;">Architect</div><div style="font-size: 10px; color: var(--text-muted);">Production</div></div>
@@ -289,15 +302,15 @@ function run() {
             <div class="hero-stats">
                 <div class="stat-box"><div class="sb-label">Logical Lines</div><div class="sb-value">${totalSystemLines.toLocaleString()}</div></div>
                 <div class="stat-box"><div class="sb-label">Modules</div><div class="sb-value">${moduleData.length}</div></div>
-                <div class="stat-box"><div class="sb-label">Health</div><div class="sb-value" style="color: var(--success)">${systemHealth}%</div></div>
-                <div class="stat-box"><div class="sb-label">Risk Nodes</div><div class="sb-value" style="color: var(--danger)">${totalRefactors}</div></div>
+                <div class="stat-box"><div class="sb-label">Audit Score</div><div class="sb-value" style="color: var(--primary)">${systemHealth}%</div></div>
+                <div class="stat-box"><div class="sb-label">Violations</div><div class="sb-value" style="color: var(--danger)">${auditReport.violationsCount}</div></div>
             </div>
             <div class="feature-grid">
                 ${moduleData.map(m => `
                     <div class="feature-card">
                         <div class="f-top"><div class="f-name">${m.name}</div><div class="f-rating" style="color: ${m.rating === 'A+' ? 'var(--success)' : (m.rating === 'B' ? 'var(--warning)' : 'var(--danger)')}">${m.rating}</div></div>
                         <div class="f-row"><span>Files</span><span style="font-weight:700">${m.totalFiles}</span></div>
-                        <div class="f-row"><span>Lines</span><span style="font-weight:700">${m.totalLines}</span></div>
+                        <div class="f-row"><span>Violations</span><span style="font-weight:700; color: ${m.violations.length > 0 ? 'var(--danger)' : 'var(--success)'}">${m.violations.length}</span></div>
                         <div class="f-progress"><div class="f-bar" style="width: ${m.rating === 'A+' ? 100 : (m.rating === 'B' ? 70 : 40)}%; background: ${m.rating === 'A+' ? 'var(--success)' : (m.rating === 'B' ? 'var(--warning)' : 'var(--danger)')}"></div></div>
                     </div>
                 `).join('')}
@@ -310,7 +323,7 @@ function run() {
                 <div class="portal-card" style="margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h4 style="font-weight: 800;">${m.name} Resource Pool</h4>
-                        <button class="action-btn primary" onclick='copyFeaturePaths("${m.name}", ${JSON.stringify(m.refactorFiles.map(f => f.fullPath))})'>Refactor Prompt</button>
+                        <button class="action-btn primary" onclick='copyFeaturePaths("${m.name}", ${JSON.stringify(m.refactorFiles.map(f => f.fullPath))}, this)'>Refactor Prompt</button>
                     </div>
                     <table class="portal-table">
                         <thead><tr><th class="col-node">Node Identity</th><th class="col-lines">Volume</th><th class="col-status">Stability</th><th class="col-action"><div style="display: flex; justify-content: flex-end;"><span class="badge" style="background: var(--primary); color: white;">Orchestration</span></div></th></tr></thead>
@@ -329,6 +342,34 @@ function run() {
             `).join('')}
         </div>
 
+        <div id="violations" class="tab-view">
+            <div class="view-description"><div class="vd-text"><h4>Nexo Architect Audit</h4><p>Governance violations detected by the automated audit engine.</p></div></div>
+            <div class="portal-card">
+                ${auditReport.violations.length === 0 ? `
+                    <div style="text-align: center; padding: 40px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <h3 style="margin-top: 16px;">System 100% Compliant</h3>
+                        <p style="color: var(--text-muted);">No architectural violations found.</p>
+                    </div>
+                ` : `
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        ${auditReport.violations.map(v => `
+                            <div class="violation-card">
+                                <div class="violation-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${v.severity === 'CRITICAL' ? 'var(--danger)' : 'var(--warning)'}" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                </div>
+                                <div class="violation-info">
+                                    <h5>${v.type}: ${v.file}</h5>
+                                    <p>${v.message}</p>
+                                </div>
+                                <button class="action-btn" style="margin-left: auto;" onclick="copySnippet('${v.file}', this)">${COPY_ICON} Copy Path</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `}
+            </div>
+        </div>
+
         <div id="priority" class="tab-view">
             <div class="view-description"><div class="vd-text"><h4>Refactor Matrix</h4><p>Remediation queue for high-volumetric risk nodes.</p></div></div>
             <div class="feature-grid">
@@ -341,22 +382,6 @@ function run() {
                         </div>
                     </div>
                 `).join('')}
-            </div>
-        </div>
-
-        <div id="registry" class="tab-view">
-            <div class="view-description"><div class="vd-text"><h4>Node Registry</h4><p>Physical inventory of the project filesystem.</p></div></div>
-            <div class="portal-card">
-                <table class="portal-table">
-                    ${moduleData.flatMap(m => m.allFiles).map(f => `
-                        <tr>
-                            <td style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border: none;">
-                                <div style="display: flex; align-items: center; gap: 10px; overflow: hidden;">${FILE_ICON} <span style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono'; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${f.fullPath}</span></div>
-                                <button class="action-btn" onclick="copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </table>
             </div>
         </div>
     </div>
@@ -372,7 +397,7 @@ function run() {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             const target = document.getElementById(id);
             if (target) target.classList.add('active');
-            const nav = document.getElementById('nav-' + (id === 'priority' ? 'priority' : id));
+            const nav = document.getElementById('nav-' + id);
             if (nav) nav.classList.add('active');
             window.location.hash = id;
         }
@@ -390,11 +415,28 @@ function run() {
                 setTimeout(() => { btn.innerHTML = original; btn.style.borderColor = ''; btn.style.color = ''; btn.style.background = ''; }, 1000);
             });
         }
-        function copyFeaturePaths(feature, paths) {
-            const prompt = "Please refactor the following " + feature + " files:\\n\\n" + paths.join('\\n');
+        function copyFeaturePaths(feature, paths, btn) {
+            const prompt = \`[INST] ELITE ARCHITECTURAL REMEDIATION TASK:
+You are an expert full-stack engineer specialized in high-performance React architectures.
+The following files in the **\${feature}** domain have violated the 150-line institutional density limit and require modular refactoring.
+
+**ARCHITECTURE RULES:**
+1. **Modular Splitting**: Extract complex logic into custom hooks (\`hooks/\`).
+2. **Component Granularity**: Split large JSX blocks into atomic sub-components (\`components/\`).
+3. **Separation of Concerns**: Pure UI should not handle API logic; delegate to \`services/\`.
+4. **Governance**: Ensure NO file exceeds 150 lines post-refactor.
+5. **Consistency**: Use existing design tokens, CSS variables, and Lucide icons.
+6. **Error Handling**: Implement robust try/catch blocks with Sonner toasts.
+
+**TARGET FILES:**
+\${paths.join('\\n')}
+
+Execute this refactor with production-grade efficiency and zero technical debt. [/INST]\`;
+
             navigator.clipboard.writeText(prompt).then(() => {
-                const btn = event.currentTarget; const original = btn.innerHTML;
-                btn.innerHTML = 'Prompt Copied!'; btn.style.borderColor = 'var(--success)'; btn.style.color = 'var(--success)';
+                const original = btn.innerHTML;
+                btn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="stroke: var(--success)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg> Prompt Copied!';
+                btn.style.borderColor = 'var(--success)'; btn.style.color = 'var(--success)';
                 btn.style.background = 'rgba(16, 185, 129, 0.1)';
                 setTimeout(() => { btn.innerHTML = original; btn.style.borderColor = ''; btn.style.color = ''; btn.style.background = ''; }, 1000);
             });
@@ -405,6 +447,6 @@ function run() {
     `;
 
     fs.writeFileSync(OUTPUT_FILE, html);
-    console.log(`✨ Nexo Command Architect V22.0 synchronized at ${OUTPUT_FILE}`);
+    console.log(`✨ Nexo Command Architect V23.0 synchronized at ${OUTPUT_FILE}`);
 }
 run();

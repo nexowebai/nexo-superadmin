@@ -24,11 +24,13 @@ graph TD
     settingsServicejs["settingsService.js"]:::service
     AppearanceTabjsx["AppearanceTab.jsx"]:::page
     GeneralTabjsx["GeneralTab.jsx"]:::page
+    ProfileComponentsjsx["ProfileComponents.jsx"]:::page
     SecurityTabjsx["SecurityTab.jsx"]:::page
     SettingsComponentsjsx["SettingsComponents.jsx"]:::page
     SettingsSidebarjsx["SettingsSidebar.jsx"]:::page
     SettingsSkeletonjsx["SettingsSkeleton.jsx"]
     ProfilePagejsx --> SettingsSkeletonjsx
+    ProfilePagejsx --> ProfileComponentsjsx
     SettingsPagejsx --> useSettingsPagejs
     SettingsPagejsx --> GeneralTabjsx
     SettingsPagejsx --> AppearanceTabjsx
@@ -86,7 +88,7 @@ Automated mapping of external connectivity within this module.
 ## 📂 Engineering Audit
 | Entity | Score | Complexity | LoC | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| `ProfilePage.jsx` | 116 | High | 267 | ⚠️ REFACTOR |
+| `ProfilePage.jsx` | 41 | Low | 71 | ✅ STABLE |
 | `SettingsPage.jsx` | 63 | Low | 107 | ✅ STABLE |
 | `index.js` | 0 | Low | 3 | ✅ STABLE |
 | `useSettings.js` | 14 | Low | 27 | ✅ STABLE |
@@ -94,6 +96,7 @@ Automated mapping of external connectivity within this module.
 | `settingsService.js` | 16 | Low | 9 | ✅ STABLE |
 | `AppearanceTab.jsx` | 32 | Low | 65 | ✅ STABLE |
 | `GeneralTab.jsx` | 32 | Low | 81 | ✅ STABLE |
+| `ProfileComponents.jsx` | 49 | Low | 69 | ✅ STABLE |
 | `SecurityTab.jsx` | 30 | Low | 57 | ✅ STABLE |
 | `SettingsComponents.jsx` | 65 | Low | 103 | ✅ STABLE |
 | `SettingsSidebar.jsx` | 27 | Low | 43 | ✅ STABLE |

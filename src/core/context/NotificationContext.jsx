@@ -1,17 +1,7 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-} from "react";
-import {
-  subscribeToNotifications,
-  unsubscribeFromChannel,
-} from "@lib/supabase";
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { notificationService } from "@features/notifications/services/notificationService";
 import { useAuth } from "@context/AuthContext";
+import { useNotificationRealtime } from "./hooks/useNotificationRealtime";
 import notify from "@utils/notify";
 
 export const NotificationContext = createContext(null);
@@ -28,210 +18,67 @@ export function NotificationProvider({ children }) {
   const [meta, setMeta] = useState({});
   const [realtimeConnected, setRealtimeConnected] = useState(false);
   const [initialFetched, setInitialFetched] = useState(false);
-
-  const channelRef = useRef(null);
   const mountedRef = useRef(true);
 
   const fetchNotifications = useCallback((options = {}) => {
     setLoading(true);
-
     const pageNum = options.page || 1;
-    const limit = options.limit || 20;
-
-    notificationService
-      .getAll({ page: pageNum, limit, unread_only: options.unreadOnly })
-      .then((response) => {
+    notificationService.getAll({ page: pageNum, limit: options.limit || 20, unread_only: options.unreadOnly })
+      .then((res) => {
         if (!mountedRef.current) return;
-        const data = response?.data;
-        const newNotifications = data?.notifications || [];
-        const pagination = data?.pagination || {};
-
+        const { notifications: news = [], pagination = {}, unread_count: uc } = res?.data || {};
         if (options.append) {
           setNotifications((prev) => {
-            const existingIds = new Set(prev.map((n) => n.id));
-            const uniqueNew = newNotifications.filter(
-              (n) => !existingIds.has(n.id),
-            );
-            return [...prev, ...uniqueNew];
+            const ids = new Set(prev.map((n) => n.id));
+            return [...prev, ...news.filter((n) => !ids.has(n.id))];
           });
-        } else {
-          setNotifications(newNotifications);
-        }
-
-        if (typeof data?.unread_count === "number") {
-          setUnreadCount(data.unread_count);
-        }
-
-        setMeta(pagination);
-        setHasMore(pageNum < (pagination.pages || 1));
-        setPage(pageNum);
-        setInitialFetched(true);
+        } else setNotifications(news);
+        if (typeof uc === "number") setUnreadCount(uc);
+        setMeta(pagination); setHasMore(pageNum < (pagination.pages || 1));
+        setPage(pageNum); setInitialFetched(true);
       })
-      .catch(() => {})
-      .finally(() => {
-        if (mountedRef.current) setLoading(false);
-      });
+      .finally(() => { if (mountedRef.current) setLoading(false); });
   }, []);
 
-  const markAsRead = useCallback(
-    (notificationId) => {
-      const notif = notifications.find((n) => n.id === notificationId);
-
-      setNotifications((prev) =>
-        prev.map((n) =>
-          n.id === notificationId ? { ...n, is_read: true } : n,
-        ),
-      );
-
-      if (notif && !notif.is_read) {
-        setUnreadCount((prev) => Math.max(0, prev - 1));
-      }
-
-      notificationService.markAsRead(notificationId).catch(() => {
-        notify.error("Failed to mark notification as read");
-      });
-    },
-    [notifications],
-  );
+  const markAsRead = useCallback((id) => {
+    const notif = notifications.find((n) => n.id === id);
+    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, is_read: true } : n));
+    if (notif && !notif.is_read) setUnreadCount((prev) => Math.max(0, prev - 1));
+    notificationService.markAsRead(id).catch(() => notify.error("Failed to mark read"));
+  }, [notifications]);
 
   const markAllAsRead = useCallback(() => {
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
-
-    notificationService
-      .markAllAsRead()
-      .then(() => notify.success("All notifications marked as read"))
-      .catch(() => notify.error("Failed to mark notifications as read"));
+    notificationService.markAllAsRead().then(() => notify.success("All marked read")).catch(() => notify.error("Failed mark all"));
   }, []);
 
-  const deleteNotification = useCallback(
-    (notificationId) => {
-      const notif = notifications.find((n) => n.id === notificationId);
-
-      setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
-
-      if (notif && !notif.is_read) {
-        setUnreadCount((prev) => Math.max(0, prev - 1));
-      }
-
-      notificationService
-        .delete(notificationId)
-        .then(() => notify.success("Notification deleted"))
-        .catch(() => notify.error("Failed to delete notification"));
-    },
-    [notifications],
-  );
+  const deleteNotification = useCallback((id) => {
+    const notif = notifications.find((n) => n.id === id);
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+    if (notif && !notif.is_read) setUnreadCount((prev) => Math.max(0, prev - 1));
+    notificationService.delete(id).then(() => notify.success("Deleted")).catch(() => notify.error("Failed delete"));
+  }, [notifications]);
 
   useEffect(() => {
     mountedRef.current = true;
-
-    if (!userId) {
-      setNotifications([]);
-      setUnreadCount(0);
-      setInitialFetched(false);
-    }
-
-    return () => {
-      mountedRef.current = false;
-    };
+    if (!userId) { setNotifications([]); setUnreadCount(0); setInitialFetched(false); }
+    return () => { mountedRef.current = false; };
   }, [userId]);
 
-  useEffect(() => {
-    if (!userId || channelRef.current) return;
-
-    const channel = subscribeToNotifications(userId, {
-      onInsert: (newNotification) => {
-        if (!mountedRef.current) return;
-
-        setRealtimeConnected(true);
-        setNotifications((prev) => {
-          if (prev.some((n) => n.id === newNotification.id)) return prev;
-          return [newNotification, ...prev];
-        });
-        if (!newNotification.is_read) {
-          setUnreadCount((prev) => prev + 1);
-        }
-      },
-      onUpdate: (updatedNotification) => {
-        if (!mountedRef.current) return;
-
-        setRealtimeConnected(true);
-        setNotifications((prev) => {
-          const oldNotif = prev.find((n) => n.id === updatedNotification.id);
-          if (oldNotif && !oldNotif.is_read && updatedNotification.is_read) {
-            setUnreadCount((count) => Math.max(0, count - 1));
-          } else if (
-            oldNotif &&
-            oldNotif.is_read &&
-            !updatedNotification.is_read
-          ) {
-            setUnreadCount((count) => count + 1);
-          }
-          return prev.map((n) =>
-            n.id === updatedNotification.id ? updatedNotification : n,
-          );
-        });
-      },
-      onDelete: (deletedNotification) => {
-        if (!mountedRef.current) return;
-
-        setRealtimeConnected(true);
-        setNotifications((prev) =>
-          prev.filter((n) => n.id !== deletedNotification.id),
-        );
-        if (deletedNotification && !deletedNotification.is_read) {
-          setUnreadCount((prev) => Math.max(0, prev - 1));
-        }
-      },
-      onConnectionChange: (status) => {
-        if (mountedRef.current) {
-          setRealtimeConnected(status === "SUBSCRIBED");
-        }
-      },
-    });
-
-    channelRef.current = channel;
-
-    return () => {};
-  }, [userId]);
-
-  useEffect(() => {
-    return () => {
-      if (channelRef.current) {
-        unsubscribeFromChannel(channelRef.current);
-        channelRef.current = null;
-      }
-    };
-  }, []);
+  useNotificationRealtime({ userId, setNotifications, setUnreadCount, setRealtimeConnected, mountedRef });
 
   const value = {
-    notifications,
-    unreadCount,
-    loading,
-    page,
-    hasMore,
-    meta,
-    realtimeConnected,
-    initialFetched,
-    fetchNotifications,
-    markAsRead,
-    markAllAsRead,
-    deleteNotification,
+    notifications, unreadCount, loading, page, hasMore, meta,
+    realtimeConnected, initialFetched, fetchNotifications,
+    markAsRead, markAllAsRead, deleteNotification,
   };
 
-  return (
-    <NotificationContext.Provider value={value}>
-      {children}
-    </NotificationContext.Provider>
-  );
+  return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 }
 
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
-  if (!context) {
-    throw new Error(
-      "useNotifications must be used within a NotificationProvider",
-    );
-  }
+  if (!context) throw new Error("useNotifications must be used within a NotificationProvider");
   return context;
 };

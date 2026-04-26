@@ -80,15 +80,14 @@ export default function PieChart({ data }) {
           >
             <div
               className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: item.color }}
+              style={{ backgroundColor: item.color }} /* allowed-inline */
             />
             <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-[10px] font-bold uppercase tracking-tight text-slate-500 truncate max-w-[70px]">
                 {item.label}
               </span>
               <span
-                className="text-[10px] font-black"
-                style={{ color: "var(--text-primary)" }}
+                className="text-[10px] font-black text-primary"
               >
                 {item.value}%
               </span>

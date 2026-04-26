@@ -55,6 +55,7 @@ export function CellTooltip({ content, children, className, maxWidth = 300 }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.95 }}
             transition={{ duration: 0.15 }}
+            /* allowed-inline */
             style={{
               left: coords.x,
               top: coords.y,

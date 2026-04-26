@@ -39,6 +39,7 @@ export const TableHead = ({ table, stickyFirstColumn, stickyLastColumn }) => {
                   isLast && "dt-th--sticky-right",
                   header.column.getCanSort() && "dt-th--sortable",
                 )}
+                /* allowed-inline */
                 style={{
                   width: header.getSize(),
                   minWidth: header.getSize(),

@@ -21,8 +21,10 @@ graph TD
     useRequestsjs["useRequests.js"]:::hook
     useRequestsPagejs["useRequestsPage.js"]:::hook
     requestServicejs["requestService.js"]:::service
+    RejectRequestModaljsx["RejectRequestModal.jsx"]:::page
     RequestColumnsjsx["RequestColumns.jsx"]:::page
-    RequestModalsjsx["RequestModals.jsx"]:::page
+    RequestDetailsModaljsx["RequestDetailsModal.jsx"]:::page
+    RequestModalsjsx["RequestModals.jsx"]
     RequestsTablejsx["RequestsTable.jsx"]:::page
     RequestsPagejsx --> RequestsTablejsx
     RequestsPagejsx --> useRequestsPagejs
@@ -38,7 +40,7 @@ Runtime orchestration between View, Logic, and Infrastructure layers.
 ```mermaid
 sequenceDiagram
 autonumber
-    participant P as RequestColumns.jsx
+    participant P as RejectRequestModal.jsx
     participant H as useRequests.js
     participant S as requestService.js
     participant API as Supabase/External
@@ -65,7 +67,7 @@ Automated mapping of external connectivity within this module.
 ## 🛠️ Development Navigation
 | Objective | Target Layer | Target File |
 | :--- | :--- | :--- |
-| **Change UI Layout** | Presentation (Pages) | `RequestColumns.jsx` |
+| **Change UI Layout** | Presentation (Pages) | `RejectRequestModal.jsx` |
 | **Update Business Logic** | Logic (Hooks) | `useRequests.js` |
 | **Modify Data Provider** | Infrastructure (Services) | `requestService.js` |
 
@@ -79,8 +81,10 @@ Automated mapping of external connectivity within this module.
 | `useRequests.js` | 16 | Low | 42 | ✅ STABLE |
 | `useRequestsPage.js` | 27 | Low | 112 | ✅ STABLE |
 | `requestService.js` | 11 | Low | 10 | ✅ STABLE |
+| `RejectRequestModal.jsx` | 32 | Low | 52 | ✅ STABLE |
 | `RequestColumns.jsx` | 45 | Low | 119 | ✅ STABLE |
-| `RequestModals.jsx` | 80 | Low | 196 | ⚠️ REFACTOR |
+| `RequestDetailsModal.jsx` | 45 | Low | 71 | ✅ STABLE |
+| `RequestModals.jsx` | 0 | Low | 3 | ✅ STABLE |
 | `RequestsTable.jsx` | 38 | Low | 102 | ✅ STABLE |
 
 ---

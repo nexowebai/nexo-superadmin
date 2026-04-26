@@ -1,1 +1,1 @@
-export { default } from "./NotificationDrawer";
+export { default, NotificationDrawer } from "./NotificationDrawer";

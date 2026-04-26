@@ -4,17 +4,16 @@ import {
   getCoreRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { Copy, Check } from "lucide-react";
 import TableToolbar from "./components/TableToolbar";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 import { useCopyToClipboard } from "@hooks/useCopyToClipboard";
-import { CellTooltip } from "./components/CellTooltip";
 import { TableHead } from "./components/TableHead";
 import { TableBody } from "./components/TableBody";
 import { TablePagination } from "./components/TablePagination";
+import { useDataTableColumns } from "./hooks/useDataTableColumns";
 import "./styles/index.css";
 
-function DataTable({
+export function DataTable({
   columns: userColumns,
   data = [],
   loading = false,
@@ -51,57 +50,7 @@ function DataTable({
     {},
   );
 
-  const columns = useMemo(() => {
-    return userColumns.map((col) => ({
-      id: col.key,
-      accessorKey: col.key,
-      header: col.label,
-      cell: (info) => {
-        const value = info.getValue();
-        const row = info.row.original;
-
-        if (col.key === "actions") {
-          return <div className="dt-actions">{col.render?.(value, row)}</div>;
-        }
-
-        let content;
-        if (col.copyable && value) {
-          content = (
-            <div className="dt-copyable">
-              <code className="dt-code">{value}</code>
-              <button
-                className="dt-action-btn dt-copy-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  copyToClipboard(value, `${row.id}-${col.key}`);
-                }}
-              >
-                {copiedId === `${row.id}-${col.key}` ? (
-                  <Check size={12} />
-                ) : (
-                  <Copy size={12} />
-                )}
-              </button>
-            </div>
-          );
-        } else if (col.render) {
-          content = col.render(value, row);
-        } else {
-          content = value ?? "—";
-        }
-
-        if (typeof content === "string" || typeof content === "number") {
-          return <CellTooltip content={content} />;
-        }
-        return content;
-      },
-      enableSorting: col.sortable !== false && col.key !== "actions",
-      enableResizing: col.resizable !== false && col.key !== "actions",
-      size: col.width || 180,
-      minSize: col.minWidth || 120,
-      meta: { align: col.align },
-    }));
-  }, [userColumns, copiedId, copyToClipboard]);
+  const columns = useDataTableColumns({ userColumns, copiedId, copyToClipboard });
 
   const table = useReactTable({
     data,
@@ -118,8 +67,6 @@ function DataTable({
   const handleRowClick = useCallback(
     (row, e) => {
       const target = e.target;
-
-      // Check for ds-select__trigger or other interactive elements to prevent row click
       if (
         target.closest(".dt-actions") ||
         target.closest("button") ||

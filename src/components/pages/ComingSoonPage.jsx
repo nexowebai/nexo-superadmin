@@ -178,7 +178,7 @@ function ComingSoonPage({
             variants={fadeUp}
             whileHover={{ x: -4 }}
           >
-            <ArrowRight size={16} style={{ transform: "rotate(180deg)" }} />
+            <ArrowRight size={16} className="coming-soon__back-icon" />
             Back to Dashboard
           </motion.a>
         </motion.div>

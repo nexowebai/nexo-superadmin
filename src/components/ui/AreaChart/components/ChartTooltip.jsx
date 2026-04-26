@@ -144,6 +144,7 @@ export function ChartTooltip({
       {showDatePill && dateLabels.length > 0 && visible && !isHorizontal && (
         <motion.div
           className="pointer-events-none absolute z-50"
+          /* allowed-inline */
           style={{ left: animatedX, transform: "translateX(-50%)", bottom: 4 }}
         >
           <DateTicker

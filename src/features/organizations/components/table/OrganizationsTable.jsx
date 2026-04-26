@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { ConfirmModal, Select } from "@components/ui";
 import { DataTable } from "@components/common";
-import { DisableOrgModal } from "./OrgModals";
-import { useOrganizationsTable } from "../hooks/useOrganizationsTable";
+import { DisableOrgModal } from "../modals/OrgModals";
+import { useOrganizationsTable } from "../../hooks/useOrganizationsTable";
 import {
   STATUS_OPTIONS,
   TIER_OPTIONS,
   ORG_TABLE_CONFIG,
-} from "../constants/organizationData";
-import "../styles/organizations.css";
+} from "../../constants/organizationData";
+import "../../styles/org-table.css";
 
 export default function OrganizationsTable({
   data,

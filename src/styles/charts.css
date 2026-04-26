@@ -28,3 +28,24 @@ body.dark-mode {
   --chart-ring-background: oklch(0.35 0.01 260 / 0.25);
   --chart-label: oklch(0.75 0.01 260);
 }
+
+.chart-grid-line {
+  background-color: var(--border-base);
+  opacity: 0.8;
+}
+
+.chart-bar-primary {
+  background-color: var(--primary-soft);
+  border-top: 1px solid var(--primary);
+  border-left: 1px solid var(--primary);
+  border-right: 1px solid var(--primary);
+  border-width: 2px 2px 0 2px;
+}
+
+.chart-bar-secondary {
+  background-color: var(--info-soft);
+  border-top: 1px solid var(--info);
+  border-left: 1px solid var(--info);
+  border-right: 1px solid var(--info);
+  border-width: 2px 2px 0 2px;
+}

@@ -20,13 +20,15 @@ graph TD
     CreateAdminPagejsx["CreateAdminPage.jsx"]:::page
     useAdminsjs["useAdmins.js"]:::hook
     useAdminsPagejs["useAdminsPage.js"]:::hook
+    useCreateAdminFormjs["useCreateAdminForm.js"]:::hook
     adminServicejs["adminService.js"]
     AdminsTableConfigjsx["AdminsTableConfig.jsx"]:::page
     AdminsPagejsx --> useAdminsPagejs
     AdminsPagejsx --> AdminsTableConfigjsx
-    CreateAdminPagejsx --> useAdminsjs
+    CreateAdminPagejsx --> useCreateAdminFormjs
     useAdminsjs --> adminServicejs
     useAdminsPagejs --> useAdminsjs
+    useCreateAdminFormjs --> useAdminsjs
 ```
 
 ### 2. Execution Sequence
@@ -36,7 +38,7 @@ Runtime orchestration between View, Logic, and Infrastructure layers.
 sequenceDiagram
 autonumber
     participant P as CreateAdminPage.jsx
-    participant H as useAdmins.js
+    participant H as useCreateAdminForm.js
     participant S as adminService.js
     participant API as Supabase/External
 
@@ -72,9 +74,10 @@ Automated mapping of external connectivity within this module.
 | Entity | Score | Complexity | LoC | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | `AdminsPage.jsx` | 38 | Low | 83 | ✅ STABLE |
-| `CreateAdminPage.jsx` | 85 | High | 206 | ⚠️ REFACTOR |
+| `CreateAdminPage.jsx` | 66 | Low | 137 | ✅ STABLE |
 | `useAdmins.js` | 20 | Low | 64 | ✅ STABLE |
 | `useAdminsPage.js` | 21 | Low | 87 | ✅ STABLE |
+| `useCreateAdminForm.js` | 23 | Low | 88 | ✅ STABLE |
 | `adminService.js` | 7 | Low | 14 | ✅ STABLE |
 | `AdminsTableConfig.jsx` | 33 | Low | 84 | ✅ STABLE |
 

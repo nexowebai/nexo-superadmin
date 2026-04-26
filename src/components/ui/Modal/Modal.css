@@ -1,12 +1,12 @@
 .ds-modal-overlay {
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   z-index: 20000;
-  padding: var(--space-4);
-  background: rgba(0, 0, 0, 0.4); /* Fallback */
+  padding: var(--space-8) var(--space-4);
+  background: rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
 }
 
 .ds-modal {
@@ -15,10 +15,11 @@
   border: 1px solid var(--border-base);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
-  max-height: calc(100vh - 2rem);
-  overflow: hidden;
+  width: 100%;
+  max-height: fit-content;
   z-index: 1001;
   font-family: var(--font-sans);
+  margin: auto;
 }
 
 .ds-modal * {
@@ -117,8 +118,7 @@
 
 .ds-modal__body {
   padding: 0 var(--space-6) var(--space-6);
-  /* overflow: auto; removed to prevent clipping */
-  max-height: calc(100vh - 220px);
+  max-height: calc(100vh - 160px);
   overflow-y: auto;
   overflow-x: visible;
 }

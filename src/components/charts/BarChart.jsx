@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import "../../styles/charts.css";
 
 export default function BarChart({ data, max = 1500 }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -25,8 +26,7 @@ export default function BarChart({ data, max = 1500 }) {
           {ticks.map((t) => (
             <div
               key={t}
-              className="w-full h-[1px]"
-              style={{ backgroundColor: "var(--border-base)", opacity: 0.8 }}
+              className="w-full h-[1px] chart-grid-line"
             />
           ))}
         </div>
@@ -61,14 +61,9 @@ export default function BarChart({ data, max = 1500 }) {
               <motion.div
                 initial={{ height: 0 }}
                 animate={{ height: `${(item.value / max) * 100}%` }}
-                className={`w-full max-w-[48px] rounded-t-sm transition-colors duration-200 ${
+                className={`w-full max-w-[48px] rounded-t-sm transition-colors duration-200 chart-bar-primary ${
                   hoveredIndex === i ? "brightness-110" : ""
                 }`}
-                style={{
-                  backgroundColor: "var(--primary-soft)",
-                  border: "1px solid var(--primary)",
-                  borderWidth: "2px 2px 0 2px",
-                }}
               />
             </div>
             <span

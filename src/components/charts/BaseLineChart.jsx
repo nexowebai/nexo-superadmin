@@ -34,7 +34,7 @@ const ChartTooltip = ({ active, payload, label }) => {
               <div className="flex items-center gap-2">
                 <div
                   className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: entry.color || entry.fill }}
+                  style={{ backgroundColor: entry.color || entry.fill }} /* allowed-inline */
                 />
                 <span className="text-xs font-medium text-[var(--text-secondary)]">
                   {entry.name}
@@ -59,7 +59,7 @@ const BaseLineChart = ({
   margin = { top: 10, right: 30, left: 10, bottom: 0 },
 }) => {
   return (
-    <div style={{ height, width: "100%" }}>
+    <div style={{ height: `${height}px`, width: "100%" }} /* allowed-inline */>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={margin}>
           <defs>

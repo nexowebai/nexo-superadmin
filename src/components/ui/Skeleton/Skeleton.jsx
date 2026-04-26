@@ -29,7 +29,7 @@ function Skeleton({
               circle && "ds-skeleton--circle",
               className,
             )}
-            style={style}
+            style={style} /* allowed-inline */
             {...props}
           />
         ))}
@@ -45,7 +45,7 @@ function Skeleton({
         circle && "ds-skeleton--circle",
         className,
       )}
-      style={style}
+      style={style} /* allowed-inline */
       {...props}
     />
   );
@@ -120,7 +120,7 @@ function SkeletonChart({ type = "bar" }) {
           <div
             key={i}
             className="ds-skeleton ds-skeleton-chart__bar"
-            style={{ height: `${30 + Math.random() * 50}%` }}
+            style={{ height: `${30 + Math.random() * 50}%` }} /* allowed-inline */
           />
         ))}
       </div>
