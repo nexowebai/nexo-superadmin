@@ -27,7 +27,7 @@ function analyzeFile(filePath) {
         const ast = parse(code, { sourceType: "module", plugins: ["jsx"] });
         const data = {
             name: path.basename(filePath),
-            fullPath: filePath.replace(ROOT, ""),
+            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"),
             lines: code.split("\n").length,
             exports: 0,
             hooks: 0,
@@ -50,7 +50,7 @@ function analyzeFile(filePath) {
         const lines = code.split("\n").length;
         return { 
             name: path.basename(filePath), 
-            fullPath: filePath.replace(ROOT, ""), 
+            fullPath: filePath.replace(ROOT, "").replace(/\\/g, "/"), 
             lines, 
             exports: 0, 
             hooks: 0, 
@@ -435,7 +435,7 @@ function run() {
                     ${moduleData.flatMap(m => m.allFiles).map(f => `
                         <tr>
                             <td style="color: var(--text-muted); font-weight: 500;">
-                                <span style="opacity: 0.4;">${f.fullPath.split('\\').slice(0,-1).join(' / ')} /</span> 
+                                <span style="opacity: 0.4;">${f.fullPath.split('/').slice(0,-1).join(' / ')} /</span> 
                                 <strong style="color: var(--text-main);">${f.name}</strong>
                             </td>
                             <td style="text-align: right;">
