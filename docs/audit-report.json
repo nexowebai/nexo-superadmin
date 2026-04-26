@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T15:04:05.806Z",
+  "timestamp": "2026-04-26T15:12:24.415Z",
   "totalFiles": 353,
   "violationsCount": 45,
   "criticalCount": 9,
@@ -162,6 +162,12 @@
     },
     {
       "type": "INLINE_STYLE",
+      "file": "src/components/ui/Card/components/CardSkeleton.jsx",
+      "message": "Contains forbidden inline styles.",
+      "severity": "CRITICAL"
+    },
+    {
+      "type": "INLINE_STYLE",
       "file": "src/components/ui/Card/OrganizationCard.jsx",
       "message": "Bypassed inline style detected. Audit required.",
       "severity": "WARNING"
@@ -171,12 +177,6 @@
       "file": "src/components/ui/Card/StatsCard.jsx",
       "message": "Bypassed inline style detected. Audit required.",
       "severity": "WARNING"
-    },
-    {
-      "type": "INLINE_STYLE",
-      "file": "src/components/ui/Card/components/CardSkeleton.jsx",
-      "message": "Contains forbidden inline styles.",
-      "severity": "CRITICAL"
     },
     {
       "type": "INLINE_STYLE",

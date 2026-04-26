@@ -440,10 +440,12 @@ function run() {
             <div class="view-description"><div class="vd-text"><h4>Governance Monitor</h4><p>Architectural violations detected by the automated Nexo Audit engine.</p></div></div>
             <div class="portal-card">
                 ${auditReport.violations.length === 0 ? `
-                    <div style="text-align: center; padding: 60px;">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                        <h3 style="margin-top: 24px; font-weight: 800;">System 100% Compliant</h3>
-                        <p style="color: var(--text-muted); font-size: 14px;">Institutional governance rules are fully satisfied.</p>
+                    <div style="text-align: center; padding: 80px 20px;">
+                        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 24px; display: grid; place-items: center; margin: 0 auto 24px;">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <h3 style="font-weight: 800; font-size: 20px; margin-bottom: 8px;">System Fully Compliant</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; max-width: 300px; margin: 0 auto;">Institutional governance rules are fully satisfied. No architectural violations detected.</p>
                     </div>
                 ` : `
                     <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -467,17 +469,27 @@ function run() {
 
         <div id="priority" class="tab-view">
             <div class="view-description"><div class="vd-text"><h4>Refactor Matrix</h4><p>Prioritized remediation queue for high-volumetric risk nodes.</p></div></div>
-            <div class="feature-grid">
-                ${moduleData.flatMap(m => m.refactorFiles).map(f => `
-                    <div class="matrix-card">
-                        <div class="mc-header"><div style="font-weight:800; display: flex; align-items: center; gap: 8px;">${FILE_ICON} ${f.name}</div><span class="badge badge-${f.priority}">${f.priority}</span></div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Current Volume: <strong>${f.lines} Lines</strong></div>
-                        <div style="display: flex; justify-content: flex-end;">
-                            <button class="action-btn primary" onclick="window.copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button>
-                        </div>
+            ${moduleData.flatMap(m => m.refactorFiles).length === 0 ? `
+                <div class="portal-card" style="text-align: center; padding: 80px 20px;">
+                    <div style="width: 80px; height: 80px; background: var(--primary-glow); border-radius: 24px; display: grid; place-items: center; margin: 0 auto 24px;">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
                     </div>
-                `).join('')}
-            </div>
+                    <h3 style="font-weight: 800; font-size: 20px; margin-bottom: 8px;">Technical Debt Clear</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; max-width: 320px; margin: 0 auto;">All modules are within institutional complexity bounds. No refactoring required at this stage.</p>
+                </div>
+            ` : `
+                <div class="feature-grid">
+                    ${moduleData.flatMap(m => m.refactorFiles).map(f => `
+                        <div class="matrix-card">
+                            <div class="mc-header"><div style="font-weight:800; display: flex; align-items: center; gap: 8px;">${FILE_ICON} ${f.name}</div><span class="badge badge-${f.priority}">${f.priority}</span></div>
+                            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Current Volume: <strong>${f.lines} Lines</strong></div>
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button class="action-btn primary" onclick="window.copySnippet('${f.fullPath}', this)">${COPY_ICON} Copy Path</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `}
         </div>
     </div>
 
