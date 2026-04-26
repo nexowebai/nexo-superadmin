@@ -49,6 +49,8 @@ graph TD
     OrganizationsPage --"Logic Orchestration"--> useOrganizationsPage
     useCreateOrganizationPage((useCreateOrganizationPage.js)):::hook
     useCreateOrganizationPage --"Data Connectivity"--> orgService
+    useOrgDetail((useOrgDetail.js)):::hook
+    useOrgDetail --"Data Connectivity"--> orgService
     useOrganizationDetail((useOrganizationDetail.js)):::hook
     useOrganizationDetail --"Data Connectivity"--> orgService
     useOrganizations((useOrganizations.js)):::hook
@@ -57,8 +59,6 @@ graph TD
     useOrganizationsPage --"Data Connectivity"--> orgService
     useOrganizationsTable((useOrganizationsTable.js)):::hook
     useOrganizationsTable --"Data Connectivity"--> orgService
-    useOrgDetail((useOrgDetail.js)):::hook
-    useOrgDetail --"Data Connectivity"--> orgService
     orgService{orgService.js}:::service
     orgService --> API_CORE((Global API Client))
 ```
@@ -78,11 +78,11 @@ graph TD
 | Controller | Domain Handlers | Health |
 | :--- | :--- | :--- |
 | `useCreateOrganizationPage.js` | 1 Exports | ⚠️ Refactor Required |
+| `useOrgDetail.js` | 1 Exports | ✅ Stable |
 | `useOrganizationDetail.js` | 1 Exports | ✅ Stable |
 | `useOrganizations.js` | 9 Exports | ✅ Stable |
 | `useOrganizationsPage.js` | 1 Exports | ✅ Stable |
 | `useOrganizationsTable.js` | 1 Exports | ✅ Stable |
-| `useOrgDetail.js` | 1 Exports | ✅ Stable |
 
 ### ⚡ Infrastructure (Services)
 | Provider | Connectivity | Performance |

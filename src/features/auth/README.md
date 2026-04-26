@@ -42,12 +42,12 @@ graph TD
 
     ForgotPasswordPage[ForgotPasswordPage.jsx]:::page
     ForgotPasswordPage --"Logic Orchestration"--> useForgotPasswordPage
-    index[index.jsx]:::page
     LoginPage[LoginPage.jsx]:::page
     LoginPage --"Logic Orchestration"--> useLoginPage
     ResetPasswordPage[ResetPasswordPage.jsx]:::page
     ResetPasswordPage --"Logic Orchestration"--> useResetPasswordPage
     SetPasswordPage[SetPasswordPage.jsx]:::page
+    index[index.jsx]:::page
     useAuthMutations((useAuthMutations.js)):::hook
     useAuthMutations --"Data Connectivity"--> authService
     useForgotPasswordPage((useForgotPasswordPage.js)):::hook
@@ -70,10 +70,10 @@ graph TD
 | Entry Point | Logic Density | Status |
 | :--- | :--- | :--- |
 | `ForgotPasswordPage.jsx` | 125 LoC | ✅ Stable |
-| `index.jsx` | 5 LoC | ✅ Stable |
 | `LoginPage.jsx` | 130 LoC | ✅ Stable |
 | `ResetPasswordPage.jsx` | 171 LoC | ⚠️ Refactor Required |
 | `SetPasswordPage.jsx` | 262 LoC | ⚠️ Refactor Required |
+| `index.jsx` | 5 LoC | ✅ Stable |
 
 ### ⚓ Headless Logic (Hooks)
 | Controller | Domain Handlers | Health |
